@@ -58,10 +58,10 @@ export async function loader() {
 }
 
 export const meta: MetaFunction = () => {
-  return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
-  ];
+	return [
+		{ title: "Is My Train Late" },
+		{ name: "description", content: "Is My Train Late" },
+	];
 };
 
 export default function Index() {
