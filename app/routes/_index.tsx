@@ -1,25 +1,16 @@
 import type { MetaFunction } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
+import type { Train } from "./utils/types";
+// import { basicQuery } from "./utils/queries";
 
 /**
+ * api source
  * https://www.digitraffic.fi/rautatieliikenne/
  */
 
-type Train = {
-	trainNumber: number;
-	departureDate: string;
-	trainLocations: TrainLocation[];
-};
-type TrainLocation = {
-	speed: number;
-	timestamp: string;
-	location: [number, number];
-};
+const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
-export async function loader() {
-	const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
-
-	const query = `{
+export const query = `{
   currentlyRunningTrains(
     where: {
       operator: {shortCode: {equals: "vr"}},
@@ -37,8 +28,8 @@ export async function loader() {
     }
   }
 }`;
-	// where: {speed: {greaterThan: 30}},
 
+export async function loader() {
 	let trainData: Train[] = [];
 
 	try {
@@ -48,7 +39,7 @@ export async function loader() {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				query,
+				basicQuery,
 				// variables,
 			}),
 		});
