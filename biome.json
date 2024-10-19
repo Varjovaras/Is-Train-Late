@@ -85,114 +85,70 @@
 	},
 	"overrides": [
 		{
-			"include": [
-				"**/*.{js,jsx,ts,tsx}"
-			]
+			"include": ["**/*.{js,jsx,ts,tsx}"]
 		},
 		{
-			"include": [
-				"**/*.{ts,tsx}"
-			]
+			"include": ["**/*.{ts,tsx}"]
 		},
 		{
-			"include": [
-				".eslintrc.cjs"
-			]
+			"include": [".eslintrc.cjs"]
 		},
 		{
-			"include": [
-				"**/*.{js,jsx,ts,tsx}"
-			]
+			"include": ["**/*.{js,jsx,ts,tsx}"]
 		},
 		{
-			"include": [
-				"**/*.{ts,tsx}"
-			]
+			"include": ["**/*.{ts,tsx}"]
 		},
 		{
-			"include": [
-				".eslintrc.cjs"
-			]
+			"include": [".eslintrc.cjs"]
 		},
 		{
-			"include": [
-				"**/*.{js,jsx,ts,tsx}"
-			]
+			"include": ["**/*.{js,jsx,ts,tsx}"]
 		},
 		{
-			"include": [
-				"**/*.{ts,tsx}"
-			]
+			"include": ["**/*.{ts,tsx}"]
 		},
 		{
-			"include": [
-				".eslintrc.cjs"
-			]
+			"include": [".eslintrc.cjs"]
 		},
 		{
-			"include": [
-				"**/*.{js,jsx,ts,tsx}"
-			]
+			"include": ["**/*.{js,jsx,ts,tsx}"]
 		},
 		{
-			"include": [
-				"**/*.{ts,tsx}"
-			]
+			"include": ["**/*.{ts,tsx}"]
 		},
 		{
-			"include": [
-				".eslintrc.cjs"
-			]
+			"include": [".eslintrc.cjs"]
 		},
 		{
-			"include": [
-				"**/*.{js,jsx,ts,tsx}"
-			]
+			"include": ["**/*.{js,jsx,ts,tsx}"]
 		},
 		{
-			"include": [
-				"**/*.{ts,tsx}"
-			]
+			"include": ["**/*.{ts,tsx}"]
 		},
 		{
-			"include": [
-				".eslintrc.cjs"
-			]
+			"include": [".eslintrc.cjs"]
 		},
 		{
-			"include": [
-				"**/*.{js,jsx,ts,tsx}"
-			]
+			"include": ["**/*.{js,jsx,ts,tsx}"]
 		},
 		{
-			"include": [
-				"**/*.{ts,tsx}"
-			]
+			"include": ["**/*.{ts,tsx}"]
 		},
 		{
-			"include": [
-				".eslintrc.cjs"
-			]
+			"include": [".eslintrc.cjs"]
 		},
 		{
-			"include": [
-				"**/*.{js,jsx,ts,tsx}"
-			]
+			"include": ["**/*.{js,jsx,ts,tsx}"]
 		},
 		{
-			"include": [
-				"**/*.{ts,tsx}"
-			]
+			"include": ["**/*.{ts,tsx}"]
 		},
 		{
-			"include": [
-				"**/*.{js,jsx,ts,tsx}"
-			]
+			"include": ["**/*.{js,jsx,ts,tsx}"]
 		},
 		{
-			"include": [
-				"**/*.{ts,tsx}"
-			]
+			"include": ["**/*.{ts,tsx}"]
 		}
 	]
 }
