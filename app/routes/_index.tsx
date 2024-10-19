@@ -39,7 +39,7 @@ export async function loader() {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				basicQuery,
+				query,
 				// variables,
 			}),
 		});
@@ -55,8 +55,8 @@ export async function loader() {
 		console.error("GraphQL request failed:", error);
 		throw error;
 	}
-	console.log(trainData);
 
+	console.log(trainData);
 	return json(trainData);
 }
 
