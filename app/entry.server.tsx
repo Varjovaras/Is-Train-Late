@@ -22,7 +22,7 @@ export default function handleRequest(
 	// This is ignored so we can keep it in the template for visibility.  Feel
 	// free to delete this parameter in your app if you're not using it!
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	loadContext: AppLoadContext,
+	_loadContext: AppLoadContext,
 ) {
 	return isbot(request.headers.get("user-agent") || "")
 		? handleBotRequest(
@@ -74,7 +74,7 @@ function handleBotRequest(
 					reject(error);
 				},
 				onError(error: unknown) {
-					const responseStatusCode = 500;
+					const _responseStatusCode = 500;
 					// Log streaming rendering errors from inside the shell.  Don't log
 					// errors encountered during initial shell rendering since they'll
 					// reject and get logged in handleDocumentRequest.
@@ -124,7 +124,6 @@ function handleBrowserRequest(
 					reject(error);
 				},
 				onError(error: unknown) {
-					// biome-ignore lint/style/noParameterAssign: Reassigning responseStatusCode to 500 in case of error
 					responseStatusCode = 500;
 					// Log streaming rendering errors from inside the shell.  Don't log
 					// errors encountered during initial shell rendering since they'll
