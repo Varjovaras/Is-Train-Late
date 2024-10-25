@@ -7,7 +7,7 @@ const query = `{
     where: {
       operator: {shortCode: {equals: "vr"}},
       trainNumber: {lessThan: 1000}
-    }g
+    }
   ) {
     trainNumber
     departureDate
