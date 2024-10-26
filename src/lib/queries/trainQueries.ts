@@ -1,4 +1,4 @@
-import type { Train, TrainQueryResponse } from "@/types/trainTypes";
+import type { Train } from "@/types/trainTypes";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
@@ -21,8 +21,8 @@ const query = `{
   }
 }`;
 
-export async function fetchTrainData(): Promise<Train[]> {
-    const response = await fetch(GRAPHQL_ENDPOINT, {
+export async function basicQuery(): Promise<Train[]> {
+    const data = await fetch(GRAPHQL_ENDPOINT, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -36,16 +36,6 @@ export async function fetchTrainData(): Promise<Train[]> {
             revalidate: 3600, // Revalidate every hour
         },
     });
-
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result: TrainQueryResponse = await response.json();
-
-    if (result.errors) {
-        throw new Error(`GraphQL Errors: ${JSON.stringify(result.errors)}`);
-    }
-
-    return result.data.trains;
+    const trains: Train[] = await data.json();
+    return trains;
 }
