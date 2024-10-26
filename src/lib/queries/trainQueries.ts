@@ -21,7 +21,7 @@ const query = `{
   }
 }`;
 
-export async function basicQuery(): Promise<Train[]> {
+export async function trainQuery(): Promise<Train[]> {
     const data = await fetch(GRAPHQL_ENDPOINT, {
         method: "POST",
         headers: {
@@ -36,6 +36,8 @@ export async function basicQuery(): Promise<Train[]> {
             revalidate: 3600, // Revalidate every hour
         },
     });
-    const trains: Train[] = await data.json();
-    return trains;
+    const trains = await data.json();
+    console.log(trains.data.currentlyRunningTrains);
+
+    return trains.data.currentlyRunningTrains;
 }
