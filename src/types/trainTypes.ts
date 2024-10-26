@@ -1,9 +1,3 @@
-export type TrainResponse = {
-    data: {
-        currentlyRunningTrains: Train[];
-    };
-};
-
 export type Train = {
     trainNumber: number;
     departureDate: string;
@@ -16,15 +10,8 @@ export type TrainLocation = {
     location: [number, number];
 };
 
-export type TrainQueryResponse = {
+export type TrainResponse = {
     data: {
-        trains: Train[];
+        currentlyRunningTrains: Train[];
     };
-    errors?: Array<{
-        message: string;
-        locations: Array<{
-            line: number;
-            column: number;
-        }>;
-    }>;
 };

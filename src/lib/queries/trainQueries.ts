@@ -37,7 +37,6 @@ export async function trainQuery(): Promise<Train[]> {
         },
     });
     const trains: TrainResponse = await data.json();
-    console.log(trains.data.currentlyRunningTrains);
 
     return trains.data.currentlyRunningTrains;
 }
