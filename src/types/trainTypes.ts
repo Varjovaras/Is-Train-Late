@@ -1,3 +1,9 @@
+export type TrainResponse = {
+    data: {
+        currentlyRunningTrains: Train[];
+    };
+};
+
 export type Train = {
     trainNumber: number;
     departureDate: string;

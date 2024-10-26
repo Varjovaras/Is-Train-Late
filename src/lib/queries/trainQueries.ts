@@ -1,4 +1,4 @@
-import type { Train } from "@/types/trainTypes";
+import type { Train, TrainResponse } from "@/types/trainTypes";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
@@ -36,7 +36,7 @@ export async function trainQuery(): Promise<Train[]> {
             revalidate: 3600, // Revalidate every hour
         },
     });
-    const trains = await data.json();
+    const trains: TrainResponse = await data.json();
     console.log(trains.data.currentlyRunningTrains);
 
     return trains.data.currentlyRunningTrains;
