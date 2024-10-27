@@ -5,10 +5,18 @@ import Image from "next/image";
 
 export default async function Home() {
     const trainData = await trainQuery();
+    const cancelledTrains = trainData.filter((train) => train.cancelled);
 
     return (
-        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-mono)]">
             <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+                <Image
+                    aria-hidden
+                    src="/hcbull.png"
+                    alt="File icon"
+                    width={500}
+                    height={300}
+                />
                 <div className="text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
                     <div className="">Is Your Train late ?</div>
                     <div>
@@ -17,27 +25,37 @@ export default async function Home() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-8">
+                <div className="grid grid-cols-8 gap-2">
                     {trainData.length > 0 ? (
                         trainData.map((train, i) => (
                             <div
                                 key={`train-${train.trainNumber}`}
                                 className=""
                             >
-                                {" "}
-                                <p>Train number: {train.trainNumber}</p>
-                                {train.trainLocations.map((location) => (
+                                <div>IC{train.trainNumber} </div>
+                                {/* {train.trainLocations.map((location) => (
                                     <p
                                         key={`train-${train.trainNumber}-location-${location.location}`}
                                     >
                                         {" "}
-                                        Speed: {location.speed}
+                                        {location.speed}km/h
                                     </p>
-                                ))}
+                                ))} */}
                             </div>
                         ))
                     ) : (
-                        <div>no trains</div>
+                        <div className="">no trains</div>
+                    )}
+                </div>
+                <div>
+                    {cancelledTrains.length > 0 ? (
+                        cancelledTrains.map((train) => (
+                            <div key={`train---${train.trainNumber}`}>
+                                cancelled: {train.trainNumber}
+                            </div>
+                        ))
+                    ) : (
+                        <div className="">no cancelled trains</div>
                     )}
                 </div>
             </main>

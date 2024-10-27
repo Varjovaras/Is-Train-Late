@@ -2,6 +2,7 @@ import type { Train, TrainResponse } from "@/types/trainTypes";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
+//unused properties: deleted timetableAcceptanceDate timetableType
 const query = `{
   currentlyRunningTrains(
     where: {
@@ -9,8 +10,11 @@ const query = `{
       trainNumber: {lessThan: 1000}
     }
   ) {
-    trainNumber
+    cancelled
+    commuterLineid
     departureDate
+    runningCurrently
+    trainNumber
     trainLocations(
       orderBy: {timestamp: DESCENDING},
       take: 1
@@ -37,6 +41,7 @@ export async function trainQuery(): Promise<Train[]> {
         },
     });
     const trains: TrainResponse = await data.json();
+    console.log(trains.data.currentlyRunningTrains);
 
     return trains.data.currentlyRunningTrains;
 }
