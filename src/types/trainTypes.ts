@@ -1,13 +1,25 @@
 export type Train = {
     cancelled: boolean;
-    commuterLieId: string; //??
+    commuterLineid: string; //??
     // deleted: boolean;
     departureDate: string;
     runningCurrently: boolean;
     // timetableAcceptanceDate: Date;
-    // timetableType:
+    // timetableType: TimetableType??
+    //version: string;
+    //operator: Operator!
+    trainType: TrainType;
     trainNumber: number;
     trainLocations: TrainLocation[];
+};
+
+export type TrainType = {
+    name: string;
+    trainCategory: TrainCategory;
+};
+
+export type TrainCategory = {
+    name: string;
 };
 
 export type TrainLocation = {

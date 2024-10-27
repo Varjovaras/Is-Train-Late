@@ -3,11 +3,13 @@ import type { Train, TrainResponse } from "@/types/trainTypes";
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
 //unused properties: deleted timetableAcceptanceDate timetableType
-const query = `{
+const longDistanceQuery = `{
   currentlyRunningTrains(
     where: {
-      operator: {shortCode: {equals: "vr"}},
-      trainNumber: {lessThan: 1000}
+      and: [
+        { operator: { shortCode: { equals: "vr" } } }
+        { trainType: { trainCategory: { name: { equals: "Long-distance" } } } }
+      ]
     }
   ) {
     cancelled
@@ -15,17 +17,47 @@ const query = `{
     departureDate
     runningCurrently
     trainNumber
-    trainLocations(
-      orderBy: {timestamp: DESCENDING},
-      take: 1
-    ) {
+    trainType {
+      name
+      trainCategory {
+        name
+      }
+    }
+    trainLocations(orderBy: { timestamp: DESCENDING }, take: 1) {
       speed
       location
     }
   }
 }`;
 
-export async function trainQuery(): Promise<Train[]> {
+const commuterQuery = `{
+  currentlyRunningTrains(
+    where: {
+      and: [
+        { operator: { shortCode: { equals: "vr" } } }
+        { trainType: { trainCategory: { name: { equals: "Commuter" } } } }
+      ]
+    }
+  ) {
+    cancelled
+    commuterLineid
+    departureDate
+    runningCurrently
+    trainNumber
+    trainType {
+      name
+      trainCategory {
+        name
+      }
+    }
+    trainLocations(orderBy: { timestamp: DESCENDING }, take: 1) {
+      speed
+      location
+    }
+  }
+}`;
+
+async function fetchData(query: string): Promise<Train[]> {
     const data = await fetch(GRAPHQL_ENDPOINT, {
         method: "POST",
         headers: {
@@ -41,7 +73,14 @@ export async function trainQuery(): Promise<Train[]> {
         },
     });
     const trains: TrainResponse = await data.json();
-    console.log(trains.data.currentlyRunningTrains);
 
     return trains.data.currentlyRunningTrains;
+}
+
+export async function fetchLongDistanceData() {
+    return await fetchData(longDistanceQuery);
+}
+
+export async function fetchCommuterData() {
+    return await fetchData(commuterQuery);
 }

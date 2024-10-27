@@ -1,10 +1,15 @@
-
-import { trainQuery } from "@/lib/queries/trainQueries";
+import {
+    fetchCommuterData,
+    fetchLongDistanceData,
+} from "@/lib/queries/trainQueries";
 import Image from "next/image";
 
 export default async function Home() {
-    const trainData = await trainQuery();
-    const cancelledTrains = trainData.filter((train) => train.cancelled);
+    const longDistanceTrainData = await fetchLongDistanceData();
+    const commuterTrainData = await fetchCommuterData();
+    // const cancelledTrains = longDistanceTrainData.filter(
+    //     (train) => train.cancelled,
+    // );
 
     return (
         <div className=" flex flex-col items-center justify-items-center min-h-screen p-8 pb-20  sm:p-20 font-[family-name:var(--font-geist-mono)]">
@@ -24,23 +29,36 @@ export default async function Home() {
                         list
                     </div>
                 </div>
-
-                <div className="grid grid-cols-8 gap-2 p-8">
-                    {trainData.length > 0 ? (
-                        trainData.map((train, i) => (
+                <div className="p-8">
+                    <p className="pb-4 text-left">
+                        currently running long-distance trains:{" "}
+                    </p>
+                    <div className="flex flex-wrap gap-4 ">
+                        {longDistanceTrainData.length > 0 ? (
+                            longDistanceTrainData.map((train) => (
+                                <div
+                                    key={`train-${train.trainNumber}`}
+                                    className=""
+                                >
+                                    <div>
+                                        {train.trainType.name}
+                                        {train.trainNumber}
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="">no trains</div>
+                        )}
+                    </div>
+                </div>
+                <div className="flex flex-row flex-wrap gap-4  p-8  justify-evenly">
+                    {commuterTrainData.length > 0 ? (
+                        commuterTrainData.map((train) => (
                             <div
                                 key={`train-${train.trainNumber}`}
                                 className=""
                             >
-                                <div>IC{train.trainNumber} </div>
-                                {/* {train.trainLocations.map((location) => (
-                                    <p
-                                        key={`train-${train.trainNumber}-location-${location.location}`}
-                                    >
-                                        {" "}
-                                        {location.speed}km/h
-                                    </p>
-                                ))} */}
+                                <div>{train.commuterLineid}</div>
                             </div>
                         ))
                     ) : (
@@ -48,7 +66,7 @@ export default async function Home() {
                     )}
                 </div>
                 <div>
-                    {cancelledTrains.length > 0 ? (
+                    {/* {cancelledTrains.length > 0 ? (
                         cancelledTrains.map((train) => (
                             <div key={`train---${train.trainNumber}`}>
                                 cancelled: {train.trainNumber}
@@ -56,40 +74,10 @@ export default async function Home() {
                         ))
                     ) : (
                         <div className="">no cancelled trains</div>
-                    )}
+                    )} */}
                 </div>
             </main>
             <footer className="row-start-3 flex gap-6 p-8 flex-wrap items-center justify-center">
-                {/* <a
-                    className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-                    href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <Image
-                        aria-hidden
-                        src="/file.svg"
-                        alt="File icon"
-                        width={16}
-                        height={16}
-                    />
-                    Trolled :D
-                </a>
-                <a
-                    className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-                    href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <Image
-                        aria-hidden
-                        src="/window.svg"
-                        alt="Window icon"
-                        width={16}
-                        height={16}
-                    />
-                    Salty :D
-                </a> */}
                 <a
                     className="flex items-center gap-2 hover:underline hover:underline-offset-4"
                     href="https://soundcloud.com/hardcore-bull"
@@ -103,7 +91,7 @@ export default async function Home() {
                         width={40}
                         height={40}
                     />
-                    https://soundcloud.com/hardcore-bull ->
+                    https://soundcloud.com/hardcore-bull -{">"}
                 </a>
             </footer>
         </div>
