@@ -2,7 +2,8 @@ import type { Train, TrainResponse } from "@/types/trainTypes";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
-//unused properties: deleted timetableAcceptanceDate timetableType
+//unused properties: deleted timetableAcceptanceDate timetableType version
+
 const longDistanceQuery = `{
   currentlyRunningTrains(
     where: {

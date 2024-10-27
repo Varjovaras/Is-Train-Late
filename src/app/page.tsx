@@ -7,6 +7,7 @@ import Image from "next/image";
 export default async function Home() {
     const longDistanceTrainData = await fetchLongDistanceData();
     const commuterTrainData = await fetchCommuterData();
+    const allTrains = longDistanceTrainData.concat(commuterTrainData);
     // const cancelledTrains = longDistanceTrainData.filter(
     //     (train) => train.cancelled,
     // );
