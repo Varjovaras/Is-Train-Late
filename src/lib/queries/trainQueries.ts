@@ -4,15 +4,20 @@ const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
 //unused properties: deleted timetableAcceptanceDate timetableType version
 
-const longDistanceQuery = `{
+const passengerQuery = `{
   currentlyRunningTrains(
     where: {
       and: [
-        { operator: { shortCode: { equals: "vr" } } }
-        { trainType: { trainCategory: { name: { equals: "Long-distance" } } } }
+        { operator: { shortCode: { equals: "vr" } } },
+        {
+          or: [
+            { trainType: { trainCategory: { name: { equals: "Commuter" } } } },
+            { trainType: { trainCategory: { name: { equals: "Long-distance" } } } }
+          ]
+        }
       ]
     }
-  ) {
+  ){
     cancelled
     commuterLineid
     departureDate
@@ -31,57 +36,70 @@ const longDistanceQuery = `{
   }
 }`;
 
-const commuterQuery = `{
+const lateTrainsQuery = `{
   currentlyRunningTrains(
     where: {
       and: [
         { operator: { shortCode: { equals: "vr" } } }
-        { trainType: { trainCategory: { name: { equals: "Commuter" } } } }
+        {
+          trainType: {
+            trainCategory: { name: { equals: "Long-distance" } }
+            or: { name: { equals: "Commuter" } }
+          }
+        }
       ]
     }
   ) {
-    cancelled
-    commuterLineid
-    departureDate
-    runningCurrently
-    trainNumber
-    trainType {
-      name
-      trainCategory {
-        name
+    timeTableRows {
+      causes {
+        categoryCode {
+          code
+          name
+          validFrom
+          validTo
+        }
+        detailedCategoryCode {
+          code
+          name
+          validFrom
+          validTo
+        }
+        thirdCategoryCode {
+          code
+          name
+          validFrom
+          validTo
+        }
       }
-    }
-    trainLocations(orderBy: { timestamp: DESCENDING }, take: 1) {
-      speed
-      location
     }
   }
 }`;
 
 async function fetchData(query: string): Promise<Train[]> {
-    const data = await fetch(GRAPHQL_ENDPOINT, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            query,
-            // variables,
-        }),
-        // Next.js specific options
-        next: {
-            revalidate: 3600, // Revalidate every hour
-        },
-    });
-    const trains: TrainResponse = await data.json();
+	const data = await fetch(GRAPHQL_ENDPOINT, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			// "Accept-Encoding: gzip"
+		},
+		body: JSON.stringify({
+			query,
+			// variables,
+		}),
+		// Next.js specific options
+		next: {
+			revalidate: 3600, // Revalidate every hour
+		},
+	});
+	const trains: TrainResponse = await data.json();
 
-    return trains.data.currentlyRunningTrains;
+	return trains.data.currentlyRunningTrains;
 }
 
-export async function fetchLongDistanceData() {
-    return await fetchData(longDistanceQuery);
+export async function fetchPassengerTrainData() {
+	return await fetchData(passengerQuery);
 }
 
-export async function fetchCommuterData() {
-    return await fetchData(commuterQuery);
+export async function fetchLateTrainsData() {
+	return await fetchData(lateTrainsQuery);
 }
