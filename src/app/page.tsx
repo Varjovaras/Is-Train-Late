@@ -8,15 +8,16 @@ export default async function Home() {
     const cancelledTrains = trainData.filter((train) => train.cancelled);
 
     return (
-        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-mono)]">
+        <div className=" flex flex-col items-center justify-items-center min-h-screen p-8 pb-20  sm:p-20 font-[family-name:var(--font-geist-mono)]">
+            <Image
+                aria-hidden
+                src="/hcbull.png"
+                alt="File icon"
+                className="p-20"
+                width={500}
+                height={250}
+            />
             <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-                <Image
-                    aria-hidden
-                    src="/hcbull.png"
-                    alt="File icon"
-                    width={500}
-                    height={300}
-                />
                 <div className="text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
                     <div className="">Is Your Train late ?</div>
                     <div>
@@ -25,7 +26,7 @@ export default async function Home() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-8 gap-2">
+                <div className="grid grid-cols-8 gap-2 p-8">
                     {trainData.length > 0 ? (
                         trainData.map((train, i) => (
                             <div
@@ -59,7 +60,7 @@ export default async function Home() {
                     )}
                 </div>
             </main>
-            <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+            <footer className="row-start-3 flex gap-6 p-8 flex-wrap items-center justify-center">
                 <a
                     className="flex items-center gap-2 hover:underline hover:underline-offset-4"
                     href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
