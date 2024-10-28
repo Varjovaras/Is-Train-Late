@@ -1,6 +1,6 @@
-import { CommuterTrains } from "@/components/commuterTrains";
-import { Header } from "@/components/header";
-import { LongDistanceTrains } from "@/components/longDistanceTrains";
+import { CommuterTrains } from "@/components/CommuterTrains";
+import { Header } from "@/components/Header";
+import { LongDistanceTrains } from "@/components/LongDistanceTrains";
 import {
     // fetchLateTrainsData,
     fetchPassengerTrainData,
