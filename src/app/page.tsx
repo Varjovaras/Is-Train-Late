@@ -1,5 +1,5 @@
 import { CommuterTrains } from "@/components/CommuterTrains";
-import { Header } from "@/components/Header";
+import { Title } from "@/components/Title";
 import { LongDistanceTrains } from "@/components/LongDistanceTrains";
 import {
     // fetchLateTrainsData,
@@ -9,14 +9,12 @@ import Image from "next/image";
 
 export default async function Home() {
     const passengerTrainData = await fetchPassengerTrainData();
-    // const lateTrains = await fetchLateTrainsData();
     const longDistanceTrains = passengerTrainData.filter(
         (train) => train.commuterLineid === "",
     );
     const commuterTrains = passengerTrainData.filter(
         (train) => train.commuterLineid !== "",
     );
-    console.log(commuterTrains);
 
     return (
         <div className=" flex flex-col items-center justify-items-center min-h-screen p-8 pb-20  sm:p-20 font-[family-name:var(--font-geist-mono)]">
@@ -29,7 +27,7 @@ export default async function Home() {
                 height={250}
             />
             <main className="flex flex-col gap-2 row-start-2 items-center justify-items-center ">
-                <Header />
+                <Title />
                 <LongDistanceTrains longDistanceData={longDistanceTrains} />
                 <CommuterTrains commuterTrainData={commuterTrains} />
             </main>

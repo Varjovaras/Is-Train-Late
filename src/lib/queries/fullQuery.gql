@@ -1,64 +1,84 @@
 {
-	currentlyRunningTrains(
-		where: {
-			and: [
-				{ operator: { shortCode: { equals: "vr" } } }
-				{ trainType: { trainCategory: { name: { equals: "Long-distance" } } } }
-				{
-					timeTableRows: {
-						contains: {
-							causes: {
-								contains: { categoryCode: { name: { unequals: null } } }
-							}
-						}
-					}
-				}
-			]
-		}
-	) {
-		cancelled
-		commuterLineid
-		departureDate
-		runningCurrently
-		trainNumber
-		timeTableRows {
-			trainStopping
-			commercialStop
-			commercialTrack
-			scheduledTime
-			actualTime
-			differenceInMinutes
-			liveEstimateTime
-			causes(where: { categoryCode: { name: { unequals: "HEL" } } }) {
-				categoryCode {
-					code
-					name
-					validFrom
-					validTo
-				}
-				detailedCategoryCode {
-					code
-					name
-					validFrom
-					validTo
-				}
-				thirdCategoryCode {
-					code
-					name
-					validFrom
-					validTo
-				}
-			}
-		}
-		trainType {
-			name
-			trainCategory {
-				name
-			}
-		}
-		trainLocations(orderBy: { timestamp: DESCENDING }, take: 1) {
-			speed
-			location
-		}
-	}
+    currentlyRunningTrains(
+        where: {
+            and: [
+                { operator: { shortCode: { equals: "vr" } } }
+                {
+                    or: [
+                        {
+                            trainType: {
+                                trainCategory: { name: { equals: "Commuter" } }
+                            }
+                        }
+                        {
+                            trainType: {
+                                trainCategory: {
+                                    name: { equals: "Long-distance" }
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ) {
+        cancelled
+        commuterLineid
+        departureDate
+        runningCurrently
+        trainNumber
+        timetableType
+        timeTableRows {
+            type
+            trainStopping
+            commercialStop
+            commercialTrack
+            cancelled
+            scheduledTime
+            actualTime
+            differenceInMinutes
+            liveEstimateTime
+            estimateSourceType
+            unknownDelay
+            station {
+                passengerTraffic
+                countryCode
+                location
+                name
+                shortCode
+                uicCode
+                type
+            }
+            causes(where: { categoryCode: { name: { unequals: "HEL" } } }) {
+                categoryCode {
+                    code
+                    name
+                    validFrom
+                    validTo
+                }
+                detailedCategoryCode {
+                    code
+                    name
+                    validFrom
+                    validTo
+                }
+                thirdCategoryCode {
+                    code
+                    name
+                    validFrom
+                    validTo
+                }
+            }
+        }
+        trainType {
+            name
+            trainCategory {
+                name
+            }
+        }
+        trainLocations(orderBy: { timestamp: DESCENDING }, take: 1) {
+            speed
+            location
+        }
+    }
 }

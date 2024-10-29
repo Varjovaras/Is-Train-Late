@@ -13,9 +13,13 @@ export const CommuterTrains = ({ commuterTrainData }: TrainProps) => {
             <div className="flex flex-wrap gap-4 ">
                 {commuterTrainData.length > 0 ? (
                     commuterTrainData.map((train) => (
-                        <div key={`train-${train.trainNumber}`} className="">
+                        <div
+                            key={`train-${train.trainNumber}`}
+                            className=" p-2"
+                        >
                             <div>
                                 {train.commuterLineid}
+
                                 {/* {train.trainNumber} */}
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-export const Header = () => {
+export const Title = () => {
     return (
         <div className="text-center font-[family-name:var(--font-geist-mono)]">
             <h1 className="">Is Your Train late ?</h1>
