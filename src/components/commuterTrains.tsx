@@ -1,4 +1,4 @@
-import type { Train } from "@/types/trainTypes";
+import type { Train } from "@/types/trainQueryTypes";
 
 type TrainProps = {
     commuterTrainData: Train[];
@@ -19,7 +19,7 @@ export const CommuterTrains = ({ commuterTrainData }: TrainProps) => {
                         >
                             <div>
                                 {train.commuterLineid}
-
+                                {train.runningCurrently}
                                 {/* {train.trainNumber} */}
                             </div>
                         </div>

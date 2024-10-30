@@ -1,4 +1,8 @@
-import type { Train, TrainResponse } from "@/types/trainTypes";
+import type { Train, TrainResponse } from "@/types/trainQueryTypes";
+import {
+	unwantedTrainTypeNames,
+	type UnwantedTrainTypeName,
+} from "@/types/trainTypeNames";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
@@ -129,30 +133,45 @@ const lateTrainsQuery = `{
 }`;
 
 async function fetchData(query: string): Promise<Train[]> {
-    const data = await fetch(GRAPHQL_ENDPOINT, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            // "Accept-Encoding: gzip"
-        },
-        body: JSON.stringify({
-            query,
-            // variables,
-        }),
-        // Next.js specific options
-        next: {
-            revalidate: 3600, // Revalidate every hour
-        },
-    });
-    const trains: TrainResponse = await data.json();
+	const data = await fetch(GRAPHQL_ENDPOINT, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			// "Accept-Encoding: gzip"
+		},
+		body: JSON.stringify({
+			query,
+			// variables,
+		}),
+		// Next.js specific options
+		next: {
+			revalidate: 3600, // Revalidate every hour
+		},
+	});
+	const trainResponse: TrainResponse = await data.json();
 
-    return trains.data.currentlyRunningTrains;
+	const filteredTrains = filterUnwantedTraintypes(
+		trainResponse.data.currentlyRunningTrains,
+	);
+
+	return filteredTrains;
+}
+
+function filterUnwantedTraintypes(trains: Train[]): Train[] {
+	return trains.filter(
+		(train) =>
+			!unwantedTrainTypeNames.includes(
+				train.trainType.name as UnwantedTrainTypeName,
+			),
+	);
 }
 
 export async function fetchPassengerTrainData() {
-    return await fetchData(passengerQuery);
+	return await fetchData(passengerQuery);
 }
 
 export async function fetchLateTrainsData() {
-    return await fetchData(lateTrainsQuery);
+	return await fetchData(lateTrainsQuery);
 }
+
+fetchPassengerTrainData();
