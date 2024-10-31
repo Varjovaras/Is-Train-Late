@@ -38,7 +38,40 @@ const passengerQuery = `{
       speed
       location
     }
-
+    trainTrackingMessages(take: 1) {
+      timestamp
+      trackSectionCode
+      nextTrackSectionCode
+      previousTrackSectionCode
+      type
+      station {
+        passengerTraffic
+        countryCode
+        location
+        name
+        shortCode
+        uicCode
+        type
+      }
+      nextStation {
+        passengerTraffic
+        countryCode
+        location
+        name
+        shortCode
+        uicCode
+        type
+      }
+      previousStation {
+        passengerTraffic
+        countryCode
+        location
+        name
+        shortCode
+        uicCode
+        type
+      }
+    }
     timeTableRows(take: 1) {
       type
       trainStopping
@@ -61,45 +94,6 @@ const passengerQuery = `{
         type
       }
       causes(where: { categoryCode: { name: { unequals: "HEL" } } }) {
-        categoryCode {
-          code
-          name
-          validFrom
-          validTo
-        }
-        detailedCategoryCode {
-          code
-          name
-          validFrom
-          validTo
-        }
-        thirdCategoryCode {
-          code
-          name
-          validFrom
-          validTo
-        }
-      }
-    }
-  }
-}`;
-
-const lateTrainsQuery = `{
-  currentlyRunningTrains(
-    where: {
-      and: [
-        { operator: { shortCode: { equals: "vr" } } }
-        {
-          trainType: {
-            trainCategory: { name: { equals: "Long-distance" } }
-            or: { name: { equals: "Commuter" } }
-          }
-        }
-      ]
-    }
-  ) {
-    timeTableRows {
-      causes {
         categoryCode {
           code
           name
@@ -165,8 +159,8 @@ export async function fetchPassengerTrainData() {
 	return await fetchData(passengerQuery);
 }
 
-export async function fetchLateTrainsData() {
-	return await fetchData(lateTrainsQuery);
-}
+// export async function fetchLateTrainsData() {
+// 	return await fetchData(lateTrainsQuery);
+// }
 
 fetchPassengerTrainData();
