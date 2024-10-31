@@ -1,33 +1,27 @@
 import type { Train } from "@/types/trainQueryTypes";
 
 type TrainProps = {
-    commuterTrainData: Train[];
+	commuterTrainData: Train[];
 };
 
 export const CommuterTrains = ({ commuterTrainData }: TrainProps) => {
-    return (
-        <div className="p-8 mx-4">
-            <p className="pb-4 text-left">
-                Currently running commuter trains:{" "}
-            </p>
-            <div className="flex flex-wrap gap-4 ">
-                {commuterTrainData.length > 0 ? (
-                    commuterTrainData.map((train) => (
-                        <div
-                            key={`train-${train.trainNumber}`}
-                            className=" p-2"
-                        >
-                            <div>
-                                {train.commuterLineid}
-                                {train.runningCurrently}
-                                {/* {train.trainNumber} */}
-                            </div>
-                        </div>
-                    ))
-                ) : (
-                    <div className="">no trains</div>
-                )}
-            </div>
-        </div>
-    );
+	return (
+		<div className="p-8 mx-4">
+			<p className="pb-4 text-left">Currently running commuter trains: </p>
+			<div className="flex flex-wrap gap-4 ">
+				{commuterTrainData.length > 0 ? (
+					commuterTrainData.map((train) => (
+						<div key={`train-${train.trainNumber}`} className=" p-2">
+							<div>
+								{train.commuterLineid}
+								{train.runningCurrently}
+							</div>
+						</div>
+					))
+				) : (
+					<div className="">no trains</div>
+				)}
+			</div>
+		</div>
+	);
 };

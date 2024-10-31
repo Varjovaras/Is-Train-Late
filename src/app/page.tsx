@@ -17,8 +17,14 @@ export default async function Home() {
     const commuterTrains = passengerTrainData.filter(
         (train) => train.commuterLineid !== "",
     );
-    const firstTenTrains = longDistanceTrains.slice(0, 10);
-    console.log(longDistanceTrains);
+    let firstTenTrains = longDistanceTrains.slice(0, 10);
+    const myTrain = longDistanceTrains.find(
+        (train) => train.trainNumber === 38,
+    );
+    console.log(myTrain);
+    if (myTrain) {
+        firstTenTrains = [myTrain];
+    }
 
     return (
         <div className=" flex flex-col items-center justify-items-center min-h-screen p-8 pb-20  sm:p-20 font-[family-name:var(--font-geist-mono)]">
