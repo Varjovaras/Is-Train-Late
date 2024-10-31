@@ -32,18 +32,18 @@ export const LongDistanceTrains = ({
 										{location.location[1]} */}
 									</p>
 								))}
-								<div>
+								{/* <div>
 									{train.timeTableRows.map((timeTableRow) => (
 										<p key={timeTableRow.estimateSourceType}>
 											{timeTableRow.station.name}
 										</p>
 									))}
-								</div>
+								</div> */}
 							</div>
 						</div>
 					))
 				) : (
-					<div className="">no trains</div>
+					<div className="" />
 				)}
 			</div>
 		</div>
