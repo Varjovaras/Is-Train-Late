@@ -9,88 +9,79 @@ const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 //unused properties: deleted timetableAcceptanceDate timetableType version
 
 const passengerQuery = `{
-    currentlyRunningTrains(
-        where: {
-            and: [
-                { operator: { shortCode: { equals: "vr" } } }
-                {
-                    or: [
-                        {
-                            trainType: {
-                                trainCategory: { name: { equals: "Commuter" } }
-                            }
-                        }
-                        {
-                            trainType: {
-                                trainCategory: {
-                                    name: { equals: "Long-distance" }
-                                }
-                            }
-                        }
-                    ]
-                }
-            ]
+  currentlyRunningTrains(
+    where: {
+      and: [
+        { operator: { shortCode: { equals: "vr" } } }
+        {
+          or: [
+            { trainType: { trainCategory: { name: { equals: "Commuter" } } } }
+            { trainType: { trainCategory: { name: { equals: "Long-distance" } } } }
+          ]
         }
-    ) {
-        cancelled
-        commuterLineid
-        departureDate
-        runningCurrently
-        trainNumber
-        timetableType
-        timeTableRows {
-            type
-            trainStopping
-            commercialStop
-            commercialTrack
-            cancelled
-            scheduledTime
-            actualTime
-            differenceInMinutes
-            liveEstimateTime
-            estimateSourceType
-            unknownDelay
-            station {
-                passengerTraffic
-                countryCode
-                location
-                name
-                shortCode
-                uicCode
-                type
-            }
-            causes(where: { categoryCode: { name: { unequals: "HEL" } } }) {
-                categoryCode {
-                    code
-                    name
-                    validFrom
-                    validTo
-                }
-                detailedCategoryCode {
-                    code
-                    name
-                    validFrom
-                    validTo
-                }
-                thirdCategoryCode {
-                    code
-                    name
-                    validFrom
-                    validTo
-                }
-            }
-        }
-        trainType {
-            name
-            trainCategory {
-                name
-            }
-        }
-        trainLocations(orderBy: { timestamp: DESCENDING }, take: 1) {
-            speed
-            location
-        }
+      ]
     }
+  ) {
+    cancelled
+    commuterLineid
+    departureDate
+    runningCurrently
+    trainNumber
+    timetableType
+    trainType {
+      name
+      trainCategory {
+        name
+      }
+    }
+    trainLocations(orderBy: { timestamp: DESCENDING }, take: 1) {
+      speed
+      location
+    }
+
+    timeTableRows(take: 1) {
+      type
+      trainStopping
+      commercialStop
+      commercialTrack
+      cancelled
+      scheduledTime
+      actualTime
+      differenceInMinutes
+      liveEstimateTime
+      estimateSourceType
+      unknownDelay
+      station {
+        passengerTraffic
+        countryCode
+        location
+        name
+        shortCode
+        uicCode
+        type
+      }
+      causes(where: { categoryCode: { name: { unequals: "HEL" } } }) {
+        categoryCode {
+          code
+          name
+          validFrom
+          validTo
+        }
+        detailedCategoryCode {
+          code
+          name
+          validFrom
+          validTo
+        }
+        thirdCategoryCode {
+          code
+          name
+          validFrom
+          validTo
+        }
+      }
+    }
+  }
 }`;
 
 const lateTrainsQuery = `{
@@ -167,6 +158,10 @@ function filterUnwantedTraintypes(trains: Train[]): Train[] {
 }
 
 export async function fetchPassengerTrainData() {
+	// const data = await fetchData(passengerQuery);
+	// const dataStr = JSON.stringify(data);
+	// const path = "./trainData.json";
+	// await Bun.write(path, dataStr);
 	return await fetchData(passengerQuery);
 }
 

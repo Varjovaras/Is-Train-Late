@@ -1,38 +1,26 @@
-"use client";
 import { LongDistanceTrains } from "@/components/LongDistanceTrains";
 import { Title } from "@/components/Title";
 import {
 	// fetchLateTrainsData,
 	fetchPassengerTrainData,
 } from "@/lib/queries/trainQueries";
-import type { Train } from "@/types/trainQueryTypes";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
-export default function Home() {
-	const [trainData, setTrainData] = useState<Train[]>([]);
-
-	useEffect(() => {
-		async function fetchTrains() {
-			const passengerTrainData = await fetchPassengerTrainData();
-
-			setTrainData(passengerTrainData);
-		}
-		fetchTrains();
-	}, []);
+export default async function Home() {
+	const passengerTrainData = await fetchPassengerTrainData();
 	// const longDistanceTrains = passengerTrainData.filter(
 	// 	(train) => train.commuterLineid === "",
 	// );
-	const longDistanceTrains = trainData.filter(
+	const longDistanceTrains = passengerTrainData.filter(
 		(train) => train.commuterLineid === "",
 	);
-	const commuterTrains = trainData.filter(
+	const commuterTrains = passengerTrainData.filter(
 		(train) => train.commuterLineid !== "",
 	);
 	const firstTenTrains = longDistanceTrains.slice(0, 10);
 
 	return (
-		<div className=" flex flex-col items-center justify-items-center min-h-screen p-8 pb-20  sm:p-20 font-[family-name:var(--font-geist-mono)]">
+		<div className="flex flex-col items-center justify-items-center min-h-screen p-8 pb-20  sm:p-20 font-[family-name:var(--font-geist-mono)]">
 			<Image
 				aria-hidden
 				src="/hcbull.png"

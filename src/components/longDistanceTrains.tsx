@@ -1,18 +1,19 @@
+"use client";
 import type { Train } from "@/types/trainQueryTypes";
+import { useState } from "react";
 
 type TrainProps = {
 	longDistanceData: Train[];
 };
 
-export const LongDistanceTrains = ({
-	longDistanceData: passengerTrainData,
-}: TrainProps) => {
+export const LongDistanceTrains = ({ longDistanceData }: TrainProps) => {
+	const [trains, setTrains] = useState<Train[]>(longDistanceData);
 	return (
 		<div className="p-8 mx-4">
 			<p className="pb-4 text-left">Currently running long distance trains: </p>
 			<div className="grid sm:grid-cols-3  gap-4 ">
-				{passengerTrainData.length > 0 ? (
-					passengerTrainData.map((train) => (
+				{trains.length > 0 ? (
+					trains.map((train) => (
 						<div key={`train-${train.trainNumber}`} className="">
 							<div>
 								<p>
@@ -32,6 +33,13 @@ export const LongDistanceTrains = ({
 										{location.location[1]} */}
 									</p>
 								))}
+								{/* {train.trainTrackingMessages ? (
+									train.trainTrackingMessages.map((msg) => (
+										<p key={msg.id}>{msg.trainSectionCode}</p>
+									))
+								) : (
+									<p />
+								)} */}
 								{/* <div>
 									{train.timeTableRows.map((timeTableRow) => (
 										<p key={timeTableRow.estimateSourceType}>
