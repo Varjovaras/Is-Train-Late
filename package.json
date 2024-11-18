@@ -1,11 +1,17 @@
 {
-  "name": "juna",
-  "module": "index.ts",
-  "type": "module",
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  }
+    "name": "juna",
+    "module": "index.ts",
+    "type": "module",
+    "scripts": {
+        "backend:start": "cd src/backend && bun start",
+        "backend:dev": "cd src/backend && bun dev",
+        "frontend:start": "cd src/frontend && bun start",
+        "frontend:dev": "cd src/frontend && bun dev"
+    },
+    "devDependencies": {
+        "@types/bun": "latest"
+    },
+    "peerDependencies": {
+        "typescript": "^5.0.0"
+    }
 }
