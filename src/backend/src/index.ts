@@ -1,7 +1,14 @@
-import { fetchPassengerTrainData } from "./queries/trainQueries";
+import {
+    fetchAllPassengerTrainData,
+    // fetchAllPassengerTrainData,
+    fetchPassengerTrainData,
+} from "./queries/trainQueries";
 
 async function fetchTrainData() {
-    const trainData = await fetchPassengerTrainData();
+    const trainData = await fetchAllPassengerTrainData();
+    const dataStr = JSON.stringify(trainData);
+    const path = "../../trainData.json";
+    await Bun.write(path, dataStr);
     return trainData;
 }
 
@@ -15,7 +22,7 @@ async function main() {
             "/api/trains": new Response(JSON.stringify(trainData)),
         },
 
-        fetch(req) {
+        fetch(_req) {
             return new Response("404!");
         },
     });
@@ -24,18 +31,19 @@ async function main() {
 
     // Update the time every minute.
     setInterval(async () => {
-        const trainData = await fetchTrainData();
         console.log(`Updating server ${new Date().toString()}`);
+        const trainData = await fetchTrainData();
 
         server.reload({
             static: {
                 "/api/trains": new Response(JSON.stringify(trainData)),
             },
 
-            fetch(req) {
+            fetch(_req) {
                 return new Response("404!");
             },
         });
+        console.log(`Server updated at ${new Date().toString()}`);
     }, 60_000);
 }
 
