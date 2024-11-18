@@ -1,4 +1,4 @@
-{
+export const fullQuery: string = `{
 	currentlyRunningTrains(
 		where: {
 			and: [
@@ -109,4 +109,4 @@
 			}
 		}
 	}
-}
+	}`;
