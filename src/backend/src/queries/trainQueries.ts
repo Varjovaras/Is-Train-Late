@@ -6,6 +6,7 @@ import {
 } from "../../../types/trainTypeNames";
 
 async function fetchData(query: string): Promise<Train[]> {
+	//makes .gql query JSON.stringifyable
 	const cleanedQuery = query
 		.replace(/\s+/g, " ")
 		.replace(/\n/g, " ")
@@ -55,12 +56,10 @@ export async function fetchPassengerTrainData() {
 	const passengerQuery = await Bun.file(
 		"./src/queries/passengerQuery.gql",
 	).text();
-
 	return await fetchData(passengerQuery);
 }
 
 export async function fetchAllPassengerTrainData() {
 	const fullQuery = await Bun.file("./src/queries/fullQuery.gql").text();
-
 	return await fetchData(fullQuery);
 }

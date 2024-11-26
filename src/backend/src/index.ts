@@ -1,11 +1,10 @@
 import {
 	fetchAllPassengerTrainData,
-	// fetchAllPassengerTrainData,
 	fetchPassengerTrainData,
 } from "./queries/trainQueries";
 
 async function fetchTrainData() {
-	const trainData = await fetchAllPassengerTrainData();
+	const trainData = await fetchPassengerTrainData();
 
 	return trainData;
 }
@@ -17,7 +16,12 @@ async function main() {
 	const server = Bun.serve({
 		port: 8080,
 		static: {
-			"/api/trains": new Response(JSON.stringify(trainData)),
+			"/api/trains": new Response(JSON.stringify(trainData), {
+				headers: {
+					"Access-Control-Allow-Origin": "*",
+					"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+				},
+			}),
 		},
 
 		fetch(_req) {
@@ -30,7 +34,6 @@ async function main() {
 	// Update the time every minute.
 	setInterval(async () => {
 		console.log(`Updating server ${new Date().toString()}`);
-		const file = await Bun.file("../../trainData.json").text();
 
 		const trainData = await fetchTrainData();
 
@@ -38,16 +41,18 @@ async function main() {
 
 		server.reload({
 			static: {
-				"/api/trains": new Response(JSON.stringify(trainData)),
+				"/api/trains": new Response(JSON.stringify(trainData), {
+					headers: {
+						"Access-Control-Allow-Origin": "*",
+						"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+					},
+				}),
 			},
 
 			fetch(_req) {
 				return new Response("404!");
 			},
 		});
-
-		const file2 = await Bun.file("../../trainData.json").text();
-		console.log(file === file2);
 
 		console.log(`Server updated at ${new Date().toString()}`);
 	}, 60_000);

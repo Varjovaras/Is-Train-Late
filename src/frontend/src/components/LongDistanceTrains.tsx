@@ -3,11 +3,10 @@ import type { Train } from "@/types/trainQueryTypes";
 import { useState } from "react";
 
 type TrainProps = {
-	longDistanceData: Train[];
+	trains: Train[];
 };
 
-export const LongDistanceTrains = ({ longDistanceData }: TrainProps) => {
-	const [trains, setTrains] = useState<Train[]>(longDistanceData);
+export const LongDistanceTrains = ({ trains }: TrainProps) => {
 	return (
 		<div className="p-8 mx-4">
 			<p className="pb-4 text-left">Currently running long distance trains: </p>
