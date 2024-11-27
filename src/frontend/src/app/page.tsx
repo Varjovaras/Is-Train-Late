@@ -1,45 +1,27 @@
-"use client";
 import { LongDistanceTrains } from "@/components/LongDistanceTrains";
 import { Title } from "@/components/Title";
 import type { Train } from "@/types/trainQueryTypes";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
 const BACKEND_URL =
 	process.env.NODE_ENV === "development"
 		? process.env.NEXT_PUBLIC_DEV_SERVER_URL
 		: process.env.NEXT_PUBLIC_PROD_SERVER_URL;
 
-console.log(BACKEND_URL);
-export default function Home() {
-	const [passengerTrainData, setPassengerTrainData] = useState<Train[]>([]);
+const API_URL = `${BACKEND_URL?.replace(/\/+$/, "")}/api/trains`;
 
-	useEffect(() => {
-		async function fetchTrains() {
-			try {
-				const url = `${BACKEND_URL?.replace(/\/+$/, "")}/api/trains`;
-				// console.log("Fetching from URL:", url);
+export default async function Home() {
+	const res = await fetch(API_URL);
 
-				const res = await fetch(url);
+	if (!res.ok) {
+		throw new Error(`HTTP error! status: ${res.status}`);
+	}
 
-				if (!res.ok) {
-					throw new Error(`HTTP error! status: ${res.status}`);
-				}
-
-				const data = (await res.json()) as Train[];
-				const longDistanceTrains = data.filter(
-					(train) => train.commuterLineid === "",
-				);
-				const firstTenTrains = longDistanceTrains.slice(0, 10);
-
-				setPassengerTrainData(firstTenTrains);
-			} catch (error) {
-				console.error("Error fetching trains:", error);
-			}
-		}
-
-		fetchTrains();
-	}, []);
+	const passengerTrainData = (await res.json()) as Train[];
+	const longDistanceTrains = passengerTrainData.filter(
+		(train) => train.commuterLineid === "",
+	);
+	const firstTenTrains = longDistanceTrains.slice(0, 10);
 
 	return (
 		<div className="flex flex-col items-center justify-items-center min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-mono)]">
@@ -53,7 +35,7 @@ export default function Home() {
 			/>
 			<main className="flex flex-col gap-2 row-start-2 items-center justify-items-center ">
 				<Title />
-				<LongDistanceTrains trains={passengerTrainData} />
+				<LongDistanceTrains trains={firstTenTrains} />
 			</main>
 			<footer className="row-start-3 flex gap-6 p-8 flex-wrap items-center justify-center">
 				<a

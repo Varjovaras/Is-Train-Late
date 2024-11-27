@@ -7,12 +7,14 @@ type TrainProps = {
 };
 
 export const LongDistanceTrains = ({ trains }: TrainProps) => {
+	const [passengerTrainData, setPassengerTrainData] = useState<Train[]>(trains);
+
 	return (
 		<div className="p-8 mx-4">
 			<p className="pb-4 text-left">Currently running long distance trains: </p>
 			<div className="grid sm:grid-cols-3  gap-4 ">
-				{trains.length > 0 ? (
-					trains.map((train) => (
+				{passengerTrainData.length > 0 ? (
+					passengerTrainData.map((train) => (
 						<div key={`train-${train.trainNumber}`} className="">
 							<div>
 								<p>
@@ -32,20 +34,6 @@ export const LongDistanceTrains = ({ trains }: TrainProps) => {
 										{location.location[1]} */}
 									</p>
 								))}
-								{/* {train.trainTrackingMessages ? (
-									train.trainTrackingMessages.map((msg) => (
-										<p key={msg.id}>{msg.trainSectionCode}</p>
-									))
-								) : (
-									<p />
-								)} */}
-								{/* <div>
-									{train.timeTableRows.map((timeTableRow) => (
-										<p key={timeTableRow.estimateSourceType}>
-											{timeTableRow.station.name}
-										</p>
-									))}
-								</div> */}
 							</div>
 						</div>
 					))
