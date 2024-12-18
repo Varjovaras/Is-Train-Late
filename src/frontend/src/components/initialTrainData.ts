@@ -6,10 +6,10 @@ export const defaultTrainData: Train[] = [
 		commuterLineid: "",
 		departureDate: "2024-11-26",
 		runningCurrently: true,
-		trainNumber: 267,
+		trainNumber: 1,
 		timetableType: "REGULAR",
-		trainType: { name: "PYO", trainCategory: { name: "Long-distance" } },
-		trainLocations: [{ speed: 88, location: [25.399626, 66.413215] }],
+		trainType: { name: "IC", trainCategory: { name: "Long-distance" } },
+		trainLocations: [{ speed: 500, location: [25.399626, 66.413215] }],
 		trainTrackingMessages: [
 			{
 				timestamp: "2024-11-26T19:09:00.000Z",
@@ -69,10 +69,10 @@ export const defaultTrainData: Train[] = [
 		commuterLineid: "",
 		departureDate: "2024-11-26",
 		runningCurrently: true,
-		trainNumber: 273,
+		trainNumber: 2,
 		timetableType: "REGULAR",
-		trainType: { name: "PYO", trainCategory: { name: "Long-distance" } },
-		trainLocations: [{ speed: 140, location: [25.183906, 65.609026] }],
+		trainType: { name: "IC", trainCategory: { name: "Long-distance" } },
+		trainLocations: [{ speed: 450, location: [25.183906, 65.609026] }],
 		trainTrackingMessages: [
 			{
 				timestamp: "2024-11-26T11:37:12.000Z",
@@ -124,10 +124,10 @@ export const defaultTrainData: Train[] = [
 		commuterLineid: "",
 		departureDate: "2024-11-26",
 		runningCurrently: true,
-		trainNumber: 276,
+		trainNumber: 3,
 		timetableType: "REGULAR",
-		trainType: { name: "PYO", trainCategory: { name: "Long-distance" } },
-		trainLocations: [{ speed: 74, location: [25.107131, 60.40751] }],
+		trainType: { name: "IC", trainCategory: { name: "Long-distance" } },
+		trainLocations: [{ speed: 400, location: [25.107131, 60.40751] }],
 		trainTrackingMessages: [
 			{
 				timestamp: "2024-11-26T17:44:45.000Z",
@@ -187,10 +187,10 @@ export const defaultTrainData: Train[] = [
 		commuterLineid: "",
 		departureDate: "2024-11-27",
 		runningCurrently: true,
-		trainNumber: 1,
+		trainNumber: 4,
 		timetableType: "REGULAR",
 		trainType: { name: "IC", trainCategory: { name: "Long-distance" } },
-		trainLocations: [{ speed: 82, location: [28.835813, 61.224149] }],
+		trainLocations: [{ speed: 350, location: [28.835813, 61.224149] }],
 		trainTrackingMessages: [
 			{
 				timestamp: "2024-11-27T04:49:00.000Z",
@@ -250,10 +250,10 @@ export const defaultTrainData: Train[] = [
 		commuterLineid: "",
 		departureDate: "2024-11-27",
 		runningCurrently: true,
-		trainNumber: 4,
+		trainNumber: 5,
 		timetableType: "REGULAR",
 		trainType: { name: "IC", trainCategory: { name: "Long-distance" } },
-		trainLocations: [{ speed: 136, location: [25.705713, 60.970657] }],
+		trainLocations: [{ speed: 300, location: [25.705713, 60.970657] }],
 		trainTrackingMessages: [
 			{
 				timestamp: "2024-11-27T03:45:16.000Z",
@@ -316,7 +316,7 @@ export const defaultTrainData: Train[] = [
 		trainNumber: 6,
 		timetableType: "REGULAR",
 		trainType: { name: "IC", trainCategory: { name: "Long-distance" } },
-		trainLocations: [{ speed: 138, location: [29.901863, 61.996462] }],
+		trainLocations: [{ speed: 250, location: [29.901863, 61.996462] }],
 		trainTrackingMessages: [
 			{
 				timestamp: "2024-11-27T06:37:42.000Z",
@@ -379,7 +379,7 @@ export const defaultTrainData: Train[] = [
 		trainNumber: 20,
 		timetableType: "REGULAR",
 		trainType: { name: "IC", trainCategory: { name: "Long-distance" } },
-		trainLocations: [{ speed: 33, location: [23.773428, 61.501021] }],
+		trainLocations: [{ speed: 200, location: [23.773428, 61.501021] }],
 		trainTrackingMessages: [
 			{
 				timestamp: "2024-11-27T02:55:02.000Z",
@@ -431,10 +431,10 @@ export const defaultTrainData: Train[] = [
 		commuterLineid: "",
 		departureDate: "2024-11-27",
 		runningCurrently: true,
-		trainNumber: 21,
+		trainNumber: 7,
 		timetableType: "REGULAR",
 		trainType: { name: "IC", trainCategory: { name: "Long-distance" } },
-		trainLocations: [{ speed: 0, location: [23.034609, 63.100496] }],
+		trainLocations: [{ speed: 150, location: [23.034609, 63.100496] }],
 		trainTrackingMessages: [
 			{
 				timestamp: "2024-11-27T04:18:00.000Z",
@@ -494,10 +494,10 @@ export const defaultTrainData: Train[] = [
 		commuterLineid: "",
 		departureDate: "2024-11-27",
 		runningCurrently: true,
-		trainNumber: 22,
+		trainNumber: 8,
 		timetableType: "REGULAR",
 		trainType: { name: "IC", trainCategory: { name: "Long-distance" } },
-		trainLocations: [{ speed: 161, location: [22.910721, 63.635456] }],
+		trainLocations: [{ speed: 100, location: [22.910721, 63.635456] }],
 		trainTrackingMessages: [
 			{
 				timestamp: "2024-11-27T03:16:46.000Z",
@@ -557,10 +557,10 @@ export const defaultTrainData: Train[] = [
 		commuterLineid: "",
 		departureDate: "2024-11-27",
 		runningCurrently: true,
-		trainNumber: 23,
+		trainNumber: 9,
 		timetableType: "REGULAR",
 		trainType: { name: "IC", trainCategory: { name: "Long-distance" } },
-		trainLocations: [{ speed: 150, location: [24.021361, 61.121088] }],
+		trainLocations: [{ speed: 50, location: [24.021361, 61.121088] }],
 		trainTrackingMessages: [
 			{
 				timestamp: "2024-11-27T06:19:00.000Z",

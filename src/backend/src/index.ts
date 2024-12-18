@@ -1,7 +1,4 @@
-import {
-	fetchAllPassengerTrainData,
-	fetchPassengerTrainData,
-} from "./queries/trainQueries";
+import { fetchPassengerTrainData } from "./queries/trainQueries";
 
 async function fetchTrainData() {
 	const trainData = await fetchPassengerTrainData();
