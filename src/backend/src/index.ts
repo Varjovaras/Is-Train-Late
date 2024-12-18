@@ -1,4 +1,8 @@
-import { fetchPassengerTrainData } from "./queries/trainQueries";
+import {
+	fetchAllPassengerTrainData,
+	fetchPassengerTrainData,
+	fetchTrainsThatAreLate,
+} from "./queries/trainQueries";
 
 async function fetchTrainData() {
 	const trainData = await fetchPassengerTrainData();
@@ -8,7 +12,7 @@ async function fetchTrainData() {
 
 async function main() {
 	console.log(`Starting server at ${new Date().toString()}`);
-	const trainData = await fetchTrainData();
+	const trainData = await fetchTrainsThatAreLate();
 
 	const server = Bun.serve({
 		port: 8080,
