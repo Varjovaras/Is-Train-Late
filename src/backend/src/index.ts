@@ -32,13 +32,11 @@ async function main() {
 
 	console.log(`Server online o port ${server.port}`);
 
-	// Update the time every minute.
+	// Update traindata every minute.
 	setInterval(async () => {
 		console.log(`Updating server ${new Date().toString()}`);
 
 		const trainData = await fetchTrainData();
-
-		// console.log(file);
 
 		server.reload({
 			static: {

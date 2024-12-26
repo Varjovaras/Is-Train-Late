@@ -5,6 +5,8 @@ import {
 } from "../../../types/trainNameTypes";
 import { GRAPHQL_ENDPOINT } from "./endpoint";
 
+const WRITING_PATH = "../../trainData.json";
+
 export async function fetchData(query: string): Promise<Train[]> {
 	//makes .gql query JSON.stringifyable
 	const cleanedQuery = query
@@ -26,9 +28,8 @@ export async function fetchData(query: string): Promise<Train[]> {
 
 	const trainResponse: TrainResponse = await data.json();
 	const dataStr = JSON.stringify(trainResponse);
-	const path = "../../trainData.json";
 	console.log("Writing to trainData.json");
-	await Bun.write(path, dataStr);
+	await Bun.write(WRITING_PATH, dataStr);
 	console.log("written :D");
 
 	const filteredTrains = filterUnwantedTraintypes(

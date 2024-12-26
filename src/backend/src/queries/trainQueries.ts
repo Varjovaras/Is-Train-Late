@@ -1,6 +1,6 @@
 import { fetchData } from "./dataFetcher";
 
-const WRITING_PATH = "../../trainData.json";
+const WRITING_PATH = "../../filteredTrainData.json";
 
 export async function fetchPassengerTrainData() {
 	const passengerQuery = await Bun.file(
@@ -20,17 +20,10 @@ export async function fetchTrainsThatAreLate() {
 		train.timeTableRows.some((row) => row.causes !== null),
 	);
 
-	const filteredLateTrainData = lateTrainData.map((train) => ({
-		...train,
-		timeTableRows: train.timeTableRows.filter(
-			(timetable) => timetable.causes !== null,
-		),
-	}));
-
-	const dataStr = JSON.stringify(filteredLateTrainData);
+	const dataStr = JSON.stringify(lateTrainData);
 
 	console.log("Writing to trainData.json");
 	await Bun.write(WRITING_PATH, dataStr);
 	console.log("written :D");
-	return filteredLateTrainData;
+	return lateTrainData;
 }

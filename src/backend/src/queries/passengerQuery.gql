@@ -87,7 +87,7 @@
 				uicCode
 				type
 			}
-			causes(where: { categoryCode: { name: { unequals: "HEL" } } }) {
+			causes {
 				categoryCode {
 					code
 					name
