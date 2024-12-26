@@ -1,8 +1,8 @@
-import type { Train, TrainResponse } from "../../../types/trainQueryTypes";
+import type { Train, TrainResponse } from "../../../types/trainTypes";
 import {
 	unwantedTrainTypeNames,
 	type UnwantedTrainTypeName,
-} from "../../../types/trainTypeNames";
+} from "../../../types/trainNameTypes";
 import { GRAPHQL_ENDPOINT } from "./endpoint";
 
 export async function fetchData(query: string): Promise<Train[]> {

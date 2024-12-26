@@ -1,5 +1,7 @@
 import { fetchData } from "./dataFetcher";
 
+const WRITING_PATH = "../../trainData.json";
+
 export async function fetchPassengerTrainData() {
 	const passengerQuery = await Bun.file(
 		"./src/queries/passengerQuery.gql",
@@ -25,11 +27,10 @@ export async function fetchTrainsThatAreLate() {
 		),
 	}));
 
-	const path = "../../trainData.json";
 	const dataStr = JSON.stringify(filteredLateTrainData);
 
 	console.log("Writing to trainData.json");
-	await Bun.write(path, dataStr);
+	await Bun.write(WRITING_PATH, dataStr);
 	console.log("written :D");
 	return filteredLateTrainData;
 }
