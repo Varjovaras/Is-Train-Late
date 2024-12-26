@@ -22,8 +22,8 @@ export async function fetchTrainsThatAreLate() {
 
 	const dataStr = JSON.stringify(lateTrainData);
 
-	console.log("Writing to trainData.json");
-	await Bun.write(WRITING_PATH, dataStr);
-	console.log("written :D");
+	// console.log("Writing to filteredTrainData.json");
+	// await Bun.write(WRITING_PATH, dataStr);
+	// console.log("written :D");
 	return lateTrainData;
 }

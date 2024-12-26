@@ -28,9 +28,9 @@ export async function fetchData(query: string): Promise<Train[]> {
 
 	const trainResponse: TrainResponse = await data.json();
 	const dataStr = JSON.stringify(trainResponse);
-	console.log("Writing to trainData.json");
-	await Bun.write(WRITING_PATH, dataStr);
-	console.log("written :D");
+	// console.log("Writing to trainData.json");
+	// await Bun.write(WRITING_PATH, dataStr);
+	// console.log("written :D");
 
 	const filteredTrains = filterUnwantedTraintypes(
 		trainResponse.data.currentlyRunningTrains,
@@ -45,9 +45,6 @@ function filterUnwantedTraintypes(trains: Train[]): Train[] {
 			!unwantedTrainTypeNames.includes(
 				train.trainType.name as UnwantedTrainTypeName,
 			),
-	);
-	console.log(
-		`filtered trainData example departuredate ${filteredTrains[0].departureDate}`,
 	);
 
 	return trains;

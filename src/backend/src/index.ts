@@ -53,7 +53,7 @@ async function main() {
 		});
 
 		console.log(`Server updated at ${new Date().toString()}`);
-	}, 60_000);
+	}, 10_000);
 }
 
 main();

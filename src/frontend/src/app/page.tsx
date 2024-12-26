@@ -20,13 +20,12 @@ export default async function Home() {
 	const longDistanceTrains = passengerTrainData.filter(
 		(train) => train.commuterLineid === "",
 	);
-	const firstTenTrains = longDistanceTrains.slice(0, 10);
 
 	return (
 		// <>
 		<main className="flex flex-col gap-2 row-start-2 items-center justify-items-center ">
 			<Title />
-			<LongDistanceTrains trains={firstTenTrains} />
+			<LongDistanceTrains trains={longDistanceTrains} />
 		</main>
 		// </>
 	);
