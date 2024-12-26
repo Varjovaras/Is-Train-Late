@@ -1,4 +1,4 @@
-import type { Train } from "@/types/trainQueryTypes";
+import type { Train } from "../../../types/trainTypes";
 
 type TrainProps = {
 	commuterTrainData: Train[];

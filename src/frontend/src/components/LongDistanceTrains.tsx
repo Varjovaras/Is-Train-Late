@@ -1,6 +1,6 @@
 "use client";
-import type { Train } from "@/types/trainQueryTypes";
 import { useState } from "react";
+import type { Train } from "../../../types/trainTypes";
 
 type TrainProps = {
 	trains: Train[];

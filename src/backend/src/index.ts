@@ -1,5 +1,4 @@
 import {
-	fetchAllPassengerTrainData,
 	fetchPassengerTrainData,
 	fetchTrainsThatAreLate,
 } from "./queries/trainQueries";
