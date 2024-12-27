@@ -10,7 +10,6 @@ async function main() {
 		async fetch(req) {
 			const url = new URL(req.url);
 
-			// Handle /api/trains endpoint
 			if (url.pathname === "/api/trains") {
 				return new Response(JSON.stringify(trainData), {
 					headers: {
