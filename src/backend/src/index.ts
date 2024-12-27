@@ -29,6 +29,7 @@ async function main() {
 		console.log(`Updating server ${new Date().toString()}`);
 
 		const trainData = await fetchTrainsThatAreLate();
+		console.log("new train data\n", trainData);
 
 		server.reload({
 			static: {
