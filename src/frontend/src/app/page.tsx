@@ -12,7 +12,7 @@ const API_URL = `${BACKEND_URL?.replace(/\/+$/, "")}/api/trains`;
 export default async function Home() {
 	try {
 		const res = await fetch(API_URL, {
-			next: { revalidate: 60 }, // Revalidate every 60 seconds
+			next: { revalidate: 60 },
 		});
 
 		if (!res.ok) {
