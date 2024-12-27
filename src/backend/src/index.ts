@@ -1,11 +1,9 @@
-import {
-	fetchPassengerTrainData,
-	fetchTrainsThatAreLate,
-} from "./queries/trainQueries";
+import { fetchTrainsThatAreLate } from "./handlers/fetchLateTrains";
+import { fetchPassengerTrainData } from "./handlers/fetchPassengerTrains";
+import { singleTrainQuery } from "./handlers/fetchSingleTrain";
 
 async function fetchTrainData() {
 	const trainData = await fetchPassengerTrainData();
-
 	return trainData;
 }
 
@@ -15,6 +13,7 @@ async function main() {
 
 	const server = Bun.serve({
 		port: 8080,
+
 		static: {
 			"/api/trains": new Response(JSON.stringify(trainData), {
 				headers: {
@@ -24,14 +23,14 @@ async function main() {
 			}),
 		},
 
-		fetch(_req) {
-			return new Response("404!");
+		fetch(req) {
+			return singleTrainQuery(req);
 		},
 	});
 
 	console.log(`Server online o port ${server.port}`);
 
-	// Update traindata every minute.
+	// Update traindata every 30 seconds.
 	setInterval(async () => {
 		console.log(`Updating server ${new Date().toString()}`);
 
@@ -47,13 +46,13 @@ async function main() {
 				}),
 			},
 
-			fetch(_req) {
-				return new Response("404!");
+			fetch(req) {
+				return singleTrainQuery(req);
 			},
 		});
 
 		console.log(`Server updated at ${new Date().toString()}`);
-	}, 10_000);
+	}, 30_000);
 }
 
 main();

@@ -7,8 +7,8 @@ type TrainProps = {
 };
 
 export const LongDistanceTrains = ({ trains }: TrainProps) => {
-	const [fullData, setFullData] = useState<Train[]>(trains);
-	const [passengerTrainData, setPassengerTrainData] = useState<Train[]>(
+	const [_fullData, _setFullData] = useState<Train[]>(trains);
+	const [passengerTrainData, _setPassengerTrainData] = useState<Train[]>(
 		trains.map((train) => ({
 			...train,
 			timeTableRows: train.timeTableRows.filter(
@@ -26,7 +26,7 @@ export const LongDistanceTrains = ({ trains }: TrainProps) => {
 	return (
 		<div className="p-8 mx-4">
 			<p className="pb-4 text-left">Currently running long distance trains: </p>
-			<div className="grid sm:grid-cols-3  gap-4 ">
+			<div className="grid sm:grid-cols-3 gap-4">
 				{filteredTrains.length > 0 ? (
 					filteredTrains.map((train) => (
 						<div key={`train-${train.trainNumber}`} className="">
