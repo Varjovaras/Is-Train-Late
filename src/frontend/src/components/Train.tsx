@@ -8,10 +8,10 @@ const Train = ({ train }: TrainProps) => {
 	return (
 		<div key={`train-${train.trainNumber}`} className="">
 			<div>
-				<p>
+				<button type="button" className="hover:text-xl">
 					{train.trainType.name}
 					{train.trainNumber}{" "}
-				</p>
+				</button>
 				<p>Lähtöasema: {train.timeTableRows[0].station.name}</p>
 				{train.runningCurrently}
 				{train.trainLocations.map((location) => (

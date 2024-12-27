@@ -26,7 +26,9 @@ const LongDistanceTrains = ({ trains }: TrainProps) => {
 
 	return (
 		<div className="p-8 mx-4">
-			<p className="pb-4 text-left">Currently running long distance trains: </p>
+			<h2 className="pb-4 text-left text-xl">
+				Tällä hetkellä yli 5 minuuttia myöhässä olevat kaukojunat:{" "}
+			</h2>
 			<div className="grid sm:grid-cols-3 gap-4">
 				{filteredTrains.length > 0 ? (
 					filteredTrains.map((train) => (

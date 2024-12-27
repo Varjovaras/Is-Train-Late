@@ -1,8 +1,8 @@
 export const Title = () => {
-    return (
-        <div className="text-center font-[family-name:var(--font-geist-mono)]">
-            <h1 className="">Is Your Train late ?</h1>
-            <h2>Write down the number of your train or choose from the list</h2>
-        </div>
-    );
+	return (
+		<div className="text-center font-[family-name:var(--font-geist-mono)]">
+			<h1 className="text-2xl">Onko VR myöhässä?</h1>
+			{/* <h2>Tällä hetkellä myöhässä olevat junat: </h2> */}
+		</div>
+	);
 };
