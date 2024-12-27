@@ -5,10 +5,15 @@ type TrainProps = {
 };
 
 const Train = ({ train }: TrainProps) => {
+	const firstCauses = train.timeTableRows.find(
+		(row) => row.causes !== null,
+	)?.causes;
+	console.log(firstCauses);
+
 	return (
 		<div key={`train-${train.trainNumber}`} className="">
 			<div>
-				<button type="button" className="hover:text-xl">
+				<button type="button" className="">
 					{train.trainType.name}
 					{train.trainNumber}{" "}
 				</button>
