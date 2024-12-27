@@ -3,49 +3,34 @@ import { singleTrainQuery } from "./handlers/fetchSingleTrain";
 
 async function main() {
 	console.log(`Starting server at ${new Date().toString()}`);
-	const trainData = await fetchTrainsThatAreLate();
+	let trainData = await fetchTrainsThatAreLate();
 
 	const server = Bun.serve({
 		port: 8080,
+		async fetch(req) {
+			const url = new URL(req.url);
 
-		static: {
-			"/api/trains": new Response(JSON.stringify(trainData), {
-				headers: {
-					"Access-Control-Allow-Origin": "*",
-					"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-				},
-			}),
-		},
+			// Handle /api/trains endpoint
+			if (url.pathname === "/api/trains") {
+				return new Response(JSON.stringify(trainData), {
+					headers: {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*",
+						"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+					},
+				});
+			}
 
-		fetch(req) {
 			return singleTrainQuery(req);
 		},
 	});
 
-	console.log(`Server online o port ${server.port}`);
+	console.log(`Server online on port ${server.port}`);
 
-	// Update traindata every 30 seconds.
+	// Update traindata every 30 seconds
 	setInterval(async () => {
 		console.log(`Updating server ${new Date().toString()}`);
-
-		const trainData = await fetchTrainsThatAreLate();
-		console.log("new train data\n", trainData);
-
-		server.reload({
-			static: {
-				"/api/trains": new Response(JSON.stringify(trainData), {
-					headers: {
-						"Access-Control-Allow-Origin": "*",
-						"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-					},
-				}),
-			},
-
-			fetch(req) {
-				return singleTrainQuery(req);
-			},
-		});
-
+		trainData = await fetchTrainsThatAreLate();
 		console.log(`Server updated at ${new Date().toString()}`);
 	}, 30_000);
 }
