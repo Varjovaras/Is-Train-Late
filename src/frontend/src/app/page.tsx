@@ -1,4 +1,4 @@
-import { LongDistanceTrains } from "@/components/LongDistanceTrains";
+import LongDistanceTrains from "@/components/LongDistanceTrains";
 import { Title } from "@/components/Title";
 import type { Train } from "../../../types/trainTypes.ts";
 

@@ -1,14 +1,15 @@
 "use client";
 import { useState } from "react";
-import type { Train } from "../../../types/trainTypes";
+import type { Train as TrainType } from "../../../types/trainTypes";
+import Train from "./Train";
 
 type TrainProps = {
-	trains: Train[];
+	trains: TrainType[];
 };
 
-export const LongDistanceTrains = ({ trains }: TrainProps) => {
-	const [_fullData, _setFullData] = useState<Train[]>(trains);
-	const [passengerTrainData, _setPassengerTrainData] = useState<Train[]>(
+const LongDistanceTrains = ({ trains }: TrainProps) => {
+	const [_fullData, _setFullData] = useState<TrainType[]>(trains);
+	const [passengerTrainData, _setPassengerTrainData] = useState<TrainType[]>(
 		trains.map((train) => ({
 			...train,
 			timeTableRows: train.timeTableRows.filter(
@@ -20,7 +21,7 @@ export const LongDistanceTrains = ({ trains }: TrainProps) => {
 	const filteredTrains = passengerTrainData.filter(
 		(train) =>
 			train.timeTableRows[train.timeTableRows.length - 1].differenceInMinutes >
-			5,
+			2,
 	);
 
 	return (
@@ -29,26 +30,7 @@ export const LongDistanceTrains = ({ trains }: TrainProps) => {
 			<div className="grid sm:grid-cols-3 gap-4">
 				{filteredTrains.length > 0 ? (
 					filteredTrains.map((train) => (
-						<div key={`train-${train.trainNumber}`} className="">
-							<div>
-								<p>
-									{train.trainType.name}
-									{train.trainNumber}{" "}
-								</p>
-								<p>Lähtöasema: {train.timeTableRows[0].station.name}</p>
-								{train.runningCurrently}
-								{train.trainLocations.map((location) => (
-									<p key={location.speed}>{location.speed}km/h</p>
-								))}
-								<p>
-									{
-										train.timeTableRows[train.timetableType.length - 1]
-											.differenceInMinutes
-									}{" "}
-									minutes late
-								</p>
-							</div>
-						</div>
+						<Train train={train} key={train.trainNumber} />
 					))
 				) : (
 					<div className="" />
@@ -57,3 +39,5 @@ export const LongDistanceTrains = ({ trains }: TrainProps) => {
 		</div>
 	);
 };
+
+export default LongDistanceTrains;
