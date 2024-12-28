@@ -8,21 +8,22 @@ type TrainProps = {
 };
 
 const LongDistanceTrains = ({ trains }: TrainProps) => {
-	const [_fullData, _setFullData] = useState<TrainType[]>(trains);
-	const [passengerTrainData, _setPassengerTrainData] = useState<TrainType[]>(
-		trains.map((train) => ({
-			...train,
-			timeTableRows: train.timeTableRows.filter(
-				(row) => row.actualTime !== null,
-			),
-		})),
-	);
+	const [passengerTrainData, _setPassengerTrainData] =
+		useState<TrainType[]>(trains);
+	// const [filteredData, _setFilteredData] = useState<TrainType[]>(
+	// 	trains.map((train) => ({
+	// 		...train,
+	// 		timeTableRows: train.timeTableRows.filter(
+	// 			(row) => row.actualTime !== null,
+	// 		),
+	// 	})),
+	// );
 
-	const filteredTrains = passengerTrainData.filter(
-		(train) =>
-			train.timeTableRows[train.timeTableRows.length - 1].differenceInMinutes >
-			2,
-	);
+	// const filteredTrains = filteredData.filter(
+	// 	(train) =>
+	// 		train.timeTableRows[train.timeTableRows.length - 1].differenceInMinutes >
+	// 		2,
+	// );
 
 	return (
 		<div className="p-8 mx-4">
@@ -30,12 +31,10 @@ const LongDistanceTrains = ({ trains }: TrainProps) => {
 				Tällä hetkellä yli 5 minuuttia myöhässä olevat kaukojunat:{" "}
 			</h2>
 			<div className="grid sm:grid-cols-3 gap-4">
-				{filteredTrains.length > 0 ? (
-					filteredTrains.map((train) => (
-						<Train train={train} key={train.trainNumber} />
-					))
+				{trains.length > 0 ? (
+					trains.map((train) => <Train train={train} key={train.trainNumber} />)
 				) : (
-					<div className="" />
+					<div className="text-green-500">No trains late</div>
 				)}
 			</div>
 		</div>

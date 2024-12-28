@@ -5,11 +5,21 @@ type TrainProps = {
 };
 
 const Train = ({ train }: TrainProps) => {
-	console.log(train);
+	const timeTableRows = train.timeTableRows.filter((row) => {
+		return row.actualTime !== null;
+	});
+	const currentTimeDiff =
+		timeTableRows[timeTableRows.length - 1].differenceInMinutes;
+
+	if (currentTimeDiff < 5) {
+		return <></>;
+	}
+
+	const endStation =
+		train.timeTableRows[train.timeTableRows.length - 1].station.name;
 
 	const firstCauses = train.timeTableRows.find((row) => row.causes !== null)
 		?.causes?.[0];
-	console.log(firstCauses);
 
 	return (
 		<div key={`train-${train.trainNumber}`} className="">
@@ -19,17 +29,13 @@ const Train = ({ train }: TrainProps) => {
 					{train.trainNumber}{" "}
 				</button>
 				<p>Lähtöasema: {train.timeTableRows[0].station.name}</p>
-				{train.runningCurrently}
+				<p>Pääteasema: {endStation}</p>
 				{train.trainLocations.map((location) => (
-					<p key={location.speed + location.timestamp}>{location.speed}km/h</p>
+					<p key={location.speed + location.timestamp}>
+						Tämän hetkinen nopeus: {location.speed}km/h
+					</p>
 				))}
-				<p>
-					{
-						train.timeTableRows[train.timeTableRows.length - 1]
-							.differenceInMinutes
-					}{" "}
-					minutes late
-				</p>
+				<p>{currentTimeDiff} minutes late</p>
 				{firstCauses?.categoryCode && <p>{firstCauses.categoryCode.name}</p>}
 				{firstCauses?.detailedCategoryCode && (
 					<p>{firstCauses.detailedCategoryCode.name}</p>
