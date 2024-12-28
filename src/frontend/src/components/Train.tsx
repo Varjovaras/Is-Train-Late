@@ -5,9 +5,10 @@ type TrainProps = {
 };
 
 const Train = ({ train }: TrainProps) => {
-	const firstCauses = train.timeTableRows.find(
-		(row) => row.causes !== null,
-	)?.causes;
+	console.log(train);
+
+	const firstCauses = train.timeTableRows.find((row) => row.causes !== null)
+		?.causes?.[0];
 	console.log(firstCauses);
 
 	return (
@@ -29,6 +30,13 @@ const Train = ({ train }: TrainProps) => {
 					}{" "}
 					minutes late
 				</p>
+				{firstCauses?.categoryCode && <p>{firstCauses.categoryCode.name}</p>}
+				{firstCauses?.detailedCategoryCode && (
+					<p>{firstCauses.detailedCategoryCode.name}</p>
+				)}
+				{firstCauses?.thirdCategoryCode && (
+					<p>{firstCauses.thirdCategoryCode.name}</p>
+				)}
 			</div>
 		</div>
 	);

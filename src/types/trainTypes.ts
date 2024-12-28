@@ -75,19 +75,19 @@ type Station = {
 type Location = [number, number];
 type StationType = "STATION" | "STOPPING_POINT";
 
-type Causes = Cause | null;
+type Causes = Cause[] | null;
 
 type Cause = {
-	catecoryCode: CategoryCode;
-	detailedCatecoryCode: CategoryCode;
+	categoryCode: CategoryCode;
+	detailedCategoryCode: CategoryCode;
 	thirdCategoryCode: CategoryCode;
 };
 
 type CategoryCode = {
 	code: string;
 	name: string;
-	validFrom: Date;
-	validTo: Date;
+	validFrom: string;
+	validTo: string | null;
 };
 
 type TrainTrackingMessage = {
