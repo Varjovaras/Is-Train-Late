@@ -10,20 +10,6 @@ type TrainProps = {
 const LongDistanceTrains = ({ trains }: TrainProps) => {
 	const [passengerTrainData, _setPassengerTrainData] =
 		useState<TrainType[]>(trains);
-	// const [filteredData, _setFilteredData] = useState<TrainType[]>(
-	// 	trains.map((train) => ({
-	// 		...train,
-	// 		timeTableRows: train.timeTableRows.filter(
-	// 			(row) => row.actualTime !== null,
-	// 		),
-	// 	})),
-	// );
-
-	// const filteredTrains = filteredData.filter(
-	// 	(train) =>
-	// 		train.timeTableRows[train.timeTableRows.length - 1].differenceInMinutes >
-	// 		2,
-	// );
 
 	return (
 		<div className="p-8 mx-4">

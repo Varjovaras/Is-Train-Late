@@ -22,7 +22,10 @@ const Train = ({ train }: TrainProps) => {
 		?.causes?.[0];
 
 	return (
-		<div key={`train-${train.trainNumber}`} className="">
+		<div
+			key={`train-${train.trainNumber}`}
+			className="border border-dashed border-red-600 p-4"
+		>
 			<div>
 				<button type="button" className="">
 					{train.trainType.name}
@@ -35,7 +38,8 @@ const Train = ({ train }: TrainProps) => {
 						Tämän hetkinen nopeus: {location.speed}km/h
 					</p>
 				))}
-				<p>{currentTimeDiff} minutes late</p>
+				<p>{currentTimeDiff} minuuttia myöhässä</p>
+				<p>____</p>
 				{firstCauses?.categoryCode && <p>{firstCauses.categoryCode.name}</p>}
 				{firstCauses?.detailedCategoryCode && (
 					<p>{firstCauses.detailedCategoryCode.name}</p>
