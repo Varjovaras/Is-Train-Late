@@ -40,12 +40,14 @@ const Train = ({ train }: TrainProps) => {
 				))}
 				<p>{currentTimeDiff} minuuttia myöhässä</p>
 				<p>____</p>
-				{firstCauses?.categoryCode && <p>{firstCauses.categoryCode.name}</p>}
+				{firstCauses?.categoryCode && (
+					<p>categoryCode: {firstCauses.categoryCode.name}</p>
+				)}
 				{firstCauses?.detailedCategoryCode && (
-					<p>{firstCauses.detailedCategoryCode.name}</p>
+					<p>detailedCategoryCode: {firstCauses.detailedCategoryCode.name}</p>
 				)}
 				{firstCauses?.thirdCategoryCode && (
-					<p>{firstCauses.thirdCategoryCode.name}</p>
+					<p>thirdCategoryCode: {firstCauses.thirdCategoryCode.name}</p>
 				)}
 			</div>
 		</div>
