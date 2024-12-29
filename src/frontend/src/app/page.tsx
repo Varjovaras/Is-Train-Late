@@ -11,9 +11,7 @@ const API_URL = `${BACKEND_URL?.replace(/\/+$/, "")}/api/trains`;
 
 export default async function Home() {
 	try {
-		const res = await fetch(API_URL, {
-			next: { revalidate: 60 },
-		});
+		const res = await fetch(API_URL);
 
 		if (!res.ok) {
 			throw new Error(`HTTP error! status: ${res.status}`);

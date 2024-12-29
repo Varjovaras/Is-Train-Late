@@ -1,14 +1,13 @@
 import { fetchData } from "./dataFetcher";
 
-export const singleTrainQuery = (req: Request) => {
-	const url = new URL(req.url);
+export const singleTrainQuery = (url: URL) => {
 	if (url.pathname.startsWith("/api/train/")) {
-		return singleTrainResponse(req.url);
+		return singleTrainResponse(url);
 	}
 	return new Response("404!", { status: 404 });
 };
 
-async function singleTrainResponse(url: string) {
+async function singleTrainResponse(url: URL) {
 	const urlPath = new URL(url).pathname;
 	const trainNumber = urlPath.split("/").pop();
 	if (!trainNumber) {

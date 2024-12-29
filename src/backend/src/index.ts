@@ -1,5 +1,6 @@
-import { fetchTrainsThatAreLate } from "./handlers/fetchLateTrains";
+import { lateTrainQuery } from "./handlers/fetchLateTrains";
 import { singleTrainQuery } from "./handlers/fetchSingleTrain";
+import { notFound } from "./handlers/notFound";
 
 async function main() {
 	console.log(`Starting server at ${new Date().toString()}`);
@@ -8,31 +9,22 @@ async function main() {
 		port: 8080,
 		async fetch(req) {
 			const url = new URL(req.url);
-
 			if (url.pathname === "/api/trains") {
-				const trainData = await fetchTrainsThatAreLate();
-
-				return new Response(JSON.stringify(trainData), {
-					headers: {
-						"Content-Type": "application/json",
-						"Access-Control-Allow-Origin": "*",
-						"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-					},
-				});
+				return lateTrainQuery();
 			}
-
-			return singleTrainQuery(req);
+			if (url.pathname.startsWith("/api/train/")) {
+				return singleTrainQuery(url);
+			}
+			return notFound();
 		},
 	});
 
 	console.log(`Server online on port ${server.port}`);
 
-	// Update traindata every 30 seconds
-	// setInterval(async () => {
-	// 	console.log(`Updating server ${new Date().toString()}`);
-	// 	trainData = await fetchTrainsThatAreLate();
-	// 	console.log(`Server updated at ${new Date().toString()}`);
-	// }, 30_000);
+	//Update traindata every 60 seconds
+	setInterval(async () => {
+		console.log(`Server online at ${new Date().toString()}`);
+	}, 60_000);
 }
 
 main();
