@@ -3,7 +3,6 @@ import { singleTrainQuery } from "./handlers/fetchSingleTrain";
 
 async function main() {
 	console.log(`Starting server at ${new Date().toString()}`);
-	let trainData = await fetchTrainsThatAreLate();
 
 	const server = Bun.serve({
 		port: 8080,
@@ -11,6 +10,8 @@ async function main() {
 			const url = new URL(req.url);
 
 			if (url.pathname === "/api/trains") {
+				const trainData = await fetchTrainsThatAreLate();
+
 				return new Response(JSON.stringify(trainData), {
 					headers: {
 						"Content-Type": "application/json",
@@ -27,11 +28,11 @@ async function main() {
 	console.log(`Server online on port ${server.port}`);
 
 	// Update traindata every 30 seconds
-	setInterval(async () => {
-		console.log(`Updating server ${new Date().toString()}`);
-		trainData = await fetchTrainsThatAreLate();
-		console.log(`Server updated at ${new Date().toString()}`);
-	}, 30_000);
+	// setInterval(async () => {
+	// 	console.log(`Updating server ${new Date().toString()}`);
+	// 	trainData = await fetchTrainsThatAreLate();
+	// 	console.log(`Server updated at ${new Date().toString()}`);
+	// }, 30_000);
 }
 
 main();
