@@ -36,7 +36,7 @@ export async function fetchData(query: string): Promise<Train[]> {
 	return filteredTrains;
 }
 
-function filterUnwantedTraintypes(trains: Train[]): Train[] {
+export function filterUnwantedTraintypes(trains: Train[]): Train[] {
 	const filteredTrains = trains.filter(
 		(train) =>
 			!unwantedTrainTypeNames.includes(
@@ -44,5 +44,5 @@ function filterUnwantedTraintypes(trains: Train[]): Train[] {
 			),
 	);
 
-	return trains;
+	return filteredTrains;
 }
