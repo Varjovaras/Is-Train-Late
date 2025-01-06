@@ -8,7 +8,10 @@
 		"backend:install": "cd src/backend && bun install",
 		"frontend:start": "cd src/frontend && bun start",
 		"frontend:dev": "cd src/frontend && bun dev",
-		"frontend:build": "cd src/frontend && bun run build"
+		"frontend:build": "cd src/frontend && bun run build",
+		"frontend:format": "cd src/frontend && bun format",
+		"frontend:check": "cd src/frontend && bun check",
+		"frontend:lint": "cd src/frontend && bun lint"
 	},
 	"devDependencies": {
 		"@types/bun": "latest"

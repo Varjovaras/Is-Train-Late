@@ -1,14 +1,7 @@
 import LongDistanceTrains from "@/components/LongDistanceTrains";
-import { Title } from "@/components/Title";
 import { passengerQuery } from "@/queries/passengerQuery";
-import type { Train, TrainResponse } from "../../../types/trainTypes.ts";
+import type { TrainResponse } from "../../../types/trainTypes.ts";
 
-// const BACKEND_URL =
-// 	process.env.NODE_ENV === "development"
-// 		? process.env.NEXT_PUBLIC_DEV_SERVER_URL
-// 		: process.env.NEXT_PUBLIC_PROD_SERVER_URL;
-
-// const API_URL = `${BACKEND_URL?.replace(/\/+$/, "")}/api/trains`;
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
 export default async function Home() {
