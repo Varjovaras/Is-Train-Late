@@ -15,7 +15,7 @@ const Train = ({ train }: TrainProps) => {
 	const currentTimeDiff =
 		timeTableRows[timeTableRows.length - 1].differenceInMinutes;
 
-	if (currentTimeDiff < 1) {
+	if (currentTimeDiff < 5) {
 		return <></>;
 	}
 
@@ -28,20 +28,24 @@ const Train = ({ train }: TrainProps) => {
 	return (
 		<div
 			key={`train-${train.trainNumber}`}
-			className="border border-dashed border-red-600 p-4"
+			className="border border-double border-red-600 p-4"
 		>
 			<div>
 				<button
 					type="button"
 					onClick={() => setIsExpanded(!isExpanded)}
-					className="w-full text-left flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded transition-colors"
+					className="w-full text-left flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded transition-colors duration-200"
 				>
 					<span>
 						{train.commuterLineid !== ""
 							? train.commuterLineid
 							: train.trainType.name + train.trainNumber}
 					</span>
-					<span className="text-sm">{isExpanded ? "▼" : "▶"}</span>
+					<span
+						className={`transform transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+					>
+						▼
+					</span>
 				</button>
 
 				<div className="mt-2">
@@ -50,7 +54,10 @@ const Train = ({ train }: TrainProps) => {
 					<p>{currentTimeDiff} minuuttia myöhässä</p>
 				</div>
 
-				{isExpanded && (
+				<div
+					className={`overflow-hidden transition-all duration-200 ease-in-out
+            ${isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
+				>
 					<div className="mt-4 pl-2 border-l-2 border-gray-300">
 						{train.trainLocations.map((location) => (
 							<p key={location.speed + location.timestamp}>
@@ -68,7 +75,7 @@ const Train = ({ train }: TrainProps) => {
 							<p>Lisätieto: {firstCauses.thirdCategoryCode.name}</p>
 						)}
 					</div>
-				)}
+				</div>
 			</div>
 		</div>
 	);
