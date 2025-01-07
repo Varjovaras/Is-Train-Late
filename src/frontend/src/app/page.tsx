@@ -1,3 +1,4 @@
+import CommuterTrains from "@/components/CommuterTrains";
 import LongDistanceTrains from "@/components/LongDistanceTrains";
 import { passengerQuery } from "@/queries/passengerQuery";
 import type { TrainResponse } from "../../../types/trainTypes.ts";
@@ -17,24 +18,31 @@ export default async function Home() {
 	});
 
 	if (!res.ok) {
-		throw new Error(`HTTP error! status: ${res.status}`);
+		throw new Error(
+			`Train data not available. HTTP error! status: ${res.status}`,
+		);
 	}
 
 	const trainResponse: TrainResponse = await res.json();
 
 	const passengerTrainData = trainResponse.data.currentlyRunningTrains;
 
-	const longDistanceTrains = passengerTrainData.filter(
+	const lateTrainData = passengerTrainData.filter((train) =>
+		train.timeTableRows.some((row) => row.causes !== null),
+	);
+
+	const longDistanceTrains = lateTrainData.filter(
 		(train) => train.commuterLineid === "",
 	);
 
-	const lateTrainData = longDistanceTrains.filter((train) =>
-		train.timeTableRows.some((row) => row.causes !== null),
+	const commuterTrains = lateTrainData.filter(
+		(train) => train.commuterLineid !== "",
 	);
 
 	return (
 		<div className="flex flex-col gap-2 row-start-2 items-center justify-items-center">
-			<LongDistanceTrains trains={lateTrainData} />
+			<LongDistanceTrains trains={longDistanceTrains} />
+			<CommuterTrains trains={commuterTrains} />
 		</div>
 	);
 }

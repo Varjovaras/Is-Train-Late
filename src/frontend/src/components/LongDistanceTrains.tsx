@@ -1,5 +1,3 @@
-// "use client";
-// import { useState } from "react";
 import type { Train as TrainType } from "../../../types/trainTypes";
 import Train from "./Train";
 
@@ -8,9 +6,6 @@ type TrainProps = {
 };
 
 const LongDistanceTrains = ({ trains }: TrainProps) => {
-	// const [passengerTrainData, _setPassengerTrainData] =
-	// 	useState<TrainType[]>(trains);
-
 	return (
 		<div className="p-8 mx-4">
 			<h2 className="pb-4 text-left text-xl">
