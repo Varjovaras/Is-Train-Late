@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import type { Train as TrainType } from "../../../types/trainTypes";
 
 type TrainProps = {
@@ -5,13 +7,15 @@ type TrainProps = {
 };
 
 const Train = ({ train }: TrainProps) => {
+	const [isExpanded, setIsExpanded] = useState(false);
+
 	const timeTableRows = train.timeTableRows.filter((row) => {
 		return row.actualTime !== null;
 	});
 	const currentTimeDiff =
 		timeTableRows[timeTableRows.length - 1].differenceInMinutes;
 
-	if (currentTimeDiff < 5) {
+	if (currentTimeDiff < 1) {
 		return <></>;
 	}
 
@@ -27,27 +31,43 @@ const Train = ({ train }: TrainProps) => {
 			className="border border-dashed border-red-600 p-4"
 		>
 			<div>
-				<button type="button" className="">
-					{train.trainType.name}
-					{train.trainNumber}{" "}
+				<button
+					type="button"
+					onClick={() => setIsExpanded(!isExpanded)}
+					className="w-full text-left flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded transition-colors"
+				>
+					<span>
+						{train.commuterLineid !== ""
+							? train.commuterLineid
+							: train.trainType.name + train.trainNumber}
+					</span>
+					<span className="text-sm">{isExpanded ? "▼" : "▶"}</span>
 				</button>
-				<p>Lähtöasema: {train.timeTableRows[0].station.name}</p>
-				<p>Pääteasema: {endStation}</p>
-				{train.trainLocations.map((location) => (
-					<p key={location.speed + location.timestamp}>
-						Tämän hetkinen nopeus: {location.speed}km/h
-					</p>
-				))}
-				<p>{currentTimeDiff} minuuttia myöhässä</p>
-				<p>____</p>
-				{firstCauses?.categoryCode && (
-					<p>categoryCode: {firstCauses.categoryCode.name}</p>
-				)}
-				{firstCauses?.detailedCategoryCode && (
-					<p>detailedCategoryCode: {firstCauses.detailedCategoryCode.name}</p>
-				)}
-				{firstCauses?.thirdCategoryCode && (
-					<p>thirdCategoryCode: {firstCauses.thirdCategoryCode.name}</p>
+
+				<div className="mt-2">
+					<p>Lähtöasema: {train.timeTableRows[0].station.name}</p>
+					<p>Pääteasema: {endStation}</p>
+					<p>{currentTimeDiff} minuuttia myöhässä</p>
+				</div>
+
+				{isExpanded && (
+					<div className="mt-4 pl-2 border-l-2 border-gray-300">
+						{train.trainLocations.map((location) => (
+							<p key={location.speed + location.timestamp}>
+								Tämän hetkinen nopeus: {location.speed}km/h
+							</p>
+						))}
+						<p className="mt-2 font-semibold">Myöhästymisen syyt:</p>
+						{firstCauses?.categoryCode && (
+							<p>Kategoria: {firstCauses.categoryCode.name}</p>
+						)}
+						{firstCauses?.detailedCategoryCode && (
+							<p>Tarkempi syy: {firstCauses.detailedCategoryCode.name}</p>
+						)}
+						{firstCauses?.thirdCategoryCode && (
+							<p>Lisätieto: {firstCauses.thirdCategoryCode.name}</p>
+						)}
+					</div>
 				)}
 			</div>
 		</div>
