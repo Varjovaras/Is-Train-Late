@@ -19,6 +19,7 @@ const Train = ({ train }: TrainProps) => {
 		return <></>;
 	}
 
+	const startStation = train.timeTableRows[0].station.name;
 	const endStation =
 		train.timeTableRows[train.timeTableRows.length - 1].station.name;
 
@@ -49,7 +50,7 @@ const Train = ({ train }: TrainProps) => {
 				</button>
 
 				<div className="mt-2">
-					<p>Lähtöasema: {train.timeTableRows[0].station.name}</p>
+					<p>Lähtöasema: {startStation}</p>
 					<p>Pääteasema: {endStation}</p>
 					<p>{currentTimeDiff} minuuttia myöhässä</p>
 				</div>

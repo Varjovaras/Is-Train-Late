@@ -40,7 +40,7 @@ export default async function Home() {
 	);
 
 	return (
-		<div className="flex flex-col gap-2 row-start-2 items-center justify-items-center">
+		<div className="flex flex-col gap-2 row-start-2 items-center justify-items-center p-8">
 			<LongDistanceTrains trains={longDistanceTrains} />
 			<CommuterTrains trains={commuterTrains} />
 		</div>
