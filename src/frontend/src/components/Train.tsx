@@ -28,7 +28,7 @@ const Train = ({ train }: TrainProps) => {
 	const firstCauses = train.timeTableRows.find((row) => row.causes !== null)
 		?.causes?.[0];
 
-	function handleViewDetails(e: React.MouseEvent) {
+	function handleViewDetails(_e: React.MouseEvent) {
 		router.push(`/train/${train.trainNumber}`);
 	}
 
