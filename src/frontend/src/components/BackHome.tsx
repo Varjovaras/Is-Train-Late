@@ -1,8 +1,12 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export const BackHome = () => {
 	const router = useRouter();
+	const pathname = usePathname();
+	console.log(pathname);
+
+	const text = pathname !== "/" ? "← Back to Home" : "Refresh train data";
 
 	const handleClick = () => {
 		router.refresh(); // Refresh the current route's data
@@ -15,7 +19,7 @@ export const BackHome = () => {
 			onClick={handleClick}
 			className="absolute top-4 left-4 px-4 py-2 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
 		>
-			← Back to Home
+			{text}
 		</button>
 	);
 };
