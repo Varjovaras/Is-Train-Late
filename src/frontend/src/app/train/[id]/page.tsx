@@ -1,3 +1,4 @@
+import StatusItem from "@/components/StatusItem";
 import { getSingleTrainQuery } from "@/queries/singleTrainQuery";
 import type { TrainResponse } from "../../../../../types/trainTypes";
 
@@ -50,34 +51,77 @@ export default async function Page({
 		(row) => row.causes !== null,
 	);
 
-	console.log(timeTablesWithCauses);
-
 	return (
-		<div className="flex flex-col gap-2 row-start-2 items-center justify-items-center p-8">
-			My Train: {train.trainNumber}
-			<p>{train.commuterLineid}</p>
-			<p>{train.departureDate.toString()}</p>
-			<p>{train.runningCurrently}</p>
-			<p>{startStation}</p>
-			<p>{endStation}</p>
-			{timeTablesWithCauses.map((timeTableRow) => {
-				return (
-					<div key={timeTableRow.actualTime.toString()}>
-						{timeTableRow.causes?.map((cause) => {
-							return (
+		<div className="max-w-3xl mx-auto">
+			<div className="mb-8 text-center mt-2">
+				<div className="text-4xl font-bold mb-2">
+					{train.commuterLineid ||
+						`${train.trainType.name} ${train.trainNumber}`}
+				</div>
+				<div className="text-xl text-foreground/70">
+					{startStation} → {endStation}
+				</div>
+			</div>
+
+			{/* Status Card */}
+			<div className="bg-foreground/5 rounded-lg p-6 mb-8">
+				<div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+					<StatusItem
+						label="Departure Date"
+						value={new Date(train.departureDate).toLocaleDateString()}
+					/>
+					<StatusItem
+						label="Status"
+						value={train.runningCurrently ? "En Route" : "Not Running"}
+						valueClassName={
+							train.runningCurrently ? "text-green-500" : "text-red-500"
+						}
+					/>
+					<StatusItem
+						label="Delay"
+						value={`${currentTimeDiff} minutes`}
+						valueClassName="text-red-500"
+					/>
+				</div>
+			</div>
+
+			{/* Delay Causes Section */}
+			<div className="mb-8">
+				<h2 className="text-2xl font-semibold mb-4">Delay Information</h2>
+				<div className="space-y-4">
+					{timeTablesWithCauses.map((timeTableRow) => (
+						<div
+							key={timeTableRow.actualTime?.toString()}
+							className="bg-foreground/5 rounded-lg p-4"
+						>
+							<div className="mb-2">
+								<span className="font-semibold">Station: </span>
+								{timeTableRow.station.name}
+							</div>
+							{timeTableRow.causes?.map((cause) => (
 								<div
 									key={cause.categoryCode.name + cause.categoryCode.validFrom}
+									className="ml-4 space-y-1"
 								>
-									{cause.categoryCode.name}
-									{cause.detailedCategoryCode.name}
-									{cause.thirdCategoryCode.name}
+									<CauseItem label="Category" value={cause.categoryCode.name} />
+									{cause.detailedCategoryCode && (
+										<CauseItem
+											label="Details"
+											value={cause.detailedCategoryCode.name}
+										/>
+									)}
+									{cause.thirdCategoryCode && (
+										<CauseItem
+											label="Additional Info"
+											value={cause.thirdCategoryCode.name}
+										/>
+									)}
 								</div>
-							);
-						})}
-					</div>
-				);
-			})}
-			<div>{currentTimeDiff} minuuttia myöhässä</div>
+							))}
+						</div>
+					))}
+				</div>
+			</div>
 		</div>
 	);
 }

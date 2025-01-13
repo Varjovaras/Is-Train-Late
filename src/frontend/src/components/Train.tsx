@@ -29,7 +29,6 @@ const Train = ({ train }: TrainProps) => {
 		?.causes?.[0];
 
 	function handleViewDetails(e: React.MouseEvent) {
-		e.stopPropagation(); // Prevent the expand/collapse from triggering
 		router.push(`/train/${train.trainNumber}`);
 	}
 
