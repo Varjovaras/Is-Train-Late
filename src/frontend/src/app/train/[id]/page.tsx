@@ -1,3 +1,4 @@
+import CauseItem from "@/components/CauseItem";
 import StatusItem from "@/components/StatusItem";
 import { getSingleTrainQuery } from "@/queries/singleTrainQuery";
 import type { TrainResponse } from "../../../../../types/trainTypes";
