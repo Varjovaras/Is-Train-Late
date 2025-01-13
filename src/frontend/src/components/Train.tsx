@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { Train as TrainType } from "../../../types/trainTypes";
 
@@ -8,6 +9,7 @@ type TrainProps = {
 
 const Train = ({ train }: TrainProps) => {
 	const [isExpanded, setIsExpanded] = useState(false);
+	const router = useRouter();
 
 	const timeTableRows = train.timeTableRows.filter((row) => {
 		return row.actualTime !== null;
@@ -25,6 +27,11 @@ const Train = ({ train }: TrainProps) => {
 
 	const firstCauses = train.timeTableRows.find((row) => row.causes !== null)
 		?.causes?.[0];
+
+	function handleViewDetails(e: React.MouseEvent) {
+		e.stopPropagation(); // Prevent the expand/collapse from triggering
+		router.push(`/train/${train.trainNumber}`);
+	}
 
 	return (
 		<div
@@ -75,6 +82,14 @@ const Train = ({ train }: TrainProps) => {
 						{firstCauses?.thirdCategoryCode && (
 							<p>Lisätieto: {firstCauses.thirdCategoryCode.name}</p>
 						)}
+						<button
+							type="button"
+							onClick={handleViewDetails}
+							className="mt-4 px-4 py-2 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
+						>
+							Junan {train.trainType.name}
+							{train.trainNumber} lisätiedot →
+						</button>
 					</div>
 				</div>
 			</div>
