@@ -1,6 +1,6 @@
 import CommuterTrains from "@/components/CommuterTrains";
 import LongDistanceTrains from "@/components/LongDistanceTrains";
-import { passengerQuery } from "@/queries/passengerQuery";
+import { passengerQuery } from "../../../queries/passengerQuery";
 import type { TrainResponse } from "../../../types/trainTypes.ts";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
@@ -13,7 +13,7 @@ export default async function Home() {
 			"Accept-Encoding": "gzip",
 		},
 		body: JSON.stringify({
-			query: passengerQuery,
+			passengerQuery,
 		}),
 	});
 
