@@ -31,14 +31,12 @@ export default async function Page({
 	}
 
 	const trainResponse: TrainResponse = await res.json();
-	console.log(trainResponse);
 
 	if (trainResponse.data.currentlyRunningTrains.length > 1) {
 		return <div>Got multiple trains from query</div>;
 	}
 
 	const train = trainResponse.data.currentlyRunningTrains[0];
-	console.log(train);
 
 	if (train.timeTableRows.length === 0) {
 		return <div>123</div>;
