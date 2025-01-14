@@ -8,8 +8,15 @@ export const BackHome = () => {
 	const text = pathname !== "/" ? "← Back to Home" : "Refresh train data";
 
 	const handleClick = () => {
-		router.refresh(); // Refresh the current route's data
-		router.push("/"); // Navigate to home
+		if (pathname === "/") {
+			console.log("Refresh data");
+
+			window.location.reload();
+		} else {
+			console.log("Go to home page");
+
+			router.push("/"); // Navigate to home for other pages
+		}
 	};
 
 	return (
