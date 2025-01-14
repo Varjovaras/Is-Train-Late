@@ -11,6 +11,8 @@ const Train = ({ train }: TrainProps) => {
 	const [isExpanded, setIsExpanded] = useState(false);
 	const router = useRouter();
 
+	console.log(train);
+
 	const timeTableRows = train.timeTableRows.filter((row) => {
 		return row.actualTime !== null;
 	});

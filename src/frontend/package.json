@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "next dev --turbopack --port 5173",
 		"build": "next build",
-		"start": "next start",
+		"start": "next start --port 5173",
 		"lint": "biome lint --write .",
 		"check": "biome check .",
 		"format": "biome format --write .",

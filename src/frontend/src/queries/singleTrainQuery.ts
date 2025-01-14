@@ -8,7 +8,7 @@ export function getSingleTrainQuery(trainNumber: string) {
 }
 const singleTrainQuery = `{
       currentlyRunningTrains(
-        where: {and: [{operator: {shortCode: {equals: "vr"}}}, {trainNumber: {equals: 23}}]}
+        where: {and: [{operator: {shortCode: {equals: "vr"}}}, {trainNumber: {equals: XYZ}}]}
       ) {
         cancelled
         commuterLineid

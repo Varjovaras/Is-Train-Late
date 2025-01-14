@@ -12,6 +12,7 @@ export default async function Page({
 }) {
 	const id = (await params).id;
 	const singleTrainQuery = getSingleTrainQuery(id);
+	console.log(singleTrainQuery);
 
 	const res = await fetch(GRAPHQL_ENDPOINT, {
 		method: "POST",
@@ -36,11 +37,17 @@ export default async function Page({
 	if (trainResponse.data.currentlyRunningTrains.length > 1) {
 		return <div>Got multiple trains from query</div>;
 	}
-	const train = trainResponse.data.currentlyRunningTrains[0];
 
+	const train = trainResponse.data.currentlyRunningTrains[0];
+	console.log(train);
+
+	if (train.timeTableRows.length === 0) {
+		return <div>123</div>;
+	}
 	const timeTableRows = train.timeTableRows.filter((row) => {
 		return row.actualTime !== null;
 	});
+
 	const currentTimeDiff =
 		timeTableRows[timeTableRows.length - 1].differenceInMinutes;
 

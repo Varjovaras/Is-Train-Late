@@ -4,7 +4,6 @@ import { usePathname, useRouter } from "next/navigation";
 export const BackHome = () => {
 	const router = useRouter();
 	const pathname = usePathname();
-	console.log(pathname);
 
 	const text = pathname !== "/" ? "← Back to Home" : "Refresh train data";
 
