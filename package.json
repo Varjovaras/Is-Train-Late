@@ -9,6 +9,7 @@
 		"frontend:start": "cd src/frontend && bun start",
 		"frontend:dev": "cd src/frontend && bun dev",
 		"frontend:build": "cd src/frontend && bun run build",
+		"frontend:install": "cd src/frontend && bun  install",
 		"frontend:format": "cd src/frontend && bun format",
 		"frontend:check": "cd src/frontend && bun check",
 		"frontend:lint": "cd src/frontend && bun lint"
