@@ -1,6 +1,6 @@
 import CauseItem from "@/components/CauseItem";
 import StatusItem from "@/components/StatusItem";
-import { getSingleTrainQuery } from "@/queries/singleTrainQuery";
+import { getSingleTrainQuery } from "../../../../../queries/singleTrainQuery";
 import type { TrainResponse } from "../../../../../types/trainTypes";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
