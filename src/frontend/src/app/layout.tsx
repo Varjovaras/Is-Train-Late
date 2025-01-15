@@ -4,6 +4,8 @@ import "./globals.css";
 import { BackHome } from "@/components/BackHome";
 import { Footer } from "@/components/Footer";
 import { Title } from "@/components/Title";
+import FindTrain from "@/components/FindTrain";
+import TopBar from "@/components/TopBar";
 
 const geistSans = localFont({
 	src: "./fonts/GeistVF.woff",
@@ -34,11 +36,13 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-mono)] flex flex-col items-center">
-					<BackHome />
-					<Title />
-					<main className="">{children}</main>
-					<Footer />
+				<div className="font-[family-name:var(--font-geist-mono)]">
+					<TopBar />
+					<div className="min-h-screen p-20 pb-20 flex flex-col items-center">
+						<Title />
+						<main className="">{children}</main>
+						<Footer />
+					</div>
 				</div>
 			</body>
 		</html>

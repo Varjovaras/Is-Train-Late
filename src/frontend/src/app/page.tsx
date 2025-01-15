@@ -2,6 +2,7 @@ import CommuterTrains from "@/components/CommuterTrains";
 import LongDistanceTrains from "@/components/LongDistanceTrains";
 import { passengerQuery } from "@/queries/passengerQuery";
 import type { TrainResponse } from "../../../types/trainTypes.ts";
+import FindTrain from "@/components/FindTrain";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
@@ -40,7 +41,7 @@ export default async function Home() {
 	);
 
 	return (
-		<div className="flex flex-col gap-2 row-start-2 items-center justify-items-center">
+		<div className="flex flex-col items-center justify-items-center">
 			<LongDistanceTrains trains={longDistanceTrains} />
 			<CommuterTrains trains={commuterTrains} />
 		</div>
