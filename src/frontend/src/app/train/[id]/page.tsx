@@ -36,11 +36,16 @@ export default async function Page({
 		return <div>Got multiple trains from query</div>;
 	}
 
+	if (trainResponse.data.currentlyRunningTrains.length === 0) {
+		return (
+			<h1 className="p-8 text-xl text-red-500">
+				Ei löytynyt junaa numerolla {id}
+			</h1>
+		);
+	}
+
 	const train = trainResponse.data.currentlyRunningTrains[0];
 
-	if (train.timeTableRows.length === 0) {
-		return <div>123</div>;
-	}
 	const timeTableRows = train.timeTableRows.filter((row) => {
 		return row.actualTime !== null;
 	});

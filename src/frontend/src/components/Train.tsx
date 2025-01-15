@@ -11,6 +11,10 @@ const Train = ({ train }: TrainProps) => {
 	const [isExpanded, setIsExpanded] = useState(false);
 	const router = useRouter();
 
+	if (!train) {
+		return <div>trolled :D</div>;
+	}
+
 	const timeTableRows = train.timeTableRows.filter((row) => {
 		return row.actualTime !== null;
 	});
@@ -63,7 +67,7 @@ const Train = ({ train }: TrainProps) => {
 
 				<div
 					className={`overflow-hidden transition-all duration-200 ease-in-out
-            ${isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
+            ${isExpanded ? "max-h-full opacity-100" : "max-h-0 opacity-0"}`}
 				>
 					<div className="mt-4 pl-2 border-l-2 border-gray-300">
 						{train.trainLocations.map((location) => (
@@ -71,16 +75,13 @@ const Train = ({ train }: TrainProps) => {
 								Tämän hetkinen nopeus: {location.speed}km/h
 							</p>
 						))}
-						<p className="mt-2 font-semibold">Myöhästymisen syyt:</p>
+						<p className="mt-2">Myöhästymisen syyt:</p>
 						{firstCauses?.categoryCode && (
-							<p>Kategoria: {firstCauses.categoryCode.name}</p>
+							<p className="text-sm">
+								Kategoria: {firstCauses.categoryCode.name}
+							</p>
 						)}
-						{firstCauses?.detailedCategoryCode && (
-							<p>Tarkempi syy: {firstCauses.detailedCategoryCode.name}</p>
-						)}
-						{firstCauses?.thirdCategoryCode && (
-							<p>Lisätieto: {firstCauses.thirdCategoryCode.name}</p>
-						)}
+
 						<button
 							type="button"
 							onClick={handleViewDetails}
