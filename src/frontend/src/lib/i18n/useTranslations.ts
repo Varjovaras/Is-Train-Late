@@ -14,7 +14,7 @@ export const useTranslations = () => {
 	}, []);
 
 	return {
-		text: translations[lang],
+		translations: translations[lang],
 		currentLang: lang,
 	};
 };

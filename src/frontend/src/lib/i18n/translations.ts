@@ -8,6 +8,8 @@ export const translations = {
 		findTrain: "Etsi juna",
 		enterTrainNumber: "Syötä junan numero",
 		viewDetails: "Katso lisätiedot",
+		refreshTrainData: "Päivitä junien tiedot",
+		backHome: "← Takaisin etusivulle",
 	},
 	en: {
 		title: "Is VR Late?",
@@ -17,5 +19,7 @@ export const translations = {
 		findTrain: "Find Train",
 		enterTrainNumber: "Enter train number",
 		viewDetails: "View details",
+		refreshTrainData: "Refresh train data",
+		backHome: "← Back to Home",
 	},
 } as const;

@@ -1,11 +1,15 @@
 "use client";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 import { usePathname, useRouter } from "next/navigation";
 
 export const BackHome = () => {
 	const router = useRouter();
 	const pathname = usePathname();
 
-	const text = pathname !== "/" ? "← Back to Home" : "Refresh train data";
+	const { translations } = useTranslations();
+
+	const buttonText =
+		pathname !== "/" ? translations.backHome : translations.refreshTrainData;
 
 	const handleClick = () => {
 		if (pathname === "/") {
@@ -23,7 +27,7 @@ export const BackHome = () => {
 			onClick={handleClick}
 			className="top-4 left-4 px-4 py-2 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
 		>
-			{text}
+			{buttonText}
 		</button>
 	);
 };

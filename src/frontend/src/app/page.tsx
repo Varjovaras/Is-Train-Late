@@ -1,8 +1,8 @@
 import CommuterTrains from "@/components/CommuterTrains";
+import FindTrain from "@/components/FindTrain";
 import LongDistanceTrains from "@/components/LongDistanceTrains";
 import { passengerQuery } from "@/queries/passengerQuery";
 import type { TrainResponse } from "../../../types/trainTypes.ts";
-import FindTrain from "@/components/FindTrain";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
