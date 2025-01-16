@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { Train as TrainType } from "../../../types/trainTypes";
@@ -10,10 +11,10 @@ type TrainProps = {
 const Train = ({ train }: TrainProps) => {
 	const [isExpanded, setIsExpanded] = useState(false);
 	const router = useRouter();
-
-	if (!train) {
-		return <div>trolled :D</div>;
-	}
+	const { translations } = useTranslations();
+	const minutesLateText = translations.minutesLate;
+	const departureStationText = translations.departureStation;
+	const endStationText = translations.endStation;
 
 	const timeTableRows = train.timeTableRows.filter((row) => {
 		return row.actualTime !== null;
@@ -25,7 +26,7 @@ const Train = ({ train }: TrainProps) => {
 		return <></>;
 	}
 
-	const startStation = train.timeTableRows[0].station.name;
+	const departureStation = train.timeTableRows[0].station.name;
 	const endStation =
 		train.timeTableRows[train.timeTableRows.length - 1].station.name;
 
@@ -60,9 +61,16 @@ const Train = ({ train }: TrainProps) => {
 				</button>
 
 				<div className="mt-2">
-					<p>Lähtöasema: {startStation}</p>
-					<p>Pääteasema: {endStation}</p>
-					<p>{currentTimeDiff} minuuttia myöhässä</p>
+					<p>
+						{departureStationText} {departureStation}
+					</p>
+					<p>
+						{endStationText} {endStation}
+					</p>
+					<p className="">
+						<span className="text-red-500 font-bold">{currentTimeDiff}</span>{" "}
+						<span className="">{minutesLateText}</span>
+					</p>
 				</div>
 
 				<div

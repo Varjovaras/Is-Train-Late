@@ -12,6 +12,9 @@ export const translations = {
 		backHome: "← Takaisin etusivulle",
 		trainNumber: "Junan numero",
 		trainNumberFormPlaceHolder: "Syötä junan numero",
+		minutesLate: "minuuttia myöhässä",
+		departureStation: "Lähtöasema:",
+		endStation: "Pääteasema:",
 	},
 	en: {
 		title: "Is VR Late?",
@@ -25,5 +28,10 @@ export const translations = {
 		backHome: "← Back to Home",
 		trainNumber: "Train number",
 		trainNumberFormPlaceHolder: "Enter train number",
+		minutesLate: "minutes late",
+		departureStation: "Departure station:",
+		endStation: "End station:",
 	},
 } as const;
+
+export type Translations = (typeof translations)[keyof typeof translations];
