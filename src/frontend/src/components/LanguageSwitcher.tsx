@@ -18,7 +18,6 @@ export const LanguageSwitcher = () => {
 	const handleLanguageChange = (newLang: Language) => {
 		setCurrentLang(newLang);
 		localStorage.setItem("preferredLanguage", newLang);
-
 		window.location.reload();
 	};
 
