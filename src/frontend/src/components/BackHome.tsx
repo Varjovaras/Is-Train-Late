@@ -13,8 +13,7 @@ export const BackHome = () => {
 			window.location.reload();
 		} else {
 			console.log("Go to home page");
-
-			router.push("/"); // Navigate to home for other pages
+			router.push("/");
 		}
 	};
 

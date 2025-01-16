@@ -1,7 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BackHome } from "./BackHome";
-import FindTrain from "./FindTrain";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 function TopBar() {
 	const [isVisible, setIsVisible] = useState(true);
@@ -27,11 +27,14 @@ function TopBar() {
 
 	return (
 		<div
-			className={`fixed top-0 z-50 p-2 backdrop-blur-sm transition-transform duration-300 ${
+			className={`fixed top-0 w-full z-50 p-2 backdrop-blur-sm transition-transform duration-300 ${
 				isVisible ? "translate-y-0" : "-translate-y-full"
 			}`}
 		>
-			<BackHome />
+			<div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
+				<BackHome />
+				<LanguageSwitcher />
+			</div>
 		</div>
 	);
 }
