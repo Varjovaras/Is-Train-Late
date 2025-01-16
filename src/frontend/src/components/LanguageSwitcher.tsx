@@ -1,16 +1,12 @@
 "use client";
 
 import { type Language, languages } from "@/lib/i18n/config";
-import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export const LanguageSwitcher = () => {
-	const router = useRouter();
-	const pathname = usePathname();
 	const [currentLang, setCurrentLang] = useState<Language>("en");
 
 	useEffect(() => {
-		const browserLang = navigator.language.split("-")[0] as Language;
 		const savedLang = localStorage.getItem("preferredLanguage") as Language;
 		setCurrentLang(savedLang || "fi");
 	}, []);
