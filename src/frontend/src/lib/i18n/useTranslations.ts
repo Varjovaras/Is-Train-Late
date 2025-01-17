@@ -9,8 +9,7 @@ export const useTranslations = () => {
 
 	useEffect(() => {
 		const savedLang = localStorage.getItem("preferredLanguage") as Language;
-		const browserLang = navigator.language.split("-")[0] as Language;
-		setLang(savedLang || (browserLang in translations ? browserLang : "fi"));
+		setLang(savedLang || "fi");
 	}, []);
 
 	return {
