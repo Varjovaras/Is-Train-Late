@@ -1,5 +1,4 @@
 import { unstable_cache } from "next/cache";
-import { TrainResponse } from "../../../types/trainTypes";
 import { passengerQuery } from "./passengerQuery";
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
@@ -21,7 +20,6 @@ export const getTrainData = unstable_cache(
 				`Train data not available. HTTP error! status: ${res.status}`,
 			);
 		}
-
 		return res.json();
 	},
 	["train-data"],

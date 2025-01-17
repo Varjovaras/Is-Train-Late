@@ -25,15 +25,16 @@ export default async function Page({
 	});
 
 	if (!res.ok) {
-		throw new Error(
-			`Train data not available. HTTP error! status: ${res.status}`,
+		return (
+			<div>Train data not available. HTTP error! status: ${res.status}</div>
 		);
 	}
 
 	const trainResponse: TrainResponse = await res.json();
 
 	if (trainResponse.data.currentlyRunningTrains.length > 1) {
-		return <div>Got multiple trains from query</div>;
+		console.error(trainResponse.data.currentlyRunningTrains);
+		return <div>Error! Got multiple trains from query</div>;
 	}
 
 	if (trainResponse.data.currentlyRunningTrains.length === 0) {
