@@ -12,16 +12,16 @@
 		"fetch": "bun run ./src/lib/queries/trainQueries.ts"
 	},
 	"dependencies": {
-		"@types/bun": "^1.1.16",
+		"@types/bun": "^1.1.17",
 		"next": "15.1.4",
 		"react": "19.0.0",
 		"react-dom": "19.0.0"
 	},
 	"devDependencies": {
-		"@types/node": "^22.10.6",
-		"@types/react": "^19.0.6",
+		"@types/node": "^22.10.7",
+		"@types/react": "^19.0.7",
 		"@types/react-dom": "^19.0.3",
-		"postcss": "^8.5.0",
+		"postcss": "^8.5.1",
 		"tailwindcss": "^3.4.17",
 		"typescript": "^5.7.3"
 	}
