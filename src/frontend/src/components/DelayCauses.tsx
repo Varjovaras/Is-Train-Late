@@ -15,6 +15,10 @@ const DelayCauses = ({ train }: TrainProps) => {
 
 	const { translations } = useTranslations();
 	const delayCauses = translations.delayCauses;
+	const station = translations.station;
+	const category = translations.category;
+	const details = translations.details;
+	const additionalInfo = translations.additionalInfo;
 
 	return (
 		<div className="mb-8">
@@ -26,7 +30,7 @@ const DelayCauses = ({ train }: TrainProps) => {
 						className="bg-foreground/5 rounded-lg p-4"
 					>
 						<div className="mb-2">
-							<span className="font-semibold">Station: </span>
+							<span className="font-semibold">{station} </span>
 							{timeTableRow.station.name}
 						</div>
 						{timeTableRow.causes?.map((cause) => (
@@ -34,16 +38,16 @@ const DelayCauses = ({ train }: TrainProps) => {
 								key={cause.categoryCode.name + cause.categoryCode.validFrom}
 								className="ml-4 space-y-1"
 							>
-								<CauseItem label="Category" value={cause.categoryCode.name} />
+								<CauseItem label={category} value={cause.categoryCode.name} />
 								{cause.detailedCategoryCode && (
 									<CauseItem
-										label="Details"
+										label={details}
 										value={cause.detailedCategoryCode.name}
 									/>
 								)}
 								{cause.thirdCategoryCode && (
 									<CauseItem
-										label="Additional Info"
+										label={additionalInfo}
 										value={cause.thirdCategoryCode.name}
 									/>
 								)}
