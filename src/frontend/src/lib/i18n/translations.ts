@@ -16,6 +16,7 @@ export const translations = {
 		departureStation: "Lähtöasema:",
 		endStation: "Pääteasema:",
 		currentSpeed: "Tämän hetkinen nopeus: ",
+		additionalInformation: "lisätiedot →",
 	},
 	en: {
 		title: "Is VR Late?",
@@ -33,6 +34,7 @@ export const translations = {
 		departureStation: "Departure station:",
 		endStation: "End station:",
 		currentSpeed: "Current speed: ",
+		additionalInformation: "More info →",
 	},
 } as const;
 
