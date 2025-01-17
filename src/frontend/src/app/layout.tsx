@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import FindTrain from "@/components/FindTrain";
 import { Footer } from "@/components/Footer";
 import { Title } from "@/components/Title";
 import TopBar from "@/components/TopBar";
@@ -39,6 +40,7 @@ export default function RootLayout({
 					<div className="flex-1 p-20 mt-4 flex flex-col items-center">
 						<Title />
 						<main className="flex-1 w-full">{children}</main>
+						<FindTrain />
 						<Footer />
 					</div>
 				</div>

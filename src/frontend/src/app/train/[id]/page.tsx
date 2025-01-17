@@ -39,9 +39,13 @@ export default async function Page({
 
 	if (trainResponse.data.currentlyRunningTrains.length === 0) {
 		return (
-			<h1 className="p-8 text-xl text-red-500">
-				Ei löytynyt junaa numerolla {id}
-			</h1>
+			<div>
+				<div className="flex flex-col items-center">
+					<h1 className="px-2 py-8 text-xl text-red-500">
+						Ei löytynyt junaa numerolla {id}
+					</h1>
+				</div>
+			</div>
 		);
 	}
 

@@ -25,7 +25,6 @@ export default async function Home() {
 		<div className="flex flex-col items-center justify-items-center">
 			<LongDistanceTrains trains={longDistanceTrains} />
 			<CommuterTrains trains={commuterTrains} />
-			<FindTrain />
 		</div>
 	);
 }

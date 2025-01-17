@@ -27,7 +27,6 @@ function FindTrain() {
 		}
 
 		setError("");
-
 		router.push(`/train/${trainNumber}`);
 	};
 
@@ -44,8 +43,8 @@ function FindTrain() {
 					onChange={(e) => setTrainNumber(e.target.value)}
 					placeholder={trainNumberFormPlaceHolder}
 					className="px-4 py-2 border border-foreground rounded-md
-                             focus:outline-none focus:ring-2 focus:ring-offset-2
-                             focus:ring-blue-500"
+                         focus:outline-none focus:ring-2 focus:ring-offset-2
+                    focus:ring-blue-500 text-black"
 				/>
 				{error && <p className="text-red-500 text-sm">{error}</p>}
 			</div>
