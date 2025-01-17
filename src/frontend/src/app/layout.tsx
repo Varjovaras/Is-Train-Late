@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { BackHome } from "@/components/BackHome";
+import FindTrain from "@/components/FindTrain";
 import { Footer } from "@/components/Footer";
 import { Title } from "@/components/Title";
-import FindTrain from "@/components/FindTrain";
 import TopBar from "@/components/TopBar";
 
 const geistSans = localFont({
@@ -38,7 +38,7 @@ export default function RootLayout({
 			>
 				<div className="font-[family-name:var(--font-geist-mono)]">
 					<TopBar />
-					<div className="min-h-screen p-20 pb-20 flex flex-col items-center">
+					<div className="min-h-screen p-20 mt-4 flex flex-col items-center">
 						<Title />
 						<main className="">{children}</main>
 						<Footer />

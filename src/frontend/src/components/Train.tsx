@@ -15,6 +15,7 @@ const Train = ({ train }: TrainProps) => {
 	const minutesLateText = translations.minutesLate;
 	const departureStationText = translations.departureStation;
 	const endStationText = translations.endStation;
+	const currentSpeedText = translations.currentSpeed;
 
 	const timeTableRows = train.timeTableRows.filter((row) => {
 		return row.actualTime !== null;
@@ -80,7 +81,7 @@ const Train = ({ train }: TrainProps) => {
 					<div className="mt-4 pl-2 border-l-2 border-gray-300">
 						{train.trainLocations.map((location) => (
 							<p key={location.speed + location.timestamp}>
-								Tämän hetkinen nopeus: {location.speed}km/h
+								{currentSpeedText} {location.speed}km/h
 							</p>
 						))}
 						<p className="mt-2">Myöhästymisen syyt:</p>
