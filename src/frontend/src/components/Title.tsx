@@ -7,7 +7,7 @@ export const Title = () => {
 
 	return (
 		<div className="text-center font-[family-name:var(--font-geist-mono)]">
-			<h1 className="text-2xl">{title}</h1>
+			<h1 className="text-4xl">{title}</h1>
 		</div>
 	);
 };
