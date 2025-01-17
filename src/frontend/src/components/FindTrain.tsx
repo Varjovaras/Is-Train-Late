@@ -21,7 +21,7 @@ function FindTrain() {
 			return;
 		}
 
-		if (!/^\d+$/.test(trainNumber)) {
+		if (Number.isNaN(Number(trainNumber))) {
 			setError("Please enter a valid train number (digits only)");
 			return;
 		}
