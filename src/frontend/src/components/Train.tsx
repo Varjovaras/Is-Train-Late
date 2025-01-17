@@ -16,6 +16,7 @@ const Train = ({ train }: TrainProps) => {
 	const departureStationText = translations.departureStation;
 	const endStationText = translations.endStation;
 	const currentSpeedText = translations.currentSpeed;
+	const additionalInformationText = translations.additionalInformation;
 
 	const timeTableRows = train.timeTableRows.filter((row) => {
 		return row.actualTime !== null;
@@ -97,7 +98,7 @@ const Train = ({ train }: TrainProps) => {
 							className="mt-4 px-4 py-2 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
 						>
 							Junan {train.trainType.name}
-							{train.trainNumber} lisätiedot →
+							{train.trainNumber} {additionalInformationText}
 						</button>
 					</div>
 				</div>

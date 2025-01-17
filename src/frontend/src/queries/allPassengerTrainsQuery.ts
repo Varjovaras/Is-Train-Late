@@ -52,7 +52,7 @@ export const passengerQuery = `{
         type
       }
     }
-    timeTableRows(take: 1) {
+    timeTableRows {
       type
       trainStopping
       commercialStop

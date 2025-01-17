@@ -1,30 +1,11 @@
 import CommuterTrains from "@/components/CommuterTrains";
 import FindTrain from "@/components/FindTrain";
 import LongDistanceTrains from "@/components/LongDistanceTrains";
-import { passengerQuery } from "@/queries/passengerQuery";
+import { getTrainData } from "@/queries/getTrainData";
 import type { TrainResponse } from "../../../types/trainTypes.ts";
 
-const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
-
 export default async function Home() {
-	const res = await fetch(GRAPHQL_ENDPOINT, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			"Accept-Encoding": "gzip",
-		},
-		body: JSON.stringify({
-			query: passengerQuery,
-		}),
-	});
-
-	if (!res.ok) {
-		throw new Error(
-			`Train data not available. HTTP error! status: ${res.status}`,
-		);
-	}
-
-	const trainResponse: TrainResponse = await res.json();
+	const trainResponse = (await getTrainData()) as TrainResponse;
 
 	const passengerTrainData = trainResponse.data.currentlyRunningTrains;
 

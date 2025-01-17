@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { BackHome } from "@/components/BackHome";
-import FindTrain from "@/components/FindTrain";
 import { Footer } from "@/components/Footer";
 import { Title } from "@/components/Title";
 import TopBar from "@/components/TopBar";
@@ -36,11 +34,11 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<div className="font-[family-name:var(--font-geist-mono)]">
+				<div className="font-[family-name:var(--font-geist-mono)] min-h-screen flex flex-col">
 					<TopBar />
-					<div className="min-h-screen p-20 mt-4 flex flex-col items-center">
+					<div className="flex-1 p-20 mt-4 flex flex-col items-center">
 						<Title />
-						<main className="">{children}</main>
+						<main className="flex-1 w-full">{children}</main>
 						<Footer />
 					</div>
 				</div>
