@@ -15,6 +15,7 @@ export const Footer = () => {
 					alt="Hardcore Bull Soundcloud icon"
 					width={40}
 					height={40}
+					className="w-[40px] h-[40px]"
 				/>
 				Soundcloud →
 			</a>
@@ -31,6 +32,7 @@ export const Footer = () => {
 					alt="Github icon"
 					width={40}
 					height={40}
+					className="w-[40px] h-[40px]"
 				/>
 				Github →
 			</a>
