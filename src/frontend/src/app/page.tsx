@@ -1,5 +1,4 @@
 import CommuterTrains from "@/components/CommuterTrains";
-import FindTrain from "@/components/FindTrain";
 import LongDistanceTrains from "@/components/LongDistanceTrains";
 import { getTrainData } from "@/queries/getTrainData";
 import type { TrainResponse } from "../../../types/trainTypes.ts";
