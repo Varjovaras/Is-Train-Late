@@ -22,6 +22,8 @@ export const translations = {
 		category: "Kategoria",
 		details: "Yksityiskohdat",
 		additionalInfo: "Lisätietoa",
+		sortBy: "Järjestä",
+		delay: "Myöhästyminen",
 	},
 	en: {
 		title: "Is VR Late?",
@@ -45,6 +47,8 @@ export const translations = {
 		category: "Category",
 		details: "Details",
 		additionalInfo: "Additional info",
+		sortBy: "Sort by",
+		delay: "Delay",
 	},
 } as const;
 
