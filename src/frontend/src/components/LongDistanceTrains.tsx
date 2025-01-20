@@ -12,33 +12,40 @@ type TrainProps = {
 
 const LongDistanceTrains = ({ trains }: TrainProps) => {
 	const { translations } = useTranslations();
-	const [sortOption, setSortOption] = useState<SortOption>("trainNumber");
-	const lateLongDistanceText = translations.lateLongDistance;
-	const noTrainslateText = translations.noTrainsLate;
+	const [sortOption, setSortOption] = useState<SortOption>({
+		field: "trainNumber",
+		direction: "asc",
+	});
 
 	const sortedTrains = [...trains].sort((a, b) => {
-		if (sortOption === "trainNumber") {
-			return a.trainNumber - b.trainNumber;
+		const multiplier = sortOption.direction === "asc" ? 1 : -1;
+
+		if (sortOption.field === "trainNumber") {
+			return (a.trainNumber - b.trainNumber) * multiplier;
 		}
 		const aDelay =
 			a.timeTableRows[a.timeTableRows.length - 1].differenceInMinutes;
 		const bDelay =
 			b.timeTableRows[b.timeTableRows.length - 1].differenceInMinutes;
-		return bDelay - aDelay; // Sort by delay in descending order
+		return (aDelay - bDelay) * multiplier;
 	});
+
+	if (sortedTrains.length < 1) {
+		return (
+			<h2 className="text-xl font-bold p-2 text-green-500">
+				{translations.noCommuterTrainsLate}
+			</h2>
+		);
+	}
 
 	return (
 		<div className="p-2 space-y-4">
-			<h2 className=" text-left text-xl">{lateLongDistanceText} </h2>
+			<h2 className=" text-left text-xl">{translations.lateLongDistance} </h2>
 			<SortSelector currentSort={sortOption} onSortChange={setSortOption} />
 			<div className="grid sm:grid-cols-3 gap-4">
-				{sortedTrains.length > 0 ? (
-					sortedTrains.map((train) => (
-						<Train train={train} key={train.trainNumber} />
-					))
-				) : (
-					<div className="text-green-500">{noTrainslateText}</div>
-				)}
+				{sortedTrains.map((train) => (
+					<Train train={train} key={train.trainNumber} />
+				))}
 			</div>
 		</div>
 	);

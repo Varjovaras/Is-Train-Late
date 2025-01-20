@@ -2,7 +2,13 @@
 
 import { useTranslations } from "@/lib/i18n/useTranslations";
 
-export type SortOption = "trainNumber" | "delay";
+export type SortField = "trainNumber" | "delay";
+export type SortDirection = "asc" | "desc";
+
+export type SortOption = {
+	field: SortField;
+	direction: SortDirection;
+};
 
 type SortSelectorProps = {
 	currentSort: SortOption;
@@ -19,12 +25,20 @@ const SortSelector = ({ currentSort, onSortChange }: SortSelectorProps) => {
 			</label>
 			<select
 				id="sort-select"
-				value={currentSort}
-				onChange={(e) => onSortChange(e.target.value as SortOption)}
+				value={`${currentSort.field}-${currentSort.direction}`}
+				onChange={(e) => {
+					const [field, direction] = e.target.value.split("-") as [
+						SortField,
+						SortDirection,
+					];
+					onSortChange({ field, direction });
+				}}
 				className="px-2 py-1 rounded-md border border-foreground/20 bg-background"
 			>
-				<option value="trainNumber">{translations.trainNumber}</option>
-				<option value="delay">{translations.delay}</option>
+				<option value="trainNumber-asc">{translations.trainNumberAsc}</option>
+				<option value="trainNumber-desc">{translations.trainNumberDesc}</option>
+				<option value="delay-asc">{translations.delayAsc}</option>
+				<option value="delay-desc">{translations.delayDesc}</option>
 			</select>
 		</div>
 	);
