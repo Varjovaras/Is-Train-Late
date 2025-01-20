@@ -37,7 +37,7 @@ export default function RootLayout({
 			>
 				<div className="font-[family-name:var(--font-geist-mono)] min-h-screen flex flex-col">
 					<TopBar />
-					<div className="flex-1 p-20 mt-4 flex flex-col items-center">
+					<div className="flex-1 py-20 px-2 mt-4 flex flex-col items-center">
 						<Title />
 						<main className="flex-1 w-full">{children}</main>
 						<FindTrain />

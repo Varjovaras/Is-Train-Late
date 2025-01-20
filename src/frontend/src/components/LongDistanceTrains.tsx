@@ -12,8 +12,8 @@ const LongDistanceTrains = ({ trains }: TrainProps) => {
 	const lateLongDistanceText = translations.lateLongDistance;
 	const noTrainslateText = translations.noTrainsLate;
 	return (
-		<div className="m-8 p-4">
-			<h2 className="pb-4 text-left text-xl">{lateLongDistanceText} </h2>
+		<div className="p-2 space-y-4">
+			<h2 className=" text-left text-xl">{lateLongDistanceText} </h2>
 			<div className="grid sm:grid-cols-3 gap-4">
 				{trains.length > 0 ? (
 					trains.map((train) => <Train train={train} key={train.trainNumber} />)

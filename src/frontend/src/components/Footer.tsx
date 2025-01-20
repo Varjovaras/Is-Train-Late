@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export const Footer = () => {
 	return (
-		<footer className="w-full flex gap-4 sm:gap-0 flex-col sm:flex-row justify-between items-center mt-auto pt-4">
+		<footer className="w-full flex gap-4 flex-col sm:flex-row justify-center items-center mt-auto pt-6">
 			<a
 				className="flex items-center gap-4 hover:underline hover:underline-offset-4 text-sm"
 				href="https://soundcloud.com/hardcore-bull"
