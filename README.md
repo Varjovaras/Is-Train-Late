@@ -47,6 +47,8 @@ pnpm install
 
 4. Run the development server:
 ```bash
+bun dev
+# or
 npm run dev
 # or
 yarn dev
@@ -56,16 +58,20 @@ pnpm dev
 
 Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
 
-## Project Structure
+## Frontend Project Structure
 
 ```
 src/
-├── app/                   # Next.js app router
-├── components/           # React components
-├── lib/                  # Utility functions and configurations
-│   └── i18n/            # Internationalization
-├── queries/             # GraphQL queries
-└── types/               # TypeScript type definitions
+├── frontend/           # Frontend application
+│   ├── app/           # Next.js app router
+│   ├── components/    # React components
+│   ├── lib/          # Utility functions and configurations
+│   │   └── i18n/     # Internationalization
+│   ├── queries/      # GraphQL queries
+│   └── types/        # TypeScript type definitions
+│
+├── backend/           # Backend application (planned for future implementation)
+└── types/            # Shared TypeScript type definitions
 ```
 
 
