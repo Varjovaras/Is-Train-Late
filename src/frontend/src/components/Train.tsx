@@ -1,9 +1,8 @@
 "use client";
-import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useState } from "react";
 import type { Train as TrainType } from "../../../types/trainTypes";
-import TrainButton from "./TrainButton";
 import TrainAdditionalData from "./TrainAdditionalData";
+import TrainButton from "./TrainButton";
 
 type TrainProps = {
 	train: TrainType;
