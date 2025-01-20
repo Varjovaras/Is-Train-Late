@@ -13,7 +13,7 @@ const DelayCauses = ({ train }: TrainProps) => {
 		(row) => row.causes !== null,
 	);
 
-	const { translations } = useTranslations();
+	const { translations, isLoading } = useTranslations();
 	const delayCauses = translations.delayCauses;
 	const station = translations.station;
 	const category = translations.category;
@@ -21,7 +21,7 @@ const DelayCauses = ({ train }: TrainProps) => {
 	const additionalInfo = translations.additionalInfo;
 
 	return (
-		<div className="mb-8">
+		<div className={`mb-8 ${isLoading ? "fade-out" : "fade-in"}`}>
 			<h2 className="text-2xl font-semibold mb-4">{delayCauses}</h2>
 			<div className="space-y-4">
 				{timeTablesWithCauses.map((timeTableRow) => (

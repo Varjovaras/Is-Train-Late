@@ -14,7 +14,7 @@ const TrainAdditionalData = ({
 }: TrainAdditionalDataProps) => {
 	const router = useRouter();
 
-	const { translations } = useTranslations();
+	const { translations, isLoading } = useTranslations();
 	const currentSpeedText = translations.currentSpeed;
 	const additionalInformationText = translations.additionalInformation;
 
@@ -26,8 +26,9 @@ const TrainAdditionalData = ({
 
 	return (
 		<div
-			className={`overflow-hidden transition-allduration-200 ease-in-out
-				${isExpanded ? "max-h-full opacity-100" : "max-h-0 opacity-0"}`}
+			className={`overflow-hidden transition-all duration-200 ease-in-out ${
+				isExpanded ? "max-h-full opacity-100" : "max-h-0 opacity-0"
+			} ${isLoading ? "fade-out" : "fade-in"}`}
 		>
 			<div className="mt-4 pl-2 border-l-2 border-gray-300">
 				{train.trainLocations.map((location) => (

@@ -1,11 +1,12 @@
 "use client";
 
 import { type Language, languages } from "@/lib/i18n/config";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useEffect, useState } from "react";
 
 export const LanguageSwitcher = () => {
 	const [currentLang, setCurrentLang] = useState<Language>("en");
-
+	const { isLoading } = useTranslations();
 	useEffect(() => {
 		const savedLang = localStorage.getItem("preferredLanguage") as Language;
 		setCurrentLang(savedLang || "fi");
@@ -18,7 +19,10 @@ export const LanguageSwitcher = () => {
 	};
 
 	return (
-		<div className="flex items-center gap-2">
+		<div
+			className={`flex items-center gap-2 ${isLoading ? "fade-out" : "fade-in"}`}
+		>
+			{" "}
 			{Object.entries(languages).map(([code, name]) => (
 				<button
 					key={code}

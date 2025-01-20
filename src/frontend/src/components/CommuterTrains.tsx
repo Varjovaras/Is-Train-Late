@@ -11,7 +11,7 @@ type TrainProps = {
 };
 
 const CommuterTrains = ({ trains }: TrainProps) => {
-	const { translations } = useTranslations();
+	const { translations, isLoading } = useTranslations();
 	const [sortOption, setSortOption] = useState<SortOption>({
 		field: "trainNumber",
 		direction: "asc",
@@ -39,7 +39,7 @@ const CommuterTrains = ({ trains }: TrainProps) => {
 	}
 
 	return (
-		<div className="p-8 mx-4">
+		<div className={`p-8 mx-4 ${isLoading ? "fade-out" : "fade-in"}`}>
 			<h2 className="pb-4 text-left text-xl">{translations.lateCommuter} </h2>
 			<SortSelector currentSort={sortOption} onSortChange={setSortOption} />
 			<div className="grid sm:grid-cols-3 gap-4">

@@ -6,7 +6,7 @@ export const BackHome = () => {
 	const router = useRouter();
 	const pathname = usePathname();
 
-	const { translations } = useTranslations();
+	const { translations, isLoading } = useTranslations();
 
 	const buttonText =
 		pathname !== "/" ? translations.backHome : translations.refreshTrainData;
@@ -25,7 +25,9 @@ export const BackHome = () => {
 		<button
 			type="button"
 			onClick={handleClick}
-			className="top-4 left-4 px-4 py-2 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
+			className={`top-4 left-4 px-4 py-2 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors ${
+				isLoading ? "fade-out" : "fade-in"
+			}`}
 		>
 			{buttonText}
 		</button>

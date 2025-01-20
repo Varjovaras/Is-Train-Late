@@ -1,7 +1,7 @@
 "use client";
 
-import type { Train } from "../../../types/trainTypes";
 import { useTranslations } from "@/lib/i18n/useTranslations";
+import type { Train } from "../../../types/trainTypes";
 
 type TrainDataProps = {
 	train: Train;
@@ -9,7 +9,7 @@ type TrainDataProps = {
 };
 
 const TrainData = ({ train, currentTimeDiff }: TrainDataProps) => {
-	const { translations } = useTranslations();
+	const { translations, isLoading } = useTranslations();
 	const minutesLateText = translations.minutesLate;
 	const departureStationText = translations.departureStation;
 	const endStationText = translations.endStation;
@@ -18,7 +18,7 @@ const TrainData = ({ train, currentTimeDiff }: TrainDataProps) => {
 		train.timeTableRows[train.timeTableRows.length - 1].station.name;
 
 	return (
-		<div className="mt-2">
+		<div className={`mt-2 ${isLoading ? "fade-out" : "fade-in"}`}>
 			<p>
 				{departureStationText} {departureStation}
 			</p>

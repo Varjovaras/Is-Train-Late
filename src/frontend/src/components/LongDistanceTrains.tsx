@@ -11,7 +11,8 @@ type TrainProps = {
 };
 
 const LongDistanceTrains = ({ trains }: TrainProps) => {
-	const { translations } = useTranslations();
+	const { translations, isLoading } = useTranslations();
+
 	const [sortOption, setSortOption] = useState<SortOption>({
 		field: "trainNumber",
 		direction: "asc",
@@ -33,13 +34,13 @@ const LongDistanceTrains = ({ trains }: TrainProps) => {
 	if (sortedTrains.length < 1) {
 		return (
 			<h2 className="text-xl font-bold p-2 text-green-500">
-				{translations.noCommuterTrainsLate}
+				{translations.noLongDistanceTrainsLate}
 			</h2>
 		);
 	}
 
 	return (
-		<div className="p-2 space-y-4">
+		<div className={`p-2 space-y-4 ${isLoading ? "fade-out" : "fade-in"}`}>
 			<h2 className=" text-left text-xl">{translations.lateLongDistance} </h2>
 			<SortSelector currentSort={sortOption} onSortChange={setSortOption} />
 			<div className="grid sm:grid-cols-3 gap-4">

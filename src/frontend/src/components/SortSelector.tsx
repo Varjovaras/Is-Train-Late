@@ -16,10 +16,13 @@ type SortSelectorProps = {
 };
 
 const SortSelector = ({ currentSort, onSortChange }: SortSelectorProps) => {
-	const { translations } = useTranslations();
+	const { translations, isLoading } = useTranslations();
 
 	return (
-		<div className="flex items-center gap-2 mb-4">
+		<div
+			className={`flex items-center gap-2 mb-4 ${isLoading ? "fade-out" : "fade-in"}`}
+		>
+			{" "}
 			<label htmlFor="sort-select" className="text-sm">
 				{translations.sortBy}:
 			</label>

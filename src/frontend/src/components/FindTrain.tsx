@@ -5,9 +5,9 @@ import { useState } from "react";
 
 function FindTrain() {
 	const router = useRouter();
+	const { translations, isLoading } = useTranslations();
 	const [trainNumber, setTrainNumber] = useState("");
 	const [error, setError] = useState("");
-	const { translations } = useTranslations();
 	const findTrainText = translations.findTrain;
 	const trainNumberText = translations.trainNumber;
 	const trainNumberFormPlaceHolder = translations.trainNumberFormPlaceHolder;
@@ -31,7 +31,11 @@ function FindTrain() {
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className="space-y-4">
+		<form
+			onSubmit={handleSubmit}
+			className={`space-y-4 ${isLoading ? "fade-out" : "fade-in"}`}
+		>
+			{" "}
 			<div className="flex flex-col space-y-2">
 				<label htmlFor="trainNumber" className="text-sm font-medium">
 					{trainNumberText}
@@ -48,7 +52,6 @@ function FindTrain() {
 				/>
 				{error && <p className="text-red-500 text-sm">{error}</p>}
 			</div>
-
 			<button
 				type="submit"
 				className="w-full px-4 py-2 text-sm border border-foreground
