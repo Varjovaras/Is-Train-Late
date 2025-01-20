@@ -3,6 +3,7 @@ import { useState } from "react";
 import type { Train as TrainType } from "../../../types/trainTypes";
 import TrainAdditionalData from "./TrainAdditionalData";
 import TrainButton from "./TrainButton";
+import TrainData from "./TrainData";
 
 type TrainProps = {
 	train: TrainType;
@@ -24,14 +25,14 @@ const Train = ({ train }: TrainProps) => {
 	return (
 		<div
 			key={`train-${train.trainNumber}`}
-			className="border border-double border-red-600 p-4"
+			className="border border-double border-red-600 p-4 m-2"
 		>
 			<TrainButton
 				train={train}
 				isExpanded={isExpanded}
 				setIsExpanded={setIsExpanded}
 			/>
-
+			<TrainData train={train} currentTimeDiff={currentTimeDiff} />
 			<TrainAdditionalData train={train} isExpanded={isExpanded} />
 		</div>
 	);
