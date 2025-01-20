@@ -1,15 +1,8 @@
-# backend
+# Is VR Late? - Backend
 
-To install dependencies:
+> **Note:** This backend implementation is not used at the moment in the current project.
 
-```bash
-bun install
-```
+## Tech Stack (Planned)
 
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.1.31. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+- [Bun]
+- [Typescript]
