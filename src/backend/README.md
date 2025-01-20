@@ -4,5 +4,5 @@
 
 ## Tech Stack (Planned)
 
-- [Bun]
-- [Typescript]
+- [Bun](https://bun.sh/)
+- [TypeScript](https://www.typescriptlang.org/)
