@@ -23,7 +23,7 @@ A real-time train tracking application that shows delayed VR (Finnish Railways) 
 
 ### Prerequisites
 
-- Node.js 18.17 or later
+- Node.js 18.18 or later
 - npm, yarn, pnpm or bun (preferably bun)
 
 ### Installation
