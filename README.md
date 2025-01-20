@@ -33,27 +33,26 @@ A real-time train tracking application that shows delayed VR (Finnish Railways) 
 git clone https://github.com/varjovaras/is-vr-late.git
 ```
 
-
 3. Install dependencies:
 ```bash
-bun install
+bun frontend:install
 # or
-npm install
+npm run frontend:install
 # or
-yarn
+yarn frontend:install
 # or
-pnpm install
+pnpm frontend:install
 ```
 
 4. Run the development server:
 ```bash
-bun dev
+bun fronted:dev
 # or
-npm run dev
+npm run frontend:dev
 # or
-yarn dev
+yarn frontend:dev
 # or
-pnpm dev
+pnpm frontend:dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
@@ -70,7 +69,7 @@ src/
 │   ├── queries/      # GraphQL queries
 │   └── types/        # TypeScript type definitions
 │
-├── backend/           # Backend application (planned for future implementation)
+├── backend/          # Backend application (not used at the moment)
 └── types/            # Shared TypeScript type definitions
 ```
 
