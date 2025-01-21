@@ -18,10 +18,6 @@ const Train = ({ train }: TrainProps) => {
 	const currentTimeDiff =
 		timeTableRows[timeTableRows.length - 1].differenceInMinutes;
 
-	if (currentTimeDiff < 5) {
-		return <></>;
-	}
-
 	return (
 		<div
 			key={`train-${train.trainNumber}`}

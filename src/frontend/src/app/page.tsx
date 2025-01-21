@@ -8,15 +8,15 @@ export default async function Home() {
 
 	const passengerTrainData = trainResponse.data.currentlyRunningTrains;
 
-	const lateTrainData = passengerTrainData.filter((train) =>
-		train.timeTableRows.some((row) => row.causes !== null),
-	);
+	// const lateTrainData = passengerTrainData.filter((train) =>
+	// 	train.timeTableRows.some((row) => row.causes !== null),
+	// );
 
-	const longDistanceTrains = lateTrainData.filter(
+	const longDistanceTrains = passengerTrainData.filter(
 		(train) => train.commuterLineid === "",
 	);
 
-	const commuterTrains = lateTrainData.filter(
+	const commuterTrains = passengerTrainData.filter(
 		(train) => train.commuterLineid !== "",
 	);
 

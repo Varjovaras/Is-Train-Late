@@ -29,6 +29,10 @@ export const translations = {
 		delayAsc: "Myöhästyminen (pienin ensin)",
 		delayDesc: "Myöhästyminen (suurin ensin)",
 		delay: "Myöhästyminen",
+		delayThreshold: "Myöhästymisraja",
+		minutes: "minuuttia",
+		minutesOrMore: " minuuttia tai enemmän",
+		notLate: "Ei myöhässä",
 	},
 	en: {
 		title: "Is VR Late?",
@@ -59,6 +63,10 @@ export const translations = {
 		delayAsc: "Delay (smallest first)",
 		delayDesc: "Delay (largest first)",
 		delay: "Delay",
+		delayThreshold: "Delay threshold",
+		minutes: "minutes",
+		minutesOrMore: " minutes or more",
+		notLate: "Not late",
 	},
 } as const;
 
