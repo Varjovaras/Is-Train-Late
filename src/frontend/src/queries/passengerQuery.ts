@@ -52,7 +52,7 @@ export const passengerQuery = `{
         type
       }
     }
-    timeTableRows(take: 1) {
+    timeTableRows(orderBy: {scheduledTime: DESCENDING}, take: 1) {
       type
       trainStopping
       commercialStop

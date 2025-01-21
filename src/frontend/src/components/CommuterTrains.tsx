@@ -45,13 +45,9 @@ const CommuterTrains = ({ trains }: TrainProps) => {
 			<h2 className="pb-4 text-left text-xl">{translations.lateCommuter} </h2>
 			<SortSelector currentSort={sortOption} onSortChange={setSortOption} />
 			<div className="grid sm:grid-cols-3 gap-4">
-				{sortedTrains.length > 0 ? (
-					sortedTrains.map((train) => (
-						<Train train={train} key={train.trainNumber} />
-					))
-				) : (
-					<></>
-				)}
+				{sortedTrains.map((train) => (
+					<Train train={train} key={train.trainNumber} />
+				))}
 			</div>
 		</div>
 	);
