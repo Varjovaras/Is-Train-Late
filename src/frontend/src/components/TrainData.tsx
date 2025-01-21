@@ -10,9 +10,6 @@ type TrainDataProps = {
 
 const TrainData = ({ train, currentTimeDiff }: TrainDataProps) => {
 	const { translations, isLoading } = useTranslations();
-	const minutesLateText = translations.minutesLate;
-	const departureStationText = translations.departureStation;
-	const endStationText = translations.endStation;
 	const departureStation = train.timeTableRows[0].station.name;
 	const endStation =
 		train.timeTableRows[train.timeTableRows.length - 1].station.name;
@@ -20,14 +17,14 @@ const TrainData = ({ train, currentTimeDiff }: TrainDataProps) => {
 	return (
 		<div className={`mt-2 ${isLoading ? "fade-out" : "fade-in"}`}>
 			<p>
-				{departureStationText} {departureStation}
+				{translations.departureStation} {departureStation}
 			</p>
 			<p>
-				{endStationText} {endStation}
+				{translations.endStation} {endStation}
 			</p>
 			<p className="">
 				<span className="text-red-500 font-bold">{currentTimeDiff}</span>{" "}
-				<span className="">{minutesLateText}</span>
+				<span className="">{translations.minutesLate}</span>
 			</p>
 		</div>
 	);

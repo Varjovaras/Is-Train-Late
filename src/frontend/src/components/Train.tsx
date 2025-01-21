@@ -18,7 +18,7 @@ const Train = ({ train }: TrainProps) => {
 	const currentTimeDiff =
 		timeTableRows[timeTableRows.length - 1].differenceInMinutes;
 
-	if (currentTimeDiff < 5) {
+	if (currentTimeDiff < 1) {
 		return <></>;
 	}
 

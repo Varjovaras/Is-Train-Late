@@ -32,7 +32,9 @@ const CommuterTrains = ({ trains }: TrainProps) => {
 
 	if (sortedTrains.length < 1) {
 		return (
-			<h2 className="text-xl font-bold p-2 text-green-500">
+			<h2
+				className={`text-xl font-bold p-2 text-green-500 ${isLoading ? "fade-out" : "fade-in"}`}
+			>
 				{translations.noCommuterTrainsLate}
 			</h2>
 		);
