@@ -13,8 +13,8 @@ export type Train = {
 	timeTableRows: TimeTableRow[];
 	trainLocations: TrainLocation[];
 	//compositions: Composition[]
-	// trainTrackingMessages: TrainTrackingMessage[];
-	routesetMessages: RoutesetMessage[];
+	trainTrackingMessages: TrainTrackingMessage[];
+	// routesetMessages: RoutesetMessage[];
 	//passengerInformationMessages
 };
 
@@ -94,30 +94,30 @@ type TrainTrackingMessage = {
 	// id: number;
 	// version: string;
 	timestamp: Date;
-	trainSectionCode: string;
+	trackSectionCode: string;
 	nextTrackSectionCode: string;
 	previousTrackSectionCode: string;
 	type: string;
 	station: Station;
-	nextStation: Station;
-	previousStation: Station;
+	// nextStation: Station;
+	// previousStation: Station;
 	// train: Train;
 	// trackSection: TrackSection;
 };
 
-type RoutesetMessage = {
-	id: number;
-	version: string;
-	messageTime: Date;
-	routeType: string;
-	clientSystem: string;
-	routesections: Routesection;
-	// train: Train;
-};
+// type RoutesetMessage = {
+// 	id: number;
+// 	version: string;
+// 	messageTime: Date;
+// 	routeType: string;
+// 	clientSystem: string;
+// 	routesections: Routesection;
+// 	// train: Train;
+// };
 
-type Routesection = {
-	sectionId: string;
-	commercialTrackId: string;
-	routesetId: number;
-	station: Station;
-};
+// type Routesection = {
+// 	sectionId: string;
+// 	commercialTrackId: string;
+// 	routesetId: number;
+// 	station: Station;
+// };

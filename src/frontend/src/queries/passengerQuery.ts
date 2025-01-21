@@ -33,24 +33,6 @@ export const passengerQuery = `{
         uicCode
         type
       }
-      nextStation {
-        passengerTraffic
-        countryCode
-        location
-        name
-        shortCode
-        uicCode
-        type
-      }
-      previousStation {
-        passengerTraffic
-        countryCode
-        location
-        name
-        shortCode
-        uicCode
-        type
-      }
     }
     timeTableRows(orderBy: {scheduledTime: DESCENDING}, take: 1) {
       type
