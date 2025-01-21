@@ -31,7 +31,7 @@ function TopBar() {
 				isVisible ? "translate-y-0" : "-translate-y-full"
 			}`}
 		>
-			<div className="max-w-7xl mx-auto px-4 gap-4 flex justify-between items-center">
+			<div className="max-w-7xl mx-auto px-2 sm:px-4 gap-4 flex justify-between items-center">
 				<BackHome />
 				<LanguageSwitcher />
 			</div>

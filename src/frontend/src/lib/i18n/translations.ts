@@ -1,9 +1,8 @@
 export const translations = {
 	fi: {
 		title: "Onko VR myöhässä?",
-		lateCommuter: "Tällä hetkellä yli 5 minuuttia myöhässä olevat lähijunat:",
-		lateLongDistance:
-			"Tällä hetkellä yli 5 minuuttia myöhässä olevat kaukojunat:",
+		lateCommuter: "Tällä hetkellä myöhässä olevat lähijunat:",
+		lateLongDistance: "Tällä hetkellä myöhässä olevat kaukojunat:",
 		noLongDistanceTrainsLate: "Ei myöhässä olevia kaukojunia",
 		noCommuterTrainsLate: "Ei myöhässä olevia lähijunia",
 		findTrain: "Etsi juna",
@@ -36,8 +35,8 @@ export const translations = {
 	},
 	en: {
 		title: "Is VR Late?",
-		lateCommuter: "Currently late commuter trains (over 5 minutes):",
-		lateLongDistance: "Currently late long-distance trains (over 5 minutes):",
+		lateCommuter: "Currently late commuter trains:",
+		lateLongDistance: "Currently late long-distance trains:",
 		noLongDistanceTrainsLate: "No long-distance trains late",
 		noCommuterTrainsLate: "No commuter trains late",
 		findTrain: "Find Train",

@@ -20,10 +20,11 @@ const SortSelector = ({ currentSort, onSortChange }: SortSelectorProps) => {
 
 	return (
 		<div
-			className={`flex items-center gap-2 mb-4 ${isLoading ? "fade-out" : "fade-in"}`}
+			className={`flex flex-wrap items-center gap-2 mb-4 w-full ${
+				isLoading ? "fade-out" : "fade-in"
+			}`}
 		>
-			{" "}
-			<label htmlFor="sort-select" className="text-sm">
+			<label htmlFor="sort-select" className="text-sm whitespace-nowrap">
 				{translations.sortBy}:
 			</label>
 			<select
@@ -36,7 +37,7 @@ const SortSelector = ({ currentSort, onSortChange }: SortSelectorProps) => {
 					];
 					onSortChange({ field, direction });
 				}}
-				className="px-2 py-1 rounded-md border border-foreground/20 bg-background"
+				className="px-2 py-1 rounded-md border border-foreground/20 bg-background min-w-[200px] max-w-full"
 			>
 				<option value="trainNumber-asc">{translations.trainNumberAsc}</option>
 				<option value="trainNumber-desc">{translations.trainNumberDesc}</option>

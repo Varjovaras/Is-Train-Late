@@ -34,7 +34,8 @@ const TrainList = ({ trains, type }: TrainListProps) => {
 			? translations.noCommuterTrainsLate
 			: translations.noLongDistanceTrainsLate;
 
-	const containerClass = type === "commuter" ? "p-8 mx-4" : "p-2 space-y-4";
+	const containerClass =
+		type === "commuter" ? "p-4 sm:p-8 w-full" : "p-2 space-y-4 w-full";
 
 	if (sortedTrains.length < 1) {
 		return (
@@ -62,14 +63,14 @@ const TrainList = ({ trains, type }: TrainListProps) => {
 				{title} ({delayThreshold}
 				{translations.minutesOrMore})
 			</h2>
-			<div className="flex flex-col gap-4">
+			<div className="flex flex-col gap-2">
 				<DelayThresholdSelector
 					currentThreshold={delayThreshold}
 					onThresholdChange={setDelayThreshold}
 				/>
 				<SortSelector currentSort={sortOption} onSortChange={setSortOption} />
 			</div>
-			<div className="grid sm:grid-cols-3 gap-4">
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
 				{sortedTrains.map((train) => (
 					<Train train={train} key={train.trainNumber} />
 				))}

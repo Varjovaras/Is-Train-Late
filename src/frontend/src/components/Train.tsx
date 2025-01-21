@@ -21,7 +21,7 @@ const Train = ({ train }: TrainProps) => {
 	return (
 		<div
 			key={`train-${train.trainNumber}`}
-			className="border border-double border-red-600 p-4 m-2"
+			className="border border-double border-red-600 p-4 m-2 overflow-hidden break-words"
 		>
 			<TrainButton
 				train={train}

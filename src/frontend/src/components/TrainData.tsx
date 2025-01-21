@@ -15,11 +15,11 @@ const TrainData = ({ train, currentTimeDiff }: TrainDataProps) => {
 		train.timeTableRows[train.timeTableRows.length - 1].station.name;
 
 	return (
-		<div className={`mt-2 ${isLoading ? "fade-out" : "fade-in"}`}>
-			<p>
+		<div className={`mt-2 ${isLoading ? "fade-out" : "fade-in"} break-words`}>
+			<p className="overflow-hidden text-ellipsis">
 				{translations.departureStation} {departureStation}
 			</p>
-			<p>
+			<p className="overflow-hidden text-ellipsis">
 				{translations.endStation} {endStation}
 			</p>
 			<p className="">
