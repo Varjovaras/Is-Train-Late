@@ -1,5 +1,4 @@
 "use client";
-
 import { useTranslations } from "@/lib/i18n/useTranslations";
 
 export type SortField = "trainNumber" | "delay";

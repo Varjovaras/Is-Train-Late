@@ -1,6 +1,6 @@
 "use client";
+import type { Train as TrainType } from "@/lib/types/trainTypes";
 import { useState } from "react";
-import type { Train as TrainType } from "../../../types/trainTypes";
 import TrainAdditionalData from "./TrainAdditionalData";
 import TrainButton from "./TrainButton";
 import TrainData from "./TrainData";

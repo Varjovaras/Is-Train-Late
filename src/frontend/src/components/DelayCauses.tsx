@@ -1,7 +1,6 @@
 "use client";
-
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import type { Train } from "../../../types/trainTypes";
+import type { Train } from "@/lib/types/trainTypes";
 import CauseItem from "./CauseItem";
 
 type TrainProps = {

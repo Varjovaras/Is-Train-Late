@@ -1,7 +1,7 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
+import type { Train } from "@/lib/types/trainTypes";
 import { useRouter } from "next/navigation";
-import type { Train } from "../../../types/trainTypes";
 
 type TrainAdditionalDataProps = {
 	train: Train;

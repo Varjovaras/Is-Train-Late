@@ -1,8 +1,8 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
+import type { Train as TrainType } from "@/lib/types/trainTypes";
 import { filterTrainsByDelay, sortTrains } from "@/lib/utils/trainUtils";
 import { useState } from "react";
-import type { Train as TrainType } from "../../../types/trainTypes";
 import DelayThresholdSelector from "./DelayThresholdSelector";
 import type { SortOption } from "./SortSelector";
 import SortSelector from "./SortSelector";

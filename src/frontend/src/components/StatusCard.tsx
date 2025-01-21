@@ -1,6 +1,5 @@
 "use client";
-
-import type { Train } from "../../../types/trainTypes";
+import type { Train } from "@/lib/types/trainTypes";
 import StatusItem from "./StatusItem";
 
 type TrainProps = {
