@@ -1,16 +1,12 @@
 import CommuterTrains from "@/components/CommuterTrains";
 import LongDistanceTrains from "@/components/LongDistanceTrains";
-import { getTrainData } from "@/queries/getTrainData";
-import type { TrainResponse } from "../../../types/trainTypes.ts";
+import { getTrainData } from "@/lib/queries/getTrainData";
+import type { TrainResponse } from "@/lib/types/trainTypes";
 
 export default async function Home() {
 	const trainResponse = (await getTrainData()) as TrainResponse;
 
 	const passengerTrainData = trainResponse.data.currentlyRunningTrains;
-
-	// const lateTrainData = passengerTrainData.filter((train) =>
-	// 	train.timeTableRows.some((row) => row.causes !== null),
-	// );
 
 	const longDistanceTrains = passengerTrainData.filter(
 		(train) => train.commuterLineid === "",

@@ -1,5 +1,5 @@
-import type { Train } from "../../../../types/trainTypes";
-import type { SortOption } from "../../components/SortSelector";
+import type { SortOption } from "@/components/SortSelector";
+import type { Train } from "@/lib/types/trainTypes";
 
 export const filterTrainsByDelay = (trains: Train[], threshold: number) => {
 	return trains.filter((train) => {

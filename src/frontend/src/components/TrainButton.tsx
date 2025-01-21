@@ -1,7 +1,7 @@
 "use client";
 
+import type { Train } from "@/lib/types/trainTypes";
 import type { Dispatch, SetStateAction } from "react";
-import type { Train } from "../../../types/trainTypes";
 
 type TrainButtonProps = {
 	train: Train;

@@ -1,4 +1,4 @@
-import type { Train } from "../../../types/trainTypes";
+import type { Train } from "@/lib/types/trainTypes";
 import TrainList from "./TrainList";
 
 type LongDistanceTrainsProps = {
