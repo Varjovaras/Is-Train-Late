@@ -1,5 +1,6 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
+import { filterTrainsByDelay, sortTrains } from "@/lib/utils/trainUtils";
 import { useState } from "react";
 import type { Train as TrainType } from "../../../types/trainTypes";
 import DelayThresholdSelector from "./DelayThresholdSelector";
@@ -20,27 +21,8 @@ const TrainList = ({ trains, type }: TrainListProps) => {
 		direction: "asc",
 	});
 
-	const filteredTrains = trains.filter((train) => {
-		const timeTableRows = train.timeTableRows.filter(
-			(row) => row.actualTime !== null,
-		);
-		const currentTimeDiff =
-			timeTableRows[timeTableRows.length - 1].differenceInMinutes;
-		return currentTimeDiff >= delayThreshold;
-	});
-
-	const sortedTrains = [...filteredTrains].sort((a, b) => {
-		const multiplier = sortOption.direction === "asc" ? 1 : -1;
-
-		if (sortOption.field === "trainNumber") {
-			return (a.trainNumber - b.trainNumber) * multiplier;
-		}
-		const aDelay =
-			a.timeTableRows[a.timeTableRows.length - 1].differenceInMinutes;
-		const bDelay =
-			b.timeTableRows[b.timeTableRows.length - 1].differenceInMinutes;
-		return (aDelay - bDelay) * multiplier;
-	});
+	const filteredTrains = filterTrainsByDelay(trains, delayThreshold);
+	const sortedTrains = sortTrains(filteredTrains, sortOption);
 
 	const title =
 		type === "commuter"
