@@ -19,7 +19,7 @@ const SortSelector = ({ currentSort, onSortChange }: SortSelectorProps) => {
 
 	return (
 		<div
-			className={`flex flex-wrap items-center gap-2 mb-4 w-full ${
+			className={`flex flex-wrap items-center gap-2 w-full ${
 				isLoading ? "fade-out" : "fade-in"
 			}`}
 		>

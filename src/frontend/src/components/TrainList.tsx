@@ -63,7 +63,7 @@ const TrainList = ({ trains, type }: TrainListProps) => {
 				{title} ({delayThreshold}
 				{translations.minutesOrMore})
 			</h2>
-			<div className="flex flex-col gap-4">
+			<div className="flex flex-col gap-4 py-4 p-2">
 				<DelayThresholdSelector
 					currentThreshold={delayThreshold}
 					onThresholdChange={setDelayThreshold}
