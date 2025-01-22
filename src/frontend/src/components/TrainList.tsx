@@ -42,7 +42,7 @@ const TrainList = ({ trains, type }: TrainListProps) => {
 			<div
 				className={`${containerClass} ${isLoading ? "fade-out" : "fade-in"}`}
 			>
-				<h2 className="text-left text-xl">
+				<h2 className="text-left text-xl p-2">
 					{title} ({delayThreshold}
 					{translations.minutesOrMore})
 				</h2>
@@ -63,7 +63,7 @@ const TrainList = ({ trains, type }: TrainListProps) => {
 				{title} ({delayThreshold}
 				{translations.minutesOrMore})
 			</h2>
-			<div className="flex flex-col gap-2">
+			<div className="flex flex-col gap-4">
 				<DelayThresholdSelector
 					currentThreshold={delayThreshold}
 					onThresholdChange={setDelayThreshold}

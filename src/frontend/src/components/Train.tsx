@@ -13,9 +13,7 @@ const Train = ({ train }: TrainProps) => {
 	});
 	const currentTimeDiff =
 		timeTableRows[timeTableRows.length - 1].differenceInMinutes;
-	function handleViewDetails(_e: React.MouseEvent) {
-		router.push(`/train/${train.trainNumber}`);
-	}
+
 	return (
 		<div
 			key={`train-${train.trainNumber}`}
