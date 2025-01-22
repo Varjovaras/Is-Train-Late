@@ -15,7 +15,7 @@ const DelayThresholdSelector = ({
 
 	return (
 		<div
-			className={`flex items-center gap-2  ${
+			className={`flex items-center gap-2 ${
 				isLoading ? "fade-out" : "fade-in"
 			}`}
 		>

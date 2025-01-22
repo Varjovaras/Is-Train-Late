@@ -1,7 +1,7 @@
-import DelayCauses from "@/components/DelayCauses";
-import TrainDetails from "@/components/TrainDetails";
+import DelayCauses from "@/app/train/[id]/components/trainDelay/DelayCauses";
 import { getSingleTrainQuery } from "@/lib/queries/singleTrainQuery";
 import type { TrainResponse } from "@/lib/types/trainTypes";
+import TrainDetails from "./components/TrainDetails";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 

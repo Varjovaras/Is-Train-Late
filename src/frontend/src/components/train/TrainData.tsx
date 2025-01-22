@@ -31,11 +31,15 @@ const TrainData = ({ train, currentTimeDiff }: TrainDataProps) => {
 				<span className="text-red-500 font-bold">{currentTimeDiff}</span>{" "}
 				<span className="">{translations.minutesLate}</span>
 			</p>
-			{train.trainLocations.map((location) => (
-				<p key={location.speed + location.timestamp}>
-					{translations.currentSpeed} {location.speed}km/h
-				</p>
-			))}
+			{train.trainLocations ? (
+				train.trainLocations.map((location) => (
+					<p key={location.speed + location.timestamp}>
+						{translations.currentSpeed} {location.speed}km/h
+					</p>
+				))
+			) : (
+				<></>
+			)}
 			<button
 				type="button"
 				onClick={handleViewDetails}

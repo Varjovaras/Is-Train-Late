@@ -3,9 +3,9 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { Train as TrainType } from "@/lib/types/trainTypes";
 import { filterTrainsByDelay, sortTrains } from "@/lib/utils/trainUtils";
 import { useState } from "react";
-import DelayThresholdSelector from "./DelayThresholdSelector";
-import type { SortOption } from "./SortSelector";
-import SortSelector from "./SortSelector";
+import DelayThresholdSelector from "../DelayThresholdSelector";
+import type { SortOption } from "../SortSelector";
+import SortSelector from "../SortSelector";
 import Train from "./Train";
 
 type TrainListProps = {
