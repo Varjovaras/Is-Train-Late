@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import FindTrain from "@/components/FindTrain";
-import { Footer } from "@/components/Footer";
-import { Title } from "@/components/Title";
-import TopBar from "@/components/TopBar";
+import FindTrain from "@/components/ui/FindTrain";
+import { Footer } from "@/components/ui/Footer";
+import { Title } from "@/components/ui/Title";
+import TopBar from "@/components/ui/TopBar";
 
 const geistSans = localFont({
 	src: "./fonts/GeistVF.woff",
