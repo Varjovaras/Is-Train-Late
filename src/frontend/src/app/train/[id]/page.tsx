@@ -34,7 +34,9 @@ export default async function Page({
 
 	if (trainResponse.data.currentlyRunningTrains.length > 1) {
 		console.error(trainResponse.data.currentlyRunningTrains);
-		return <div>Error! Got multiple trains from query</div>;
+		return (
+			<div className="text-red-500">Error! Got multiple trains from query</div>
+		);
 	}
 
 	if (trainResponse.data.currentlyRunningTrains.length === 0) {
@@ -50,6 +52,7 @@ export default async function Page({
 	}
 
 	const train = trainResponse.data.currentlyRunningTrains[0];
+	console.log(train);
 
 	return (
 		<div className="max-w-3xl mx-auto">

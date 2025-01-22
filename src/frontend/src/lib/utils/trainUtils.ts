@@ -11,6 +11,7 @@ export const filterTrainsByDelay = (trains: Train[], threshold: number) => {
 		return currentTimeDiff >= threshold;
 	});
 };
+
 export const sortTrains = (trains: Train[], sortOption: SortOption) => {
 	return [...trains].sort((a, b) => {
 		const multiplier = sortOption.direction === "asc" ? 1 : -1;

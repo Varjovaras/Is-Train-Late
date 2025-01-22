@@ -31,7 +31,8 @@ export const translations = {
 		delayThreshold: "Myöhästymisraja",
 		minutes: "minuuttia",
 		minutesOrMore: " minuuttia tai enemmän",
-		notLate: "Ei myöhässä",
+		allTrains: "Kaikki junat",
+		firstCauseBeingLate: "Ensimmäisen myöhästymisen syy:",
 	},
 	en: {
 		title: "Is VR Late?",
@@ -65,7 +66,8 @@ export const translations = {
 		delayThreshold: "Delay threshold",
 		minutes: "minutes",
 		minutesOrMore: " minutes or more",
-		notLate: "Not late",
+		allTrains: "All trains",
+		firstCauseBeingLate: "First cause being late:",
 	},
 } as const;
 

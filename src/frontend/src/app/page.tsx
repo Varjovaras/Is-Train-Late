@@ -13,7 +13,7 @@ export default async function Home() {
 	);
 
 	const commuterTrains = passengerTrainData.filter(
-		(train) => train.commuterLineid !== "",
+		(train) => train.commuterLineid !== "" && train.commuterLineid !== "V",
 	);
 
 	return (

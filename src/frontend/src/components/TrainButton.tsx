@@ -1,35 +1,31 @@
 "use client";
 
 import type { Train } from "@/lib/types/trainTypes";
-import type { Dispatch, SetStateAction } from "react";
+import { useRouter } from "next/navigation";
 
 type TrainButtonProps = {
 	train: Train;
-	isExpanded: boolean;
-	setIsExpanded: Dispatch<SetStateAction<boolean>>;
 };
 
-const TrainButton = ({
-	train,
-	isExpanded,
-	setIsExpanded,
-}: TrainButtonProps) => {
+const TrainButton = ({ train }: TrainButtonProps) => {
+	const router = useRouter();
+
+	function handleViewDetails(_e: React.MouseEvent) {
+		router.push(`/train/${train.trainNumber}`);
+	}
+
 	return (
 		<button
 			type="button"
-			onClick={() => setIsExpanded(!isExpanded)}
-			className="w-full text-left flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded transition-colors duration-200"
+			className="w-full text-left flex bg-foreground/10 justify-between items-center hover:bg-red-600/10 p-2 rounded transition-colors duration-200"
+			onClick={handleViewDetails}
 		>
-			<span>
+			<span className="font-bold text-xl text-left">
 				{train.commuterLineid !== ""
 					? train.commuterLineid
 					: train.trainType.name + train.trainNumber}
 			</span>
-			<span
-				className={`transform transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
-			>
-				▼
-			</span>
+			<span className="">▶</span>
 		</button>
 	);
 };

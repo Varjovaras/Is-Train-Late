@@ -1,5 +1,6 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
+import DelayOptions from "./DelayOptions";
 
 type DelayThresholdSelectorProps = {
 	currentThreshold: number;
@@ -27,12 +28,7 @@ const DelayThresholdSelector = ({
 				onChange={(e) => onThresholdChange(Number(e.target.value))}
 				className="px-2 py-1 rounded-md border border-foreground/20 bg-background"
 			>
-				<option value="0">{translations.notLate}</option>
-				<option value="3">3 {translations.minutes}</option>
-				<option value="5">5 {translations.minutes}</option>
-				<option value="10">10 {translations.minutes}</option>
-				<option value="15">15 {translations.minutes}</option>
-				<option value="30">30 {translations.minutes}</option>
+				<DelayOptions />
 			</select>
 		</div>
 	);
