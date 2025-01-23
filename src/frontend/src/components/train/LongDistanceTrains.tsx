@@ -6,7 +6,7 @@ type LongDistanceTrainsProps = {
 };
 
 const LongDistanceTrains = ({ trains }: LongDistanceTrainsProps) => {
-	return <TrainList trains={trains} type="longDistance" />;
+	return <TrainList trains={trains} trainType="longDistance" />;
 };
 
 export default LongDistanceTrains;

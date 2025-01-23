@@ -5,7 +5,7 @@ type CommuterTrainsProps = {
 	trains: Train[];
 };
 const CommuterTrains = ({ trains }: CommuterTrainsProps) => {
-	return <TrainList trains={trains} type="commuter" />;
+	return <TrainList trains={trains} trainType="commuter" />;
 };
 
 export default CommuterTrains;
