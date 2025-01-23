@@ -8,19 +8,13 @@ type TrainProps = {
 };
 
 const Train = ({ train }: TrainProps) => {
-	const timeTableRows = train.timeTableRows.filter((row) => {
-		return row.actualTime !== null;
-	});
-	const currentTimeDiff =
-		timeTableRows[timeTableRows.length - 1].differenceInMinutes;
-
 	return (
 		<div
 			key={`train-${train.trainNumber}`}
 			className="border border-double border-red-600 p-4 m-2 overflow-hidden break-words"
 		>
 			<TrainButton train={train} />
-			<TrainData train={train} currentTimeDiff={currentTimeDiff} />
+			<TrainData train={train} />
 		</div>
 	);
 };

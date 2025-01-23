@@ -33,6 +33,9 @@ export const translations = {
 		minutesOrMore: " minuuttia tai enemmän",
 		allTrains: "Kaikki junat",
 		firstCauseBeingLate: "Ensimmäisen myöhästymisen syy:",
+		noCurrentSpeed: "Junan vauhtia ei saatavilla",
+		latestStation: "Edellinen asema:",
+		nextStation: "Seuraava asema:",
 	},
 	en: {
 		title: "Is VR Late?",
@@ -68,6 +71,9 @@ export const translations = {
 		minutesOrMore: " minutes or more",
 		allTrains: "All trains",
 		firstCauseBeingLate: "First cause being late:",
+		noCurrentSpeed: "No current speed available",
+		latestStation: "Latest station:",
+		nextStation: "Next station:",
 	},
 } as const;
 
