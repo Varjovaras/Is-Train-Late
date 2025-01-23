@@ -56,11 +56,11 @@ export type TimeTableRow = {
 	causes: Causes;
 };
 
-type TimeTableType = "ARRIVAL" | "DEPARTURE";
+export type TimeTableType = "ARRIVAL" | "DEPARTURE";
 
-type CommercialStop = true | null;
+export type CommercialStop = true | null;
 
-type Station = {
+export type Station = {
 	passengerTraffic: boolean;
 	countryCode: string;
 	location: Location;
@@ -72,25 +72,25 @@ type Station = {
 	// stationMessages
 };
 
-type Location = [number, number];
-type StationType = "STATION" | "STOPPING_POINT";
+export type Location = [number, number];
+export type StationType = "STATION" | "STOPPING_POINT";
 
-type Causes = Cause[] | null;
+export type Causes = Cause[] | null;
 
-type Cause = {
+export type Cause = {
 	categoryCode: CategoryCode;
 	detailedCategoryCode: CategoryCode;
 	thirdCategoryCode: CategoryCode;
 };
 
-type CategoryCode = {
+export type CategoryCode = {
 	code: string;
 	name: string;
 	validFrom: string;
 	validTo: string | null;
 };
 
-type TrainTrackingMessage = {
+export type TrainTrackingMessage = {
 	// id: number;
 	// version: string;
 	timestamp: Date;

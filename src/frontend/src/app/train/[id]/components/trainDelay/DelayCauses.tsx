@@ -8,20 +8,17 @@ type TrainProps = {
 };
 
 const DelayCauses = ({ train }: TrainProps) => {
+	const { translations, isLoading } = useTranslations();
+
 	const timeTablesWithCauses = train.timeTableRows.filter(
 		(row) => row.causes !== null,
 	);
 
-	const { translations, isLoading } = useTranslations();
-	const delayCauses = translations.delayCauses;
-	const station = translations.station;
-	const category = translations.category;
-	const details = translations.details;
-	const additionalInfo = translations.additionalInfo;
-
 	return (
 		<div className={`mb-8 ${isLoading ? "fade-out" : "fade-in"}`}>
-			<h2 className="text-2xl font-semibold mb-4">{delayCauses}</h2>
+			<h2 className="text-2xl font-semibold mb-4">
+				{translations.delayCauses}
+			</h2>
 			<div className="space-y-4">
 				{timeTablesWithCauses.map((timeTableRow) => (
 					<div
@@ -29,7 +26,7 @@ const DelayCauses = ({ train }: TrainProps) => {
 						className="bg-foreground/5 rounded-lg p-4"
 					>
 						<div className="mb-2">
-							<span className="font-semibold">{station} </span>
+							<span className="font-semibold">{translations.station} </span>
 							{timeTableRow.station.name}
 						</div>
 						{timeTableRow.causes?.map((cause) => (
@@ -37,16 +34,19 @@ const DelayCauses = ({ train }: TrainProps) => {
 								key={cause.categoryCode.name + cause.categoryCode.validFrom}
 								className="ml-4 space-y-1"
 							>
-								<CauseItem label={category} value={cause.categoryCode.name} />
+								<CauseItem
+									label={translations.category}
+									value={cause.categoryCode.name}
+								/>
 								{cause.detailedCategoryCode && (
 									<CauseItem
-										label={details}
+										label={translations.details}
 										value={cause.detailedCategoryCode.name}
 									/>
 								)}
 								{cause.thirdCategoryCode && (
 									<CauseItem
-										label={additionalInfo}
+										label={translations.additionalInfo}
 										value={cause.thirdCategoryCode.name}
 									/>
 								)}
