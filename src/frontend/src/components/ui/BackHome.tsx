@@ -2,7 +2,7 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { usePathname, useRouter } from "next/navigation";
 
-export const BackHome = () => {
+const BackHome = () => {
 	const router = useRouter();
 	const pathname = usePathname();
 
@@ -33,3 +33,5 @@ export const BackHome = () => {
 		</button>
 	);
 };
+
+export default BackHome;

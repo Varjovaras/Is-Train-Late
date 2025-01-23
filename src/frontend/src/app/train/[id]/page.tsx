@@ -5,11 +5,11 @@ import TrainDetails from "./components/TrainDetails";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
-export default async function Page({
+const Page = async ({
 	params,
 }: Readonly<{
 	params: Promise<{ id: string }>;
-}>) {
+}>) => {
 	const id = (await params).id;
 	const singleTrainQuery = getSingleTrainQuery(id);
 
@@ -60,4 +60,6 @@ export default async function Page({
 			<DelayCauses train={train} />
 		</div>
 	);
-}
+};
+
+export default Page;

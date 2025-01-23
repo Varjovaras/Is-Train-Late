@@ -4,7 +4,7 @@ import { type Language, languages } from "@/lib/i18n/config";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useEffect, useState } from "react";
 
-export const LanguageSwitcher = () => {
+const LanguageSwitcher = () => {
 	const [currentLang, setCurrentLang] = useState<Language>("en");
 	const { isLoading } = useTranslations();
 	useEffect(() => {
@@ -41,3 +41,5 @@ export const LanguageSwitcher = () => {
 		</div>
 	);
 };
+
+export default LanguageSwitcher;

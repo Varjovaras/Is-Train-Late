@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 
-export const Footer = () => {
+const Footer = () => {
 	return (
 		<footer className="w-full flex gap-4 flex-col sm:flex-row justify-center items-center mt-auto pt-6 px-4">
 			<a
@@ -39,3 +39,5 @@ export const Footer = () => {
 		</footer>
 	);
 };
+
+export default Footer;

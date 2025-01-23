@@ -1,11 +1,12 @@
-export function getSingleTrainQuery(trainNumber: string) {
+export const getSingleTrainQuery = (trainNumber: string) => {
 	return singleTrainQuery
 		.replace("XYZ", trainNumber)
 		.replace(/\s+/g, " ")
 		.replace(/\n/g, " ")
 		.replace(/\\/g, "")
 		.trim();
-}
+};
+
 const singleTrainQuery = `{
       currentlyRunningTrains(
         where: {and: [{operator: {shortCode: {equals: "vr"}}}, {trainNumber: {equals: XYZ}}]}

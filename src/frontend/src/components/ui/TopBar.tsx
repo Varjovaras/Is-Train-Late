@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import { BackHome } from "./BackHome";
-import { LanguageSwitcher } from "./LanguageSwitcher";
+import BackHome from "./BackHome";
+import LanguageSwitcher from "./LanguageSwitcher";
 
-function TopBar() {
+const TopBar = () => {
 	const [isVisible, setIsVisible] = useState(true);
 	const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -37,6 +37,6 @@ function TopBar() {
 			</div>
 		</div>
 	);
-}
+};
 
 export default TopBar;

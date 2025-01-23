@@ -1,7 +1,7 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 
-export const Title = () => {
+const Title = () => {
 	const { translations, isLoading } = useTranslations();
 	const title = translations.title;
 
@@ -15,3 +15,5 @@ export const Title = () => {
 		</div>
 	);
 };
+
+export default Title;

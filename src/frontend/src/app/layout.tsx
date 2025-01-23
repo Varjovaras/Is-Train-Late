@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import FindTrain from "@/components/ui/FindTrain";
-import { Footer } from "@/components/ui/Footer";
-import { Title } from "@/components/ui/Title";
+import Footer from "@/components/ui/Footer";
+import Title from "@/components/ui/Title";
 import TopBar from "@/components/ui/TopBar";
 
 const geistSans = localFont({
@@ -25,11 +25,11 @@ export const metadata: Metadata = {
 	},
 };
 
-export default function RootLayout({
+const RootLayout = ({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
-}>) {
+}>) => {
 	return (
 		<html lang="en">
 			<body
@@ -49,4 +49,6 @@ export default function RootLayout({
 			</body>
 		</html>
 	);
-}
+};
+
+export default RootLayout;

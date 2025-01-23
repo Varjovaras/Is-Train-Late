@@ -3,7 +3,7 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-function FindTrain() {
+const FindTrain = () => {
 	const router = useRouter();
 	const { translations, isLoading } = useTranslations();
 	const [trainNumber, setTrainNumber] = useState("");
@@ -64,6 +64,6 @@ function FindTrain() {
 			</button>
 		</form>
 	);
-}
+};
 
 export default FindTrain;

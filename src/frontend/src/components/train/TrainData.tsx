@@ -15,9 +15,9 @@ const TrainData = ({ train, currentTimeDiff }: TrainDataProps) => {
 	const endStation =
 		train.timeTableRows[train.timeTableRows.length - 1].station.name;
 
-	function handleViewDetails(_e: React.MouseEvent) {
+	const handleViewDetails = (_e: React.MouseEvent) => {
 		router.push(`/train/${train.trainNumber}`);
-	}
+	};
 
 	return (
 		<div className={`mt-2 ${isLoading ? "fade-out" : "fade-in"} break-words`}>

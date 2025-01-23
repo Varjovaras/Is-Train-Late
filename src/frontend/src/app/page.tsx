@@ -3,7 +3,7 @@ import LongDistanceTrains from "@/components/train/LongDistanceTrains";
 import { getTrainData } from "@/lib/queries/getTrainData";
 import type { TrainResponse } from "@/lib/types/trainTypes";
 
-export default async function Home() {
+const Home = async () => {
 	const trainResponse = (await getTrainData()) as TrainResponse;
 
 	const passengerTrainData = trainResponse.data.currentlyRunningTrains;
@@ -22,4 +22,6 @@ export default async function Home() {
 			<CommuterTrains trains={commuterTrains} />
 		</div>
 	);
-}
+};
+
+export default Home;
