@@ -14,7 +14,10 @@ const NoTrains = ({
 	delayThreshold,
 	setDelayThreshold,
 }: NoTrainsProps) => {
-	const { translations, isLoading } = useTranslations();
+	const {
+		translations,
+		// , isLoading
+	} = useTranslations();
 
 	const noTrainsMessage =
 		trainType === "commuter"

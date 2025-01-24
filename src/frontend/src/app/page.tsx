@@ -1,5 +1,5 @@
-import CommuterTrains from "@/components/train/CommuterTrains";
-import LongDistanceTrains from "@/components/train/LongDistanceTrains";
+import CommuterTrains from "@/components/trains/CommuterTrains";
+import LongDistanceTrains from "@/components/trains/LongDistanceTrains";
 import { getTrainData } from "@/lib/queries/getTrainData";
 import type { TrainResponse } from "@/lib/types/trainTypes";
 
