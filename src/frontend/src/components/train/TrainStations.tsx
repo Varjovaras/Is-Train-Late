@@ -1,5 +1,6 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { Train } from "@/lib/types/trainTypes";
+import { formatTime } from "@/lib/utils/dateUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
 import {
 	getCommercialStationArrivals,
@@ -17,13 +18,6 @@ const TrainStations = ({ train, showAllStations }: TrainStationsProps) => {
 	const passengerStationTimeTableRows = getCommercialStationArrivals(train);
 	const currentStation = getLatestCommercialStationName(train);
 	const nextStationRow = getNextStation(train);
-
-	const formatTime = (date: Date) => {
-		return new Date(date).toLocaleTimeString("fi-FI", {
-			hour: "2-digit",
-			minute: "2-digit",
-		});
-	};
 
 	const stationsToShow = showAllStations
 		? passengerStationTimeTableRows
