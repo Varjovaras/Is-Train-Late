@@ -58,12 +58,12 @@ const TrainStations = ({ train, showAllStations }: TrainStationsProps) => {
 								{isCurrentStation && "→"}
 								{isNextStation && "⟶"}
 							</div>
-							<div className="truncate">{stationName}</div>
+							<div className="truncate flex-shrink">{stationName}</div>
 						</div>
 
-						<div className="flex flex-col items-end gap-1 text-sm min-w-[150px] flex-shrink-0">
+						<div className="flex flex-col items-end gap-1 text-sm min-w-[90px] sm:min-w-[150px] flex-shrink-0">
 							<div className="w-full flex justify-between">
-								<span className="text-foreground/60">
+								<span className="hidden sm:inline text-foreground/60">
 									{translations.scheduled}
 								</span>
 								<span>{scheduledTime}</span>
@@ -74,7 +74,9 @@ const TrainStations = ({ train, showAllStations }: TrainStationsProps) => {
 									estimatedTime !== scheduledTime ? "text-red-500" : "invisible"
 								}`}
 							>
-								<span className="">{translations.estimated}</span>
+								<span className="hidden sm:inline">
+									{translations.estimated}
+								</span>
 								<span>{estimatedTime}</span>
 							</div>
 
