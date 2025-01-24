@@ -33,7 +33,7 @@ const FindTrain = () => {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className={`space-y-4 ${isLoading ? "fade-out" : "fade-in"}`}
+			className={`p-4 space-y-4 ${isLoading ? "fade-out" : "fade-in"}`}
 		>
 			{" "}
 			<div className="flex flex-col space-y-2">

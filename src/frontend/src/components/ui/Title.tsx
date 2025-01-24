@@ -7,7 +7,7 @@ const Title = () => {
 
 	return (
 		<div
-			className={`text-center font-[family-name:var(--font-geist-mono)] ${
+			className={`p-4 text-center font-[family-name:var(--font-geist-mono)] ${
 				isLoading ? "fade-out" : "fade-in"
 			}`}
 		>
