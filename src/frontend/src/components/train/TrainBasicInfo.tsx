@@ -34,7 +34,6 @@ const TrainBasicInfo = ({ train }: TrainBasicInfoProps) => {
 			</p>
 			<p className="overflow-hidden text-ellipsis">
 				{translations.nextStation} {nextStation?.station.name}{" "}
-				{nextStation?.scheduledTime.toString()}
 			</p>
 			<p className="">
 				<span className="text-red-500 font-bold">{currentTimeDiff}</span>{" "}

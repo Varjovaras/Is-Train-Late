@@ -36,6 +36,9 @@ export const translations = {
 		noCurrentSpeed: "Junan vauhtia ei saatavilla",
 		latestStation: "Edellinen asema:",
 		nextStation: "Seuraava asema:",
+		scheduled: "Aikataulu",
+		estimated: "Arvio",
+		minShortened: "min",
 	},
 	en: {
 		title: "Is VR Late?",
@@ -67,13 +70,16 @@ export const translations = {
 		delayDesc: "Delay (largest first)",
 		delay: "Delay",
 		delayThreshold: "Delay threshold",
-		minutes: "minutes",
+		minutes: "min",
 		minutesOrMore: " minutes or more",
 		allTrains: "All trains",
 		firstCauseBeingLate: "First cause being late:",
 		noCurrentSpeed: "No current speed available",
 		latestStation: "Latest station:",
 		nextStation: "Next station:",
+		scheduled: "Scheduled",
+		estimated: "Estimated",
+		minShortened: "min",
 	},
 } as const;
 
