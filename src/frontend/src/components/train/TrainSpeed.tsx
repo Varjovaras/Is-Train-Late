@@ -13,8 +13,8 @@ const TrainSpeed = ({ train }: TrainSpeedProps) => {
 		<div>
 			{train.trainLocations ? (
 				train.trainLocations.map((location) => (
-					<p key={location.speed + location.timestamp}>
-						{translations.currentSpeed} {location.speed}km/h
+					<p className="" key={location.speed + location.timestamp}>
+						{location.speed}km/h
 					</p>
 				))
 			) : (
