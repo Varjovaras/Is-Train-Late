@@ -40,34 +40,46 @@ const TrainStations = ({ train }: TrainStationsProps) => {
 					<div
 						key={station.scheduledTime.toString()}
 						className={`flex items-center gap-4 py-2 px-3 rounded-md
-                            ${isCurrentStation ? "text-green-500 font-bold bg-green-500/5" : ""}
-                            ${isNextStation ? "text-blue-500 font-bold bg-blue-500/5" : ""}`}
+              ${isCurrentStation ? "text-green-500 font-bold bg-green-500/5" : ""}
+              ${isNextStation ? "text-blue-500 font-bold bg-blue-500/5" : ""}`}
 					>
+						{/* Arrow column */}
 						<div className="w-6 text-center">
 							{isCurrentStation && "→"}
 							{isNextStation && "⟶"}
 						</div>
+
+						{/* Station name column */}
 						<div className="flex-1">{removeAsema(station.station.name)}</div>
-						<div className="flex flex-col items-end text-sm">
-							{(isNextStation || isCurrentStation) && (
-								<>
-									<div className="flex gap-2">
+
+						{/* Time information column - fixed width */}
+						<div className="w-48">
+							{isNextStation || isCurrentStation ? (
+								<div className="flex flex-col items-end text-sm">
+									{/* Scheduled time */}
+									<div className="w-full flex justify-between">
 										<span className="text-foreground/60">
-											{translations.scheduled}: {scheduledTime}
+											{translations.scheduled}:
 										</span>
-										{estimatedTime !== scheduledTime && (
-											<span className="text-red-500">
-												{translations.estimated}: {estimatedTime}
-											</span>
-										)}
+										<span>{scheduledTime}</span>
 									</div>
+
+									{/* Estimated time (if different) */}
+									{estimatedTime !== scheduledTime && (
+										<div className="w-full flex justify-between text-red-500">
+											<span>{translations.estimated}:</span>
+											<span>{estimatedTime}</span>
+										</div>
+									)}
+
+									{/* Delay */}
 									{delay > 0 && (
-										<div className="text-red-500">
+										<div className="w-full flex justify-end text-red-500">
 											+{delay} {translations.minShortened}
 										</div>
 									)}
-								</>
-							)}
+								</div>
+							) : null}
 						</div>
 					</div>
 				);
