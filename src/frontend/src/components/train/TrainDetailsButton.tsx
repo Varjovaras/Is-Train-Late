@@ -3,9 +3,9 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { Train } from "@/lib/types/trainTypes";
 import { useRouter } from "next/navigation";
 
-interface TrainDetailsButtonProps {
+type TrainDetailsButtonProps = {
 	train: Train;
-}
+};
 
 const TrainDetailsButton = ({ train }: TrainDetailsButtonProps) => {
 	const { translations } = useTranslations();

@@ -2,12 +2,12 @@ import type { Dispatch, SetStateAction } from "react";
 import DelayThresholdSelector from "./DelayThresholdSelector";
 import SortSelector, { type SortOption } from "./SortSelector";
 
-interface SelectorsProps {
+type SelectorsProps = {
 	delayThreshold: number;
 	setDelayThreshold: Dispatch<SetStateAction<number>>;
 	sortOption: SortOption;
 	setSortOption: Dispatch<SetStateAction<SortOption>>;
-}
+};
 
 const Selectors = ({
 	delayThreshold,

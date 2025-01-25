@@ -3,11 +3,11 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { Dispatch, SetStateAction } from "react";
 import DelayThresholdSelector from "../selectors/DelayThresholdSelector";
 
-interface NoTrainsProps {
+type NoTrainsProps = {
 	trainType: "commuter" | "longDistance";
 	delayThreshold: number;
 	setDelayThreshold: Dispatch<SetStateAction<number>>;
-}
+};
 
 const NoTrains = ({
 	trainType,

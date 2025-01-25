@@ -2,16 +2,11 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { Train } from "@/lib/types/trainTypes";
 import { removeAsema } from "@/lib/utils/stringUtils";
-import {
-	getLatestCommercialStationName,
-	getNextStation,
-	getTimeDiff,
-	getVisitedStations,
-} from "@/lib/utils/trainUtils";
+import { getTimeDiff, getVisitedStations } from "@/lib/utils/trainUtils";
 
-interface TrainBasicInfoProps {
+type TrainBasicInfoProps = {
 	train: Train;
-}
+};
 
 const TrainBasicInfo = ({ train }: TrainBasicInfoProps) => {
 	const { translations } = useTranslations();

@@ -6,10 +6,10 @@ import {
 } from "@/lib/utils/trainUtils";
 import StationRow from "./station/StationRow";
 
-interface TrainStationsProps {
+type TrainStationsProps = {
 	train: Train;
 	showAllStations: boolean;
-}
+};
 
 const TrainStations = ({ train, showAllStations }: TrainStationsProps) => {
 	const passengerStationTimeTableRows = getCommercialStationArrivals(train);

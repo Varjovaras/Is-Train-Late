@@ -2,9 +2,9 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { Train } from "@/lib/types/trainTypes";
 
-interface TrainSpeedProps {
+type TrainSpeedProps = {
 	train: Train;
-}
+};
 
 const TrainSpeed = ({ train }: TrainSpeedProps) => {
 	const { translations } = useTranslations();

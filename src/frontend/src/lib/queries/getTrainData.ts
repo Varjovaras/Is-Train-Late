@@ -1,4 +1,3 @@
-// import { unstable_cache } from "next/cache";
 import { passengerQuery } from "./passengerQuery";
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 

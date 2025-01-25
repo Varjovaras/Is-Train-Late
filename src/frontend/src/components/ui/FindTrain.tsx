@@ -8,14 +8,10 @@ const FindTrain = () => {
 	const { translations, isLoading } = useTranslations();
 	const [trainNumber, setTrainNumber] = useState("");
 	const [error, setError] = useState("");
-	const findTrainText = translations.findTrain;
-	const trainNumberText = translations.trainNumber;
-	const trainNumberFormPlaceHolder = translations.trainNumberFormPlaceHolder;
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		// Basic validation
 		if (!trainNumber.trim()) {
 			setError("Please enter a train number");
 			return;
@@ -38,14 +34,14 @@ const FindTrain = () => {
 			{" "}
 			<div className="flex flex-col space-y-2">
 				<label htmlFor="trainNumber" className="text-sm font-medium">
-					{trainNumberText}
+					{translations.trainNumber}
 				</label>
 				<input
 					id="trainNumber"
 					type="text"
 					value={trainNumber}
 					onChange={(e) => setTrainNumber(e.target.value)}
-					placeholder={trainNumberFormPlaceHolder}
+					placeholder={translations.trainNumberFormPlaceHolder}
 					className="px-4 py-2 border border-foreground rounded-md
                          focus:outline-none focus:ring-2 focus:ring-offset-2
                     focus:ring-blue-500 text-black"
@@ -60,7 +56,7 @@ const FindTrain = () => {
                          disabled:cursor-not-allowed"
 				disabled={!trainNumber.trim()}
 			>
-				{findTrainText}
+				{translations.findTrain}
 			</button>
 		</form>
 	);
