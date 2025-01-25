@@ -35,7 +35,7 @@ const StationRow = ({
 	const stationName = removeAsema(station.station.name);
 
 	const stationClassName = `flex gap-4 py-2 px-3 rounded-md
-    ${isDepartureStation ? "text-green-500 font-bold bg-green-500/5" : ""}
+    ${isDepartureStation ? "text-emerald-600 font-bold bg-blue-500/5" : ""}
     ${isCurrentStation && !isDepartureStation ? "text-green-500 font-bold bg-green-500/5" : ""}
     ${isNextStation && !isDepartureStation ? "text-blue-500 font-bold bg-blue-500/5" : ""}`;
 

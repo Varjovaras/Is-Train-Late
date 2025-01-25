@@ -14,21 +14,18 @@ type TrainStationsProps = {
 
 const TrainStations = ({ train, showAllStations }: TrainStationsProps) => {
 	const passengerStationArrivals = getCommercialStationArrivals(train);
-	const firstDeparture = getCommercialStationDepartures(train)[0]; // Get first departure
+	const firstDeparture = getCommercialStationDepartures(train)[0];
 	const currentStation = getLatestCommercialStationName(train);
 	const nextStationRow = getNextStation(train);
 
-	// Include first departure in stations to show
+	// Only include firstDeparture when showing all stations
 	const stationsToShow = showAllStations
 		? [firstDeparture, ...passengerStationArrivals]
-		: [
-				firstDeparture,
-				...passengerStationArrivals.filter(
-					(station) =>
-						station.station.name === currentStation ||
-						station.station.name === nextStationRow?.station.name,
-				),
-			];
+		: passengerStationArrivals.filter(
+				(station) =>
+					station.station.name === currentStation ||
+					station.station.name === nextStationRow?.station.name,
+			);
 
 	const currentStationIndex = stationsToShow.findIndex(
 		(station) => station.station.name === currentStation,
@@ -38,11 +35,11 @@ const TrainStations = ({ train, showAllStations }: TrainStationsProps) => {
 		<div className="mt-4 space-y-2">
 			{stationsToShow.map((station, index) => (
 				<StationRow
-					key={station.scheduledTime.toString()}
+					key={station.scheduledTime.toString() + station.type}
 					station={station}
 					isCurrentStation={station.station.name === currentStation}
 					isNextStation={station.station.name === nextStationRow?.station.name}
-					isDepartureStation={index === 0}
+					isDepartureStation={showAllStations && index === 0}
 					isFutureStation={index > currentStationIndex}
 				/>
 			))}
