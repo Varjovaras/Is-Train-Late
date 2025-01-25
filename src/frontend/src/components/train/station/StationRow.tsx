@@ -10,6 +10,7 @@ type StationRowProps = {
 	station: TimeTableRow;
 	isCurrentStation: boolean;
 	isNextStation: boolean;
+	isDepartureStation: boolean;
 	isFutureStation: boolean;
 };
 
@@ -17,6 +18,7 @@ const StationRow = ({
 	station,
 	isCurrentStation,
 	isNextStation,
+	isDepartureStation,
 	isFutureStation,
 }: StationRowProps) => {
 	const { translations } = useTranslations();
@@ -33,8 +35,9 @@ const StationRow = ({
 	const stationName = removeAsema(station.station.name);
 
 	const stationClassName = `flex gap-4 py-2 px-3 rounded-md
-    ${isCurrentStation ? "text-green-500 font-bold bg-green-500/5" : ""}
-    ${isNextStation ? "text-blue-500 font-bold bg-blue-500/5" : ""}`;
+    ${isDepartureStation ? "text-green-500 font-bold bg-green-500/5" : ""}
+    ${isCurrentStation && !isDepartureStation ? "text-green-500 font-bold bg-green-500/5" : ""}
+    ${isNextStation && !isDepartureStation ? "text-blue-500 font-bold bg-blue-500/5" : ""}`;
 
 	return (
 		<div className={stationClassName}>
@@ -42,8 +45,12 @@ const StationRow = ({
 				<StationIndicator
 					isCurrentStation={isCurrentStation}
 					isNextStation={isNextStation}
+					isDepartureStation={isDepartureStation}
 				/>
-				<div className="truncate flex-shrink">{stationName}</div>
+				<div className="truncate flex-shrink">
+					{stationName}
+					{isDepartureStation}
+				</div>
 			</div>
 
 			<div className="flex flex-col items-end gap-1 text-sm min-w-[90px] sm:min-w-[150px] flex-shrink-0">

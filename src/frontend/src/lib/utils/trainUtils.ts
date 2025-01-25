@@ -71,3 +71,9 @@ export const getNextStation = (train: Train) => {
 	);
 	return nextStation;
 };
+
+export const getCommercialStationDepartures = (train: Train) => {
+	return train.timeTableRows.filter((row) => {
+		return row.commercialStop === true && row.type === "DEPARTURE";
+	});
+};

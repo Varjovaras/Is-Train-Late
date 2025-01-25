@@ -1,6 +1,7 @@
 import type { Train } from "@/lib/types/trainTypes";
 import {
 	getCommercialStationArrivals,
+	getCommercialStationDepartures,
 	getLatestCommercialStationName,
 	getNextStation,
 } from "@/lib/utils/trainUtils";
@@ -12,17 +13,22 @@ type TrainStationsProps = {
 };
 
 const TrainStations = ({ train, showAllStations }: TrainStationsProps) => {
-	const passengerStationTimeTableRows = getCommercialStationArrivals(train);
+	const passengerStationArrivals = getCommercialStationArrivals(train);
+	const firstDeparture = getCommercialStationDepartures(train)[0]; // Get first departure
 	const currentStation = getLatestCommercialStationName(train);
 	const nextStationRow = getNextStation(train);
 
+	// Include first departure in stations to show
 	const stationsToShow = showAllStations
-		? passengerStationTimeTableRows
-		: passengerStationTimeTableRows.filter(
-				(station) =>
-					station.station.name === currentStation ||
-					station.station.name === nextStationRow?.station.name,
-			);
+		? [firstDeparture, ...passengerStationArrivals]
+		: [
+				firstDeparture,
+				...passengerStationArrivals.filter(
+					(station) =>
+						station.station.name === currentStation ||
+						station.station.name === nextStationRow?.station.name,
+				),
+			];
 
 	const currentStationIndex = stationsToShow.findIndex(
 		(station) => station.station.name === currentStation,
@@ -36,6 +42,7 @@ const TrainStations = ({ train, showAllStations }: TrainStationsProps) => {
 					station={station}
 					isCurrentStation={station.station.name === currentStation}
 					isNextStation={station.station.name === nextStationRow?.station.name}
+					isDepartureStation={index === 0}
 					isFutureStation={index > currentStationIndex}
 				/>
 			))}
