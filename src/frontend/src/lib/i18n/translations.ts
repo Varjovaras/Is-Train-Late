@@ -39,6 +39,7 @@ export const translations = {
 		scheduled: "Aikataulu",
 		estimated: "Arvio",
 		minShortened: "min",
+		actual: "Todellinen",
 	},
 	en: {
 		title: "Is VR Late?",
@@ -80,6 +81,7 @@ export const translations = {
 		scheduled: "Scheduled",
 		estimated: "Estimated",
 		minShortened: "min",
+		actual: "Actual",
 	},
 } as const;
 

@@ -27,18 +27,30 @@ const TrainStations = ({ train, showAllStations }: TrainStationsProps) => {
 					station.station.name === nextStationRow?.station.name,
 			);
 
+	// Find the index of the current station to determine future stations
+	const currentStationIndex = stationsToShow.findIndex(
+		(station) => station.station.name === currentStation,
+	);
+
 	return (
 		<div className="mt-4 space-y-2">
-			{stationsToShow.map((station) => {
+			{stationsToShow.map((station, index) => {
 				const isCurrentStation = station.station.name === currentStation;
 				const isNextStation =
 					station.station.name === nextStationRow?.station.name;
+				const isFutureStation = index > currentStationIndex;
+
 				const scheduledTime = formatTime(station.scheduledTime);
+				const actualTime = station.actualTime
+					? formatTime(station.actualTime)
+					: null;
 				const estimatedTime = station.liveEstimateTime
 					? formatTime(station.liveEstimateTime)
 					: scheduledTime;
+
 				const delay = station.differenceInMinutes;
 				const stationName = removeAsema(station.station.name);
+				const isLate = delay > 0;
 
 				return (
 					<div
@@ -56,6 +68,7 @@ const TrainStations = ({ train, showAllStations }: TrainStationsProps) => {
 						</div>
 
 						<div className="flex flex-col items-end gap-1 text-sm min-w-[90px] sm:min-w-[150px] flex-shrink-0">
+							{/* Scheduled time - always show */}
 							<div className="w-full flex justify-between">
 								<span className="hidden sm:inline text-foreground/60">
 									{translations.scheduled}
@@ -63,24 +76,32 @@ const TrainStations = ({ train, showAllStations }: TrainStationsProps) => {
 								<span>{scheduledTime}</span>
 							</div>
 
-							<div
-								className={`w-full flex justify-between ${
-									estimatedTime !== scheduledTime ? "text-red-500" : "invisible"
-								}`}
-							>
-								<span className="hidden sm:inline">
-									{translations.estimated}
-								</span>
-								<span>{estimatedTime}</span>
-							</div>
+							{/* Actual time for past stations */}
+							{actualTime && isLate && !isFutureStation && (
+								<div className="w-full flex justify-between text-red-500">
+									<span className="hidden sm:inline">
+										{translations.actual}
+									</span>
+									<span>{actualTime}</span>
+								</div>
+							)}
 
-							<div
-								className={`w-full flex justify-end ${
-									delay > 0 ? "text-red-500" : "invisible"
-								}`}
-							>
-								+{delay} {translations.minShortened}
-							</div>
+							{/* Estimated time for future stations */}
+							{isFutureStation && estimatedTime !== scheduledTime && (
+								<div className="w-full flex justify-between text-yellow-500">
+									<span className="hidden sm:inline">
+										{translations.estimated}
+									</span>
+									<span>{estimatedTime}</span>
+								</div>
+							)}
+
+							{/* Show delay if station is late */}
+							{isLate && (
+								<div className="w-full flex justify-end text-red-500">
+									+{delay} {translations.minShortened}
+								</div>
+							)}
 						</div>
 					</div>
 				);
