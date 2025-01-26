@@ -56,7 +56,7 @@ const Page = async ({
   console.log(train);
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="mx-auto flex flex-col">
       <TrainDetails train={train} />
       <DelayCauses train={train} />
       <Train train={train} />
