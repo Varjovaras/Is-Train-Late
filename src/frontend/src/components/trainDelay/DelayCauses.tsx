@@ -2,6 +2,7 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { Train } from "@/lib/types/trainTypes";
 import CauseItem from "./CauseItem";
+import { getTimeDiffByStation } from "@/lib/utils/trainUtils";
 
 type TrainProps = {
   train: Train;
@@ -52,6 +53,14 @@ const DelayCauses = ({ train }: TrainProps) => {
                 )}
               </div>
             ))}
+            <p className="px-4 py-2 text-sm text-red-700">
+              {"+"}
+              {getTimeDiffByStation(
+                timeTablesWithCauses,
+                timeTableRow.station.shortCode,
+              )}{" "}
+              {translations.minutes}
+            </p>
           </div>
         ))}
       </div>
