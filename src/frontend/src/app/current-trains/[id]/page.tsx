@@ -1,8 +1,8 @@
-import DelayCauses from "@/app/train/[id]/components/trainDelay/DelayCauses";
 import { getSingleTrainQuery } from "@/lib/queries/singleTrainQuery";
 import type { TrainResponse } from "@/lib/types/trainTypes";
 import TrainDetails from "./components/TrainDetails";
 import Train from "@/components/train/Train";
+import DelayCauses from "./components/trainDelay/DelayCauses";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
@@ -53,7 +53,6 @@ const Page = async ({
   }
 
   const train = trainResponse.data.currentlyRunningTrains[0];
-  console.log(train);
 
   return (
     <div className="mx-auto flex flex-col">
