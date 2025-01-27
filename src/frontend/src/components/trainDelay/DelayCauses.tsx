@@ -15,6 +15,14 @@ const DelayCauses = ({ train }: TrainProps) => {
     (row) => row.causes !== null,
   );
 
+  if (timeTablesWithCauses.length === 0) {
+    return (
+      <h2 className="p-4 m-4 text-center text-xl font-extralight text-green-500">
+        No delay causes
+      </h2>
+    );
+  }
+
   return (
     <div className={`mb-8 ${isLoading ? "fade-out" : "fade-in"}`}>
       <h2 className="text-2xl font-semibold m-4">{translations.delayCauses}</h2>
