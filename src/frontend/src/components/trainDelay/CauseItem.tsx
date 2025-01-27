@@ -1,15 +1,15 @@
 type CauseItemProps = {
-	label: string;
-	value: string;
+  label: string;
+  value: string;
 };
 
 const CauseItem = ({ label, value }: CauseItemProps) => {
-	return (
-		<div className="flex gap-2 text-sm">
-			<span className="text-foreground/60">{label}:</span>
-			<span>{value}</span>
-		</div>
-	);
+  return (
+    <div className="grid grid-cols-[160px_1fr] gap-2 text-sm items-start">
+      <span className="text-yellow-500">{label}:</span>
+      <span className="text-red-600">{value}</span>
+    </div>
+  );
 };
 
 export default CauseItem;
