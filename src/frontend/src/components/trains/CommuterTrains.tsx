@@ -1,12 +1,12 @@
-import type { Train } from "@/lib/types/trainTypes";
+import type { TrainNameAndCategory } from "@/lib/types/trainTypes";
 import TrainList from "./TrainList";
 
 type CommuterTrainsProps = {
-	trains: Train[];
+  trains: TrainNameAndCategory[];
 };
 
 const CommuterTrains = ({ trains }: CommuterTrainsProps) => {
-	return <TrainList trains={trains} trainType="commuter" />;
+  return <TrainList trains={trains} trainType="commuter" />;
 };
 
 export default CommuterTrains;

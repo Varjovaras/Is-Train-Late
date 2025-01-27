@@ -1,6 +1,6 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import type { Train as TrainType } from "@/lib/types/trainTypes";
+import type { TrainNameAndCategory as TrainNameAndCategory } from "@/lib/types/trainTypes";
 import { filterTrainsByDelay, sortTrains } from "@/lib/utils/trainUtils";
 import { useState } from "react";
 import Selectors from "../selectors/Selectors";
@@ -9,7 +9,7 @@ import Train from "../train/Train";
 import NoTrains from "./NoTrains";
 
 type TrainListProps = {
-  trains: TrainType[];
+  trains: TrainNameAndCategory[];
   trainType: "commuter" | "longDistance";
 };
 

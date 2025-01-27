@@ -1,6 +1,6 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import type { Train } from "@/lib/types/trainTypes";
+import type { TrainNameAndCategory } from "@/lib/types/trainTypes";
 import { useState } from "react";
 import TrainBasicInfo from "./TrainBasicInfo";
 import TrainDetailsButton from "./TrainDetailsButton";
@@ -8,7 +8,7 @@ import TrainSpeed from "./TrainSpeed";
 import TrainStations from "./TrainStations";
 
 type TrainDataProps = {
-  train: Train;
+  train: TrainNameAndCategory;
   forceShowAllStations: boolean;
 };
 

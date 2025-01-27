@@ -10,7 +10,7 @@ const Page = async ({
   params: Promise<{ id: string }>;
 }>) => {
   const id = (await params).id;
-  const singleTrainQuery = getStationQuery(id);
+  const stationQuery = getStationQuery(id);
 
   const res = await fetch(GRAPHQL_ENDPOINT, {
     method: "POST",
@@ -19,7 +19,7 @@ const Page = async ({
       "Accept-Encoding": "gzip",
     },
     body: JSON.stringify({
-      query: singleTrainQuery,
+      query: stationQuery,
     }),
   });
 
@@ -29,16 +29,16 @@ const Page = async ({
     );
   }
 
-  const trainResponse: TrainResponse = await res.json();
+  const stationResponse: TrainResponse = await res.json();
 
-  if (trainResponse.data.currentlyRunningTrains.length > 1) {
-    console.error(trainResponse.data.currentlyRunningTrains);
+  if (stationResponse.data.currentlyRunningTrains.length > 1) {
+    console.error(stationResponse.data.currentlyRunningTrains);
     return (
       <div className="text-red-500">Error! Got multiple trains from query</div>
     );
   }
 
-  if (trainResponse.data.currentlyRunningTrains.length === 0) {
+  if (stationResponse.data.currentlyRunningTrains.length === 0) {
     return (
       <div>
         <div className="flex flex-col items-center">
@@ -50,7 +50,7 @@ const Page = async ({
     );
   }
 
-  const train = trainResponse.data.currentlyRunningTrains[0];
+  const train = stationResponse.data.currentlyRunningTrains[0];
 
   return <div className="mx-auto flex flex-col">123</div>;
 };

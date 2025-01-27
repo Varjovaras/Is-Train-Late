@@ -8,13 +8,14 @@ export const getStationQuery = (stationName: string) => {
 };
 
 const stationQuery = `{
-    stations(take: 1, where: { name: { equals: "Helsinki Asema" } }) {
-        name
-        passengerTraffic
-        countryCode
-        location
-        shortCode
-        uicCode
-        type
-    }
+  stations(take: 1, where: {name: {equals: "Helsinki Asema"}}) {
+    name
+    passengerTraffic
+    countryCode
+    location
+    shortCode
+    uicCode
+    type
+
+  }
 }`;

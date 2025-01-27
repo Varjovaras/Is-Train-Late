@@ -1,9 +1,9 @@
 "use client";
-import type { Train } from "@/lib/types/trainTypes";
+import type { TrainNameAndCategory } from "@/lib/types/trainTypes";
 import { removeAsema } from "@/lib/utils/stringUtils";
 
 type TrainProps = {
-  train: Train;
+  train: TrainNameAndCategory;
 };
 const TrainDetails = ({ train }: TrainProps) => {
   const startStation = removeAsema(train.timeTableRows[0].station.name);

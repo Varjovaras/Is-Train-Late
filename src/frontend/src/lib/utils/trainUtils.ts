@@ -1,7 +1,14 @@
 import type { SortOption } from "@/components/selectors/SortSelector";
-import type { Station, TimeTableRow, Train } from "@/lib/types/trainTypes";
+import type {
+  StationToTrain,
+  TimeTableRow,
+  TrainNameAndCategory,
+} from "@/lib/types/trainTypes";
 
-export const filterTrainsByDelay = (trains: Train[], threshold: number) => {
+export const filterTrainsByDelay = (
+  trains: TrainNameAndCategory[],
+  threshold: number,
+) => {
   return trains.filter((train) => {
     const timeTableRows = train.timeTableRows.filter(
       (row) => row.actualTime !== null,
@@ -12,7 +19,10 @@ export const filterTrainsByDelay = (trains: Train[], threshold: number) => {
   });
 };
 
-export const sortTrains = (trains: Train[], sortOption: SortOption) => {
+export const sortTrains = (
+  trains: TrainNameAndCategory[],
+  sortOption: SortOption,
+) => {
   return [...trains].sort((a, b) => {
     const multiplier = sortOption.direction === "asc" ? 1 : -1;
 
@@ -54,30 +64,30 @@ export const getTimeDiffByStation = (
   return station?.differenceInMinutes;
 };
 
-export const getCommercialStationArrivals = (train: Train) => {
+export const getCommercialStationArrivals = (train: TrainNameAndCategory) => {
   return train.timeTableRows.filter((row) => {
     return row.commercialStop === true && row.type === "ARRIVAL";
   });
 };
 
-export const getVisitedStations = (train: Train) => {
+export const getVisitedStations = (train: TrainNameAndCategory) => {
   return train.timeTableRows.filter((row) => {
     return row.actualTime !== null;
   });
 };
 
-export const getVisitedCommercialStations = (train: Train) => {
+export const getVisitedCommercialStations = (train: TrainNameAndCategory) => {
   return train.timeTableRows.filter((row) => {
     return row.actualTime !== null && row.commercialStop === true;
   });
 };
 
-export const getLatestCommercialStationName = (train: Train) => {
+export const getLatestCommercialStationName = (train: TrainNameAndCategory) => {
   const visitedStations = getVisitedCommercialStations(train);
   return visitedStations[visitedStations.length - 1].station.name;
 };
 
-export const getNextStation = (train: Train) => {
+export const getNextStation = (train: TrainNameAndCategory) => {
   const commercialStations = getCommercialStationArrivals(train);
   const nextStation = commercialStations.find(
     (timeTableRow) =>
@@ -86,7 +96,7 @@ export const getNextStation = (train: Train) => {
   return nextStation;
 };
 
-export const getCommercialStationDepartures = (train: Train) => {
+export const getCommercialStationDepartures = (train: TrainNameAndCategory) => {
   return train.timeTableRows.filter((row) => {
     return row.commercialStop === true && row.type === "DEPARTURE";
   });
