@@ -45,7 +45,7 @@ const Page = async ({
       <div>
         <div className="flex flex-col items-center">
           <h1 className="px-2 py-8 text-xl text-red-500">
-            Ei löytynyt junaa numerolla {id}
+            No train found with number {id}
           </h1>
         </div>
       </div>
@@ -57,8 +57,14 @@ const Page = async ({
   return (
     <div className="mx-auto flex flex-col">
       <TrainDetails train={train} />
-      <DelayCauses train={train} />
-      <Train train={train} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="order-2 md:order-1">
+          <DelayCauses train={train} />
+        </div>
+        <div className="order-1 md:order-2">
+          <Train train={train} forceShowAllStations />
+        </div>
+      </div>
     </div>
   );
 };
