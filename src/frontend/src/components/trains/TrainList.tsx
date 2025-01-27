@@ -20,6 +20,7 @@ const TrainList = ({ trains, trainType }: TrainListProps) => {
     field: "trainNumber",
     direction: "asc",
   });
+  const [forceShowAllStations, setForceShowAllStations] = useState(false);
 
   const filteredTrains = filterTrainsByDelay(trains, delayThreshold);
   const sortedTrains = sortTrains(filteredTrains, sortOption);
@@ -55,7 +56,11 @@ const TrainList = ({ trains, trainType }: TrainListProps) => {
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
               {sortedTrains.map((train) => (
-                <Train train={train} key={train.trainNumber} />
+                <Train
+                  train={train}
+                  key={train.trainNumber}
+                  forceShowAllStations={forceShowAllStations}
+                />
               ))}
             </div>
           </>
