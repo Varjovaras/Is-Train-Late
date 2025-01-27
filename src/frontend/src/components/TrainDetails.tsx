@@ -1,13 +1,16 @@
 "use client";
 import type { Train } from "@/lib/types/trainTypes";
+import { removeAsema } from "@/lib/utils/stringUtils";
 
 type TrainProps = {
   train: Train;
 };
 const TrainDetails = ({ train }: TrainProps) => {
-  const startStation = train.timeTableRows[0].station.name;
-  const endStation =
-    train.timeTableRows[train.timeTableRows.length - 1].station.name;
+  const startStation = removeAsema(train.timeTableRows[0].station.name);
+
+  const endStation = removeAsema(
+    train.timeTableRows[train.timeTableRows.length - 1].station.name,
+  );
 
   return (
     <div className="mb-8 text-center mt-2">
