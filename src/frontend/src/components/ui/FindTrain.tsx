@@ -42,18 +42,13 @@ const FindTrain = () => {
           value={trainNumber}
           onChange={(e) => setTrainNumber(e.target.value)}
           placeholder={translations.trainNumberFormPlaceHolder}
-          className="px-4 py-2 border border-foreground rounded-md
-                         focus:outline-none focus:ring-2 focus:ring-offset-2
-                    focus:ring-blue-500 text-black"
+          className="px-4 py-2 border border-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 text-black"
         />
         {error && <p className="text-red-500 text-sm">{error}</p>}
       </div>
       <button
         type="submit"
-        className="w-full px-4 py-2 text-sm border border-foreground
-                         rounded-md hover:bg-foreground hover:text-background
-                         transition-colors disabled:opacity-50
-                         disabled:cursor-not-allowed"
+        className="w-full px-4 py-2 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={!trainNumber.trim()}
       >
         {translations.findTrain}
