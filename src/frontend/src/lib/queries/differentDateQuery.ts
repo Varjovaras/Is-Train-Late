@@ -1,4 +1,4 @@
-export const getDifferentDayTrain = (trainNumber: number, date: Date) => {
+export const getDifferentDateTrain = (trainNumber: number, date: Date) => {
   return differentDateQuery
     .replace("TRAIN_NUMBER", trainNumber.toString())
     .replace("DEPARTURE_DATE", date.toString())
@@ -106,8 +106,4 @@ const differentDateQuery = `{
       }
     }
   }
-`
-  .replace(/\s+/g, " ")
-  .replace(/\n/g, " ")
-  .replace(/\\/g, "")
-  .trim();
+`;
