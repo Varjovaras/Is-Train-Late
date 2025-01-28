@@ -16,6 +16,5 @@ const stationQuery = `{
     shortCode
     uicCode
     type
-
   }
 }`;

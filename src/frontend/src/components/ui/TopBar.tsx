@@ -2,41 +2,42 @@
 import { useEffect, useState } from "react";
 import BackHome from "./BackHome";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const TopBar = () => {
-	const [isVisible, setIsVisible] = useState(true);
-	const [lastScrollY, setLastScrollY] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
-	useEffect(() => {
-		const handleScroll = () => {
-			const currentScrollY = window.scrollY;
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
 
-			// Hide when scrolling down, show when scrolling up
-			if (currentScrollY > lastScrollY) {
-				setIsVisible(false);
-			} else {
-				setIsVisible(true);
-			}
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
-			setLastScrollY(currentScrollY);
-		};
-
-		window.addEventListener("scroll", handleScroll);
-		return () => window.removeEventListener("scroll", handleScroll);
-	}, [lastScrollY]);
-
-	return (
-		<div
-			className={`fixed top-0 w-full z-50 p-2 backdrop-blur-sm transition-transform duration-300 ${
-				isVisible ? "translate-y-0" : "-translate-y-full"
-			}`}
-		>
-			<div className="max-w-7xl mx-auto px-2 sm:px-4 gap-4 flex justify-between items-center">
-				<BackHome />
-				<LanguageSwitcher />
-			</div>
-		</div>
-	);
+  return (
+    <div
+      className={`fixed top-0 w-full z-50 p-2 backdrop-blur-sm transition-transform duration-300 ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 gap-4 flex justify-between items-center">
+        <BackHome />
+        <div className="flex items-center gap-4">
+          <ThemeSwitcher />
+          <LanguageSwitcher />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default TopBar;
