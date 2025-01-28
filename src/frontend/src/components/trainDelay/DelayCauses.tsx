@@ -1,11 +1,11 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import type { TrainNameAndCategory } from "@/lib/types/trainTypes";
+import type { TrainType } from "@/lib/types/trainTypes";
 import CauseItem from "./CauseItem";
 import { getTimeDiffByStation } from "@/lib/utils/trainUtils";
 
 type TrainProps = {
-  train: TrainNameAndCategory;
+  train: TrainType;
 };
 
 const DelayCauses = ({ train }: TrainProps) => {

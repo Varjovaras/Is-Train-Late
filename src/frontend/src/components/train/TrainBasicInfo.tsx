@@ -1,12 +1,12 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import type { TrainNameAndCategory } from "@/lib/types/trainTypes";
+import type { TrainType } from "@/lib/types/trainTypes";
 import { formatTime } from "@/lib/utils/dateUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
 import { getTimeDiff, getVisitedStations } from "@/lib/utils/trainUtils";
 
 type TrainBasicInfoProps = {
-  train: TrainNameAndCategory;
+  train: TrainType;
 };
 
 const TrainBasicInfo = ({ train }: TrainBasicInfoProps) => {

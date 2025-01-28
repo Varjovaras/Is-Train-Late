@@ -9,7 +9,7 @@ export type TrainType = {
   trainNumber: number;
   //version: string;
   //operator: Operator!
-  trainType: TrainType;
+  trainType: TypeOfTrain;
   timeTableRows: TimeTableRow[];
   trainLocations: TrainLocation[];
   //compositions: Composition[]
@@ -31,6 +31,10 @@ export type TrainLocation = {
   speed: number;
   timestamp: string;
   location: [number, number];
+};
+
+export type TypeOfTrain = {
+  name: string;
 };
 
 export type TrainResponse = {

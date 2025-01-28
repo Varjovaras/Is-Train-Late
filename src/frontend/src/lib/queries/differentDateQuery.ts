@@ -1,11 +1,11 @@
 export const getDifferentDateTrain = (trainNumber: number, date: Date) => {
-  return differentDateQuery
-    .replace("TRAIN_NUMBER", trainNumber.toString())
-    .replace("DEPARTURE_DATE", date.toString())
-    .replace(/\s+/g, " ")
-    .replace(/\n/g, " ")
-    .replace(/\\/g, "")
-    .trim();
+	return differentDateQuery
+		.replace("TRAIN_NUMBER", trainNumber.toString())
+		.replace("DEPARTURE_DATE", date.toString())
+		.replace(/\s+/g, " ")
+		.replace(/\n/g, " ")
+		.replace(/\\/g, "")
+		.trim();
 };
 
 const differentDateQuery = `{

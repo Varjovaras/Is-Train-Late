@@ -1,4 +1,4 @@
-import type { TrainNameAndCategory } from "@/lib/types/trainTypes";
+import type { TrainType } from "@/lib/types/trainTypes";
 import {
   getCommercialStationArrivals,
   getCommercialStationDepartures,
@@ -8,7 +8,7 @@ import {
 import StationRow from "./station/StationRow";
 
 type TrainStationsProps = {
-  train: TrainNameAndCategory;
+  train: TrainType;
   showAllStations: boolean;
 };
 

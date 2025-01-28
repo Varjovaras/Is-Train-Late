@@ -1,10 +1,10 @@
 "use client";
 
-import type { TrainNameAndCategory } from "@/lib/types/trainTypes";
+import type { TrainType } from "@/lib/types/trainTypes";
 import { useRouter } from "next/navigation";
 
 type TrainButtonProps = {
-  train: TrainNameAndCategory;
+  train: TrainType;
 };
 
 const TrainButton = ({ train }: TrainButtonProps) => {

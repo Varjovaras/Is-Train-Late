@@ -1,9 +1,9 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import type { TrainNameAndCategory } from "@/lib/types/trainTypes";
+import type { TrainType } from "@/lib/types/trainTypes";
 
 type TrainSpeedProps = {
-  train: TrainNameAndCategory;
+  train: TrainType;
 };
 
 const TrainSpeed = ({ train }: TrainSpeedProps) => {

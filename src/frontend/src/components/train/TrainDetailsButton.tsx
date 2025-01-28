@@ -1,10 +1,10 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import type { TrainNameAndCategory } from "@/lib/types/trainTypes";
+import type { TrainType } from "@/lib/types/trainTypes";
 import { useRouter } from "next/navigation";
 
 type TrainDetailsButtonProps = {
-  train: TrainNameAndCategory;
+  train: TrainType;
 };
 
 const TrainDetailsButton = ({ train }: TrainDetailsButtonProps) => {

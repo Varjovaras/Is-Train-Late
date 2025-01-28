@@ -1,4 +1,3 @@
-import { getSingleTrainQuery } from "@/lib/queries/singleTrainQuery";
 import { getStationQuery } from "@/lib/queries/stationQuery";
 import type { TrainResponse } from "@/lib/types/trainTypes";
 

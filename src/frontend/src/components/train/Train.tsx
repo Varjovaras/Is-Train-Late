@@ -1,10 +1,10 @@
 "use client";
-import type { TrainNameAndCategory } from "@/lib/types/trainTypes";
+import type { TrainType } from "@/lib/types/trainTypes";
 import TrainButton from "./TrainButton";
 import TrainData from "./TrainData";
 
 type TrainProps = {
-  train: TrainNameAndCategory;
+  train: TrainType;
   forceShowAllStations: boolean;
 };
 

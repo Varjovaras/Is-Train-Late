@@ -1,9 +1,9 @@
 "use client";
-import type { TrainNameAndCategory } from "@/lib/types/trainTypes";
+import type { TrainType } from "@/lib/types/trainTypes";
 import StatusItem from "./StatusItem";
 
 type TrainProps = {
-  train: TrainNameAndCategory;
+  train: TrainType;
 };
 
 const StatusCard = ({ train }: TrainProps) => {
