@@ -11,7 +11,7 @@ const TrainButton = ({ train }: TrainButtonProps) => {
   const router = useRouter();
 
   function handleViewDetails(_e: React.MouseEvent) {
-    router.push(`/train/${train.trainNumber}`);
+    router.push(`/current-trains/${train.trainNumber}`);
   }
 
   return (
