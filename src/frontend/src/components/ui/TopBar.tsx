@@ -11,18 +11,22 @@ const TopBar = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY) {
+
+      //check if user is at the top of the page
+      if (currentScrollY < 10) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY) {
         setIsVisible(false);
       } else {
         setIsVisible(true);
       }
+
       setLastScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
-
   return (
     <div
       className={`fixed top-0 w-full z-50 p-2 backdrop-blur-sm transition-transform duration-300 ${
