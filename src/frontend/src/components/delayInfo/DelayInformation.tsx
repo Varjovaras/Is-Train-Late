@@ -3,7 +3,6 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 import DelayReasonCard from "./DelayReasonCard";
 import { getTimeDiffByStation } from "@/lib/utils/trainUtils";
-import DelayDetailRow from "./DelayDetailRow";
 
 type DelayInformationProps = {
   train: TrainType;
