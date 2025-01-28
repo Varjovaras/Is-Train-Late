@@ -29,7 +29,7 @@ const TopBar = () => {
 	}, [lastScrollY]);
 	return (
 		<div
-			className={`fixed top-0 w-full z-50 p-2 backdrop-blur-sm transition-transform duration-300 ${
+			className={`fixed top-0 w-full z-50 p-2 backdrop-blur-xs transition-transform duration-300 ${
 				isVisible ? "translate-y-0" : "-translate-y-full"
 			}`}
 		>

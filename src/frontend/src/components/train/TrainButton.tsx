@@ -17,7 +17,7 @@ const TrainButton = ({ train }: TrainButtonProps) => {
   return (
     <button
       type="button"
-      className="w-full text-left flex bg-foreground/10 justify-between items-center hover:bg-red-600/10 p-2 rounded transition-colors duration-200"
+      className="w-full text-left flex bg-foreground/10 justify-between items-center hover:bg-red-600/10 p-2 rounded-sm transition-colors duration-200"
       onClick={handleViewDetails}
     >
       <span className="font-bold text-xl text-left">

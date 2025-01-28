@@ -9,7 +9,7 @@ const StationIndicator = ({
 	isNextStation,
 	isDepartureStation,
 }: StationIndicatorProps) => (
-	<div className="w-6 text-center flex-shrink-0">
+	<div className="w-6 text-center shrink-0">
 		{isDepartureStation && "↓"}
 		{isCurrentStation && !isDepartureStation && "→"}
 		{isNextStation && !isDepartureStation && "⟶"}

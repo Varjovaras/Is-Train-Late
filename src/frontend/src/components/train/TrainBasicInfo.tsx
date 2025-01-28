@@ -22,9 +22,9 @@ const TrainBasicInfo = ({ train }: TrainBasicInfoProps) => {
   return (
     <div>
       <p className="overflow-hidden text-ellipsis flex justify-between items-center gap-2 text-xl">
-        <span className="text-green-500 flex-shrink-0">{departureStation}</span>
-        <span className="text-gray-400 flex-shrink-0">→</span>
-        <span className="text-blue-500 flex-shrink-0">{endStation}</span>
+        <span className="text-green-500 shrink-0">{departureStation}</span>
+        <span className="text-gray-400 shrink-0">→</span>
+        <span className="text-blue-500 shrink-0">{endStation}</span>
       </p>
       <p className="">
         <span className="text-red-500 font-bold">{currentTimeDiff}</span>{" "}

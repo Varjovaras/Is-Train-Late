@@ -47,10 +47,10 @@ const StationRow = ({
 					isNextStation={isNextStation}
 					isDepartureStation={isDepartureStation}
 				/>
-				<div className="truncate flex-shrink">{stationName}</div>
+				<div className="truncate shrink">{stationName}</div>
 			</div>
 
-			<div className="flex flex-col items-end gap-1 text-sm min-w-[90px] sm:min-w-[150px] flex-shrink-0">
+			<div className="flex flex-col items-end gap-1 text-sm min-w-[90px] sm:min-w-[150px] shrink-0">
 				<StationTime
 					label={translations.scheduled}
 					time={scheduledTime}
