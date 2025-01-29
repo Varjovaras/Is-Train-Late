@@ -28,16 +28,16 @@ const Page = async ({
     );
   }
 
-  const stationResponse: DifferentDayTrainResponse = await res.json();
+  const stationResponse = await res.json();
 
-  if (stationResponse.data.currentlyRunningTrains.length > 1) {
-    console.error(stationResponse.data.currentlyRunningTrains);
+  if (stationResponse.data.train.length > 1) {
+    console.error(stationResponse.data.train);
     return (
       <div className="text-red-500">Error! Got multiple trains from query</div>
     );
   }
 
-  if (stationResponse.data.currentlyRunningTrains.length === 0) {
+  if (stationResponse.data.train.length === 0) {
     return (
       <div>
         <div className="flex flex-col items-center">
