@@ -1,5 +1,5 @@
 import { getSingleTrainQuery } from "@/lib/queries/singleTrainQuery";
-import type { DifferentDayTrainResponse } from "@/lib/types/trainTypes";
+import type { CurrentlyRunningTrainResponse } from "@/lib/types/trainTypes";
 import Train from "@/components/train/Train";
 import TrainDetails from "@/components/TrainDetails";
 import DelayInformation from "@/components/delayInfo/DelayInformation";
@@ -31,7 +31,7 @@ const Page = async ({
     );
   }
 
-  const trainResponse: DifferentDayTrainResponse = await res.json();
+  const trainResponse: CurrentlyRunningTrainResponse = await res.json();
   console.log(trainResponse);
 
   if (trainResponse.data.currentlyRunningTrains.length > 1) {

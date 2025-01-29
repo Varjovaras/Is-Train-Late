@@ -1,10 +1,10 @@
 import CommuterTrains from "@/components/trains/CommuterTrains";
 import LongDistanceTrains from "@/components/trains/LongDistanceTrains";
 import { getTrainData } from "@/lib/queries/getTrainData";
-import type { DifferentDayTrainResponse } from "@/lib/types/trainTypes";
+import type { CurrentlyRunningTrainResponse } from "@/lib/types/trainTypes";
 
 const Home = async () => {
-  const trainResponse = (await getTrainData()) as DifferentDayTrainResponse;
+  const trainResponse = (await getTrainData()) as CurrentlyRunningTrainResponse;
 
   const passengerTrainData = trainResponse.data.currentlyRunningTrains;
 
