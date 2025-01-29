@@ -1,0 +1,27 @@
+import type { TrainType } from "@/lib/types/trainTypes";
+import DelayInformation from "../delayInfo/DelayInformation";
+import TrainDetails from "../TrainDetails";
+import Train from "./Train";
+
+type TrainPageProps = {
+  train: TrainType;
+  forceShowAllStations: boolean;
+};
+
+const TrainPage = ({ train, forceShowAllStations }: TrainPageProps) => {
+  return (
+    <div className="mx-auto flex flex-col">
+      <TrainDetails train={train} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="">
+          <DelayInformation train={train} />
+        </div>
+        <div className="">
+          <Train train={train} forceShowAllStations />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TrainPage;

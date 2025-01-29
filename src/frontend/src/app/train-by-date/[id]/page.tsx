@@ -1,6 +1,4 @@
-import DelayInformation from "@/components/delayInfo/DelayInformation";
-import Train from "@/components/train/Train";
-import TrainDetails from "@/components/TrainDetails";
+import TrainPage from "@/components/train/TrainPage";
 import { getDifferentDateTrain } from "@/lib/queries/differentDateQuery";
 import type { DifferentDayTrainResponse } from "@/lib/types/trainTypes";
 import { isSuitableId } from "@/lib/utils/urlUtils";
@@ -36,7 +34,6 @@ const Page = async ({
   }
 
   const trainResponse: DifferentDayTrainResponse = await res.json();
-  console.log(trainResponse);
 
   if (trainResponse.data.train.length > 1) {
     console.error(trainResponse.data.train);
@@ -60,16 +57,8 @@ const Page = async ({
   const train = trainResponse.data.train[0];
 
   return (
-    <div className="mx-auto flex flex-col">
-      <TrainDetails train={train} />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="">
-          <DelayInformation train={train} />
-        </div>
-        <div className="">
-          <Train train={train} forceShowAllStations />
-        </div>
-      </div>
+    <div>
+      <TrainPage train={train} forceShowAllStations />
     </div>
   );
 };

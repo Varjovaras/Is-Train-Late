@@ -1,8 +1,6 @@
 import { getSingleTrainQuery } from "@/lib/queries/singleTrainQuery";
 import type { CurrentlyRunningTrainResponse } from "@/lib/types/trainTypes";
-import Train from "@/components/train/Train";
-import TrainDetails from "@/components/TrainDetails";
-import DelayInformation from "@/components/delayInfo/DelayInformation";
+import TrainPage from "@/components/train/TrainPage";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
@@ -42,6 +40,7 @@ const Page = async ({
   }
 
   if (trainResponse.data.currentlyRunningTrains.length === 0) {
+    console.error(trainResponse);
     return (
       <div>
         <div className="flex flex-col items-center">
@@ -56,16 +55,8 @@ const Page = async ({
   const train = trainResponse.data.currentlyRunningTrains[0];
 
   return (
-    <div className="mx-auto flex flex-col">
-      <TrainDetails train={train} />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="">
-          <DelayInformation train={train} />
-        </div>
-        <div className="">
-          <Train train={train} forceShowAllStations />
-        </div>
-      </div>
+    <div>
+      <TrainPage train={train} forceShowAllStations />
     </div>
   );
 };
