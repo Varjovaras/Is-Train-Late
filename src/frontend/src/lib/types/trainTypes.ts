@@ -37,9 +37,15 @@ export type TypeOfTrain = {
   name: string;
 };
 
-export type TrainResponse = {
+export type CurrentlyRunningTrainResponse = {
   data: {
     currentlyRunningTrains: TrainType[];
+  };
+};
+
+export type DifferentDayTrainResponse = {
+  data: {
+    train: TrainType[];
   };
 };
 

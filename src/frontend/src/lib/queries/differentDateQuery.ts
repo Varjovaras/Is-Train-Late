@@ -1,109 +1,119 @@
-export const getDifferentDateTrain = (trainNumber: number, date: Date) => {
-	return differentDateQuery
-		.replace("TRAIN_NUMBER", trainNumber.toString())
-		.replace("DEPARTURE_DATE", date.toString())
-		.replace(/\s+/g, " ")
-		.replace(/\n/g, " ")
-		.replace(/\\/g, "")
-		.trim();
+export const getDifferentDateTrain = (id: string) => {
+  const url = id.split("-");
+  const trainNumber = url[0];
+  const date = `"${url[1]}-${url[2]}-${url[3]}"`;
+  console.log(
+    differentDateQuery
+      .replace("TRAIN_NUMBER", trainNumber.toString())
+      .replace("DEPARTURE_DATE", date.toString())
+      .replace(/\s+/g, " ")
+      .replace(/\n/g, " ")
+      .replace(/\\/g, "")
+      .trim(),
+  );
+
+  return differentDateQuery
+    .replace("TRAIN_NUMBER", trainNumber.toString())
+    .replace("DEPARTURE_DATE", date)
+    .replace(/\s+/g, " ")
+    .replace(/\n/g, " ")
+    .replace(/\\/g, "")
+    .trim();
 };
 
 const differentDateQuery = `{
-  train(
-    trainNumber: TRAIN_NUMBER,
-		departureDate: "DEPARTURE_DATE",
-  ) {
-    cancelled
-    commuterLineid
-    departureDate
-    runningCurrently
-    trainNumber
-    timetableType
-    trainType {
-      name
-      trainCategory {
+  train(trainNumber: TRAIN_NUMBER, departureDate: DEPARTURE_DATE) {
+  cancelled
+      commuterLineid
+      departureDate
+      runningCurrently
+      trainNumber
+      timetableType
+      trainType {
         name
-      }
-    }
-    trainLocations {
-      speed
-      location
-    }
-    trainTrackingMessages(take: 1) {
-      timestamp
-      trackSectionCode
-      nextTrackSectionCode
-      previousTrackSectionCode
-      type
-      station {
-        passengerTraffic
-        countryCode
-        location
-        name
-        shortCode
-        uicCode
-        type
-      }
-      nextStation {
-        passengerTraffic
-        countryCode
-        location
-        name
-        shortCode
-        uicCode
-        type
-      }
-      previousStation {
-        passengerTraffic
-        countryCode
-        location
-        name
-        shortCode
-        uicCode
-        type
-      }
-    }
-    timeTableRows {
-      type
-      trainStopping
-      commercialStop
-      commercialTrack
-      cancelled
-      scheduledTime
-      actualTime
-      differenceInMinutes
-      liveEstimateTime
-      estimateSourceType
-      unknownDelay
-      station {
-        passengerTraffic
-        countryCode
-        location
-        name
-        shortCode
-        uicCode
-        type
-      }
-      causes {
-        categoryCode {
-          code
+        trainCategory {
           name
-          validFrom
-          validTo
         }
-        detailedCategoryCode {
-          code
+      }
+      trainLocations(take: 1) {
+        speed
+        location
+      }
+      trainTrackingMessages(take: 1) {
+        timestamp
+        trackSectionCode
+        nextTrackSectionCode
+        previousTrackSectionCode
+        type
+        station {
+          passengerTraffic
+          countryCode
+          location
           name
-          validFrom
-          validTo
+          shortCode
+          uicCode
+          type
         }
-        thirdCategoryCode {
-          code
+        nextStation {
+          passengerTraffic
+          countryCode
+          location
           name
-          validFrom
-          validTo
+          shortCode
+          uicCode
+          type
+        }
+        previousStation {
+          passengerTraffic
+          countryCode
+          location
+          name
+          shortCode
+          uicCode
+          type
+        }
+      }
+      timeTableRows {
+        type
+        trainStopping
+        commercialStop
+        commercialTrack
+        cancelled
+        scheduledTime
+        actualTime
+        differenceInMinutes
+        liveEstimateTime
+        estimateSourceType
+        unknownDelay
+        station {
+          passengerTraffic
+          countryCode
+          location
+          name
+          shortCode
+          uicCode
+          type
+        }
+        causes {
+          categoryCode {
+            code
+            name
+            validFrom
+            validTo
+          }
+          detailedCategoryCode {
+            code
+            name
+            validFrom
+            validTo
+          }
+          thirdCategoryCode {
+            code
+            name
+            validFrom
+            validTo
+          }
         }
       }
     }
-  }
-`;
+  }`;

@@ -1,5 +1,5 @@
 import { getStationQuery } from "@/lib/queries/stationQuery";
-import type { TrainResponse } from "@/lib/types/trainTypes";
+import type { DifferentDayTrainResponse } from "@/lib/types/trainTypes";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
@@ -28,7 +28,7 @@ const Page = async ({
     );
   }
 
-  const stationResponse: TrainResponse = await res.json();
+  const stationResponse: DifferentDayTrainResponse = await res.json();
 
   if (stationResponse.data.currentlyRunningTrains.length > 1) {
     console.error(stationResponse.data.currentlyRunningTrains);
