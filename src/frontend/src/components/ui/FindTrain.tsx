@@ -3,6 +3,7 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import DatePicker from "./DatePicker";
+import { formatDateForUrl } from "@/lib/utils/dateUtils";
 
 const FindTrain = () => {
   const router = useRouter();
@@ -31,11 +32,7 @@ const FindTrain = () => {
 
     setError("");
 
-    const [year, month, day] = date.split("-");
-    const formattedMonth = month.padStart(2, "0");
-    const formattedDay = day.padStart(2, "0");
-    const formattedDate = `${year}-${formattedMonth}-${formattedDay}`;
-
+    const formattedDate = formatDateForUrl(date);
     router.push(`/train-by-date/${trainNumber}-${formattedDate}`);
   };
 

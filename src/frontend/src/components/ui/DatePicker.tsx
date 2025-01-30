@@ -9,12 +9,8 @@ const DatePicker = ({ date, setDate, label }: DatePickerProps) => {
   // Set minimum date to 2017-01-01 (VR's data starts from around this time)
   const minDate = "2017-01-01";
 
-  // Get date 7 days from now for max date
-  const maxDate = new Date();
-  maxDate.setDate(maxDate.getDate() + 7);
-  const maxDateString = maxDate.toISOString().split("T")[0];
+  const today = new Date().toISOString().split("T")[0];
 
-  // Convert YYYY-MM-DD to DD-MM-YYYY for display
   const formatDateForDisplay = (dateString: string) => {
     if (!dateString) return "";
     const [year, month, day] = dateString.split("-");
@@ -38,7 +34,7 @@ const DatePicker = ({ date, setDate, label }: DatePickerProps) => {
           setDate(e.target.value);
         }}
         min={minDate}
-        max={maxDateString}
+        max={today}
         lang="fi-FI"
         className="w-full px-4 py-2 border border-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 bg-background text-foreground"
       />
