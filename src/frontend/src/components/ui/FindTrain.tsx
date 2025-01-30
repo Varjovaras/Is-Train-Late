@@ -56,7 +56,7 @@ const FindTrain = () => {
           />
         </div>
 
-        <DatePicker date={date} setDate={setDate} label={translations.date} />
+        <DatePicker date={date} setDate={setDate} />
         {error && <p className="text-red-500 text-sm">{error}</p>}
       </div>
 
