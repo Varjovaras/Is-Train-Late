@@ -31,11 +31,11 @@ const FindTrain = () => {
 
     setError("");
 
-    // Format date from YYYY-MM-DD to YYYY-M-D
-    const formattedDate = date
-      .split("-")
-      .map((part) => Number.parseInt(part, 10).toString())
-      .join("-");
+    const [year, month, day] = date.split("-");
+    const formattedMonth = month.padStart(2, "0");
+    const formattedDay = day.padStart(2, "0");
+    const formattedDate = `${year}-${formattedMonth}-${formattedDay}`;
+
     router.push(`/train-by-date/${trainNumber}-${formattedDate}`);
   };
 
@@ -60,7 +60,6 @@ const FindTrain = () => {
         </div>
 
         <DatePicker date={date} setDate={setDate} label={translations.date} />
-
         {error && <p className="text-red-500 text-sm">{error}</p>}
       </div>
 

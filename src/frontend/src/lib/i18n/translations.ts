@@ -44,6 +44,7 @@ export const translations = {
     date: "Päivämäärä",
     selectDate: "Valitse päivämäärä",
     invalidTrainNumber: "Syötä kelvollinen junan numero (vain numeroita)",
+    selectedDate: "Valittu päivä:",
   },
   en: {
     title: "Is VR Late?",
@@ -90,6 +91,7 @@ export const translations = {
     date: "Date",
     selectDate: "Please select a date",
     invalidTrainNumber: "Please enter a valid train number (digits only)",
+    selectedDate: "Selected date:",
   },
 } as const;
 
