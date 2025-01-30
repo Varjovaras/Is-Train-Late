@@ -5,7 +5,7 @@ export type TrainType = {
   departureDate: Date;
   runningCurrently: boolean;
   // timetableAcceptanceDate: Date;
-  timetableType: string;
+  // timetableType: string;
   trainNumber: number;
   //version: string;
   //operator: Operator!
@@ -13,7 +13,7 @@ export type TrainType = {
   timeTableRows: TimeTableRow[];
   trainLocations: TrainLocation[];
   //compositions: Composition[]
-  trainTrackingMessages: TrainTrackingMessage[];
+  // trainTrackingMessages: TrainTrackingMessage[];
   // routesetMessages: RoutesetMessage[];
   //passengerInformationMessages
 };
@@ -65,8 +65,8 @@ export type TimeTableRow = {
   actualTime: Date;
   differenceInMinutes: number;
   liveEstimateTime: Date;
-  estimateSourceType: string | null;
-  unknownDelay: boolean | null;
+  // estimateSourceType: string | null;
+  // unknownDelay: boolean | null;
   station: StationToTrain;
   // train: Train;
   causes: Causes;
