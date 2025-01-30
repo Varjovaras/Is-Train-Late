@@ -1,4 +1,69 @@
-export const passengerQuery = `{
+export const getPassengerQuery = () => {
+  return passengerQuery
+    .replace(/\s+/g, " ")
+    .replace(/\n/g, " ")
+    .replace(/\\/g, "")
+    .trim();
+};
+
+const passengerQuery = `{
+  currentlyRunningTrains(
+    where: {
+      and: [
+        { operator: { shortCode: { equals: "vr" } } },
+        {
+          or: [
+            { trainType: { trainCategory: { name: { equals: "Commuter" } } } },
+            { trainType: { trainCategory: { name: { equals: "Long-distance" } } } }
+          ]
+        }
+      ]
+    }
+  ) {
+    cancelled
+    commuterLineid
+    departureDate
+    runningCurrently
+    trainNumber
+    trainType {
+      name
+      trainCategory {
+        name
+      }
+    }
+    trainLocations(orderBy: { timestamp: DESCENDING }, take: 1) {
+      speed
+    }
+    timeTableRows {
+      type
+      trainStopping
+      commercialStop
+      commercialTrack
+      cancelled
+      scheduledTime
+      actualTime
+      differenceInMinutes
+      liveEstimateTime
+      station {
+        name
+        shortCode
+      }
+      causes {
+        categoryCode {
+          name
+        }
+        detailedCategoryCode {
+          name
+        }
+        thirdCategoryCode {
+          name
+        }
+      }
+    }
+  }
+}`;
+
+export const _fullQuery = `{
 	currentlyRunningTrains(
 		where: {
 			and: [
@@ -110,7 +175,7 @@ export const passengerQuery = `{
 		}
 	}
 }`
-	.replace(/\s+/g, " ")
-	.replace(/\n/g, " ")
-	.replace(/\\/g, "")
-	.trim();
+  .replace(/\s+/g, " ")
+  .replace(/\n/g, " ")
+  .replace(/\\/g, "")
+  .trim();
