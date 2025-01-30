@@ -9,7 +9,7 @@ const FindTrain = () => {
   const router = useRouter();
   const { translations, isLoading } = useTranslations();
   const [trainNumber, setTrainNumber] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [error, setError] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

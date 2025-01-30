@@ -1,4 +1,6 @@
 "use client";
+import { useEffect } from "react";
+
 type DatePickerProps = {
   date: string;
   setDate: (date: string) => void;
@@ -8,17 +10,7 @@ type DatePickerProps = {
 const DatePicker = ({ date, setDate, label }: DatePickerProps) => {
   // Set minimum date to 2017-01-01 (VR's data starts from around this time)
   const minDate = "2017-01-01";
-
   const today = new Date().toISOString().split("T")[0];
-
-  const formatDateForDisplay = (dateString: string) => {
-    if (!dateString) return "";
-    const [year, month, day] = dateString.split("-");
-    // Add leading zeros if needed
-    const formattedDay = day.padStart(2, "0");
-    const formattedMonth = month.padStart(2, "0");
-    return `${formattedDay}-${formattedMonth}-${year}`;
-  };
 
   return (
     <div className="space-y-2">
@@ -38,11 +30,11 @@ const DatePicker = ({ date, setDate, label }: DatePickerProps) => {
         lang="fi-FI"
         className="w-full px-4 py-2 border border-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 bg-background text-foreground"
       />
-      {date && (
+      {/* {date && (
         <p className="text-sm text-foreground/60">
           Selected: {formatDateForDisplay(date)}
         </p>
-      )}
+      )} */}
     </div>
   );
 };
