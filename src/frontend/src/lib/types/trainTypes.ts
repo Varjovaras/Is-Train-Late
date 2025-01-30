@@ -43,6 +43,12 @@ export type CurrentlyRunningTrainResponse = {
   };
 };
 
+export type SingleTrainResponse = {
+  data: {
+    currentlyRunningTrains: TrainType[];
+  };
+};
+
 export type DifferentDayTrainResponse = {
   data: {
     train: TrainType[];
