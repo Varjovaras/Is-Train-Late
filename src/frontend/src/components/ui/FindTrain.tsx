@@ -19,19 +19,16 @@ const FindTrain = () => {
       setError(translations.enterTrainNumber);
       return;
     }
-
     if (Number.isNaN(Number(trainNumber))) {
       setError(translations.invalidTrainNumber);
       return;
     }
-
     if (!date) {
       setError(translations.selectDate);
       return;
     }
 
     setError("");
-
     const formattedDate = formatDateForUrl(date);
     router.push(`/train-by-date/${trainNumber}-${formattedDate}`);
   };

@@ -1,7 +1,8 @@
 import { getStationQuery } from "@/lib/queries/stationQuery";
 import type { DifferentDayTrainResponse } from "@/lib/types/trainTypes";
 
-const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
+const REST_ENDPOINT =
+  "https://rata.digitraffic.fi/api/v1/passenger-information/active?station=HKI";
 
 const Page = async ({
   params,
@@ -9,18 +10,8 @@ const Page = async ({
   params: Promise<{ id: string }>;
 }>) => {
   const id = (await params).id;
-  const stationQuery = getStationQuery(id);
 
-  const res = await fetch(GRAPHQL_ENDPOINT, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Accept-Encoding": "gzip",
-    },
-    body: JSON.stringify({
-      query: stationQuery,
-    }),
-  });
+  const res = await fetch(REST_ENDPOINT);
 
   if (!res.ok) {
     return (
