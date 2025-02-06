@@ -12,7 +12,7 @@ const TrainDetailsButton = ({ train }: TrainDetailsButtonProps) => {
   const router = useRouter();
 
   const handleViewDetails = (_e: React.MouseEvent) => {
-    router.push(`/current-trains/${train.trainNumber}`);
+    router.push(`/live-trains/${train.trainNumber}`);
   };
 
   return (
