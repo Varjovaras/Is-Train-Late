@@ -32,7 +32,7 @@ const TrainStations = ({ train, showAllStations }: TrainStationsProps) => {
   );
 
   return (
-    <div className="mt-4 space-y-2">
+    <div className="my-4 space-y-2 ">
       {stationsToShow.map((station, index) => (
         <StationRow
           key={station.scheduledTime.toString() + station.type}

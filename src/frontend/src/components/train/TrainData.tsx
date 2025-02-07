@@ -6,6 +6,7 @@ import TrainBasicInfo from "./TrainBasicInfo";
 import TrainSpeed from "./TrainSpeed";
 import TrainStations from "./TrainStations";
 import TrainDetailsButton from "./TrainDetailsButton";
+import ShowStationsButton from "./ShowStationsButton";
 
 type TrainDataProps = {
   train: TrainType;
@@ -17,22 +18,22 @@ const TrainData = ({ train, forceShowAllStations }: TrainDataProps) => {
   const [showAllStations, setShowAllStations] = useState(forceShowAllStations);
 
   return (
-    <div className={`mt-2 ${isLoading ? "fade-out" : "fade-in"} break-words`}>
-      <TrainBasicInfo train={train} />
-      <TrainSpeed train={train} />
-      <TrainStations
-        train={train}
-        showAllStations={forceShowAllStations || showAllStations}
-      />
-
-      <div className="flex flex-col gap-2">
-        <button
-          type="button"
-          onClick={() => setShowAllStations(!showAllStations)}
-          className="p-2 m-2 mt-4 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
-        >
-          {showAllStations ? "Show less" : "Show all stations"}
-        </button>
+    <div
+      className={`mt-2 ${isLoading ? "fade-out" : "fade-in"} flex flex-col flex-1`}
+    >
+      <div className="flex-1">
+        <TrainBasicInfo train={train} />
+        <TrainSpeed train={train} />
+        <TrainStations
+          train={train}
+          showAllStations={forceShowAllStations || showAllStations}
+        />
+      </div>
+      <div className="flex flex-col gap-2 mt-4">
+        <ShowStationsButton
+          showAllStations={showAllStations}
+          setShowAllStations={setShowAllStations}
+        />
         <TrainDetailsButton train={train} />
       </div>
     </div>
