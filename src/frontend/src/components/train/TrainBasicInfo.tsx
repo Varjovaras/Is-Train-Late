@@ -25,14 +25,14 @@ const TrainBasicInfo = ({ train }: TrainBasicInfoProps) => {
     <div>
       <p className="overflow-hidden text-ellipsis flex justify-between items-center gap-2 text-xl">
         <Link
-          href={departureStation.shortCode}
+          href={`/stations/${departureStation.shortCode}`}
           className="text-green-500 shrink-0 hover:underline"
         >
           {departureStationName}
         </Link>
         <span className="text-gray-400 shrink-0">→</span>
         <Link
-          href={endStation.shortCode}
+          href={`/stations/${endStation.shortCode}`}
           className="text-blue-500 shrink-0 hover:underline"
         >
           {endStationName}
