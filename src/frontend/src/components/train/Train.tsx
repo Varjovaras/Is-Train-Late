@@ -2,7 +2,6 @@
 import type { TrainType } from "@/lib/types/trainTypes";
 import TrainButton from "./TrainButton";
 import TrainData from "./TrainData";
-import TrainDetailsButton from "./TrainDetailsButton";
 
 type TrainProps = {
   train: TrainType;
