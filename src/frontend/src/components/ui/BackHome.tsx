@@ -1,36 +1,28 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 const BackHome = () => {
-  const router = useRouter();
   const pathname = usePathname();
 
   const { translations, isLoading } = useTranslations();
 
   const buttonText =
     pathname !== "/" ? translations.backHome : translations.refreshTrainData;
-
-  const handleClick = () => {
-    if (pathname === "/") {
-      console.log("Refresh data");
-      window.location.reload();
-    } else {
-      console.log("Go to home page");
-      router.replace("/");
-    }
-  };
+  const isHomePage = pathname === "/";
 
   return (
-    <button
+    <Link
       type="button"
-      onClick={handleClick}
+      href={"/"}
+      replace={isHomePage}
       className={`top-4 left-4 px-4 py-2 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors ${
         isLoading ? "fade-out" : "fade-in"
       }`}
     >
       {buttonText}
-    </button>
+    </Link>
   );
 };
 
