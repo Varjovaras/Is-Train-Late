@@ -1,7 +1,7 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type TrainDetailsButtonProps = {
   train: TrainType;
@@ -9,21 +9,16 @@ type TrainDetailsButtonProps = {
 
 const TrainDetailsButton = ({ train }: TrainDetailsButtonProps) => {
   const { translations } = useTranslations();
-  const router = useRouter();
-
-  const handleViewDetails = (_e: React.MouseEvent) => {
-    router.push(`/live-trains/${train.trainNumber}`);
-  };
 
   return (
-    <button
+    <Link
       type="button"
-      onClick={handleViewDetails}
-      className="mt-4 px-4 py-2 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
+      href={`/live-trains/${train.trainNumber}`}
+      className="p-2 m-2 text-sm text-center border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
     >
       {train.trainType.name}
       {train.trainNumber} {translations.additionalInformation}
-    </button>
+    </Link>
   );
 };
 

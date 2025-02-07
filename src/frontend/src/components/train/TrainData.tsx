@@ -3,9 +3,9 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 import { useState } from "react";
 import TrainBasicInfo from "./TrainBasicInfo";
-import TrainDetailsButton from "./TrainDetailsButton";
 import TrainSpeed from "./TrainSpeed";
 import TrainStations from "./TrainStations";
+import TrainDetailsButton from "./TrainDetailsButton";
 
 type TrainDataProps = {
   train: TrainType;
@@ -29,7 +29,7 @@ const TrainData = ({ train, forceShowAllStations }: TrainDataProps) => {
         <button
           type="button"
           onClick={() => setShowAllStations(!showAllStations)}
-          className="mt-4 px-4 py-2 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
+          className="p-2 m-2 mt-4 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
         >
           {showAllStations ? "Show less" : "Show all stations"}
         </button>
