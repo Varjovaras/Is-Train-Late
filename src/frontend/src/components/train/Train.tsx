@@ -1,7 +1,7 @@
 "use client";
 import type { TrainType } from "@/lib/types/trainTypes";
 import TrainButton from "./TrainButton";
-import TrainData from "./TrainData";
+import TrainDetails from "./TrainDetails";
 
 type TrainProps = {
   train: TrainType;
@@ -16,7 +16,10 @@ const Train = ({ train, forceShowAllStations }: TrainProps) => {
     >
       <TrainButton train={train} />
       <div className="flex-1 flex flex-col">
-        <TrainData train={train} forceShowAllStations={forceShowAllStations} />
+        <TrainDetails
+          train={train}
+          forceShowAllStations={forceShowAllStations}
+        />
       </div>
     </div>
   );

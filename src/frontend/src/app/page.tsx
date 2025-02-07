@@ -1,25 +1,13 @@
-import CommuterTrains from "@/components/trains/CommuterTrains";
-import LongDistanceTrains from "@/components/trains/LongDistanceTrains";
-import { getTrainData } from "@/lib/queries/getTrainData";
-import type { CurrentlyRunningTrainResponse } from "@/lib/types/trainTypes";
+import TrainData from "@/components/trains/TrainData";
+import Loading from "@/components/ui/Loading";
+import { Suspense } from "react";
 
 const Home = async () => {
-  const trainResponse = (await getTrainData()) as CurrentlyRunningTrainResponse;
-
-  const passengerTrainData = trainResponse.data.currentlyRunningTrains;
-
-  const longDistanceTrains = passengerTrainData.filter(
-    (train) => train.commuterLineid === "",
-  );
-
-  const commuterTrains = passengerTrainData.filter(
-    (train) => train.commuterLineid !== "" && train.commuterLineid !== "V",
-  );
-
   return (
     <div className="flex flex-col items-center justify-items-center">
-      <LongDistanceTrains trains={longDistanceTrains} />
-      <CommuterTrains trains={commuterTrains} />
+      <Suspense fallback={<Loading />}>
+        <TrainData />
+      </Suspense>
     </div>
   );
 };

@@ -13,7 +13,7 @@ type TrainDataProps = {
   forceShowAllStations: boolean;
 };
 
-const TrainData = ({ train, forceShowAllStations }: TrainDataProps) => {
+const TrainDetails = ({ train, forceShowAllStations }: TrainDataProps) => {
   const { isLoading } = useTranslations();
   const [showAllStations, setShowAllStations] = useState(forceShowAllStations);
 
@@ -40,4 +40,4 @@ const TrainData = ({ train, forceShowAllStations }: TrainDataProps) => {
   );
 };
 
-export default TrainData;
+export default TrainDetails;

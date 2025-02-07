@@ -11,7 +11,9 @@ export const getTrainData = async () => {
     body: JSON.stringify({
       query: getPassengerQuery(),
     }),
-    cache: "no-cache",
+    next: {
+      revalidate: 60,
+    },
   });
 
   if (!res.ok) {
