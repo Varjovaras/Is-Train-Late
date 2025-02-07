@@ -4,6 +4,7 @@ import type { TrainType } from "@/lib/types/trainTypes";
 import { formatTime } from "@/lib/utils/dateUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
 import { getTimeDiff, getVisitedStations } from "@/lib/utils/trainUtils";
+import Link from "next/link";
 
 type TrainBasicInfoProps = {
   train: TrainType;
@@ -12,19 +13,30 @@ type TrainBasicInfoProps = {
 const TrainBasicInfo = ({ train }: TrainBasicInfoProps) => {
   const { translations } = useTranslations();
 
-  const departureStation = removeAsema(train.timeTableRows[0].station.name);
-  const endStation = removeAsema(
-    train.timeTableRows[train.timeTableRows.length - 1].station.name,
-  );
+  const departureStation = train.timeTableRows[0].station;
+  const departureStationName = removeAsema(departureStation.name);
+  const endStation =
+    train.timeTableRows[train.timeTableRows.length - 1].station;
+  const endStationName = removeAsema(endStation.name);
   const visitedStations = getVisitedStations(train);
   const currentTimeDiff = getTimeDiff(visitedStations);
 
   return (
     <div>
       <p className="overflow-hidden text-ellipsis flex justify-between items-center gap-2 text-xl">
-        <span className="text-green-500 shrink-0">{departureStation}</span>
+        <Link
+          href={departureStation.shortCode}
+          className="text-green-500 shrink-0 hover:underline"
+        >
+          {departureStationName}
+        </Link>
         <span className="text-gray-400 shrink-0">→</span>
-        <span className="text-blue-500 shrink-0">{endStation}</span>
+        <Link
+          href={endStation.shortCode}
+          className="text-blue-500 shrink-0 hover:underline"
+        >
+          {endStationName}
+        </Link>
       </p>
       <p className="">
         <span className="text-red-500 font-bold">{currentTimeDiff}</span>{" "}
