@@ -2,9 +2,10 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import DatePicker from "./DatePicker";
 import { formatDateForUrl } from "@/lib/utils/dateUtils";
 import { majorStations } from "@/lib/utils/stationUtils";
+import TrainSearch from "./TrainSearch";
+import StationSearch from "./StationSearch";
 
 type SearchType = "train" | "station";
 
@@ -14,6 +15,7 @@ const Search = () => {
   const [searchType, setSearchType] = useState<SearchType>("train");
   const [trainNumber, setTrainNumber] = useState("");
   const [stationCode, setStationCode] = useState("");
+  const [stationSearchValue, setStationSearchValue] = useState("");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [error, setError] = useState("");
 
@@ -55,6 +57,11 @@ const Search = () => {
       return;
     }
     router.push(`/stations/${stationCode}`);
+  };
+
+  const handleStationSelect = (code: string) => {
+    setStationCode(code);
+    setStationSearchValue(majorStations[code as keyof typeof majorStations]);
   };
 
   return (
@@ -104,40 +111,24 @@ const Search = () => {
       </div>
       <div className="flex flex-col space-y-4">
         {searchType === "train" ? (
-          <>
-            <div className="space-y-2">
-              <label htmlFor="trainNumber" className="text-sm font-medium">
-                {translations.trainNumber}
-              </label>
-              <input
-                id="trainNumber"
-                type="text"
-                value={trainNumber}
-                onChange={(e) => setTrainNumber(e.target.value)}
-                placeholder={translations.trainNumberFormPlaceHolder}
-                className="w-full px-4 py-2 border border-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 bg-background text-foreground"
-              />
-            </div>
-            <DatePicker date={date} setDate={setDate} />
-          </>
+          <TrainSearch
+            trainNumber={trainNumber}
+            setTrainNumber={setTrainNumber}
+            date={date}
+            setDate={setDate}
+          />
         ) : (
           <div className="space-y-2">
             <label htmlFor="station" className="text-sm font-medium">
               Station
             </label>
-            <select
-              id="station"
-              value={stationCode}
-              onChange={(e) => setStationCode(e.target.value)}
-              className="w-full px-4 py-2 border border-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 bg-background text-foreground"
-            >
-              <option value="">{translations.selectStation}</option>
-              {Object.entries(majorStations).map(([code, name]) => (
-                <option key={code} value={code}>
-                  {name}
-                </option>
-              ))}
-            </select>
+            <StationSearch
+              value={stationSearchValue}
+              onChange={setStationSearchValue}
+              onSelect={handleStationSelect}
+              placeholder={translations.selectStation}
+              error={error}
+            />
           </div>
         )}
 

@@ -46,6 +46,7 @@ export const translations = {
     invalidTrainNumber: "Syötä kelvollinen junan numero (vain numeroita)",
     selectedDate: "Valittu päivä:",
     selectStation: "Valitse asema",
+    searchStation: "Etsi asemaa...",
   },
   en: {
     title: "Is VR Late?",
@@ -94,6 +95,7 @@ export const translations = {
     invalidTrainNumber: "Please enter a valid train number (digits only)",
     selectedDate: "Selected date:",
     selectStation: "Select a station",
+    searchStation: "Search for a station...",
   },
 } as const;
 
