@@ -2,7 +2,6 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { majorStations } from "@/lib/utils/stationUtils";
 import { validateStation, handleSearchError } from "@/lib/utils/searchUtils";
 import StationSearchInput from "./StationSearchInput";
 
