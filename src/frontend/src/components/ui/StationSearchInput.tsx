@@ -21,11 +21,33 @@ const StationSearchInput = ({
   placeholder,
 }: StationSearchInputProps) => {
   const { translations } = useTranslations();
+  const [dropUp, setDropUp] = useState(false);
   const [suggestions, setSuggestions] = useState<[string, string][]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
-  const suggestionsRef = useRef<Array<HTMLButtonElement | null>>([]);
+  const suggestionsRef = useRef<Array<HTMLDivElement | null>>([]);
+  const suggestionsContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollToSuggestion = (index: number) => {
+    if (suggestionsRef.current[index] && suggestionsContainerRef.current) {
+      const container = suggestionsContainerRef.current;
+      const element = suggestionsRef.current[index];
+
+      const elementTop = element.offsetTop;
+      const elementBottom = elementTop + element.offsetHeight;
+      const containerTop = container.scrollTop;
+      const containerBottom = containerTop + container.offsetHeight;
+
+      if (elementBottom > containerBottom) {
+        // Scroll down if element is below view
+        container.scrollTop = elementBottom - container.offsetHeight;
+      } else if (elementTop < containerTop) {
+        // Scroll up if element is above view
+        container.scrollTop = elementTop;
+      }
+    }
+  };
 
   const getSuggestions = useCallback((input: string) => {
     const inputLower = input.toLowerCase();
@@ -58,14 +80,20 @@ const StationSearchInput = ({
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
-        setSelectedIndex((prev) =>
-          prev < suggestions.length - 1 ? prev + 1 : prev,
-        );
+        setSelectedIndex((prev) => {
+          const newIndex = prev < suggestions.length - 1 ? prev + 1 : prev;
+          scrollToSuggestion(newIndex);
+          return newIndex;
+        });
         break;
 
       case "ArrowUp":
         e.preventDefault();
-        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1));
+        setSelectedIndex((prev) => {
+          const newIndex = prev > 0 ? prev - 1 : -1;
+          if (newIndex >= 0) scrollToSuggestion(newIndex);
+          return newIndex;
+        });
         break;
 
       case "Enter":
@@ -90,14 +118,35 @@ const StationSearchInput = ({
 
       case "Tab":
         if (suggestions.length > 0) {
-          e.preventDefault();
-          setSelectedIndex((prev) =>
-            prev < suggestions.length - 1 ? prev + 1 : 0,
-          );
+          e.preventDefault(); // Prevent focus moving out
+          setSelectedIndex((prev) => {
+            const newIndex = prev < suggestions.length - 1 ? prev + 1 : 0;
+            scrollToSuggestion(newIndex);
+            return newIndex;
+          });
         }
         break;
     }
   };
+
+  useEffect(() => {
+    const checkPosition = () => {
+      if (inputRef.current) {
+        const rect = inputRef.current.getBoundingClientRect();
+        const spaceBelow = window.innerHeight - rect.bottom;
+        setDropUp(spaceBelow < 300); // 300px is approximate max height of suggestions
+      }
+    };
+
+    checkPosition();
+    window.addEventListener("scroll", checkPosition);
+    window.addEventListener("resize", checkPosition);
+
+    return () => {
+      window.removeEventListener("scroll", checkPosition);
+      window.removeEventListener("resize", checkPosition);
+    };
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -140,31 +189,48 @@ const StationSearchInput = ({
         className="w-full px-4 py-2 border border-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 bg-background text-foreground"
       />
 
-      {suggestions.map(([code, name], index) => (
-        <button
-          key={code}
-          type="button"
-          tabIndex={0}
-          onClick={() => {
-            console.log("Clicked:", code, name); // Debug log
-            onSelect(code, name);
-            setShowSuggestions(false);
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              onSelect(code, name);
-              setShowSuggestions(false);
-            }
-          }}
-          onMouseEnter={() => setSelectedIndex(index)}
-          className={`w-full px-4 py-2 text-left hover:bg-foreground/10 flex justify-between items-center cursor-pointer ${
-            index === selectedIndex ? "bg-foreground/10" : ""
+      {showSuggestions && suggestions.length > 0 && (
+        <div
+          ref={suggestionsContainerRef}
+          className={`absolute z-10 w-full bg-background border border-foreground/20 rounded-md shadow-lg max-h-[300px] overflow-y-auto ${
+            dropUp
+              ? "bottom-full mb-1" // Position above input
+              : "top-full mt-1" // Position below input
           }`}
+          style={{
+            maxHeight: "300px",
+          }}
         >
-          <span>{name}</span>
-          <span className="text-foreground/60 text-sm">{code}</span>
-        </button>
-      ))}
+          {suggestions.map(([code, name], index) => (
+            <div
+              key={code}
+              ref={(el) => {
+                suggestionsRef.current[index] = el;
+              }}
+              // biome-ignore lint/a11y/useSemanticElements: <explanation>
+              role="button"
+              tabIndex={0}
+              onClick={() => {
+                onSelect(code, name);
+                setShowSuggestions(false);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  onSelect(code, name);
+                  setShowSuggestions(false);
+                }
+              }}
+              onMouseEnter={() => setSelectedIndex(index)}
+              className={`w-full px-4 py-2 text-left hover:bg-foreground/10 flex justify-between items-center cursor-pointer ${
+                index === selectedIndex ? "bg-foreground/10" : ""
+              }`}
+            >
+              <span>{name}</span>
+              <span className="text-foreground/60 text-sm">{code}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

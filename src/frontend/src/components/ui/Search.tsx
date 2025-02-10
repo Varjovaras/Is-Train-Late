@@ -13,7 +13,7 @@ const Search = () => {
   return (
     <form
       onSubmit={(e) => e.preventDefault()}
-      className={`p-4 space-y-4 w-full max-w-md ${
+      className={`p-4 space-y-4 w-full max-w-md relative ${
         isLoading ? "fade-out" : "fade-in"
       }`}
     >
@@ -55,8 +55,9 @@ const Search = () => {
           </span>
         </label>
       </div>
-
-      {searchType === "train" ? <TrainSearch /> : <StationSearch />}
+      <div className="relative z-50">
+        {searchType === "train" ? <TrainSearch /> : <StationSearch />}
+      </div>{" "}
     </form>
   );
 };
