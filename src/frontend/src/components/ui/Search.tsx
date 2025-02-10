@@ -120,7 +120,7 @@ const Search = () => {
         ) : (
           <div className="space-y-2">
             <label htmlFor="station" className="text-sm font-medium">
-              Station
+              {translations.station}
             </label>
             <StationSearch
               value={stationSearchValue}
