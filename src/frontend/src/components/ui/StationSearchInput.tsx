@@ -8,6 +8,7 @@ type StationSearchInputProps = {
   onChange: (value: string) => void;
   onSelect: (code: string) => void;
   onSubmit: () => void;
+  onReset: () => void; // Add this prop
   placeholder?: string;
 };
 
@@ -16,6 +17,7 @@ const StationSearchInput = ({
   onChange,
   onSelect,
   onSubmit,
+  onReset,
   placeholder,
 }: StationSearchInputProps) => {
   const { translations } = useTranslations();
@@ -55,14 +57,22 @@ const StationSearchInput = ({
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
+      if (suggestions.length === 1) {
+        onSelect(suggestions[0][0]);
+        onReset();
+        return;
+      }
       const indexToUse = focusedIndex >= 0 ? focusedIndex : highlightedIndex;
       if (indexToUse >= 0 && indexToUse < suggestions.length) {
         onSelect(suggestions[indexToUse][0]);
-      } else if (suggestions.length === 1) {
-        onSelect(suggestions[0][0]);
-      } else {
-        onSubmit();
+        onReset();
+        return;
       }
+      onSubmit();
+      onReset();
+    } else if (e.key === "Escape") {
+      setShowSuggestions(false);
+      onReset();
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
       setFocusedIndex((prev) =>
@@ -71,8 +81,6 @@ const StationSearchInput = ({
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setFocusedIndex((prev) => (prev > 0 ? prev - 1 : -1));
-    } else if (e.key === "Escape") {
-      setShowSuggestions(false);
     } else if (e.key === "Tab") {
       if (suggestions.length > 0) {
         e.preventDefault();
@@ -104,6 +112,15 @@ const StationSearchInput = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (!value) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      setHighlightedIndex(-1);
+      setFocusedIndex(-1);
+    }
+  }, [value]);
 
   return (
     <div className="space-y-2 relative">

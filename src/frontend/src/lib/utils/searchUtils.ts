@@ -4,6 +4,7 @@ export const handleSearchError = (
   error: string,
   setError: (error: string) => void,
 ) => {
+  console.error(error);
   setError(error);
   return false;
 };
