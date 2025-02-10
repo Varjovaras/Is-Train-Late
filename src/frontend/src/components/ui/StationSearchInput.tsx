@@ -26,7 +26,7 @@ const StationSearchInput = ({
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
-  const suggestionsRef = useRef<Array<HTMLDivElement | null>>([]);
+  const suggestionsRef = useRef<Array<HTMLButtonElement | null>>([]);
   const suggestionsContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToSuggestion = (index: number) => {
@@ -40,10 +40,8 @@ const StationSearchInput = ({
       const containerBottom = containerTop + container.offsetHeight;
 
       if (elementBottom > containerBottom) {
-        // Scroll down if element is below view
         container.scrollTop = elementBottom - container.offsetHeight;
       } else if (elementTop < containerTop) {
-        // Scroll up if element is above view
         container.scrollTop = elementTop;
       }
     }
@@ -150,10 +148,12 @@ const StationSearchInput = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        inputRef.current &&
-        !inputRef.current.contains(event.target as Node)
-      ) {
+      // Check if click is inside either the input or suggestions container
+      const isClickInside =
+        inputRef.current?.contains(event.target as Node) ||
+        suggestionsContainerRef.current?.contains(event.target as Node);
+
+      if (!isClickInside) {
         setShowSuggestions(false);
       }
     };
@@ -202,15 +202,17 @@ const StationSearchInput = ({
           }}
         >
           {suggestions.map(([code, name], index) => (
-            <div
+            <button
               key={code}
               ref={(el) => {
                 suggestionsRef.current[index] = el;
               }}
-              // biome-ignore lint/a11y/useSemanticElements: <explanation>
-              role="button"
+              type="button"
               tabIndex={0}
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log("Suggestion clicked:", code, name); // Add this log
                 onSelect(code, name);
                 setShowSuggestions(false);
               }}
@@ -227,7 +229,7 @@ const StationSearchInput = ({
             >
               <span>{name}</span>
               <span className="text-foreground/60 text-sm">{code}</span>
-            </div>
+            </button>
           ))}
         </div>
       )}
