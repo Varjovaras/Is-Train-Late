@@ -22,7 +22,9 @@ const StationSearchInput = ({
   const [suggestions, setSuggestions] = useState<[string, string][]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
+  const suggestionsRef = useRef<(HTMLButtonElement | null)[]>([]);
 
   const getSuggestions = useCallback((input: string) => {
     const inputLower = input.toLowerCase();
@@ -43,6 +45,7 @@ const StationSearchInput = ({
       setSuggestions(newSuggestions);
       setShowSuggestions(true);
       setHighlightedIndex(-1);
+      setFocusedIndex(-1);
     } else {
       setSuggestions([]);
       setShowSuggestions(false);
@@ -52,8 +55,9 @@ const StationSearchInput = ({
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (highlightedIndex >= 0 && highlightedIndex < suggestions.length) {
-        onSelect(suggestions[highlightedIndex][0]);
+      const indexToUse = focusedIndex >= 0 ? focusedIndex : highlightedIndex;
+      if (indexToUse >= 0 && indexToUse < suggestions.length) {
+        onSelect(suggestions[indexToUse][0]);
       } else if (suggestions.length === 1) {
         onSelect(suggestions[0][0]);
       } else {
@@ -61,16 +65,29 @@ const StationSearchInput = ({
       }
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
-      setHighlightedIndex((prev) =>
+      setFocusedIndex((prev) =>
         prev < suggestions.length - 1 ? prev + 1 : prev,
       );
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setHighlightedIndex((prev) => (prev > -1 ? prev - 1 : -1));
+      setFocusedIndex((prev) => (prev > 0 ? prev - 1 : -1));
     } else if (e.key === "Escape") {
       setShowSuggestions(false);
+    } else if (e.key === "Tab") {
+      if (suggestions.length > 0) {
+        e.preventDefault();
+        setFocusedIndex((prev) =>
+          prev < suggestions.length - 1 ? prev + 1 : 0,
+        );
+      }
     }
   };
+
+  useEffect(() => {
+    if (focusedIndex >= 0 && suggestionsRef.current[focusedIndex]) {
+      suggestionsRef.current[focusedIndex]?.focus();
+    }
+  }, [focusedIndex]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -110,12 +127,15 @@ const StationSearchInput = ({
           {suggestions.map(([code, name], index) => (
             <button
               key={code}
+              ref={(el) => (suggestionsRef.current[index] = el)}
               type="button"
               onClick={() => onSelect(code)}
               onMouseEnter={() => setHighlightedIndex(index)}
-              className={`w-full px-4 py-2 text-left hover:bg-foreground/10 flex justify-between items-center ${
-                index === highlightedIndex ? "bg-foreground/10" : ""
-              }`}
+              onMouseLeave={() => setHighlightedIndex(-1)}
+              onFocus={() => setFocusedIndex(index)}
+              onBlur={() => setFocusedIndex(-1)}
+              className={`w-full px-4 py-2 text-left hover:bg-foreground/10 flex justify-between items-center focus:outline-none focus:bg-foreground/10
+                ${index === highlightedIndex || index === focusedIndex ? "bg-foreground/10" : ""}`}
             >
               <span>{name}</span>
               <span className="text-foreground/60 text-sm">{code}</span>

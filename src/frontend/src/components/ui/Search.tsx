@@ -18,7 +18,7 @@ const Search = () => {
       }`}
     >
       <div className="flex gap-6 justify-center">
-        <label className="inline-flex items-center group cursor-pointer">
+        <label className="inline-flex items-center cursor-pointer">
           <input
             type="radio"
             value="train"
@@ -36,7 +36,7 @@ const Search = () => {
             {translations.findTrain}
           </span>
         </label>
-        <label className="flex items-center group cursor-pointer">
+        <label className="flex items-center cursor-pointer">
           <input
             type="radio"
             value="station"
