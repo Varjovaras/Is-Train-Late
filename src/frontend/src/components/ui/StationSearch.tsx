@@ -13,20 +13,20 @@ const StationSearch = () => {
   const [stationSearchValue, setStationSearchValue] = useState("");
   const [error, setError] = useState("");
 
-  const resetForm = useCallback(() => {
+  const resetForm = () => {
     setStationCode("");
     setStationSearchValue("");
     setError("");
-  }, []);
+  };
 
-  const handleStationSubmit = useCallback(() => {
+  const handleStationSubmit = () => {
     const stationError = validateStation(stationCode, translations);
     if (stationError) return handleSearchError(stationError, setError);
 
     router.push(`/stations/${stationCode}`);
     resetForm();
     return true;
-  }, [stationCode, router, translations, resetForm]);
+  };
 
   const handleStationSelect = (code: string) => {
     setStationCode(code);
