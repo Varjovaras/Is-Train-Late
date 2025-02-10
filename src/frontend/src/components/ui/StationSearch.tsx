@@ -1,7 +1,7 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useRouter } from "next/navigation";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { majorStations } from "@/lib/utils/stationUtils";
 import { validateStation, handleSearchError } from "@/lib/utils/searchUtils";
 import StationSearchInput from "./StationSearchInput";
@@ -28,9 +28,10 @@ const StationSearch = () => {
     return true;
   };
 
-  const handleStationSelect = (code: string) => {
+  const handleStationSelect = (code: string, name: string) => {
+    console.log("läälää");
     setStationCode(code);
-    setStationSearchValue(majorStations[code as keyof typeof majorStations]);
+    setStationSearchValue(name);
     router.push(`/stations/${code}`);
     resetForm();
   };

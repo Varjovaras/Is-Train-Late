@@ -6,7 +6,7 @@ import { useCallback, useState, useRef, useEffect } from "react";
 type StationSearchInputProps = {
   value: string;
   onChange: (value: string) => void;
-  onSelect: (code: string) => void;
+  onSelect: (code: string, name: string) => void; // Updated to include name
   onSubmit: () => void;
   onReset: () => void; // Add this prop
   placeholder?: string;
@@ -26,7 +26,7 @@ const StationSearchInput = ({
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
-  const suggestionsRef = useRef<(HTMLButtonElement | null)[]>([]);
+  const suggestionsRef = useRef<Array<HTMLButtonElement | null>>([]);
 
   const getSuggestions = useCallback((input: string) => {
     const inputLower = input.toLowerCase();
@@ -58,13 +58,15 @@ const StationSearchInput = ({
     if (e.key === "Enter") {
       e.preventDefault();
       if (suggestions.length === 1) {
-        onSelect(suggestions[0][0]);
+        const [code, name] = suggestions[0];
+        onSelect(code, name);
         onReset();
         return;
       }
       const indexToUse = focusedIndex >= 0 ? focusedIndex : highlightedIndex;
       if (indexToUse >= 0 && indexToUse < suggestions.length) {
-        onSelect(suggestions[indexToUse][0]);
+        const [code, name] = suggestions[indexToUse];
+        onSelect(code, name);
         onReset();
         return;
       }
@@ -89,6 +91,12 @@ const StationSearchInput = ({
         );
       }
     }
+  };
+
+  const handleSuggestionClick = (code: string, name: string) => {
+    console.log("Suggestion clicked:", code, name); // Debug log
+    setShowSuggestions(false);
+    onSelect(code, name);
   };
 
   useEffect(() => {
@@ -144,15 +152,25 @@ const StationSearchInput = ({
           {suggestions.map(([code, name], index) => (
             <button
               key={code}
-              ref={(el) => (suggestionsRef.current[index] = el)}
+              ref={(el) => {
+                suggestionsRef.current[index] = el;
+              }}
               type="button"
-              onClick={() => onSelect(code)}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleSuggestionClick(code, name);
+              }}
+              onMouseDown={(e) => {
+                // Prevent input blur from hiding suggestions before click
+                e.preventDefault();
+              }}
               onMouseEnter={() => setHighlightedIndex(index)}
               onMouseLeave={() => setHighlightedIndex(-1)}
               onFocus={() => setFocusedIndex(index)}
               onBlur={() => setFocusedIndex(-1)}
               className={`w-full px-4 py-2 text-left hover:bg-foreground/10 flex justify-between items-center focus:outline-none focus:bg-foreground/10
-                ${index === highlightedIndex || index === focusedIndex ? "bg-foreground/10" : ""}`}
+                  ${index === highlightedIndex || index === focusedIndex ? "bg-foreground/10" : ""}`}
             >
               <span>{name}</span>
               <span className="text-foreground/60 text-sm">{code}</span>
