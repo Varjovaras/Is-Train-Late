@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import FindTrain from "@/components/ui/FindTrain";
 import Footer from "@/components/ui/Footer";
 import Title from "@/components/ui/Title";
 import TopBar from "@/components/ui/TopBar";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import Search from "@/components/ui/Search";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,7 +42,7 @@ const RootLayout = ({
             <div className="flex-1 py-20 px-4 mt-4 flex flex-col items-center max-w-7xl mx-auto w-full">
               <Title />
               <main className="flex-1 w-full">{children}</main>
-              <FindTrain />
+              <Search />
               <Footer />
             </div>
           </div>

@@ -8,7 +8,7 @@ import { majorStations } from "@/lib/utils/stationUtils";
 
 type SearchType = "train" | "station";
 
-const FindTrain = () => {
+const Search = () => {
   const router = useRouter();
   const { translations, isLoading } = useTranslations();
   const [searchType, setSearchType] = useState<SearchType>("train");
@@ -64,29 +64,44 @@ const FindTrain = () => {
         isLoading ? "fade-out" : "fade-in"
       }`}
     >
-      <div className="flex gap-4 justify-center">
-        <label className="inline-flex items-center">
+      <div className="flex gap-6 justify-center">
+        <label className="inline-flex items-center group cursor-pointer">
           <input
             type="radio"
             value="train"
             checked={searchType === "train"}
             onChange={(e) => setSearchType(e.target.value as SearchType)}
-            className=""
+            className="appearance-none w-4 h-4 rounded-full border-2 border-foreground/60 checked:border-foreground checked:bg-red-500/50 checked:border-0 transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-foreground/60"
           />
-          <span className="ml-2">{translations.findTrain}</span>
+          <span
+            className={`ml-2 transition-colors ${
+              searchType === "train"
+                ? "text-foreground font-medium"
+                : "text-foreground/60"
+            }`}
+          >
+            {translations.findTrain}
+          </span>
         </label>
-        <label className="inline-flex items-center">
+        <label className="flex items-center group cursor-pointer">
           <input
             type="radio"
             value="station"
             checked={searchType === "station"}
             onChange={(e) => setSearchType(e.target.value as SearchType)}
-            className=""
+            className="appearance-none w-4 h-4 rounded-full border-2 border-foreground/60 checked:border-foreground checked:bg-red-500/50 checked:border-0 transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-foreground/60"
           />
-          <span className="ml-2">{translations.selectStation}</span>
+          <span
+            className={`ml-2 transition-colors ${
+              searchType === "station"
+                ? "text-foreground font-medium"
+                : "text-foreground/60"
+            }`}
+          >
+            {translations.selectStation}
+          </span>
         </label>
       </div>
-
       <div className="flex flex-col space-y-4">
         {searchType === "train" ? (
           <>
@@ -116,7 +131,7 @@ const FindTrain = () => {
               onChange={(e) => setStationCode(e.target.value)}
               className="w-full px-4 py-2 border border-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 bg-background text-foreground"
             >
-              <option value="">Select a station</option>
+              <option value="">{translations.selectStation}</option>
               {Object.entries(majorStations).map(([code, name]) => (
                 <option key={code} value={code}>
                   {name}
@@ -142,4 +157,4 @@ const FindTrain = () => {
   );
 };
 
-export default FindTrain;
+export default Search;
