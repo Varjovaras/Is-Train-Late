@@ -1,231 +1,135 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { majorStations } from "@/lib/utils/stationUtils";
-import { useCallback, useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 type StationSearchInputProps = {
-  value: string;
-  onChange: (value: string) => void;
-  onSelect: (code: string, name: string) => void;
-  onSubmit: () => void;
-  onReset: () => void;
+  onSelect: (code: string) => void;
   placeholder?: string;
 };
 
 const StationSearchInput = ({
-  value,
-  onChange,
   onSelect,
-  onSubmit,
-  onReset,
   placeholder,
 }: StationSearchInputProps) => {
   const { translations } = useTranslations();
-  const [dropUp, setDropUp] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   const [suggestions, setSuggestions] = useState<[string, string][]>([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [dropUp, setDropUp] = useState(false);
+
   const inputRef = useRef<HTMLInputElement>(null);
-  const suggestionsRef = useRef<Array<HTMLButtonElement | null>>([]);
-  const suggestionsContainerRef = useRef<HTMLDivElement>(null);
+  const suggestionsRef = useRef<HTMLDivElement>(null);
 
-  const scrollToSuggestion = (index: number) => {
-    if (suggestionsRef.current[index] && suggestionsContainerRef.current) {
-      const container = suggestionsContainerRef.current;
-      const element = suggestionsRef.current[index];
-
-      const elementTop = element.offsetTop;
-      const elementBottom = elementTop + element.offsetHeight;
-      const containerTop = container.scrollTop;
-      const containerBottom = containerTop + container.offsetHeight;
-
-      if (elementBottom > containerBottom) {
-        container.scrollTop = elementBottom - container.offsetHeight;
-      } else if (elementTop < containerTop) {
-        container.scrollTop = elementTop;
-      }
+  const updateSuggestions = useCallback((input: string) => {
+    if (input.length < 2) {
+      setSuggestions([]);
+      return;
     }
-  };
 
-  const getSuggestions = useCallback((input: string) => {
     const inputLower = input.toLowerCase();
-    return Object.entries(majorStations)
+    const matches = Object.entries(majorStations)
       .filter(
         ([code, name]) =>
           name.toLowerCase().includes(inputLower) ||
           code.toLowerCase().includes(inputLower),
       )
       .slice(0, 10);
+
+    setSuggestions(matches);
   }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    onChange(newValue);
-    if (newValue.length >= 2) {
-      const newSuggestions = getSuggestions(newValue);
-      setSuggestions(newSuggestions);
-      setShowSuggestions(true);
-      setSelectedIndex(-1);
-    } else {
-      setSuggestions([]);
-      setShowSuggestions(false);
-    }
+  const handleSelect = (code: string, name: string) => {
+    setSearchValue(name);
+    setShowSuggestions(false);
+    onSelect(code);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!showSuggestions) return;
+    if (!showSuggestions || suggestions.length === 0) return;
 
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
-        setSelectedIndex((prev) => {
-          const newIndex = prev < suggestions.length - 1 ? prev + 1 : prev;
-          scrollToSuggestion(newIndex);
-          return newIndex;
-        });
+        setSelectedIndex((prev) =>
+          prev < suggestions.length - 1 ? prev + 1 : prev,
+        );
         break;
 
       case "ArrowUp":
         e.preventDefault();
-        setSelectedIndex((prev) => {
-          const newIndex = prev > 0 ? prev - 1 : -1;
-          if (newIndex >= 0) scrollToSuggestion(newIndex);
-          return newIndex;
-        });
+        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1));
         break;
 
       case "Enter":
         e.preventDefault();
-        if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
+        if (selectedIndex >= 0) {
           const [code, name] = suggestions[selectedIndex];
-          onSelect(code, name);
-          setShowSuggestions(false);
-        } else if (suggestions.length === 1) {
-          const [code, name] = suggestions[0];
-          onSelect(code, name);
-          setShowSuggestions(false);
-        } else {
-          onSubmit();
+          handleSelect(code, name);
         }
         break;
 
       case "Escape":
         setShowSuggestions(false);
-        onReset();
-        break;
-
-      case "Tab":
-        if (suggestions.length > 0) {
-          e.preventDefault(); // Prevent focus moving out
-          setSelectedIndex((prev) => {
-            const newIndex = prev < suggestions.length - 1 ? prev + 1 : 0;
-            scrollToSuggestion(newIndex);
-            return newIndex;
-          });
-        }
+        setSelectedIndex(-1);
         break;
     }
   };
 
   useEffect(() => {
+    updateSuggestions(searchValue);
+  }, [searchValue, updateSuggestions]);
+
+  useEffect(() => {
     const checkPosition = () => {
       if (inputRef.current) {
         const rect = inputRef.current.getBoundingClientRect();
-        const spaceBelow = window.innerHeight - rect.bottom;
-        setDropUp(spaceBelow < 300); // 300px is approximate max height of suggestions
+        setDropUp(window.innerHeight - rect.bottom < 300);
       }
     };
 
     checkPosition();
-    window.addEventListener("scroll", checkPosition);
     window.addEventListener("resize", checkPosition);
-
-    return () => {
-      window.removeEventListener("scroll", checkPosition);
-      window.removeEventListener("resize", checkPosition);
-    };
+    return () => window.removeEventListener("resize", checkPosition);
   }, []);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      // Check if click is inside either the input or suggestions container
-      const isClickInside =
-        inputRef.current?.contains(event.target as Node) ||
-        suggestionsContainerRef.current?.contains(event.target as Node);
-
-      if (!isClickInside) {
-        setShowSuggestions(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!value) {
-      setSuggestions([]);
-      setShowSuggestions(false);
-      setSelectedIndex(-1);
-    }
-  }, [value]);
 
   return (
     <div className="space-y-2 relative">
-      <label htmlFor="station" className="text-sm font-medium">
+      <label htmlFor="station-search" className="text-sm font-medium">
         {translations.selectStation}
       </label>
+
       <input
         ref={inputRef}
-        id="station"
+        id="station-search"
         type="text"
-        value={value}
-        onChange={handleInputChange}
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
         onKeyDown={handleKeyDown}
-        onFocus={() => value.length >= 2 && setShowSuggestions(true)}
+        onFocus={() => setShowSuggestions(true)}
         placeholder={placeholder}
-        className="w-full px-4 py-2 border border-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 bg-background text-foreground"
+        className="w-full px-4 py-2 border border-foreground rounded-md
+          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+          bg-background text-foreground"
       />
 
       {showSuggestions && suggestions.length > 0 && (
         <div
-          ref={suggestionsContainerRef}
-          className={`absolute z-10 w-full bg-background border border-foreground/20 rounded-md shadow-lg max-h-[300px] overflow-y-auto ${
-            dropUp
-              ? "bottom-full mb-1" // Position above input
-              : "top-full mt-1" // Position below input
-          }`}
-          style={{
-            maxHeight: "300px",
-          }}
+          ref={suggestionsRef}
+          className={`absolute z-10 w-full bg-background border
+            border-foreground/20 rounded-md shadow-lg overflow-y-auto
+            ${dropUp ? "bottom-full mb-1" : "top-full mt-1"}`}
+          style={{ maxHeight: "300px" }}
         >
           {suggestions.map(([code, name], index) => (
             <button
               key={code}
-              ref={(el) => {
-                suggestionsRef.current[index] = el;
-              }}
               type="button"
-              tabIndex={0}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log("Suggestion clicked:", code, name); // Add this log
-                onSelect(code, name);
-                setShowSuggestions(false);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  onSelect(code, name);
-                  setShowSuggestions(false);
-                }
-              }}
-              onMouseEnter={() => setSelectedIndex(index)}
-              className={`w-full px-4 py-2 text-left hover:bg-foreground/10 flex justify-between items-center cursor-pointer ${
-                index === selectedIndex ? "bg-foreground/10" : ""
-              }`}
+              onClick={() => handleSelect(code, name)}
+              className={`w-full px-4 py-2 text-left hover:bg-foreground/10
+                flex justify-between items-center
+                ${index === selectedIndex ? "bg-foreground/10" : ""}`}
             >
               <span>{name}</span>
               <span className="text-foreground/60 text-sm">{code}</span>
