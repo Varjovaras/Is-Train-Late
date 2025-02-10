@@ -29,7 +29,7 @@ const StationSearch = () => {
   };
 
   const handleStationSelect = (code: string, name: string) => {
-    console.log("läälää");
+    console.log("handleStationSelect called:", code, name);
     setStationCode(code);
     setStationSearchValue(name);
     router.push(`/stations/${code}`);
