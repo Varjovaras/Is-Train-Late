@@ -11,7 +11,9 @@ const Page = async ({
 }>) => {
   const stationId = (await params).id.toUpperCase();
 
-  const res = await fetch(`${REST_ENDPOINT}${stationId}`);
+  const res = await fetch(`${REST_ENDPOINT}${stationId}`, {
+    cache: "no-store",
+  });
 
   if (!res.ok) {
     return (

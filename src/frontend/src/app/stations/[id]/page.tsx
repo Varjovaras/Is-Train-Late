@@ -22,7 +22,7 @@ const Page = async ({
   });
   url.search = searchParams.toString();
 
-  const res = await fetch(url.toString());
+  const res = await fetch(url.toString(), { cache: "no-store" });
 
   if (!res.ok) {
     return (
