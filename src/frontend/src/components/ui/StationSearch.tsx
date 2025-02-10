@@ -42,6 +42,7 @@ const StationSearch = () => {
         onChange={setStationSearchValue}
         onSelect={handleStationSelect}
         onSubmit={handleStationSubmit}
+        onReset={resetForm}
         placeholder={translations.searchStation}
       />
       {error && <p className="text-red-500 text-sm">{error}</p>}
