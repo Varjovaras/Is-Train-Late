@@ -1,18 +1,18 @@
 "use client";
-import type { StationTrainSchedule } from "@/lib/types/stationTypes";
+import type { StationSchedules } from "@/lib/types/stationTypes";
 import StationScheduleList from "./StationScheduleList";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useState } from "react";
 
 type StationTrainOverviewProps = {
-  trainsAtStation: StationTrainSchedule[];
+  schedules: StationSchedules[];
   stationId: string;
 };
 
 type ShowTrainType = "current" | "future";
 
-const StationTrainOverview = ({
-  trainsAtStation,
+const StationScheduleOverview = ({
+  schedules: trainsAtStation,
   stationId,
 }: StationTrainOverviewProps) => {
   const { translations } = useTranslations();
@@ -85,7 +85,7 @@ const StationTrainOverview = ({
           {getHeading()} ({getFilteredTrains().length})
         </h2>
         <StationScheduleList
-          trains={getFilteredTrains()}
+          schedules={getFilteredTrains()}
           stationId={stationId}
         />
       </section>
@@ -93,4 +93,4 @@ const StationTrainOverview = ({
   );
 };
 
-export default StationTrainOverview;
+export default StationScheduleOverview;

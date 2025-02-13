@@ -1,4 +1,4 @@
-import type { StationTrainSchedule } from "@/lib/types/stationTypes";
+import type { StationSchedules } from "@/lib/types/stationTypes";
 import Link from "next/link";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { getTrainTypeString } from "@/lib/utils/stationUtils";
@@ -10,22 +10,22 @@ import {
 import { useState } from "react";
 
 type StationScheduleListProps = {
-  trains: StationTrainSchedule[];
+  schedules: StationSchedules[];
   stationId: string;
 };
 
 const StationScheduleList = ({
-  trains,
+  schedules,
   stationId,
 }: StationScheduleListProps) => {
   const { translations } = useTranslations();
   const [showDepartures, setShowDepartures] = useState(true);
 
-  const filteredTrains = trains.filter((train) => {
-    const stationRows = train.timeTableRows.filter(
+  const filteredSchedules = schedules.filter((schedule) => {
+    const timeTableRows = schedule.timeTableRows.filter(
       (row) => row.stationShortCode === stationId,
     );
-    return stationRows.some(
+    return timeTableRows.some(
       (row) => row.type === (showDepartures ? "DEPARTURE" : "ARRIVAL"),
     );
   });
@@ -59,7 +59,7 @@ const StationScheduleList = ({
         </button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredTrains.map((train) => (
+        {filteredSchedules.map((train) => (
           <div
             key={`${train.trainNumber}-${train.departureDate}`}
             className="border border-foreground/20 rounded-lg p-4 space-y-3"
