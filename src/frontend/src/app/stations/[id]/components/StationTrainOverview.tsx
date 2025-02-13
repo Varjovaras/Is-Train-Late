@@ -1,20 +1,20 @@
 "use client";
-import type { StationTrain } from "@/lib/types/stationTypes";
-import StationTrainList from "./StationTrainList";
+import type { StationTrainSchedule } from "@/lib/types/stationTypes";
+import StationScheduleList from "./StationScheduleList";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useState } from "react";
 
-type TrainsAtStationProps = {
-  trainsAtStation: StationTrain[];
+type StationTrainOverviewProps = {
+  trainsAtStation: StationTrainSchedule[];
   stationId: string;
 };
 
 type ShowTrainType = "current" | "future";
 
-const TrainsAtStation = ({
+const StationTrainOverview = ({
   trainsAtStation,
   stationId,
-}: TrainsAtStationProps) => {
+}: StationTrainOverviewProps) => {
   const { translations } = useTranslations();
   const [showTrainType, setShowTrainType] = useState<ShowTrainType>("current");
   const now = new Date();
@@ -31,7 +31,7 @@ const TrainsAtStation = ({
     return firstTime > thirtyMinutesFromNow;
   });
 
-  const getTrainsToShow = () => {
+  const getFilteredTrains = () => {
     switch (showTrainType) {
       case "current":
         return currentTrains;
@@ -82,12 +82,15 @@ const TrainsAtStation = ({
 
       <section>
         <h2 className="text-xl font-bold mb-4">
-          {getHeading()} ({getTrainsToShow().length})
+          {getHeading()} ({getFilteredTrains().length})
         </h2>
-        <StationTrainList trains={getTrainsToShow()} stationId={stationId} />
+        <StationScheduleList
+          trains={getFilteredTrains()}
+          stationId={stationId}
+        />
       </section>
     </div>
   );
 };
 
-export default TrainsAtStation;
+export default StationTrainOverview;

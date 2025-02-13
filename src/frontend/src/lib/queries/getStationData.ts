@@ -1,4 +1,4 @@
-import type { StationTrain } from "../types/stationTypes";
+import type { StationTrainSchedule } from "../types/stationTypes";
 
 const REST_ENDPOINT = "https://rata.digitraffic.fi/api/v1/live-trains/station/";
 
@@ -20,6 +20,6 @@ export const getStationData = async (stationId: string) => {
       `Station data not available. HTTP error! status: ${res.status} `,
     );
 
-  const stations = (await res.json()) as StationTrain[];
+  const stations = (await res.json()) as StationTrainSchedule[];
   return stations;
 };

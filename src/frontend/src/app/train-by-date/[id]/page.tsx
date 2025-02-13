@@ -1,7 +1,7 @@
-import TrainPage from "@/components/train/TrainPage";
+import LiveTrainPage from "@/components/train/LiveTrainPage";
 import { getDifferentDateTrain } from "@/lib/queries/differentDateQuery";
 import type { DifferentDayTrainResponse } from "@/lib/types/trainTypes";
-import { isSuitableId } from "@/lib/utils/urlUtils";
+import { isValidTrainId } from "@/lib/utils/urlUtils";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
@@ -12,7 +12,7 @@ const Page = async ({
 }>) => {
   const id = (await params).id;
 
-  if (!isSuitableId(id)) {
+  if (!isValidTrainId(id)) {
     return <div>123</div>;
   }
 
@@ -58,7 +58,7 @@ const Page = async ({
 
   return (
     <div>
-      <TrainPage train={train} forceShowAllStations />
+      <LiveTrainPage train={train} forceShowAllStations />
     </div>
   );
 };

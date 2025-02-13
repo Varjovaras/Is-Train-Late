@@ -1,4 +1,4 @@
-import TrainPage from "@/components/train/TrainPage";
+import LiveTrainPage from "@/components/train/LiveTrainPage";
 import { getSingleTrainData } from "@/lib/queries/getSingleTrainData";
 
 const Page = async ({
@@ -13,7 +13,7 @@ const Page = async ({
 
   return (
     <div>
-      <TrainPage train={train} forceShowAllStations />
+      <LiveTrainPage train={train} forceShowAllStations />
     </div>
   );
 };

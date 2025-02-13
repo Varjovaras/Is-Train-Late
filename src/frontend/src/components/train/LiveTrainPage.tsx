@@ -3,12 +3,12 @@ import DelayInformation from "../delayInfo/DelayInformation";
 import TrainDetails from "../TrainDetails";
 import Train from "./Train";
 
-type TrainPageProps = {
+type LiveTrainPageProps = {
   train: TrainType;
   forceShowAllStations: boolean;
 };
 
-const TrainPage = ({ train, forceShowAllStations }: TrainPageProps) => {
+const LiveTrainPage = ({ train, forceShowAllStations }: LiveTrainPageProps) => {
   return (
     <div className="mx-auto flex flex-col">
       <TrainDetails train={train} />
@@ -24,4 +24,4 @@ const TrainPage = ({ train, forceShowAllStations }: TrainPageProps) => {
   );
 };
 
-export default TrainPage;
+export default LiveTrainPage;

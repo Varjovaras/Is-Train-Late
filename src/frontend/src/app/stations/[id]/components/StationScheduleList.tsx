@@ -1,4 +1,4 @@
-import type { StationTrain } from "@/lib/types/stationTypes";
+import type { StationTrainSchedule } from "@/lib/types/stationTypes";
 import Link from "next/link";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { getTrainTypeString } from "@/lib/utils/stationUtils";
@@ -9,12 +9,15 @@ import {
 } from "@/lib/utils/dateUtils";
 import { useState } from "react";
 
-type StationTrainListProps = {
-  trains: StationTrain[];
+type StationScheduleListProps = {
+  trains: StationTrainSchedule[];
   stationId: string;
 };
 
-const StationTrainList = ({ trains, stationId }: StationTrainListProps) => {
+const StationScheduleList = ({
+  trains,
+  stationId,
+}: StationScheduleListProps) => {
   const { translations } = useTranslations();
   const [showDepartures, setShowDepartures] = useState(true);
 
@@ -178,4 +181,4 @@ const StationTrainList = ({ trains, stationId }: StationTrainListProps) => {
   );
 };
 
-export default StationTrainList;
+export default StationScheduleList;

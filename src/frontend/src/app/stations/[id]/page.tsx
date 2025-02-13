@@ -1,5 +1,5 @@
 import { getStationData } from "@/lib/queries/getStationData";
-import type { StationTrain } from "@/lib/types/stationTypes";
+import type { StationTrainSchedule } from "@/lib/types/stationTypes";
 import { removeAsema } from "@/lib/utils/stringUtils";
 import TrainsAtStation from "./components/TrainsAtStation";
 import { isValidStationCode, majorStations } from "@/lib/utils/majorStations";
@@ -10,7 +10,7 @@ const Page = async ({
   params: Promise<{ id: string }>;
 }>) => {
   const stationId = (await params).id.toUpperCase();
-  const stations: StationTrain[] = await getStationData(stationId);
+  const stations: StationTrainSchedule[] = await getStationData(stationId);
 
   const stationName = isValidStationCode(stationId)
     ? majorStations[stationId]

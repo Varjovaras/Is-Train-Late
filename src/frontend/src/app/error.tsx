@@ -2,8 +2,7 @@
 
 import { useEffect } from "react";
 
-// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
-const Error = ({
+const GlobalErrorHandler = ({
   error,
   reset,
 }: {
@@ -30,4 +29,4 @@ const Error = ({
   );
 };
 
-export default Error;
+export default GlobalErrorHandler;
