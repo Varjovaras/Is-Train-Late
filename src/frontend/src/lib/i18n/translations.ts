@@ -47,6 +47,11 @@ export const translations = {
     selectedDate: "Valittu päivä:",
     selectStation: "Valitse asema",
     searchStation: "Etsi asemaa...",
+    arrivingSoon: "Saapuu 30 minuutin sisällä",
+    futureTrains: "Tulevat junat",
+    pastTrains: "Menneet junat",
+    cancelled: "Peruttu",
+    running: "Liikkeellä",
   },
   en: {
     title: "Is VR Late?",
@@ -96,6 +101,11 @@ export const translations = {
     selectedDate: "Selected date:",
     selectStation: "Select a station",
     searchStation: "Search for a station...",
+    arrivingSoon: "Arriving in the next 30 minutes",
+    futureTrains: "Upcoming trains",
+    pastTrains: "Past trains",
+    cancelled: "Cancelled",
+    running: "Running",
   },
 } as const;
 

@@ -1,71 +1,113 @@
+"use client";
 import type { StationTrain } from "@/lib/types/stationTypes";
+import StationTrainList from "./StationTrainList";
+import { useTranslations } from "@/lib/i18n/useTranslations";
+import { useState } from "react";
 
-type StationDataProps = {
+type TrainsAtStationProps = {
   trainsAtStation: StationTrain[];
   stationId: string;
 };
 
-const TrainsAtStation = ({ trainsAtStation, stationId }: StationDataProps) => {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {trainsAtStation.map((train) => (
-        <div
-          key={`${train.trainNumber}-${train.departureDate}`}
-          className="border border-foreground/20 rounded-lg p-4 space-y-2"
-        >
-          <div className="flex justify-between items-center">
-            <span className="font-bold">
-              {train.commuterLineID ||
-                `${train.trainType} ${train.trainNumber}`}
-            </span>
-            <span
-              className={`px-2 py-1 rounded-full text-sm ${
-                train.cancelled
-                  ? "bg-red-500/10 text-red-500"
-                  : "bg-green-500/10 text-green-500"
-              }`}
-            >
-              {train.cancelled ? "Cancelled" : "Running"}
-            </span>
-          </div>
+type ShowTrainType = "current" | "future" | "past";
 
-          {train.timeTableRows
-            .filter((row) => row.stationShortCode === stationId)
-            .map((row) => (
-              <div
-                key={`${row.type}-${row.scheduledTime}`}
-                className="flex justify-between items-center text-sm"
-              >
-                <span>{row.type}</span>
-                <div className="space-y-1 text-right">
-                  <div className="text-foreground/60">
-                    Scheduled:{" "}
-                    {new Date(row.scheduledTime).toLocaleTimeString()}
-                  </div>
-                  {row.actualTime && (
-                    <div
-                      className={
-                        row.differenceInMinutes > 0
-                          ? "text-red-500"
-                          : "text-green-500"
-                      }
-                    >
-                      Actual: {new Date(row.actualTime).toLocaleTimeString()}
-                      {row.differenceInMinutes > 0 &&
-                        ` (+${row.differenceInMinutes}min)`}
-                    </div>
-                  )}
-                  {row.liveEstimateTime && !row.actualTime && (
-                    <div className="text-yellow-500">
-                      Estimated:{" "}
-                      {new Date(row.liveEstimateTime).toLocaleTimeString()}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-        </div>
-      ))}
+const TrainsAtStation = ({
+  trainsAtStation,
+  stationId,
+}: TrainsAtStationProps) => {
+  const { translations } = useTranslations();
+  const [showTrainType, setShowTrainType] = useState<ShowTrainType>("current");
+  const now = new Date();
+
+  const currentTrains = trainsAtStation.filter((train) => {
+    const firstTime = new Date(train.timeTableRows[0].scheduledTime);
+    const thirtyMinutesFromNow = new Date(now.getTime() + 30 * 60000);
+    return firstTime >= now && firstTime <= thirtyMinutesFromNow;
+  });
+
+  const futureTrains = trainsAtStation.filter((train) => {
+    const firstTime = new Date(train.timeTableRows[0].scheduledTime);
+    const thirtyMinutesFromNow = new Date(now.getTime() + 30 * 60000);
+    return firstTime > thirtyMinutesFromNow;
+  });
+
+  // const pastTrains = trainsAtStation.filter((train) => {
+  //   const lastTime = new Date(
+  //     train.timeTableRows[train.timeTableRows.length - 1].scheduledTime,
+  //   );
+  //   return lastTime < now;
+  // });
+
+  const getTrainsToShow = () => {
+    switch (showTrainType) {
+      case "current":
+        return currentTrains;
+      case "future":
+        return futureTrains;
+      // case "past":
+      //   return pastTrains;
+      default:
+        return currentTrains;
+    }
+  };
+
+  const getHeading = () => {
+    switch (showTrainType) {
+      case "current":
+        return translations.arrivingSoon;
+      case "future":
+        return translations.futureTrains;
+      case "past":
+        return translations.pastTrains;
+      default:
+        return translations.arrivingSoon;
+    }
+  };
+
+  return (
+    <div className="space-y-8">
+      <div className="flex justify-center gap-4">
+        <button
+          type="button"
+          onClick={() => setShowTrainType("current")}
+          className={`px-4 py-2 rounded-md transition-colors ${
+            showTrainType === "current"
+              ? "bg-foreground/20"
+              : "hover:bg-foreground/10"
+          }`}
+        >
+          {translations.arrivingSoon} ({currentTrains.length})
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowTrainType("future")}
+          className={`px-4 py-2 rounded-md transition-colors ${
+            showTrainType === "future"
+              ? "bg-foreground/20"
+              : "hover:bg-foreground/10"
+          }`}
+        >
+          {translations.futureTrains} ({futureTrains.length})
+        </button>
+        {/* <button
+          type="button"
+          onClick={() => setShowTrainType("past")}
+          className={`px-4 py-2 rounded-md transition-colors ${
+            showTrainType === "past"
+              ? "bg-foreground/20"
+              : "hover:bg-foreground/10"
+          }`}
+        >
+          {translations.pastTrains} ({pastTrains.length})
+        </button> */}
+      </div>
+
+      <section>
+        <h2 className="text-xl font-bold mb-4">
+          {getHeading()} ({getTrainsToShow().length})
+        </h2>
+        <StationTrainList trains={getTrainsToShow()} stationId={stationId} />
+      </section>
     </div>
   );
 };
