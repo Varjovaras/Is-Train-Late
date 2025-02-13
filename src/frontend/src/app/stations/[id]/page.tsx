@@ -1,8 +1,8 @@
 import { getStationData } from "@/lib/queries/getStationData";
 import type { StationTrain } from "@/lib/types/stationTypes";
-import { isValidStationCode, majorStations } from "@/lib/utils/stationUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
 import TrainsAtStation from "./components/TrainsAtStation";
+import { isValidStationCode, majorStations } from "@/lib/utils/majorStations";
 
 const Page = async ({
   params,

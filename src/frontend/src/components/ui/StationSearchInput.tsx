@@ -1,6 +1,6 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import { majorStations } from "@/lib/utils/stationUtils";
+import { majorStations } from "@/lib/utils/majorStations";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 

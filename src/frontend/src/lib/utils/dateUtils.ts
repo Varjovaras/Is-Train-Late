@@ -12,3 +12,32 @@ export const formatDateForUrl = (date: string) => {
   const formattedDate = `${year}-${formattedMonth}-${formattedDay}`;
   return formattedDate;
 };
+
+export const formatDateForDisplay = (date: string) => {
+  const d = new Date(date);
+  return d.toLocaleTimeString("fi-FI", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
+export const isToday = (date: string) => {
+  const today = new Date();
+  const compareDate = new Date(date);
+  return (
+    today.getDate() === compareDate.getDate() &&
+    today.getMonth() === compareDate.getMonth() &&
+    today.getFullYear() === compareDate.getFullYear()
+  );
+};
+
+export const isTomorrow = (date: string) => {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const compareDate = new Date(date);
+  return (
+    tomorrow.getDate() === compareDate.getDate() &&
+    tomorrow.getMonth() === compareDate.getMonth() &&
+    tomorrow.getFullYear() === compareDate.getFullYear()
+  );
+};

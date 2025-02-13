@@ -1,6 +1,12 @@
 import type { StationTrain } from "@/lib/types/stationTypes";
 import Link from "next/link";
 import { useTranslations } from "@/lib/i18n/useTranslations";
+import { getTrainTypeString } from "@/lib/utils/stationUtils";
+import {
+  formatDateForDisplay,
+  isToday,
+  isTomorrow,
+} from "@/lib/utils/dateUtils";
 
 type StationTrainListProps = {
   trains: StationTrain[];
@@ -10,19 +16,10 @@ type StationTrainListProps = {
 const StationTrainList = ({ trains, stationId }: StationTrainListProps) => {
   const { translations } = useTranslations();
 
-  const trainType = (train: StationTrain) => {
-    switch (train.trainType) {
-      case "IC":
-        return "Intercity";
-      case "S":
-        return "Pendolino";
-      case "PYO":
-        return translations.nightTrain;
-      case "HL":
-        return translations.commuterTrain;
-      default:
-        return `${train.trainCategory} • ${train.trainType}`;
-    }
+  const getDateDisplay = (date: string) => {
+    if (isToday(date)) return translations.today;
+    if (isTomorrow(date)) return translations.tomorrow;
+    return formatDateForDisplay(date);
   };
 
   return (
@@ -38,7 +35,9 @@ const StationTrainList = ({ trains, stationId }: StationTrainListProps) => {
                 {train.commuterLineID ||
                   `${train.trainType} ${train.trainNumber}`}
               </span>
-              <p className="text-sm text-foreground/60">{trainType(train)}</p>
+              <p className="text-sm text-foreground/60">
+                {getTrainTypeString(train, translations)}
+              </p>
             </div>
             <div className="flex flex-col items-end">
               <span
@@ -57,7 +56,7 @@ const StationTrainList = ({ trains, stationId }: StationTrainListProps) => {
                     : translations.scheduled}
               </span>
               <span className="text-xs text-foreground/60 mt-1">
-                {new Date(train.departureDate).toLocaleDateString()}
+                {getDateDisplay(train.departureDate)}
               </span>
             </div>
           </div>
@@ -91,7 +90,7 @@ const StationTrainList = ({ trains, stationId }: StationTrainListProps) => {
                   <div className="space-y-1 mt-1">
                     <div className="text-sm text-foreground/60">
                       {translations.scheduled}:{" "}
-                      {new Date(row.scheduledTime).toLocaleTimeString()}
+                      {formatDateForDisplay(row.scheduledTime)}
                     </div>
 
                     {row.actualTime && (

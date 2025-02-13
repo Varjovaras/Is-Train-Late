@@ -9,7 +9,7 @@ type TrainsAtStationProps = {
   stationId: string;
 };
 
-type ShowTrainType = "current" | "future" | "past";
+type ShowTrainType = "current" | "future";
 
 const TrainsAtStation = ({
   trainsAtStation,
@@ -31,21 +31,12 @@ const TrainsAtStation = ({
     return firstTime > thirtyMinutesFromNow;
   });
 
-  // const pastTrains = trainsAtStation.filter((train) => {
-  //   const lastTime = new Date(
-  //     train.timeTableRows[train.timeTableRows.length - 1].scheduledTime,
-  //   );
-  //   return lastTime < now;
-  // });
-
   const getTrainsToShow = () => {
     switch (showTrainType) {
       case "current":
         return currentTrains;
       case "future":
         return futureTrains;
-      // case "past":
-      //   return pastTrains;
       default:
         return currentTrains;
     }
@@ -57,8 +48,6 @@ const TrainsAtStation = ({
         return translations.arrivingSoon;
       case "future":
         return translations.futureTrains;
-      case "past":
-        return translations.pastTrains;
       default:
         return translations.arrivingSoon;
     }
@@ -89,17 +78,6 @@ const TrainsAtStation = ({
         >
           {translations.futureTrains} ({futureTrains.length})
         </button>
-        {/* <button
-          type="button"
-          onClick={() => setShowTrainType("past")}
-          className={`px-4 py-2 rounded-md transition-colors ${
-            showTrainType === "past"
-              ? "bg-foreground/20"
-              : "hover:bg-foreground/10"
-          }`}
-        >
-          {translations.pastTrains} ({pastTrains.length})
-        </button> */}
       </div>
 
       <section>
