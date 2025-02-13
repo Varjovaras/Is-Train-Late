@@ -52,6 +52,13 @@ export const translations = {
     pastTrains: "Menneet junat",
     cancelled: "Peruttu",
     running: "Liikkeellä",
+    track: "Raide",
+    arrives: "Saapuu",
+    departs: "Lähtee",
+    timetableType: "Aikataulutyyppi",
+    delayReason: "Myöhästymisen syy",
+    nightTrain: "Yöjuna",
+    commuterTrain: "Lähijuna",
   },
   en: {
     title: "Is VR Late?",
@@ -106,6 +113,13 @@ export const translations = {
     pastTrains: "Past trains",
     cancelled: "Cancelled",
     running: "Running",
+    track: "Track",
+    arrives: "Arrives",
+    departs: "Departs",
+    timetableType: "Timetable type",
+    delayReason: "Delay reason",
+    nightTrain: "Night train",
+    commuterTrain: "Commuter train",
   },
 } as const;
 
