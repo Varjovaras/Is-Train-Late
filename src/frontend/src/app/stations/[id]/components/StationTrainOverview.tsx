@@ -16,7 +16,8 @@ const StationScheduleOverview = ({
   stationId,
 }: StationTrainOverviewProps) => {
   const { translations } = useTranslations();
-  const [showTrainType, setShowTrainType] = useState<ShowTrainType>("current");
+  const [showScheduleType, setShowScheduleType] =
+    useState<ShowTrainType>("current");
   const now = new Date();
 
   const currentTrains = trainsAtStation.filter((train) => {
@@ -31,8 +32,8 @@ const StationScheduleOverview = ({
     return firstTime > thirtyMinutesFromNow;
   });
 
-  const getFilteredTrains = () => {
-    switch (showTrainType) {
+  const getFilteredSchedules = () => {
+    switch (showScheduleType) {
       case "current":
         return currentTrains;
       case "future":
@@ -43,7 +44,7 @@ const StationScheduleOverview = ({
   };
 
   const getHeading = () => {
-    switch (showTrainType) {
+    switch (showScheduleType) {
       case "current":
         return translations.arrivingSoon;
       case "future":
@@ -58,9 +59,9 @@ const StationScheduleOverview = ({
       <div className="flex justify-center gap-4">
         <button
           type="button"
-          onClick={() => setShowTrainType("current")}
+          onClick={() => setShowScheduleType("current")}
           className={`px-4 py-2 rounded-md transition-colors ${
-            showTrainType === "current"
+            showScheduleType === "current"
               ? "bg-foreground/20"
               : "hover:bg-foreground/10"
           }`}
@@ -69,9 +70,9 @@ const StationScheduleOverview = ({
         </button>
         <button
           type="button"
-          onClick={() => setShowTrainType("future")}
+          onClick={() => setShowScheduleType("future")}
           className={`px-4 py-2 rounded-md transition-colors ${
-            showTrainType === "future"
+            showScheduleType === "future"
               ? "bg-foreground/20"
               : "hover:bg-foreground/10"
           }`}
@@ -82,10 +83,10 @@ const StationScheduleOverview = ({
 
       <section>
         <h2 className="text-xl font-bold mb-4">
-          {getHeading()} ({getFilteredTrains().length})
+          {getHeading()} ({getFilteredSchedules().length})
         </h2>
         <StationScheduleList
-          schedules={getFilteredTrains()}
+          schedules={getFilteredSchedules()}
           stationId={stationId}
         />
       </section>
