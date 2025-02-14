@@ -62,7 +62,7 @@ export const translations = {
     today: "Tänään",
     tomorrow: "Huomenna",
     departures: "Lähdöt",
-    arrivals: "Saapumiset",
+    departuresAndArrivals: "Lähdöt ja saapumiset",
   },
   en: {
     title: "Is VR Late?",
@@ -127,7 +127,7 @@ export const translations = {
     today: "Today",
     tomorrow: "Tomorrow",
     departures: "Departures",
-    arrivals: "Arrivals",
+    departuresAndArrivals: "Departures and arrivals",
   },
 } as const;
 

@@ -61,7 +61,7 @@ const StationScheduleList = ({
             !showDepartures ? "bg-foreground/20" : "hover:bg-foreground/10"
           }`}
         >
-          {translations.arrivals}
+          {translations.departuresAndArrivals}
         </button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
