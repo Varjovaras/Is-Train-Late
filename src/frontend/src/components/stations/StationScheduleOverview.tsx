@@ -12,7 +12,6 @@ type StationTrainOverviewProps = {
 };
 
 export type ShowTrainType = "current" | "future";
-
 const StationScheduleOverview = ({
   schedules,
   stationId,
@@ -22,6 +21,7 @@ const StationScheduleOverview = ({
     useState<ShowTrainType>("current");
 
   const [currentTrains, futureTrains] = stationScheduleFilter(schedules);
+
   const amountOfSchedules = [
     currentTrains.length,
     futureTrains.length,

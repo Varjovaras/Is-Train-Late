@@ -15,7 +15,9 @@ export const getStationData = async (stationId: string) => {
   });
   url.search = searchParams.toString();
 
-  const res = await fetch(url.toString(), { cache: "no-store" });
+  const res = await fetch(url.toString(), {
+    cache: "no-store",
+  });
 
   if (!res.ok)
     throw new Error(
