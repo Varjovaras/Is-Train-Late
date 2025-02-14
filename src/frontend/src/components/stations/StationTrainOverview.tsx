@@ -22,6 +22,10 @@ const StationScheduleOverview = ({
     useState<ShowTrainType>("current");
 
   const [currentTrains, futureTrains] = stationScheduleFilter(schedules);
+  const amountOfSchedules = [
+    currentTrains.length,
+    futureTrains.length,
+  ] as const;
 
   const getFilteredSchedules = () => {
     switch (showScheduleType) {
@@ -50,7 +54,7 @@ const StationScheduleOverview = ({
       <ScheduleButtons
         showScheduleType={showScheduleType}
         setShowScheduleType={setShowScheduleType}
-        trainLengths={[currentTrains.length, futureTrains.length]}
+        amountOfSchedules={amountOfSchedules}
       />
 
       <section>

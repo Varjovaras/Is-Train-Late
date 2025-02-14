@@ -5,13 +5,13 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 type ScheduleButtonsProps = {
   showScheduleType: ShowTrainType;
   setShowScheduleType: Dispatch<SetStateAction<ShowTrainType>>;
-  trainLengths: [number, number];
+  amountOfSchedules: [number, number];
 };
 
 const ScheduleButtons = ({
   showScheduleType,
   setShowScheduleType,
-  trainLengths,
+  amountOfSchedules: [currentTrainsLength, futureTrainsLength],
 }: ScheduleButtonsProps) => {
   const { translations } = useTranslations();
   return (
@@ -25,7 +25,7 @@ const ScheduleButtons = ({
             : "hover:bg-foreground/10"
         }`}
       >
-        {translations.arrivingSoon} ({trainLengths[0]})
+        {translations.arrivingSoon} ({currentTrainsLength})
       </button>
       <button
         type="button"
@@ -36,7 +36,7 @@ const ScheduleButtons = ({
             : "hover:bg-foreground/10"
         }`}
       >
-        {translations.futureTrains} ({trainLengths[1]})
+        {translations.futureTrains} ({futureTrainsLength})
       </button>
     </div>
   );
