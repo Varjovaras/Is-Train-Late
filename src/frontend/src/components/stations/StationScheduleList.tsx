@@ -1,4 +1,4 @@
-import type { StationSchedules } from "@/lib/types/stationTypes";
+import type { StationSchedule } from "@/lib/types/stationTypes";
 import Link from "next/link";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { getTrainTypeString } from "@/lib/utils/stationUtils";
@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 
 type StationScheduleListProps = {
-  schedules: StationSchedules[];
+  schedules: StationSchedule[];
   stationId: string;
 };
 

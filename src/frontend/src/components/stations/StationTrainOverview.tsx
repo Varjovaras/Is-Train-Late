@@ -1,36 +1,26 @@
 "use client";
-import type { StationSchedules } from "@/lib/types/stationTypes";
+import type { StationSchedule } from "@/lib/types/stationTypes";
 import StationScheduleList from "./StationScheduleList";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useState } from "react";
+import { stationScheduleFilter } from "@/lib/utils/stationScheduleFilter";
 
 type StationTrainOverviewProps = {
-  schedules: StationSchedules[];
+  schedules: StationSchedule[];
   stationId: string;
 };
 
 type ShowTrainType = "current" | "future";
 
 const StationScheduleOverview = ({
-  schedules: trainsAtStation,
+  schedules,
   stationId,
 }: StationTrainOverviewProps) => {
   const { translations } = useTranslations();
   const [showScheduleType, setShowScheduleType] =
     useState<ShowTrainType>("current");
-  const now = new Date();
 
-  const currentTrains = trainsAtStation.filter((train) => {
-    const firstTime = new Date(train.timeTableRows[0].scheduledTime);
-    const thirtyMinutesFromNow = new Date(now.getTime() + 30 * 60000);
-    return firstTime >= now && firstTime <= thirtyMinutesFromNow;
-  });
-
-  const futureTrains = trainsAtStation.filter((train) => {
-    const firstTime = new Date(train.timeTableRows[0].scheduledTime);
-    const thirtyMinutesFromNow = new Date(now.getTime() + 30 * 60000);
-    return firstTime > thirtyMinutesFromNow;
-  });
+  const [currentTrains, futureTrains] = stationScheduleFilter(schedules);
 
   const getFilteredSchedules = () => {
     switch (showScheduleType) {

@@ -1,4 +1,4 @@
-export type StationSchedules = {
+export type StationSchedule = {
   trainNumber: number;
   departureDate: string;
   operatorUICCode: number;

@@ -1,8 +1,8 @@
 import type { Translations } from "../i18n/translations";
-import type { StationSchedules } from "../types/stationTypes";
+import type { StationSchedule } from "../types/stationTypes";
 
 export const getTrainTypeString = (
-  train: StationSchedules,
+  train: StationSchedule,
   translations: Translations,
 ) => {
   switch (train.trainType) {
