@@ -1,7 +1,10 @@
 import type { StationSchedule } from "@/lib/types/stationTypes";
 import Link from "next/link";
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import { getTrainTypeString } from "@/lib/utils/stationUtils";
+import {
+  getFormattedStationName,
+  getTrainTypeString,
+} from "@/lib/utils/stationUtils";
 import {
   formatDateForDisplay,
   isToday,
@@ -52,7 +55,7 @@ const StationScheduleList = ({
             showDepartures ? "bg-foreground/20" : "hover:bg-foreground/10"
           }`}
         >
-          {translations.departures}
+          {translations.departuresAndArrivals}
         </button>
         <button
           onClick={() => setShowDepartures(false)}
@@ -61,12 +64,20 @@ const StationScheduleList = ({
             !showDepartures ? "bg-foreground/20" : "hover:bg-foreground/10"
           }`}
         >
-          {translations.departuresAndArrivals}
+          {translations.onlyArrivals}
         </button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredSchedules.map((schedule) => {
           const departureRow = scheduleHelper(schedule);
+
+          const firstStation = getFormattedStationName(
+            schedule.timeTableRows[0].stationShortCode,
+          );
+          const lastStation = getFormattedStationName(
+            schedule.timeTableRows[schedule.timeTableRows.length - 1]
+              .stationShortCode,
+          );
 
           return (
             <div
@@ -86,6 +97,11 @@ const StationScheduleList = ({
                         • {translations.track} {departureRow.commercialTrack}
                       </span>
                     )}
+                  </p>
+                  <p className="text-sm">
+                    <span className="text-green-500">{firstStation}</span>
+                    <span className="mx-2">→</span>
+                    <span className="text-blue-500">{lastStation}</span>
                   </p>
                 </div>
                 <div className="flex flex-col items-end">

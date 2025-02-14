@@ -61,8 +61,8 @@ export const translations = {
     commuterTrain: "Lähijuna",
     today: "Tänään",
     tomorrow: "Huomenna",
-    departures: "Lähdöt",
-    departuresAndArrivals: "Lähdöt ja saapumiset",
+    departuresAndArrivals: "Lähdöt ja saapuvat",
+    onlyArrivals: "Vain saapuvat junat",
   },
   en: {
     title: "Is VR Late?",
@@ -126,8 +126,8 @@ export const translations = {
     commuterTrain: "Commuter train",
     today: "Today",
     tomorrow: "Tomorrow",
-    departures: "Departures",
     departuresAndArrivals: "Departures and arrivals",
+    onlyArrivals: "Only arrivals",
   },
 } as const;
 
