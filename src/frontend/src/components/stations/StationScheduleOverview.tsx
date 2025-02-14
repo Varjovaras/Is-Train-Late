@@ -5,6 +5,7 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useState } from "react";
 import { stationScheduleFilter } from "@/lib/utils/stationScheduleFilter";
 import ScheduleButtons from "./ScheduleButtons";
+import TrackSelector from "./TrackSelector";
 
 type StationScheduleOverviewProps = {
   schedules: StationSchedule[];
@@ -20,22 +21,37 @@ const StationScheduleOverview = ({
   const { translations } = useTranslations();
   const [showScheduleType, setShowScheduleType] =
     useState<ShowTrainType>("current");
+  const [selectedTrack, setSelectedTrack] = useState<string | null>(null);
 
   const [currentTrains, futureTrains] = stationScheduleFilter(schedules);
 
+  const filterByTrack = (trains: StationSchedule[]) => {
+    if (!selectedTrack) return trains;
+    return trains.filter((train) =>
+      train.timeTableRows.some(
+        (row) =>
+          row.stationShortCode === stationId &&
+          row.commercialTrack === selectedTrack,
+      ),
+    );
+  };
+
+  const filteredCurrentTrains = filterByTrack(currentTrains);
+  const filteredFutureTrains = filterByTrack(futureTrains);
+
   const amountOfSchedules = [
-    currentTrains.length,
-    futureTrains.length,
+    filteredCurrentTrains.length,
+    filteredFutureTrains.length,
   ] as const;
 
   const getFilteredSchedules = () => {
     switch (showScheduleType) {
       case "current":
-        return currentTrains;
+        return filteredCurrentTrains;
       case "future":
-        return futureTrains;
+        return filteredFutureTrains;
       default:
-        return currentTrains;
+        return filteredCurrentTrains;
     }
   };
 
@@ -52,6 +68,12 @@ const StationScheduleOverview = ({
 
   return (
     <div className="space-y-8">
+      <TrackSelector
+        schedules={schedules}
+        stationId={stationId}
+        onTrackSelect={setSelectedTrack}
+      />
+
       <ScheduleButtons
         showScheduleType={showScheduleType}
         setShowScheduleType={setShowScheduleType}
