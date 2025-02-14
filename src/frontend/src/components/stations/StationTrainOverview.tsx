@@ -4,13 +4,14 @@ import StationScheduleList from "./StationScheduleList";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useState } from "react";
 import { stationScheduleFilter } from "@/lib/utils/stationScheduleFilter";
+import ScheduleButtons from "./ScheduleButtons";
 
 type StationTrainOverviewProps = {
   schedules: StationSchedule[];
   stationId: string;
 };
 
-type ShowTrainType = "current" | "future";
+export type ShowTrainType = "current" | "future";
 
 const StationScheduleOverview = ({
   schedules,
@@ -46,30 +47,11 @@ const StationScheduleOverview = ({
 
   return (
     <div className="space-y-8">
-      <div className="flex justify-center gap-4">
-        <button
-          type="button"
-          onClick={() => setShowScheduleType("current")}
-          className={`px-4 py-2 rounded-md transition-colors ${
-            showScheduleType === "current"
-              ? "bg-foreground/20"
-              : "hover:bg-foreground/10"
-          }`}
-        >
-          {translations.arrivingSoon} ({currentTrains.length})
-        </button>
-        <button
-          type="button"
-          onClick={() => setShowScheduleType("future")}
-          className={`px-4 py-2 rounded-md transition-colors ${
-            showScheduleType === "future"
-              ? "bg-foreground/20"
-              : "hover:bg-foreground/10"
-          }`}
-        >
-          {translations.futureTrains} ({futureTrains.length})
-        </button>
-      </div>
+      <ScheduleButtons
+        showScheduleType={showScheduleType}
+        setShowScheduleType={setShowScheduleType}
+        trainLengths={[currentTrains.length, futureTrains.length]}
+      />
 
       <section>
         <h2 className="text-xl font-bold mb-4">
