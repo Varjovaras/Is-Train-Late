@@ -6,16 +6,17 @@ import { useState } from "react";
 import { stationScheduleFilter } from "@/lib/utils/stationScheduleFilter";
 import ScheduleButtons from "./ScheduleButtons";
 
-type StationTrainOverviewProps = {
+type StationScheduleOverviewProps = {
   schedules: StationSchedule[];
   stationId: string;
 };
 
 export type ShowTrainType = "current" | "future";
+
 const StationScheduleOverview = ({
   schedules,
   stationId,
-}: StationTrainOverviewProps) => {
+}: StationScheduleOverviewProps) => {
   const { translations } = useTranslations();
   const [showScheduleType, setShowScheduleType] =
     useState<ShowTrainType>("current");
