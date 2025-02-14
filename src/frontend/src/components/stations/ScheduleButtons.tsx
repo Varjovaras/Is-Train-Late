@@ -5,7 +5,7 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 type ScheduleButtonsProps = {
   showScheduleType: ShowTrainType;
   setShowScheduleType: Dispatch<SetStateAction<ShowTrainType>>;
-  amountOfSchedules: [number, number];
+  amountOfSchedules: readonly [number, number];
 };
 
 const ScheduleButtons = ({
