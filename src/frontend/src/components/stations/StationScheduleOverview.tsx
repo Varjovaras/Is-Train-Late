@@ -1,7 +1,6 @@
 "use client";
 import type { StationSchedule } from "@/lib/types/stationTypes";
 import StationScheduleList from "./StationScheduleList";
-import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useState } from "react";
 import { stationScheduleFilter } from "@/lib/utils/stationScheduleFilter";
 import ScheduleButtons from "./ScheduleButtons";

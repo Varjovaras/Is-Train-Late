@@ -49,7 +49,7 @@ const StationScheduleList = ({
   };
 
   return (
-    <section>
+    <div>
       <h2 className="text-xl font-bold mb-4">
         {showScheduleType === "current"
           ? translations.arrivingSoon
@@ -214,7 +214,7 @@ const StationScheduleList = ({
           );
         })}
       </div>
-    </section>
+    </div>
   );
 };
 
