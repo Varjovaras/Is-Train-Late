@@ -12,17 +12,15 @@ type StationScheduleOverviewProps = {
   stationId: string;
 };
 
-export type ShowTrainType = "current" | "future";
+export type ShowScheduleType = "current" | "future";
 
 const StationScheduleOverview = ({
   schedules,
   stationId,
 }: StationScheduleOverviewProps) => {
-  const { translations } = useTranslations();
   const [showScheduleType, setShowScheduleType] =
-    useState<ShowTrainType>("current");
+    useState<ShowScheduleType>("current");
   const [selectedTrack, setSelectedTrack] = useState<string | null>(null);
-
   const [currentTrains, futureTrains] = stationScheduleFilter(schedules);
 
   const filterByTrack = (trains: StationSchedule[]) => {
@@ -55,17 +53,6 @@ const StationScheduleOverview = ({
     }
   };
 
-  const getHeading = () => {
-    switch (showScheduleType) {
-      case "current":
-        return translations.arrivingSoon;
-      case "future":
-        return translations.futureTrains;
-      default:
-        return translations.arrivingSoon;
-    }
-  };
-
   return (
     <div className="space-y-8">
       <TrackSelector
@@ -80,15 +67,11 @@ const StationScheduleOverview = ({
         amountOfSchedules={amountOfSchedules}
       />
 
-      <section>
-        <h2 className="text-xl font-bold mb-4">
-          {getHeading()} ({getFilteredSchedules().length})
-        </h2>
-        <StationScheduleList
-          schedules={getFilteredSchedules()}
-          stationId={stationId}
-        />
-      </section>
+      <StationScheduleList
+        schedules={getFilteredSchedules()}
+        stationId={stationId}
+        showScheduleType={showScheduleType}
+      />
     </div>
   );
 };

@@ -11,15 +11,18 @@ import {
   isTomorrow,
 } from "@/lib/utils/dateUtils";
 import { useState } from "react";
+import type { ShowScheduleType } from "./StationScheduleOverview";
 
 type StationScheduleListProps = {
   schedules: StationSchedule[];
   stationId: string;
+  showScheduleType: ShowScheduleType;
 };
 
 const StationScheduleList = ({
   schedules,
   stationId,
+  showScheduleType,
 }: StationScheduleListProps) => {
   const { translations } = useTranslations();
   const [showDepartures, setShowDepartures] = useState(true);
@@ -46,7 +49,13 @@ const StationScheduleList = ({
   };
 
   return (
-    <>
+    <section>
+      <h2 className="text-xl font-bold mb-4">
+        {showScheduleType === "current"
+          ? translations.arrivingSoon
+          : translations.futureTrains}{" "}
+        ({filteredSchedules.length})
+      </h2>
       <div className="flex gap-4 mb-4">
         <button
           onClick={() => setShowDepartures(true)}
@@ -205,7 +214,7 @@ const StationScheduleList = ({
           );
         })}
       </div>
-    </>
+    </section>
   );
 };
 
