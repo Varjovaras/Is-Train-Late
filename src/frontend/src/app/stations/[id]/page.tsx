@@ -3,6 +3,7 @@ import type { StationSchedule } from "@/lib/types/stationTypes";
 import { removeAsema } from "@/lib/utils/stringUtils";
 import { isValidStationCode, majorStations } from "@/lib/utils/majorStations";
 import StationScheduleOverview from "@/components/stations/StationScheduleOverview";
+import { sortSchedules } from "@/lib/utils/sortSchedules";
 
 const Page = async ({
   params,
@@ -16,18 +17,7 @@ const Page = async ({
     ? majorStations[stationId]
     : stationId;
 
-  const sortedSchedules = [...schedules].sort((a, b) => {
-    const timeA = a.timeTableRows.find(
-      (station) => station.stationShortCode === stationId,
-    )?.scheduledTime;
-    const timeB = b.timeTableRows.find(
-      (station) => station.stationShortCode === stationId,
-    )?.scheduledTime;
-
-    if (!timeA || !timeB) return 0;
-
-    return new Date(timeA).getTime() - new Date(timeB).getTime();
-  });
+  const sortedSchedules = sortSchedules(schedules, stationId);
 
   return (
     <div className="mx-auto max-w-7xl p-4">
