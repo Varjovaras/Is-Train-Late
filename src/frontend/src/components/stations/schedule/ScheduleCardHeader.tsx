@@ -3,15 +3,8 @@ import type {
   StationSchedule,
   StationTimeTableRow,
 } from "@/lib/types/stationTypes";
-import {
-  getDepartureStationShortCode,
-  getEndStationShortCode,
-} from "@/lib/utils/linkUtils";
-import {
-  getFormattedStationName,
-  getTrainTypeString,
-} from "@/lib/utils/stationUtils";
-import Link from "next/link";
+
+import { getTrainTypeString } from "@/lib/utils/stationUtils";
 import RouteDisplay from "./RouteDisplay";
 
 type ScheduleHeaderProps = {
