@@ -1,5 +1,5 @@
-"use client";
-import { useTranslations } from "@/lib/i18n/useTranslations";
+// "use client";
+// import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 
 type TrainSpeedProps = {
@@ -7,7 +7,7 @@ type TrainSpeedProps = {
 };
 
 const TrainSpeed = ({ train }: TrainSpeedProps) => {
-  const { translations } = useTranslations();
+  // const { translations } = useTranslations();
 
   return (
     <div>
@@ -18,7 +18,8 @@ const TrainSpeed = ({ train }: TrainSpeedProps) => {
           </p>
         ))
       ) : (
-        <p className="text-red-500">{translations.noCurrentSpeed}</p>
+        <p />
+        // <p className="text-red-500">{translations.noCurrentSpeed}</p>
       )}
     </div>
   );
