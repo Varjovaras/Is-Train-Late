@@ -108,9 +108,9 @@ const StationScheduleList = ({
                     )}
                   </p>
                   <p className="text-sm">
-                    <span className="text-green-500">{firstStation}</span>
+                    <Link className="text-green-500">{firstStation}</Link>
                     <span className="mx-2">→</span>
-                    <span className="text-blue-500">{lastStation}</span>
+                    <Link className="text-blue-500">{lastStation}</Link>
                   </p>
                 </div>
                 <div className="flex flex-col items-end">

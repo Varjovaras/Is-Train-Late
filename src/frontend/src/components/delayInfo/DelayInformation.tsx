@@ -17,9 +17,10 @@ const DelayInformation = ({ train }: DelayInformationProps) => {
 
   if (timeTablesWithCauses.length === 0) {
     return (
-      <h2 className="p-4 m-4 text-center text-xl font-extralight text-green-500">
-        No delay causes
-      </h2>
+      // <    <h2 className="p-4 m-4 text-center text-xl font-extralight text-green-500">
+      //       No delay causes
+      // </h2>>
+      <></>
     );
   }
 
