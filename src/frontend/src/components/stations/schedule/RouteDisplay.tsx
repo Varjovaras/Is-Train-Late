@@ -14,10 +14,10 @@ type RouteDisplayProps = {
 const RouteDisplay = ({ schedule }: RouteDisplayProps) => {
   const { translations } = useTranslations();
 
-  const firstStation = getFormattedStationName(
+  const departureStation = getFormattedStationName(
     schedule.timeTableRows[0].stationShortCode,
   );
-  const lastStation = getFormattedStationName(
+  const endStation = getFormattedStationName(
     schedule.timeTableRows[schedule.timeTableRows.length - 1].stationShortCode,
   );
 
@@ -25,7 +25,7 @@ const RouteDisplay = ({ schedule }: RouteDisplayProps) => {
     return (
       <p className="text-sm">
         <Link href="HKI" className="text-green-500">
-          {firstStation}
+          {departureStation}
         </Link>
         <span className="mx-2">→</span>
         <Link href="LEN" className="text-blue-500">
@@ -33,7 +33,7 @@ const RouteDisplay = ({ schedule }: RouteDisplayProps) => {
         </Link>
         <span className="mx-2">→</span>
         <Link href="HKI" className="text-blue-500">
-          {lastStation}
+          {endStation}
         </Link>
       </p>
     );
@@ -45,11 +45,11 @@ const RouteDisplay = ({ schedule }: RouteDisplayProps) => {
         href={getDepartureStationShortCode(schedule)}
         className="text-green-500"
       >
-        {firstStation}
+        {departureStation}
       </Link>
       <span className="mx-2">→</span>
       <Link href={getEndStationShortCode(schedule)} className="text-blue-500">
-        {lastStation}
+        {endStation}
       </Link>
     </p>
   );
