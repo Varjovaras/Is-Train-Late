@@ -65,7 +65,7 @@ const StationScheduleList = ({
           return (
             <div
               key={`${schedule.trainNumber}-${schedule.departureDate}`}
-              className="border border-foreground/20 rounded-lg p-4 space-y-3"
+              className="border border-foreground/20 rounded-lg p-4 space-y-3 flex flex-col"
             >
               <div className="flex justify-between items-start">
                 <div className="space-y-1">
@@ -186,7 +186,7 @@ const StationScheduleList = ({
                   ))}
               </div>
 
-              <div className="flex justify-between items-center pt-2 border-t border-foreground/10">
+              <div className="flex justify-between mt-auto items-center pt-2 border-t border-foreground/10">
                 <Link
                   href={`/train-by-date/${schedule.trainNumber}-${schedule.departureDate}`}
                   className="text-sm text-blue-500 hover:underline"
