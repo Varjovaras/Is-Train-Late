@@ -12,6 +12,11 @@ import {
 } from "@/lib/utils/dateUtils";
 import { useState } from "react";
 import type { ShowScheduleType } from "./StationScheduleOverview";
+import {
+  getDepartureStationShortCode,
+  getEndStationShortCode,
+} from "@/lib/utils/linkUtils";
+import StationRow from "../train/station/StationRow";
 
 type StationScheduleListProps = {
   schedules: StationSchedule[];
@@ -108,9 +113,19 @@ const StationScheduleList = ({
                     )}
                   </p>
                   <p className="text-sm">
-                    <Link className="text-green-500">{firstStation}</Link>
+                    <Link
+                      href={getDepartureStationShortCode(schedule)}
+                      className="text-green-500"
+                    >
+                      {firstStation}
+                    </Link>
                     <span className="mx-2">→</span>
-                    <Link className="text-blue-500">{lastStation}</Link>
+                    <Link
+                      href={getEndStationShortCode(schedule)}
+                      className="text-blue-500"
+                    >
+                      {lastStation}
+                    </Link>
                   </p>
                 </div>
                 <div className="flex flex-col items-end">
