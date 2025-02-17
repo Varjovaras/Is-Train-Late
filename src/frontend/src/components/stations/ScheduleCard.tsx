@@ -42,6 +42,7 @@ const ScheduleCard = ({ schedule, stationId }: ScheduleCardProps) => {
         <Link
           href={`/train-by-date/${schedule.trainNumber}-${schedule.departureDate}`}
           className="text-sm text-blue-500 hover:underline"
+          prefetch={false}
         >
           {translations.viewDetails} →
         </Link>

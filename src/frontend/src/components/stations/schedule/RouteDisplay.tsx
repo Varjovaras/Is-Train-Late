@@ -24,15 +24,15 @@ const RouteDisplay = ({ schedule }: RouteDisplayProps) => {
   if (schedule.commuterLineID === "P" || schedule.commuterLineID === "I") {
     return (
       <p className="text-sm">
-        <Link href="HKI" className="text-green-500">
+        <Link href="HKI" className="text-green-500" prefetch={false}>
           {departureStation}
         </Link>
         <span className="mx-2">→</span>
-        <Link href="LEN" className="text-blue-500">
+        <Link href="LEN" className="text-blue-500" prefetch={false}>
           {translations.airport}
         </Link>
         <span className="mx-2">→</span>
-        <Link href="HKI" className="text-blue-500">
+        <Link href="HKI" className="text-blue-500" prefetch={false}>
           {endStation}
         </Link>
       </p>
@@ -44,11 +44,16 @@ const RouteDisplay = ({ schedule }: RouteDisplayProps) => {
       <Link
         href={getDepartureStationShortCode(schedule)}
         className="text-green-500"
+        prefetch={false}
       >
         {departureStation}
       </Link>
       <span className="mx-2">→</span>
-      <Link href={getEndStationShortCode(schedule)} className="text-blue-500">
+      <Link
+        href={getEndStationShortCode(schedule)}
+        className="text-blue-500"
+        prefetch={false}
+      >
         {endStation}
       </Link>
     </p>
