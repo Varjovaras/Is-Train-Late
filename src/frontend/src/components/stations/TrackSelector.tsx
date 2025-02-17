@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import type { StationSchedule } from "@/lib/types/stationTypes";
 
@@ -15,7 +13,7 @@ const TrackSelector = ({
   onTrackSelect,
 }: TrackSelectorProps) => {
   const [selectedTrack, setSelectedTrack] = useState<string | null>(null);
-
+  console.log(schedules);
   const tracks = Array.from(
     new Set(
       schedules
@@ -29,7 +27,7 @@ const TrackSelector = ({
           (track): track is string => track !== undefined && track !== null,
         ),
     ),
-  ).sort((a, b) => Number.parseInt(a) - Number.parseInt(b));
+  ).sort((a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10));
 
   const handleTrackChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
@@ -37,6 +35,7 @@ const TrackSelector = ({
     setSelectedTrack(track);
     onTrackSelect(track);
   };
+  console.log(tracks);
 
   return (
     <div className="flex justify-center">

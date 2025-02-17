@@ -1,21 +1,5 @@
 import type { StationSchedule } from "@/lib/types/stationTypes";
-import Link from "next/link";
-import { useTranslations } from "@/lib/i18n/useTranslations";
-import {
-  getFormattedStationName,
-  getTrainTypeString,
-} from "@/lib/utils/stationUtils";
-import {
-  formatDateForDisplay,
-  isToday,
-  isTomorrow,
-} from "@/lib/utils/dateUtils";
-import { useState } from "react";
 import type { ShowScheduleType } from "./StationScheduleOverview";
-import {
-  getDepartureStationShortCode,
-  getEndStationShortCode,
-} from "@/lib/utils/linkUtils";
 import ScheduleHeader from "./ScheduleHeader";
 import ScheduleCard from "./ScheduleCard";
 
@@ -30,8 +14,6 @@ const StationScheduleList = ({
   stationId,
   showScheduleType,
 }: StationScheduleListProps) => {
-  const { translations } = useTranslations();
-
   return (
     <div>
       <ScheduleHeader

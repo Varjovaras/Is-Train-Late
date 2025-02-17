@@ -1,6 +1,8 @@
-import type { Translations } from "@/lib/i18n/translations";
-import type { StationSchedule } from "@/lib/types/stationTypes";
-import type { TimeTableRow } from "@/lib/types/trainTypes";
+import { useTranslations } from "@/lib/i18n/useTranslations";
+import type {
+  StationSchedule,
+  StationTimeTableRow,
+} from "@/lib/types/stationTypes";
 import {
   getDepartureStationShortCode,
   getEndStationShortCode,
@@ -13,15 +15,15 @@ import Link from "next/link";
 
 type ScheduleHeaderProps = {
   schedule: StationSchedule;
-  translations: Translations;
-  departureRow?: TimeTableRow;
+  departureRow?: StationTimeTableRow;
 };
 
 const ScheduleCardHeader = ({
   schedule,
-  translations,
   departureRow,
 }: ScheduleHeaderProps) => {
+  const { translations } = useTranslations();
+
   const firstStation = getFormattedStationName(
     schedule.timeTableRows[0].stationShortCode,
   );
