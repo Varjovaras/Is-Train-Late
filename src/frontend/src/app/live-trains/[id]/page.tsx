@@ -13,7 +13,7 @@ const Page = async ({
 
   return (
     <div>
-      <LiveTrainPage train={train} forceShowAllStations />
+      <LiveTrainPage train={train} />
     </div>
   );
 };

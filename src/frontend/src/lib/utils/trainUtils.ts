@@ -82,6 +82,14 @@ export const getVisitedCommercialStations = (train: TrainType) => {
 
 export const getLatestCommercialStationName = (train: TrainType) => {
   const visitedStations = getVisitedCommercialStations(train);
+
+  if (visitedStations.length === 0) {
+    const firstCommercialStation = train.timeTableRows.find(
+      (row) => row.commercialStop === true && row.type === "DEPARTURE",
+    );
+    return firstCommercialStation?.station.name ?? null;
+  }
+
   return visitedStations[visitedStations.length - 1].station.name;
 };
 

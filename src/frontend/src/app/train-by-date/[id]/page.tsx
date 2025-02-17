@@ -27,7 +27,6 @@ const Page = async ({
     }),
   });
 
-  console.log(getDifferentDateTrain(id));
   if (!res.ok) {
     return (
       <div>Train data not available. HTTP error! status: ${res.status}</div>
@@ -60,7 +59,7 @@ const Page = async ({
 
   return (
     <div>
-      <LiveTrainPage train={train} forceShowAllStations />
+      <LiveTrainPage train={train} />
     </div>
   );
 };

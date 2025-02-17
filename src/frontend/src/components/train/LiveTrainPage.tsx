@@ -5,10 +5,9 @@ import Train from "./Train";
 
 type LiveTrainPageProps = {
   train: TrainType;
-  forceShowAllStations: boolean;
 };
 
-const LiveTrainPage = ({ train, forceShowAllStations }: LiveTrainPageProps) => {
+const LiveTrainPage = ({ train }: LiveTrainPageProps) => {
   return (
     <div className="mx-auto flex flex-col">
       <TrainDetails train={train} />
