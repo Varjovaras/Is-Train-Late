@@ -13,7 +13,6 @@ const TrackSelector = ({
   onTrackSelect,
 }: TrackSelectorProps) => {
   const [selectedTrack, setSelectedTrack] = useState<string | null>(null);
-  console.log(schedules);
   const tracks = Array.from(
     new Set(
       schedules
@@ -36,7 +35,6 @@ const TrackSelector = ({
     setSelectedTrack(track);
     onTrackSelect(track);
   };
-  console.log(tracks);
 
   return (
     <div className="flex justify-center">
