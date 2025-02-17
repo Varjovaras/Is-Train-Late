@@ -16,7 +16,6 @@ import {
   getDepartureStationShortCode,
   getEndStationShortCode,
 } from "@/lib/utils/linkUtils";
-import StationRow from "../train/station/StationRow";
 
 type StationScheduleListProps = {
   schedules: StationSchedule[];
@@ -30,16 +29,6 @@ const StationScheduleList = ({
   showScheduleType,
 }: StationScheduleListProps) => {
   const { translations } = useTranslations();
-  const [showDepartures, setShowDepartures] = useState(true);
-
-  const filteredSchedules = schedules.filter((schedule) => {
-    const timeTableRows = schedule.timeTableRows.filter(
-      (row) => row.stationShortCode === stationId,
-    );
-    return timeTableRows.some(
-      (row) => row.type === (showDepartures ? "DEPARTURE" : "ARRIVAL"),
-    );
-  });
 
   const getDateDisplay = (date: string) => {
     if (isToday(date)) return translations.today;
@@ -59,30 +48,10 @@ const StationScheduleList = ({
         {showScheduleType === "current"
           ? translations.arrivingSoon
           : translations.futureTrains}{" "}
-        ({filteredSchedules.length})
+        ({schedules.length})
       </h2>
-      <div className="flex gap-4 mb-4">
-        <button
-          onClick={() => setShowDepartures(true)}
-          type="button"
-          className={`px-4 py-2 rounded-md ${
-            showDepartures ? "bg-foreground/20" : "hover:bg-foreground/10"
-          }`}
-        >
-          {translations.departuresAndArrivals}
-        </button>
-        <button
-          onClick={() => setShowDepartures(false)}
-          type="button"
-          className={`px-4 py-2 rounded-md ${
-            !showDepartures ? "bg-foreground/20" : "hover:bg-foreground/10"
-          }`}
-        >
-          {translations.onlyArrivals}
-        </button>
-      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredSchedules.map((schedule) => {
+        {schedules.map((schedule) => {
           const departureRow = scheduleHelper(schedule);
 
           const firstStation = getFormattedStationName(
