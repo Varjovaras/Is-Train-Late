@@ -63,6 +63,7 @@ export const translations = {
     tomorrow: "Huomenna",
     departuresAndArrivals: "Lähdöt ja saapuvat",
     onlyArrivals: "Vain saapuvat junat",
+    onTime: "Aikataulussa",
   },
   en: {
     title: "Is VR Late?",
@@ -128,6 +129,7 @@ export const translations = {
     tomorrow: "Tomorrow",
     departuresAndArrivals: "Departures and arrivals",
     onlyArrivals: "Only arrivals",
+    onTime: "On time",
   },
 } as const;
 

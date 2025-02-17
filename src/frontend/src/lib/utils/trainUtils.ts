@@ -37,7 +37,15 @@ export const sortTrains = (trains: TrainType[], sortOption: SortOption) => {
 };
 
 export const getTimeDiff = (timeTableRows: TimeTableRow[]) => {
-  return timeTableRows[timeTableRows.length - 1].differenceInMinutes;
+  const visitedStations = timeTableRows.filter(
+    (row) => row.actualTime !== null,
+  );
+
+  if (visitedStations.length === 0) {
+    return 0;
+  }
+
+  return visitedStations[visitedStations.length - 1].differenceInMinutes;
 };
 
 export const getTimeDiffByStation = (

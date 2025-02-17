@@ -13,7 +13,7 @@ const Page = async ({
   const id = (await params).id;
 
   if (!isValidTrainId(id)) {
-    return <div>123</div>;
+    return <div>Not valid train id</div>;
   }
 
   const res = await fetch(GRAPHQL_ENDPOINT, {
@@ -27,6 +27,7 @@ const Page = async ({
     }),
   });
 
+  console.log(getDifferentDateTrain(id));
   if (!res.ok) {
     return (
       <div>Train data not available. HTTP error! status: ${res.status}</div>
@@ -55,6 +56,7 @@ const Page = async ({
   }
 
   const train = trainResponse.data.train[0];
+  console.log(train);
 
   return (
     <div>

@@ -11,7 +11,7 @@ type TrainBasicInfoProps = {
 
 const TrainBasicInfo = ({ train }: TrainBasicInfoProps) => {
   const { translations } = useTranslations();
-
+  console.log(train.timeTableRows.length - 1);
   const departureStation = train.timeTableRows[0].station;
   const departureStationName = removeAsema(departureStation.name);
   const endStation =
@@ -37,10 +37,14 @@ const TrainBasicInfo = ({ train }: TrainBasicInfoProps) => {
           {endStationName}
         </Link>
       </p>
-      <p className="">
-        <span className="text-red-500 font-bold">{currentTimeDiff}</span>{" "}
-        <span className="">{translations.minutesLate}</span>
-      </p>
+      {currentTimeDiff > 0 ? (
+        <p className="">
+          <span className="text-red-500 font-bold">{currentTimeDiff}</span>{" "}
+          <span className="">{translations.minutesLate}</span>
+        </p>
+      ) : (
+        <p className="text-green-500">{translations.onTime}</p>
+      )}
     </div>
   );
 };
