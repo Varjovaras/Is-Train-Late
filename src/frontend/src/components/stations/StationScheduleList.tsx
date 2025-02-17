@@ -186,7 +186,7 @@ const StationScheduleList = ({
                   ))}
               </div>
 
-              <div className="flex justify-between mt-auto items-center pt-2 border-t border-foreground/10">
+              <div className="mt-auto pt-2 border-t border-foreground/10">
                 <Link
                   href={`/train-by-date/${schedule.trainNumber}-${schedule.departureDate}`}
                   className="text-sm text-blue-500 hover:underline"
