@@ -11,10 +11,10 @@ export type StationSchedule = {
   version: number;
   timetableType: string;
   timetableAcceptanceDate: string;
-  timeTableRows: TimeTableRow[];
+  timeTableRows: StationTimeTableRow[];
 };
 
-type TimeTableRow = {
+export type StationTimeTableRow = {
   stationShortCode: string;
   stationUICCode: number;
   countryCode: string;
