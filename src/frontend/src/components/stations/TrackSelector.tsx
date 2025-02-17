@@ -24,7 +24,8 @@ const TrackSelector = ({
             )?.commercialTrack,
         )
         .filter(
-          (track): track is string => track !== undefined && track !== null,
+          (track): track is string =>
+            track !== undefined && track !== null && track !== "",
         ),
     ),
   ).sort((a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10));
