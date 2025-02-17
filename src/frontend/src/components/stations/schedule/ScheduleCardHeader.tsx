@@ -3,7 +3,6 @@ import type {
   StationSchedule,
   StationTimeTableRow,
 } from "@/lib/types/stationTypes";
-
 import { getTrainTypeString } from "@/lib/utils/stationUtils";
 import RouteDisplay from "./RouteDisplay";
 

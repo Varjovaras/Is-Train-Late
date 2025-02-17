@@ -55,7 +55,6 @@ const Page = async ({
   }
 
   const train = trainResponse.data.train[0];
-  console.log(train);
 
   return (
     <div>
