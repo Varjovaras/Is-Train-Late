@@ -1,3 +1,5 @@
+import type { Translations } from "../i18n/translations";
+
 export const formatTime = (date: Date) => {
   return new Date(date).toLocaleTimeString("fi-FI", {
     hour: "2-digit",
@@ -40,4 +42,10 @@ export const isTomorrow = (date: string) => {
     tomorrow.getMonth() === compareDate.getMonth() &&
     tomorrow.getFullYear() === compareDate.getFullYear()
   );
+};
+
+export const getDateDisplay = (date: string, translations: Translations) => {
+  if (isToday(date)) return translations.today;
+  if (isTomorrow(date)) return translations.tomorrow;
+  return formatDateForDisplay(date);
 };
