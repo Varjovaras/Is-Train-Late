@@ -16,6 +16,7 @@ import {
   getDepartureStationShortCode,
   getEndStationShortCode,
 } from "@/lib/utils/linkUtils";
+import ScheduleHeader from "./ScheduleHeader";
 
 type StationScheduleListProps = {
   schedules: StationSchedule[];
@@ -44,12 +45,10 @@ const StationScheduleList = ({
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-4">
-        {showScheduleType === "current"
-          ? translations.arrivingSoon
-          : translations.futureTrains}{" "}
-        ({schedules.length})
-      </h2>
+      <ScheduleHeader
+        showScheduleType={showScheduleType}
+        lengthOfSchedules={schedules.length}
+      />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {schedules.map((schedule) => {
           const departureRow = scheduleHelper(schedule);
