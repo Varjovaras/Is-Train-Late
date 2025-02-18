@@ -1,3 +1,4 @@
+import { usePathname } from "next/navigation";
 import type { Dispatch, SetStateAction } from "react";
 
 type ShowStationsButtonProps = {
@@ -9,6 +10,15 @@ const ShowStationsButton = ({
   showAllStations,
   setShowAllStations,
 }: ShowStationsButtonProps) => {
+  const pathname = usePathname();
+
+  if (
+    pathname.startsWith("/train-by-date/") ||
+    pathname.startsWith("/live-trains/")
+  ) {
+    return null;
+  }
+
   return (
     <button
       type="button"
