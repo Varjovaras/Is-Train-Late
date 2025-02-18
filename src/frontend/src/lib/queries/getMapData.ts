@@ -1,7 +1,7 @@
-import { getPassengerQuery } from "./passengerQuery";
+import { getMapQuery } from "./mapQuery";
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
-export const getTrainData = async () => {
+export const getMapData = async () => {
   const res = await fetch(GRAPHQL_ENDPOINT, {
     method: "POST",
     headers: {
@@ -9,7 +9,7 @@ export const getTrainData = async () => {
       "Accept-Encoding": "gzip",
     },
     body: JSON.stringify({
-      query: getPassengerQuery(),
+      query: getMapQuery(),
     }),
     cache: "no-store",
   });

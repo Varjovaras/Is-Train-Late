@@ -33,6 +33,7 @@ const passengerQuery = `{
     }
     trainLocations(orderBy: { timestamp: DESCENDING }, take: 1) {
       speed
+      location
     }
     timeTableRows {
       type
