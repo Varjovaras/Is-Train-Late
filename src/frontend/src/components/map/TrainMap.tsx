@@ -30,6 +30,7 @@ const TrainMap = () => {
         (train) => train.trainLocations && train.trainLocations.length > 0,
       );
       setTrains(trainsWithLocations);
+
       setError(null);
     } catch (err) {
       console.error("Error fetching train data:", err);
