@@ -11,7 +11,6 @@ export const getMapData = async () => {
     body: JSON.stringify({
       query: getMapQuery(),
     }),
-    cache: "no-store",
   });
 
   if (!res.ok) {
