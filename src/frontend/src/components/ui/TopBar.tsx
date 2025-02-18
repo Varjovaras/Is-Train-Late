@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 import BackHome from "./BackHome";
 import LanguageSwitcher from "./LanguageSwitcher";
 import ThemeSwitcher from "./ThemeSwitcher";
+import Link from "next/link";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 
 const TopBar = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const { translations } = useTranslations();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,7 +38,15 @@ const TopBar = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-2 sm:px-4 gap-4 flex justify-between items-center">
-        <BackHome />
+        <div className="flex items-center gap-4">
+          <BackHome />
+          <Link
+            href="/map"
+            className="px-4 py-2 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
+          >
+            🗺️ {translations.map}
+          </Link>
+        </div>
         <div className="flex items-center gap-4">
           <ThemeSwitcher />
           <LanguageSwitcher />

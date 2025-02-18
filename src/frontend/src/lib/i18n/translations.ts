@@ -65,6 +65,7 @@ export const translations = {
     onlyArrivals: "Vain saapuvat junat",
     onTime: "Aikataulussa",
     airport: "Lentoasema",
+    map: "Kartta",
   },
   en: {
     title: "Is VR Late?",
@@ -132,6 +133,7 @@ export const translations = {
     onlyArrivals: "Only arrivals",
     onTime: "On time",
     airport: "Airport",
+    map: "Map",
   },
 } as const;
 
