@@ -1,19 +1,19 @@
 import type { StationSchedule } from "@/lib/types/stationTypes";
-import type { ShowScheduleType } from "./StationScheduleOverview";
+import type { ShowScheduleType } from "./ScheduleOverview";
 import ScheduleHeader from "./ScheduleHeader";
 import ScheduleCard from "./ScheduleCard";
 
-type StationScheduleListProps = {
+type ScheduleListProps = {
   schedules: StationSchedule[];
   stationId: string;
   showScheduleType: ShowScheduleType;
 };
 
-const StationScheduleList = ({
+const ScheduleList = ({
   schedules,
   stationId,
   showScheduleType,
-}: StationScheduleListProps) => {
+}: ScheduleListProps) => {
   return (
     <div>
       <ScheduleHeader
@@ -35,4 +35,4 @@ const StationScheduleList = ({
   );
 };
 
-export default StationScheduleList;
+export default ScheduleList;

@@ -2,7 +2,7 @@ import { getStationData } from "@/lib/queries/getStationData";
 import type { StationSchedule } from "@/lib/types/stationTypes";
 import { removeAsema } from "@/lib/utils/stringUtils";
 import { isValidStationCode, majorStations } from "@/lib/utils/majorStations";
-import StationScheduleOverview from "@/components/stations/StationScheduleOverview";
+import StationScheduleOverview from "@/components/stations/ScheduleOverview";
 import { sortSchedules } from "@/lib/utils/sortSchedules";
 
 const Page = async ({

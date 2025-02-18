@@ -1,22 +1,19 @@
 "use client";
 import type { StationSchedule } from "@/lib/types/stationTypes";
-import StationScheduleList from "./StationScheduleList";
+import ScheduleList from "./ScheduleList";
 import { useState } from "react";
 import { stationScheduleFilter } from "@/lib/utils/stationScheduleFilter";
 import ScheduleButtons from "./ScheduleButtons";
 import TrackSelector from "./TrackSelector";
 
-type StationScheduleOverviewProps = {
+type ScheduleOverviewProps = {
   schedules: StationSchedule[];
   stationId: string;
 };
 
 export type ShowScheduleType = "current" | "future";
 
-const StationScheduleOverview = ({
-  schedules,
-  stationId,
-}: StationScheduleOverviewProps) => {
+const ScheduleOverview = ({ schedules, stationId }: ScheduleOverviewProps) => {
   const [showScheduleType, setShowScheduleType] =
     useState<ShowScheduleType>("current");
   const [selectedTrack, setSelectedTrack] = useState<string | null>(null);
@@ -66,7 +63,7 @@ const StationScheduleOverview = ({
         amountOfSchedules={amountOfSchedules}
       />
 
-      <StationScheduleList
+      <ScheduleList
         schedules={getFilteredSchedules()}
         stationId={stationId}
         showScheduleType={showScheduleType}
@@ -75,4 +72,4 @@ const StationScheduleOverview = ({
   );
 };
 
-export default StationScheduleOverview;
+export default ScheduleOverview;
