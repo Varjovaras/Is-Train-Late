@@ -2,8 +2,8 @@ import { getStationData } from "@/lib/queries/getStationData";
 import type { StationSchedule } from "@/lib/types/stationTypes";
 import { removeAsema } from "@/lib/utils/stringUtils";
 import { isValidStationCode, majorStations } from "@/lib/utils/majorStations";
-import StationScheduleOverview from "@/components/stations/ScheduleOverview";
 import { sortSchedules } from "@/lib/utils/sortSchedules";
+import ScheduleOverview from "@/components/stations/ScheduleOverview";
 
 const Page = async ({
   params,
@@ -25,10 +25,7 @@ const Page = async ({
         {removeAsema(stationName)}
       </h2>
 
-      <StationScheduleOverview
-        schedules={sortedSchedules}
-        stationId={stationId}
-      />
+      <ScheduleOverview schedules={sortedSchedules} stationId={stationId} />
     </div>
   );
 };
