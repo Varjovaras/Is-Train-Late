@@ -1,5 +1,5 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import type { ShowScheduleType } from "./StationScheduleOverview";
+import type { ShowScheduleType } from "./ScheduleOverview";
 
 type ScheduleHeaderProps = {
   showScheduleType: ShowScheduleType;

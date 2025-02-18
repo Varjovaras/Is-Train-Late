@@ -5,6 +5,8 @@ import type {
 } from "@/lib/types/stationTypes";
 import { getTrainTypeString } from "@/lib/utils/stationUtils";
 import RouteDisplay from "./RouteDisplay";
+import Link from "next/link";
+import { isToday } from "@/lib/utils/dateUtils";
 
 type ScheduleHeaderProps = {
   schedule: StationSchedule;
@@ -17,13 +19,23 @@ const ScheduleCardHeader = ({
 }: ScheduleHeaderProps) => {
   const { translations } = useTranslations();
 
+  const getLinkDestination = () => {
+    if (schedule.runningCurrently && isToday(schedule.departureDate)) {
+      return `/live-trains/${schedule.trainNumber}`;
+    }
+    return `/train-by-date/${schedule.trainNumber}-${schedule.departureDate}`;
+  };
+
   return (
     <div className="flex justify-between items-start">
       <div className="space-y-1">
-        <span className="font-bold text-lg">
+        <Link
+          href={getLinkDestination()}
+          className="font-bold text-lg hover:underline"
+        >
           {schedule.commuterLineID ||
             `${schedule.trainType} ${schedule.trainNumber}`}
-        </span>
+        </Link>
 
         <p className="text-sm text-foreground/60">
           {getTrainTypeString(schedule, translations)}

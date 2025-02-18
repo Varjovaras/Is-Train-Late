@@ -1,6 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
-import type { ShowScheduleType } from "./StationScheduleOverview";
 import { useTranslations } from "@/lib/i18n/useTranslations";
+import type { ShowScheduleType } from "./ScheduleOverview";
 
 type ScheduleButtonsProps = {
   showScheduleType: ShowScheduleType;
