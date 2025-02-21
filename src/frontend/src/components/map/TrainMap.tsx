@@ -2,7 +2,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState, useCallback } from "react";
 import { icon } from "leaflet";
-import type { TrainType } from "@/lib/types/trainTypes";
+import type { TrainCategory, TrainType } from "@/lib/types/trainTypes";
 import type { CurrentlyRunningTrainResponse } from "@/lib/types/trainTypes";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { getMapData } from "@/lib/queries/getMapData";
@@ -27,6 +27,7 @@ const TrainMap = () => {
   const [trains, setTrains] = useState<TrainType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [category, setCategory] = useState<TrainCategory>({ name: "all" });
   const { translations } = useTranslations();
 
   const fetchTrains = useCallback(async () => {
@@ -60,8 +61,33 @@ const TrainMap = () => {
     );
   }
 
+  const filteredTrains = trains.filter((train) => {
+    switch (category.name) {
+      case "commuter":
+        return train.commuterLineid !== "";
+      case "longDistance":
+        return train.commuterLineid === "";
+      default:
+        return true;
+    }
+  });
+
   return (
     <div className="relative h-full w-full">
+      <div className="absolute top-2 left-2 z-[1000] bg-background/80 rounded-lg p-2">
+        <select
+          value={category.name}
+          onChange={(e) => setCategory({ name: e.target.value })}
+          className="px-4 py-2 rounded-md border border-foreground/20 bg-background text-foreground"
+        >
+          <option value="all">{translations.allTrains}</option>
+          <option value="commuter">{translations.commuterTrains}</option>
+          <option value="longDistance">
+            {translations.longDistanceTrains}
+          </option>
+        </select>
+      </div>
+
       {loading && trains.length > 0 && (
         <div className="absolute top-2 right-2 z-[1000] bg-background/80 rounded-full p-2">
           <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-foreground" />
@@ -99,7 +125,7 @@ const TrainMap = () => {
         ))}
 
         {/* Trains */}
-        {trains.map((train) => {
+        {filteredTrains.map((train) => {
           const location = train.trainLocations[0]?.location;
           if (!location) return null;
 

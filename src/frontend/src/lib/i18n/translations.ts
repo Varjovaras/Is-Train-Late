@@ -66,6 +66,8 @@ export const translations = {
     onTime: "Aikataulussa",
     airport: "Lentoasema",
     map: "Kartta",
+    commuterTrains: "Lähijunat",
+    longDistanceTrains: "Kaukojunat",
   },
   en: {
     title: "Is VR Late?",
@@ -134,6 +136,9 @@ export const translations = {
     onTime: "On time",
     airport: "Airport",
     map: "Map",
+
+    commuterTrains: "Commuter trains",
+    longDistanceTrains: "Long-distance trains",
   },
 } as const;
 
