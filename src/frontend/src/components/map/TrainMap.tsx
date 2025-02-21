@@ -1,4 +1,3 @@
-"use client";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState, useCallback } from "react";
@@ -7,14 +6,22 @@ import type { TrainType } from "@/lib/types/trainTypes";
 import type { CurrentlyRunningTrainResponse } from "@/lib/types/trainTypes";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { getMapData } from "@/lib/queries/getMapData";
+import Link from "next/link";
+import { majorStationCoordinates } from "@/lib/utils/stationCoordinates";
 
-const ICON = icon({
+const TRAIN_ICON = icon({
   iconUrl: "/hcbull_naama.png",
   iconSize: [40, 40],
   iconAnchor: [12, 41],
 });
 
-const UPDATE_INTERVAL = 3000; // Update every 3 seconds
+const STATION_ICON = icon({
+  iconUrl: "/hcbull.png", // You'll need to add this icon
+  iconSize: [32, 32],
+  iconAnchor: [16, 16],
+});
+
+const UPDATE_INTERVAL = 3000;
 
 const TrainMap = () => {
   const [trains, setTrains] = useState<TrainType[]>([]);
@@ -23,14 +30,13 @@ const TrainMap = () => {
   const { translations } = useTranslations();
 
   const fetchTrains = useCallback(async () => {
-    setLoading(true); // Set loading to true at the start of each fetch
+    setLoading(true);
     try {
       const response = (await getMapData()) as CurrentlyRunningTrainResponse;
       const trainsWithLocations = response.data.currentlyRunningTrains.filter(
         (train) => train.trainLocations && train.trainLocations.length > 0,
       );
       setTrains(trainsWithLocations);
-
       setError(null);
     } catch (err) {
       console.error("Error fetching train data:", err);
@@ -41,19 +47,11 @@ const TrainMap = () => {
   }, []);
 
   useEffect(() => {
-    // Initial fetch
     fetchTrains();
-
-    // Set up interval for updates
-    const interval = setInterval(() => {
-      fetchTrains();
-    }, UPDATE_INTERVAL);
-
-    // Cleanup interval on component unmount
+    const interval = setInterval(fetchTrains, UPDATE_INTERVAL);
     return () => clearInterval(interval);
   }, [fetchTrains]);
 
-  // Show loading state only on initial load
   if (loading && trains.length === 0) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -64,7 +62,6 @@ const TrainMap = () => {
 
   return (
     <div className="relative h-full w-full">
-      {/* Loading overlay for subsequent updates */}
       {loading && trains.length > 0 && (
         <div className="absolute top-2 right-2 z-[1000] bg-background/80 rounded-full p-2">
           <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-foreground" />
@@ -79,9 +76,29 @@ const TrainMap = () => {
         zoomControl={true}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>'
+          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
+
+        {/* Major Stations */}
+        {Object.entries(majorStationCoordinates).map(([code, station]) => (
+          <Marker
+            key={code}
+            position={[station.coords[0], station.coords[1]]}
+            icon={STATION_ICON}
+          >
+            <Popup>
+              <Link
+                href={`/stations/${code}`}
+                className="font-bold hover:underline"
+              >
+                {station.name}
+              </Link>
+            </Popup>
+          </Marker>
+        ))}
+
+        {/* Trains */}
         {trains.map((train) => {
           const location = train.trainLocations[0]?.location;
           if (!location) return null;
@@ -90,14 +107,17 @@ const TrainMap = () => {
             <Marker
               key={train.trainNumber}
               position={[location[1], location[0]]}
-              icon={ICON}
+              icon={TRAIN_ICON}
             >
               <Popup>
                 <div className="p-2">
-                  <h3 className="font-bold">
+                  <Link
+                    href={`/live-trains/${train.trainNumber}`}
+                    className="font-bold hover:underline"
+                  >
                     {train.commuterLineid ||
                       `${train.trainType.name} ${train.trainNumber}`}
-                  </h3>
+                  </Link>
                   <p>
                     {translations.currentSpeed}:{" "}
                     {train.trainLocations[0]?.speed} km/h
