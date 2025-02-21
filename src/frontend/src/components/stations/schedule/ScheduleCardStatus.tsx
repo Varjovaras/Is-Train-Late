@@ -10,7 +10,7 @@ const ScheduleCardStatus = ({ schedule }: ScheduleCardStatusProps) => {
   const { translations } = useTranslations();
 
   return (
-    <div className="flex flex-col items-end">
+    <div className="flex flex-col items-end shrink-0">
       <span
         className={`px-2 py-1 rounded-full text-sm ${
           schedule.cancelled
