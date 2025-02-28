@@ -68,6 +68,9 @@ export const translations = {
     map: "Kartta",
     commuterTrains: "Lähijunat",
     longDistanceTrains: "Kaukojunat",
+    refreshTrainDataMobile: "Päivitä",
+    backHomeMobile: "← Takaisin",
+    mapMobile: "Kartta",
   },
   en: {
     title: "Is VR Late?",
@@ -138,6 +141,9 @@ export const translations = {
     map: "Map",
     commuterTrains: "Commuter trains",
     longDistanceTrains: "Long-distance trains",
+    refreshTrainDataMobile: "Refresh",
+    backHomeMobile: "← Back",
+    mapMobile: "Map",
   },
 } as const;
 
