@@ -21,11 +21,19 @@ const TrainStations = ({ train, showAllStations }: TrainStationsProps) => {
   // Only include firstDeparture when showing all stations
   const stationsToShow = showAllStations
     ? [firstDeparture, ...passengerStationArrivals]
-    : passengerStationArrivals.filter(
-        (station) =>
+    : passengerStationArrivals.filter((station) => {
+        // Check if this is either the current station (including departure station)
+        const isCurrentStation =
           station.station.name === currentStation ||
-          station.station.name === nextStationRow?.station.name,
-      );
+          (station.station.name === firstDeparture.station.name &&
+            currentStation === firstDeparture.station.name);
+
+        // Check if this is the next station
+        const isNextStation =
+          station.station.name === nextStationRow?.station.name;
+
+        return isCurrentStation || isNextStation;
+      });
 
   const currentStationIndex = stationsToShow.findIndex(
     (station) => station.station.name === currentStation,

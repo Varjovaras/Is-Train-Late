@@ -84,13 +84,26 @@ export const getLatestCommercialStationName = (train: TrainType) => {
   const visitedStations = getVisitedCommercialStations(train);
 
   if (visitedStations.length === 0) {
-    const firstCommercialStation = train.timeTableRows.find(
+    // If no stations have been visited, return the departure station
+    const firstDeparture = train.timeTableRows.find(
       (row) => row.commercialStop === true && row.type === "DEPARTURE",
     );
-    return firstCommercialStation?.station.name ?? null;
+    return firstDeparture?.station.name ?? null;
   }
 
-  return visitedStations[visitedStations.length - 1].station.name;
+  const lastVisitedStation = visitedStations[visitedStations.length - 1];
+  const departureStation = train.timeTableRows[0].station.name;
+
+  if (
+    lastVisitedStation.station.name === departureStation &&
+    lastVisitedStation.type === "DEPARTURE"
+  ) {
+    console.log("ali");
+    console.log(departureStation);
+    return departureStation;
+  }
+
+  return lastVisitedStation.station.name;
 };
 
 export const getNextStation = (train: TrainType) => {
