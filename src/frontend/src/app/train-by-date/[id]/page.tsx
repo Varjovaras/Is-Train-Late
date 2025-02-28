@@ -43,11 +43,14 @@ const Page = async ({
   }
 
   if (trainResponse.data.train.length === 0) {
+    const idSplit = id.split("-");
+    const trainNumber = idSplit[0];
+    const date = new Date(`${idSplit[1]}-${idSplit[2]}-${idSplit[3]}`);
     return (
       <div>
         <div className="flex flex-col items-center">
           <h1 className="px-2 py-8 text-xl text-red-500">
-            No train found with number {id}
+            No train found with number {trainNumber} for date {date.toString()}
           </h1>
         </div>
       </div>
