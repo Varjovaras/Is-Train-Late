@@ -14,6 +14,7 @@ const BackHome = () => {
   const buttonTextMobile = isHomePage
     ? translations.refreshTrainDataMobile
     : translations.backHomeMobile;
+
   return (
     <Link
       type="button"
