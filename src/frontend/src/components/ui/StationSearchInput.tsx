@@ -22,6 +22,17 @@ const StationSearchInput = () =>
     const inputRef = useRef<HTMLInputElement>(null);
     const suggestionsRef = useRef<HTMLDivElement>(null);
 
+    const clearInput = () => {
+      setSearchValue("");
+      setShowSuggestions(false);
+      setSelectedIndex(-1);
+    };
+
+    const handleStationSelect = (code: string) => {
+      clearInput();
+      router.push(`/stations/${code}`);
+    };
+
     const updateSuggestions = useCallback((input: string) => {
       if (input.length < 2) {
         setSuggestions([]);
@@ -44,11 +55,11 @@ const StationSearchInput = () =>
       if (e.key === "Enter") {
         e.preventDefault();
         if (suggestions.length === 1) {
-          router.push(`/stations/${suggestions[0][0]}`);
+          handleStationSelect(suggestions[0][0]);
           return;
         }
         if (selectedIndex >= 0) {
-          router.push(`/stations/${suggestions[selectedIndex][0]}`);
+          handleStationSelect(suggestions[selectedIndex][0]);
         }
         return;
       }
@@ -124,7 +135,7 @@ const StationSearchInput = () =>
               <button
                 key={code}
                 type="button"
-                onClick={() => router.push(`/stations/${code}`)}
+                onClick={() => handleStationSelect(code)}
                 className={`w-full px-4 py-2 text-left hover:bg-foreground/10
                 flex justify-between items-center
                 ${index === selectedIndex ? "bg-foreground/10" : ""}`}

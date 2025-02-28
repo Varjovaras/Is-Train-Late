@@ -6,8 +6,6 @@ import StationSearchInput from "./StationSearchInput";
 const StationSearch = () => {
   const [error, _setError] = useState("");
 
-  const handleStationSelect = (code: string) => {};
-
   return (
     <div className="space-y-4">
       <StationSearchInput />

@@ -25,6 +25,7 @@ const TrainSearch = () => {
     if (dateError) return handleSearchError(dateError, setError);
 
     const formattedDate = formatDateForUrl(date);
+    setTrainNumber("");
     router.push(`/train-by-date/${trainNumber}-${formattedDate}`);
     return true;
   };
