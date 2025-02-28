@@ -5,6 +5,7 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Link from "next/link";
 import { useTranslations } from "@/lib/i18n/useTranslations";
+import Clock from "./Clock";
 
 const TopBar = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -48,6 +49,7 @@ const TopBar = () => {
           </Link>
         </div>
         <div className="flex items-center gap-4">
+          <Clock />
           <ThemeSwitcher />
           <LanguageSwitcher />
         </div>

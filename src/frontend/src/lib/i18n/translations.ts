@@ -136,7 +136,6 @@ export const translations = {
     onTime: "On time",
     airport: "Airport",
     map: "Map",
-
     commuterTrains: "Commuter trains",
     longDistanceTrains: "Long-distance trains",
   },
