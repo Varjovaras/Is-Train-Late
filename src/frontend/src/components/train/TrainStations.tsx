@@ -36,7 +36,10 @@ const TrainStations = ({ train, showAllStations }: TrainStationsProps) => {
       });
 
   const currentStationIndex = stationsToShow.findIndex(
-    (station) => station.station.name === currentStation,
+    (station) =>
+      station.station.name === currentStation ||
+      (station.station.name === firstDeparture.station.name &&
+        currentStation === firstDeparture.station.name),
   );
 
   return (
