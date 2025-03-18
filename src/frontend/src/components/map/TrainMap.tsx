@@ -14,7 +14,7 @@ import type { CurrentlyRunningTrainResponse } from "@/lib/types/trainTypes";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { getMapData } from "@/lib/queries/getMapData";
 import Link from "next/link";
-import { majorStationCoordinates } from "@/lib/utils/stationCoordinates";
+import { stationCoordinates } from "@/lib/utils/stationCoordinates";
 import "./TrainMap.css";
 
 const STATION_ICON = divIcon({
@@ -114,7 +114,6 @@ const TrainMap = () => {
         zoomControl={true}
       >
         <LayersControl position="topright">
-          {/* Base map layer */}
           <LayersControl.BaseLayer checked name="Dark Mode Map">
             <TileLayer
               attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>'
@@ -122,7 +121,6 @@ const TrainMap = () => {
             />
           </LayersControl.BaseLayer>
 
-          {/* OpenRailwayMap overlay */}
           <LayersControl.Overlay checked name="Railway Infrastructure">
             <TileLayer
               attribution='&copy; <a href="https://www.openrailwaymap.org/">OpenRailwayMap</a>'
@@ -134,8 +132,7 @@ const TrainMap = () => {
           </LayersControl.Overlay>
         </LayersControl>
 
-        {/* Major Stations */}
-        {Object.entries(majorStationCoordinates).map(([code, station]) => (
+        {Object.entries(stationCoordinates).map(([code, station]) => (
           <Marker
             key={code}
             position={[station.coords[0], station.coords[1]]}
