@@ -10,7 +10,7 @@ type TrainSelectorProps = {
 const TrainSelector = ({ category, setCategory }: TrainSelectorProps) => {
   const { translations } = useTranslations();
   return (
-    <div className="absolute top-2 left-2 z-[1000] bg-background/80 rounded-lg p-2">
+    <div className="absolute top-2 left-12 z-[400] bg-background/80 rounded-lg p-2">
       <select
         value={category.name}
         onChange={(e) => setCategory({ name: e.target.value })}

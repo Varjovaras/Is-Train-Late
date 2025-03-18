@@ -1,10 +1,9 @@
 "use client";
 import { MapContainer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useEffect, useState, useCallback, SetStateAction } from "react";
+import { useEffect, useState, useCallback } from "react";
 import type { TrainCategory, TrainType } from "@/lib/types/trainTypes";
 import type { CurrentlyRunningTrainResponse } from "@/lib/types/trainTypes";
-import { useTranslations } from "@/lib/i18n/useTranslations";
 import { getMapData } from "@/lib/queries/getMapData";
 import "./TrainMap.css";
 import MapLayersControl from "./MapLayersControl";
@@ -20,7 +19,6 @@ const TrainMap = () => {
   const [loading, setLoading] = useState(true);
   const [_error, setError] = useState<string | null>(null);
   const [category, setCategory] = useState<TrainCategory>({ name: "all" });
-  const { translations } = useTranslations();
 
   const fetchTrains = useCallback(async () => {
     setLoading(true);
