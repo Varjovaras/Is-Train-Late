@@ -1,32 +1,36 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState, useCallback } from "react";
-import { icon } from "leaflet";
+import { divIcon } from "leaflet";
 import type { TrainCategory, TrainType } from "@/lib/types/trainTypes";
 import type { CurrentlyRunningTrainResponse } from "@/lib/types/trainTypes";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { getMapData } from "@/lib/queries/getMapData";
 import Link from "next/link";
 import { majorStationCoordinates } from "@/lib/utils/stationCoordinates";
+import "./TrainMap.css";
 
-const TRAIN_ICON = icon({
-  iconUrl: "/hcbull_naama.png",
-  iconSize: [40, 40],
-  iconAnchor: [12, 41],
+const STATION_ICON = divIcon({
+  className: "station-marker",
+  html: "🚉",
+  iconSize: [24, 24],
+  iconAnchor: [12, 12],
 });
 
-const STATION_ICON = icon({
-  iconUrl: "/hcbull.png", // You'll need to add this icon
-  iconSize: [32, 32],
-  iconAnchor: [16, 16],
-});
-
+const createTrainIcon = (trainId: string, isCommuter: boolean) => {
+  return divIcon({
+    className: "",
+    html: `<div class="train-marker ${isCommuter ? "commuter" : ""}">${trainId}</div>`,
+    iconSize: [0, 0],
+    iconAnchor: [0, 0],
+  });
+};
 const UPDATE_INTERVAL = 3000;
 
 const TrainMap = () => {
   const [trains, setTrains] = useState<TrainType[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [_error, setError] = useState<string | null>(null);
   const [category, setCategory] = useState<TrainCategory>({ name: "all" });
   const { translations } = useTranslations();
 
@@ -124,16 +128,18 @@ const TrainMap = () => {
           </Marker>
         ))}
 
-        {/* Trains */}
         {filteredTrains.map((train) => {
           const location = train.trainLocations[0]?.location;
           if (!location) return null;
+
+          const trainId = train.commuterLineid || train.trainNumber.toString();
+          const isCommuter = train.commuterLineid !== "";
 
           return (
             <Marker
               key={train.trainNumber}
               position={[location[1], location[0]]}
-              icon={TRAIN_ICON}
+              icon={createTrainIcon(trainId, isCommuter)}
             >
               <Popup>
                 <div className="p-2">
