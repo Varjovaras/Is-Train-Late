@@ -7,6 +7,10 @@ const TrainData = async () => {
   const trainResponse = (await getTrainData()) as CurrentlyRunningTrainResponse;
   const passengerTrainData = trainResponse.data.currentlyRunningTrains;
 
+  for (const train of passengerTrainData) {
+    console.log(train.trainNumber);
+  }
+
   const longDistanceTrains = passengerTrainData.filter(
     (train) => train.commuterLineid === "",
   );

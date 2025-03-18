@@ -2,6 +2,9 @@ import type { SortOption } from "@/components/selectors/SortSelector";
 import type { TimeTableRow, TrainType } from "@/lib/types/trainTypes";
 
 export const filterTrainsByDelay = (trains: TrainType[], threshold: number) => {
+  if (threshold === 0) {
+    return trains;
+  }
   return trains.filter((train) => {
     const timeTableRows = train.timeTableRows.filter(
       (row) => row.actualTime !== null,
