@@ -1,37 +1,17 @@
 "use client";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  LayersControl,
-} from "react-leaflet";
+import { MapContainer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useEffect, useState, useCallback } from "react";
-import { divIcon } from "leaflet";
+import { useEffect, useState, useCallback, SetStateAction } from "react";
 import type { TrainCategory, TrainType } from "@/lib/types/trainTypes";
 import type { CurrentlyRunningTrainResponse } from "@/lib/types/trainTypes";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { getMapData } from "@/lib/queries/getMapData";
-import Link from "next/link";
-import { stationCoordinates } from "@/lib/utils/stationCoordinates";
 import "./TrainMap.css";
-
-const STATION_ICON = divIcon({
-  className: "station-marker",
-  html: "",
-  iconSize: [40, 40],
-  iconAnchor: [20, 20],
-});
-
-const createTrainIcon = (trainId: string, isCommuter: boolean) => {
-  return divIcon({
-    className: "",
-    html: `<div class="train-marker ${isCommuter ? "commuter" : ""}">${trainId}</div>`,
-    iconSize: [0, 0],
-    iconAnchor: [0, 0],
-  });
-};
+import MapLayersControl from "./MapLayersControl";
+import StationsOnMap from "./StationsOnMap";
+import TrainsOnMap from "./TrainsOnMap";
+import TrainSelector from "./TrainSelector";
+import MapSpinner from "./MapSpinner";
 
 const UPDATE_INTERVAL = 3000;
 
@@ -86,26 +66,8 @@ const TrainMap = () => {
 
   return (
     <div className="relative h-full w-full">
-      <div className="absolute top-2 left-2 z-[1000] bg-background/80 rounded-lg p-2">
-        <select
-          value={category.name}
-          onChange={(e) => setCategory({ name: e.target.value })}
-          className="px-4 py-2 rounded-md border border-foreground/20 bg-background text-foreground"
-        >
-          <option value="all">{translations.allTrains}</option>
-          <option value="commuter">{translations.commuterTrains}</option>
-          <option value="longDistance">
-            {translations.longDistanceTrains}
-          </option>
-        </select>
-      </div>
-
-      {loading && trains.length > 0 && (
-        <div className="absolute top-2 right-2 z-[1000] bg-background/80 rounded-full p-2">
-          <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-foreground" />
-        </div>
-      )}
-
+      <TrainSelector category={category} setCategory={setCategory} />
+      {loading && trains.length > 0 && <MapSpinner />}
       <MapContainer
         center={[65.9, 25.7]}
         zoom={5}
@@ -113,73 +75,9 @@ const TrainMap = () => {
         scrollWheelZoom={true}
         zoomControl={true}
       >
-        <LayersControl position="topright">
-          <LayersControl.BaseLayer checked name="Dark Mode Map">
-            <TileLayer
-              attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>'
-              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            />
-          </LayersControl.BaseLayer>
-
-          <LayersControl.Overlay checked name="Railway Infrastructure">
-            <TileLayer
-              attribution='&copy; <a href="https://www.openrailwaymap.org/">OpenRailwayMap</a>'
-              url="https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png"
-              maxZoom={19}
-              tileSize={256}
-              opacity={0.7}
-            />
-          </LayersControl.Overlay>
-        </LayersControl>
-
-        {Object.entries(stationCoordinates).map(([code, station]) => (
-          <Marker
-            key={code}
-            position={[station.coords[0], station.coords[1]]}
-            icon={STATION_ICON}
-          >
-            <Popup>
-              <Link
-                href={`/stations/${code}`}
-                className="font-bold hover:underline"
-              >
-                {station.name}
-              </Link>
-            </Popup>
-          </Marker>
-        ))}
-
-        {filteredTrains.map((train) => {
-          const location = train.trainLocations[0]?.location;
-          if (!location) return null;
-
-          const trainId = train.commuterLineid || train.trainNumber.toString();
-          const isCommuter = train.commuterLineid !== "";
-
-          return (
-            <Marker
-              key={train.trainNumber}
-              position={[location[1], location[0]]}
-              icon={createTrainIcon(trainId, isCommuter)}
-            >
-              <Popup>
-                <div className="p-2">
-                  <Link
-                    href={`/live-trains/${train.trainNumber}`}
-                    className="font-bold hover:underline"
-                  >
-                    {train.commuterLineid ||
-                      `${train.trainType.name} ${train.trainNumber}`}
-                  </Link>
-                  <p>
-                    {translations.currentSpeed}:{" "}
-                    {train.trainLocations[0]?.speed} km/h
-                  </p>
-                </div>
-              </Popup>
-            </Marker>
-          );
-        })}
+        <MapLayersControl />
+        <StationsOnMap />
+        <TrainsOnMap filteredTrains={filteredTrains} />
       </MapContainer>
     </div>
   );
