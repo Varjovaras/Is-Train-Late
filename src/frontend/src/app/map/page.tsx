@@ -7,7 +7,7 @@ const TrainMap = dynamic(() => import("@/components/map/TrainMap"), {
   loading: () => <Loading />,
 });
 
-const MapPage = () => {
+const Page = () => {
   return (
     <div className="w-full h-[calc(100vh-200px)] min-h-[500px] border border-foreground/20 rounded-lg overflow-hidden">
       <TrainMap />
@@ -15,4 +15,4 @@ const MapPage = () => {
   );
 };
 
-export default MapPage;
+export default Page;

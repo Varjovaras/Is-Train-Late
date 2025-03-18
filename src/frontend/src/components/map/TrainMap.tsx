@@ -1,4 +1,11 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+"use client";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  LayersControl,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState, useCallback } from "react";
 import { divIcon } from "leaflet";
@@ -12,9 +19,9 @@ import "./TrainMap.css";
 
 const STATION_ICON = divIcon({
   className: "station-marker",
-  html: "🚉",
-  iconSize: [24, 24],
-  iconAnchor: [12, 12],
+  html: "",
+  iconSize: [40, 40],
+  iconAnchor: [20, 20],
 });
 
 const createTrainIcon = (trainId: string, isCommuter: boolean) => {
@@ -25,6 +32,7 @@ const createTrainIcon = (trainId: string, isCommuter: boolean) => {
     iconAnchor: [0, 0],
   });
 };
+
 const UPDATE_INTERVAL = 3000;
 
 const TrainMap = () => {
@@ -105,10 +113,26 @@ const TrainMap = () => {
         scrollWheelZoom={true}
         zoomControl={true}
       >
-        <TileLayer
-          attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-        />
+        <LayersControl position="topright">
+          {/* Base map layer */}
+          <LayersControl.BaseLayer checked name="Dark Mode Map">
+            <TileLayer
+              attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>'
+              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            />
+          </LayersControl.BaseLayer>
+
+          {/* OpenRailwayMap overlay */}
+          <LayersControl.Overlay checked name="Railway Infrastructure">
+            <TileLayer
+              attribution='&copy; <a href="https://www.openrailwaymap.org/">OpenRailwayMap</a>'
+              url="https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png"
+              maxZoom={19}
+              tileSize={256}
+              opacity={0.7}
+            />
+          </LayersControl.Overlay>
+        </LayersControl>
 
         {/* Major Stations */}
         {Object.entries(majorStationCoordinates).map(([code, station]) => (
