@@ -101,8 +101,6 @@ export const getLatestCommercialStationName = (train: TrainType) => {
     lastVisitedStation.station.name === departureStation &&
     lastVisitedStation.type === "DEPARTURE"
   ) {
-    console.log("ali");
-    console.log(departureStation);
     return departureStation;
   }
 
