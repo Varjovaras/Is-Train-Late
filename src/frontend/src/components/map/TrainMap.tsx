@@ -73,7 +73,7 @@ const TrainMap = () => {
         zoom={5}
         className="h-full w-full"
         scrollWheelZoom={true}
-        zoomControl={true}
+          zoomControl={true}
       >
         <MapLayersControl />
         <StationsOnMap />

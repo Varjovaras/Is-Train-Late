@@ -3,7 +3,7 @@ import { TileLayer, LayersControl } from "react-leaflet";
 const MapLayersControl = () => {
   return (
     <>
-      <LayersControl position="topright">
+      <LayersControl position="bottomright">
         <LayersControl.BaseLayer checked name="Dark Mode Map">
           <TileLayer
             attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>'
