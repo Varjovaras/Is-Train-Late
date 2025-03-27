@@ -71,6 +71,7 @@ export const translations = {
     refreshTrainDataMobile: "Päivitä",
     backHomeMobile: "← Takaisin",
     mapMobile: "Kartta",
+    centerOnLocation: "Keskitä kartta sijaintiini",
   },
   en: {
     title: "Is VR Late?",
@@ -144,6 +145,7 @@ export const translations = {
     refreshTrainDataMobile: "Refresh",
     backHomeMobile: "← Back",
     mapMobile: "Map",
+    centerOnLocation: "Center map on my location",
   },
 } as const;
 

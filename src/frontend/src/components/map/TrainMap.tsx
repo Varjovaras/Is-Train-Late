@@ -11,6 +11,8 @@ import StationsOnMap from "./StationsOnMap";
 import TrainsOnMap from "./TrainsOnMap";
 import TrainSelector from "./TrainSelector";
 import MapSpinner from "./MapSpinner";
+import LocationButton from "./LocationButton";
+import LocationSearch from "./LocationSearch";
 
 const UPDATE_INTERVAL = 3000;
 
@@ -76,6 +78,8 @@ const TrainMap = () => {
         <MapLayersControl />
         <StationsOnMap />
         <TrainsOnMap filteredTrains={filteredTrains} />
+        <LocationButton />
+        <LocationSearch />
       </MapContainer>
     </div>
   );
