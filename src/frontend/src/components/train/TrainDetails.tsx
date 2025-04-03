@@ -9,35 +9,35 @@ import TrainDetailsButton from "./TrainDetailsButton";
 import ShowStationsButton from "./ShowStationsButton";
 
 type TrainDataProps = {
-  train: TrainType;
-  forceShowAllStations: boolean;
+	train: TrainType;
+	forceShowAllStations: boolean;
 };
 
 const TrainDetails = ({ train, forceShowAllStations }: TrainDataProps) => {
-  const { isLoading } = useTranslations();
-  const [showAllStations, setShowAllStations] = useState(forceShowAllStations);
+	const { isLoading } = useTranslations();
+	const [showAllStations, setShowAllStations] = useState(forceShowAllStations);
 
-  return (
-    <div
-      className={`mt-2 ${isLoading ? "fade-out" : "fade-in"} flex flex-col flex-1`}
-    >
-      <div className="flex-1">
-        <TrainBasicInfo train={train} />
-        <TrainSpeed train={train} />
-        <TrainStations
-          train={train}
-          showAllStations={forceShowAllStations || showAllStations}
-        />
-      </div>
-      <div className="flex flex-col gap-2 mt-4">
-        <ShowStationsButton
-          showAllStations={showAllStations}
-          setShowAllStations={setShowAllStations}
-        />
-        <TrainDetailsButton train={train} />
-      </div>
-    </div>
-  );
+	return (
+		<div
+			className={`mt-2 ${isLoading ? "fade-out" : "fade-in"} flex flex-col flex-1 items-center`}
+		>
+			<div className="flex-1 w-full max-w-2xl">
+				<TrainBasicInfo train={train} />
+				<TrainSpeed train={train} />
+				<TrainStations
+					train={train}
+					showAllStations={forceShowAllStations || showAllStations}
+				/>
+			</div>
+			<div className="flex flex-col gap-2 mt-4 w-full max-w-2xl">
+				<ShowStationsButton
+					showAllStations={showAllStations}
+					setShowAllStations={setShowAllStations}
+				/>
+				<TrainDetailsButton train={train} />
+			</div>
+		</div>
+	);
 };
 
 export default TrainDetails;

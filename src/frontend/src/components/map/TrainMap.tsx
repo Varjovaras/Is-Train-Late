@@ -46,7 +46,6 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
 		console.log("Map centering effect triggered");
 		console.log("Train number:", trainNumber);
 		console.log("Leaflet map available:", !!leafletMap);
-		console.log("Trains available:", trains.length);
 
 		if (trainNumber && leafletMap && trains.length > 0) {
 			const targetTrain = trains.find(
