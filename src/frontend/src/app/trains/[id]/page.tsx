@@ -15,7 +15,6 @@ const Page = async ({
 
     // Check if the ID contains hyphens (indicating a date-specific train)
     if (id.includes("-")) {
-        // This is a train-by-date request
         if (!isValidTrainId(id)) {
             return <div>Not a valid train id</div>;
         }
@@ -42,27 +41,15 @@ const Page = async ({
         const trainResponse: DifferentDayTrainResponse = await res.json();
 
         if (trainResponse.data.train.length > 1) {
-            console.error(trainResponse.data.train);
-            return (
-                <div className="text-red-500">
-                    Error! Got multiple trains from query
-                </div>
-            );
+            throw new Error("Error! Got multiple trains from query");
         }
 
         if (trainResponse.data.train.length === 0) {
             const idSplit = id.split("-");
             const trainNumber = idSplit[0];
             const date = new Date(`${idSplit[1]}-${idSplit[2]}-${idSplit[3]}`);
-            return (
-                <div>
-                    <div className="flex flex-col items-center">
-                        <h1 className="px-2 py-8 text-xl text-red-500">
-                            No train found with number {trainNumber} for date{" "}
-                            {date.toString()}
-                        </h1>
-                    </div>
-                </div>
+            throw new Error(
+                `No train found with number ${trainNumber} for date ${date}`,
             );
         }
 
@@ -74,6 +61,7 @@ const Page = async ({
     try {
         const trainResponse = await getSingleTrainData(trainNumber);
         const train = trainResponse.data.currentlyRunningTrains[0];
+        console.log(train);
         return <LiveTrainPage train={train} />;
     } catch (error) {
         return (
