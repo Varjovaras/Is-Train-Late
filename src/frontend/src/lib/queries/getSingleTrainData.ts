@@ -28,12 +28,12 @@ export const getSingleTrainData = async (trainNumber: string) => {
     const trainResponse = (await res.json()) as SingleTrainResponse;
 
     if (trainResponse.data.currentlyRunningTrains.length > 1) {
-        console.error(trainResponse.data.currentlyRunningTrains);
+        console.log(trainResponse.data.currentlyRunningTrains);
         throw new Error("Got multiple trains from singleTrainQuery");
     }
 
     if (trainResponse.data.currentlyRunningTrains.length === 0) {
-        console.error(trainResponse);
+        console.log(trainResponse);
         throw new Error(
             `No train found currently running for number ${trainNumber}`,
         );

@@ -1,23 +1,38 @@
 import LiveTrainPage from "@/components/train/LiveTrainPage";
 import { getSingleTrainData } from "@/lib/queries/getSingleTrainData";
 import { getDifferentDateTrain } from "@/lib/queries/differentDateQuery";
-import type { DifferentDayTrainResponse } from "@/lib/types/trainTypes";
-import { isValidTrainId } from "@/lib/utils/urlUtils";
+import type {
+    DifferentDayTrainResponse,
+    TrainType,
+} from "@/lib/types/trainTypes";
+import { formatDateForUrl } from "@/lib/utils/dateUtils";
+import DateSpecificTrain from "./components/DateSpecificTrain";
+import { Suspense } from "react";
+import Loading from "@/components/ui/Loading";
+import NoTrainFound from "./components/NoTrainFound";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
-const Page = async ({
-    params,
-}: Readonly<{
-    params: Promise<{ id: string }>;
-}>) => {
-    const id = (await params).id;
+const getLiveTrainData = async (
+    trainNumber: string,
+): Promise<TrainType | null> => {
+    try {
+        const trainResponse = await getSingleTrainData(trainNumber);
+        return trainResponse.data.currentlyRunningTrains[0];
+    } catch (error) {
+        return null;
+    }
+};
 
-    // Check if the ID contains hyphens (indicating a date-specific train)
-    if (id.includes("-")) {
-        if (!isValidTrainId(id)) {
-            return <div>Not a valid train id</div>;
-        }
+const getTodayTrainData = async (
+    trainNumber: string,
+): Promise<TrainType | null> => {
+    try {
+        const today = new Date();
+        const formattedDate = formatDateForUrl(
+            today.toISOString().split("T")[0],
+        );
+        const todayTrainId = `${trainNumber}-${formattedDate}`;
 
         const res = await fetch(GRAPHQL_ENDPOINT, {
             method: "POST",
@@ -26,54 +41,61 @@ const Page = async ({
                 "Accept-Encoding": "gzip",
             },
             body: JSON.stringify({
-                query: getDifferentDateTrain(id),
+                query: getDifferentDateTrain(todayTrainId),
             }),
+            next: { revalidate: 300 }, // Cache for 5 minutes
         });
 
         if (!res.ok) {
-            return (
-                <div>
-                    Train data not available. HTTP error! status: ${res.status}
-                </div>
-            );
+            throw new Error(`HTTP error! status: ${res.status}`);
         }
 
-        const trainResponse: DifferentDayTrainResponse = await res.json();
+        const trainResponse = await res.json();
 
-        if (trainResponse.data.train.length > 1) {
-            throw new Error("Error! Got multiple trains from query");
+        if (trainResponse.data?.train) {
+            return trainResponse.data.train.length > 0
+                ? trainResponse.data.train[0]
+                : null;
         }
 
-        if (trainResponse.data.train.length === 0) {
-            const idSplit = id.split("-");
-            const trainNumber = idSplit[0];
-            const date = new Date(`${idSplit[1]}-${idSplit[2]}-${idSplit[3]}`);
-            throw new Error(
-                `No train found with number ${trainNumber} for date ${date}`,
-            );
-        }
+        console.warn("Unexpected API response structure:", trainResponse);
+        return null;
+    } catch (error) {
+        console.log(
+            `Error fetching today's data for train ${trainNumber}:`,
+            error,
+        );
+        return null;
+    }
+};
+const Page = async ({
+    params,
+}: Readonly<{
+    params: Promise<{ id: string }>;
+}>) => {
+    const id = (await params).id;
 
-        const train = trainResponse.data.train[0];
-        return <LiveTrainPage train={train} />;
+    if (id.includes("-")) {
+        return (
+            <Suspense fallback={<Loading />}>
+                <DateSpecificTrain id={id} />
+            </Suspense>
+        );
     }
 
     const trainNumber = id;
-    try {
-        const trainResponse = await getSingleTrainData(trainNumber);
-        const train = trainResponse.data.currentlyRunningTrains[0];
-        console.log(train);
-        return <LiveTrainPage train={train} />;
-    } catch (error) {
-        return (
-            <div className="flex flex-col items-center">
-                <h1 className="px-2 py-8 text-xl text-red-500">
-                    {error instanceof Error
-                        ? error.message
-                        : "An error occurred"}
-                </h1>
-            </div>
-        );
+
+    const liveTrain = await getLiveTrainData(trainNumber);
+    if (liveTrain) {
+        return <LiveTrainPage train={liveTrain} />;
     }
+
+    const todayTrain = await getTodayTrainData(trainNumber);
+    if (todayTrain) {
+        return <LiveTrainPage train={todayTrain} />;
+    }
+
+    return <NoTrainFound trainNumber={trainNumber} />;
 };
 
 export default Page;
