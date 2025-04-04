@@ -7,6 +7,7 @@ import TopBar from "@/components/ui/TopBar";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import Search from "@/components/ui/Search";
 import { ErrorProvider } from "@/components/providers/ErrorProvider";
+import ErrorPopup from "@/components/ui/ErrorPopup";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -50,6 +51,7 @@ const RootLayout = ({
                                 <Footer />
                             </div>
                         </div>
+                        <ErrorPopup />
                     </ErrorProvider>
                 </ThemeProvider>
             </body>
