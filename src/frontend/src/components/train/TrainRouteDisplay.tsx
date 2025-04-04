@@ -6,7 +6,7 @@ import {
 import { removeAsema } from "@/lib/utils/stringUtils";
 import { formatTime } from "@/lib/utils/dateUtils";
 import Link from "next/link";
-import AirportTrains from "./AirPortTrains";
+import AirportTrains from "./AirportTrains";
 
 type TrainRouteDisplayProps = {
     train: TrainType;
