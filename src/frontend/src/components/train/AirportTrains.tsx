@@ -1,21 +1,15 @@
+import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
-import {
-    getDepartureStationShortCode,
-    getEndStationShortCode,
-} from "@/lib/utils/linkUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
 import { formatTime } from "@/lib/utils/dateUtils";
 import Link from "next/link";
-import AirportTrains from "./AirPortTrains";
 
-type TrainRouteDisplayProps = {
+type AirportTrainsProps = {
     train: TrainType;
 };
 
-const TrainRouteDisplay = ({ train }: TrainRouteDisplayProps) => {
-    if (train.commuterLineid === "P" || train.commuterLineid === "I") {
-        <AirportTrains train={train} />;
-    }
+const AirportTrains = ({ train }: AirportTrainsProps) => {
+    const { translations } = useTranslations();
 
     const firstTimeTableRow = train.timeTableRows[0];
     const lastTimeTableRow =
@@ -27,24 +21,30 @@ const TrainRouteDisplay = ({ train }: TrainRouteDisplayProps) => {
     const arrivalTime = formatTime(lastTimeTableRow.scheduledTime);
 
     return (
-        <div className="text-2xl text-foreground/70 flex items-center justify-center gap-4">
-            <div className="flex flex-col items-center">
-                <Link
-                    href={getDepartureStationShortCode(undefined, train)}
-                    className="text-green-500"
-                >
+        <div className="text-2xl text-foreground/70">
+            <div className="flex flex-col">
+                <Link href={"/stations/HKI"} className="text-green-500">
                     {startStation}
                 </Link>
                 <span className="text-sm text-foreground/60">
                     {departureTime}
                 </span>
             </div>
-            <span>→</span>
-            <div className="flex flex-col items-center">
-                <Link
-                    href={getEndStationShortCode(undefined, train)}
-                    className="text-blue-500"
-                >
+            {" → "}
+            <Link href={"/stations/HKI"} className="text-green-700">
+                {train.commuterLineid === "P" ? "Myyrmäki" : "Tikkurila"}
+            </Link>
+            {" → "}
+            <Link href={"/stations/HKI"} className="text-blue-500">
+                {translations.airport}
+            </Link>
+            {" → "}
+            <Link href={"/stations/HKI"} className="text-green-700">
+                {train.commuterLineid === "P" ? "Tikkurila" : "Myyrmäki"}
+            </Link>
+            {" → "}
+            <div className="flex flex-col">
+                <Link href={"/stations/HKI"} className="text-green-500">
                     {endStation}
                 </Link>
                 <span className="text-sm text-foreground/60">
@@ -55,4 +55,4 @@ const TrainRouteDisplay = ({ train }: TrainRouteDisplayProps) => {
     );
 };
 
-export default TrainRouteDisplay;
+export default AirportTrains;
