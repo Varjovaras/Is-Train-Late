@@ -2,6 +2,7 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type TrainDetailsButtonProps = {
     train: TrainType;
@@ -9,6 +10,10 @@ type TrainDetailsButtonProps = {
 
 const TrainDetailsButton = ({ train }: TrainDetailsButtonProps) => {
     const { translations } = useTranslations();
+    const pathname = usePathname();
+    if (pathname.startsWith("/trains/")) {
+        return null;
+    }
 
     return (
         <Link

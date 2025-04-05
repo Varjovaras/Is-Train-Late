@@ -1,33 +1,34 @@
+import { useTranslations } from "@/lib/i18n/useTranslations";
 import { usePathname } from "next/navigation";
 import type { Dispatch, SetStateAction } from "react";
 
 type ShowStationsButtonProps = {
-  showAllStations: boolean;
-  setShowAllStations: Dispatch<SetStateAction<boolean>>;
+    showAllStations: boolean;
+    setShowAllStations: Dispatch<SetStateAction<boolean>>;
 };
 
 const ShowStationsButton = ({
-  showAllStations,
-  setShowAllStations,
+    showAllStations,
+    setShowAllStations,
 }: ShowStationsButtonProps) => {
-  const pathname = usePathname();
+    const pathname = usePathname();
+    const { translations } = useTranslations();
 
-  if (
-    pathname.startsWith("/train-by-date/") ||
-    pathname.startsWith("/live-trains/")
-  ) {
-    return null;
-  }
+    if (pathname.startsWith("/trains/")) {
+        return null;
+    }
 
-  return (
-    <button
-      type="button"
-      onClick={() => setShowAllStations(!showAllStations)}
-      className="p-2 m-2 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
-    >
-      {showAllStations ? "Show less" : "Show all stations"}
-    </button>
-  );
+    return (
+        <button
+            type="button"
+            onClick={() => setShowAllStations(!showAllStations)}
+            className="p-2 m-2 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
+        >
+            {showAllStations
+                ? translations.showLessStations
+                : translations.showAllStations}
+        </button>
+    );
 };
 
 export default ShowStationsButton;

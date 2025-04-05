@@ -1,61 +1,78 @@
 import type { TrainType } from "@/lib/types/trainTypes";
 import {
-  getCommercialStationArrivals,
-  getCommercialStationDepartures,
-  getLatestCommercialStationName,
-  getNextStation,
+    getCommercialStationArrivals,
+    getCommercialStationDepartures,
+    getLatestCommercialStationName,
+    getNextStation,
 } from "@/lib/utils/trainUtils";
 import StationRow from "./station/StationRow";
 
 type TrainStationsProps = {
-  train: TrainType;
-  showAllStations: boolean;
+    train: TrainType;
+    showAllStations: boolean;
+    showNonCommercialStops?: boolean;
 };
 
-const TrainStations = ({ train, showAllStations }: TrainStationsProps) => {
-  const passengerStationArrivals = getCommercialStationArrivals(train);
-  const firstDeparture = getCommercialStationDepartures(train)[0];
-  const currentStation = getLatestCommercialStationName(train);
-  const nextStationRow = getNextStation(train);
+const TrainStations = ({
+    train,
+    showAllStations,
+    showNonCommercialStops,
+}: TrainStationsProps) => {
+    const passengerStationArrivals = showNonCommercialStops
+        ? train.timeTableRows.filter((row) => row.type === "ARRIVAL")
+        : getCommercialStationArrivals(train);
 
-  // Only include firstDeparture when showing all stations
-  const stationsToShow = showAllStations
-    ? [firstDeparture, ...passengerStationArrivals]
-    : passengerStationArrivals.filter((station) => {
-        // Check if this is either the current station (including departure station)
-        const isCurrentStation =
-          station.station.name === currentStation ||
-          (station.station.name === firstDeparture.station.name &&
-            currentStation === firstDeparture.station.name);
+    const firstDeparture = showNonCommercialStops
+        ? train.timeTableRows.find((row) => row.type === "DEPARTURE")
+        : getCommercialStationDepartures(train)[0];
 
-        // Check if this is the next station
-        const isNextStation =
-          station.station.name === nextStationRow?.station.name;
+    if (!firstDeparture) {
+        return null;
+    }
 
-        return isCurrentStation || isNextStation;
-      });
+    const currentStation = getLatestCommercialStationName(train);
+    const nextStationRow = getNextStation(train);
 
-  const currentStationIndex = stationsToShow.findIndex(
-    (station) =>
-      station.station.name === currentStation ||
-      (station.station.name === firstDeparture.station.name &&
-        currentStation === firstDeparture.station.name),
-  );
+    // Only include firstDeparture when showing all stations
+    const stationsToShow = showAllStations
+        ? [firstDeparture, ...passengerStationArrivals]
+        : passengerStationArrivals.filter((station) => {
+              // Check if this is either the current station (including departure station)
+              const isCurrentStation =
+                  station.station.name === currentStation ||
+                  (station.station.name === firstDeparture.station.name &&
+                      currentStation === firstDeparture.station.name);
 
-  return (
-    <div className="my-4 space-y-2 ">
-      {stationsToShow.map((station, index) => (
-        <StationRow
-          key={station.scheduledTime.toString() + station.type}
-          station={station}
-          isCurrentStation={station.station.name === currentStation}
-          isNextStation={station.station.name === nextStationRow?.station.name}
-          isDepartureStation={showAllStations && index === 0}
-          isFutureStation={index > currentStationIndex}
-        />
-      ))}
-    </div>
-  );
+              // Check if this is the next station
+              const isNextStation =
+                  station.station.name === nextStationRow?.station.name;
+
+              return isCurrentStation || isNextStation;
+          });
+
+    const currentStationIndex = stationsToShow.findIndex(
+        (station) =>
+            station.station.name === currentStation ||
+            (station.station.name === firstDeparture.station.name &&
+                currentStation === firstDeparture.station.name),
+    );
+
+    return (
+        <div className="my-4 space-y-2 ">
+            {stationsToShow.map((station, index) => (
+                <StationRow
+                    key={station.scheduledTime.toString() + station.type}
+                    station={station}
+                    isCurrentStation={station.station.name === currentStation}
+                    isNextStation={
+                        station.station.name === nextStationRow?.station.name
+                    }
+                    isDepartureStation={showAllStations && index === 0}
+                    isFutureStation={index > currentStationIndex}
+                />
+            ))}
+        </div>
+    );
 };
 
 export default TrainStations;
