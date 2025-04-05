@@ -1,8 +1,8 @@
 import type { TrainType } from "@/lib/types/trainTypes";
 import DelayInformation from "../delayInfo/DelayInformation";
-import TrainDetails from "../TrainDetails";
 import Train from "./Train";
 import Link from "next/link";
+import TrainHeader from "../TrainHeader";
 
 type LiveTrainPageProps = {
     train: TrainType;
@@ -17,7 +17,7 @@ const LiveTrainPage = ({ train }: LiveTrainPageProps) => {
     return (
         <div className="mx-auto flex flex-col items-center max-w-4xl px-4">
             <div className="w-full flex flex-col items-center gap-4 mb-8">
-                <TrainDetails train={train} />
+                <TrainHeader train={train} />
                 <Link
                     href={`/map?train=${train.trainNumber}`}
                     className="px-6 py-3 border border-foreground bg-foreground text-background hover:bg-background hover:text-foreground rounded-md transition-colors text-lg font-medium flex items-center gap-2"

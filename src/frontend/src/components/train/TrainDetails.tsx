@@ -9,12 +9,12 @@ import TrainDetailsButton from "./TrainDetailsButton";
 import ShowStationsButton from "./ShowStationsButton";
 import ShowNonCommercialStopsButton from "./ShowNonCommercialStopsButton";
 
-type TrainDataProps = {
+type TrainDetailsProps = {
     train: TrainType;
     forceShowAllStations: boolean;
 };
 
-const TrainDetails = ({ train, forceShowAllStations }: TrainDataProps) => {
+const TrainDetails = ({ train, forceShowAllStations }: TrainDetailsProps) => {
     const { isLoading } = useTranslations();
     const [showAllStations, setShowAllStations] =
         useState(forceShowAllStations);
