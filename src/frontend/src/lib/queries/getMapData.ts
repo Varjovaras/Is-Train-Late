@@ -1,25 +1,30 @@
-import { getMapQuery } from "./mapQuery";
-const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
+import { CurrentlyRunningTrainResponse } from "../types/trainTypes";
 
-export const getMapData = async () => {
-  const res = await fetch(GRAPHQL_ENDPOINT, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Accept-Encoding": "gzip",
-    },
-    body: JSON.stringify({
-      query: getMapQuery(),
-    }),
-  });
+export const getMapData = async (): Promise<CurrentlyRunningTrainResponse> => {
+    try {
+        const res = await fetch("/api/trains", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            // Adding cache control to prevent too frequent requests
+            next: { revalidate: 5 }, // Revalidate every 5 seconds
+        });
 
-  if (!res.ok) {
-    throw new Error(
-      `Train data not available. HTTP error! status: ${res.status}`,
-    );
-  }
+        if (!res.ok) {
+            const errorData = (await res.json()) as { error: string };
+            throw new Error(errorData.error || `API error: ${res.status}`);
+        }
 
-  const data = await res.json();
+        const data = (await res.json()) as CurrentlyRunningTrainResponse;
+        return data;
+    } catch (error) {
+        // Re-throw the error with a more descriptive message
+        const errorMessage =
+            error instanceof Error
+                ? error.message
+                : "Unknown error fetching train data";
 
-  return data;
+        throw new Error(`Train map data fetch failed: ${errorMessage}`);
+    }
 };

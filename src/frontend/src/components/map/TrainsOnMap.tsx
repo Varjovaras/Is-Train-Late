@@ -10,10 +10,21 @@ type TrainsOnMapProps = {
 
 const TrainsOnMap = ({ filteredTrains }: TrainsOnMapProps) => {
     const { translations } = useTranslations();
-    const createTrainIcon = (trainId: string, isCommuter: boolean) => {
+
+    const createTrainIcon = (trainId: string, trainType: string) => {
+        let className = "";
+
+        if (trainType === "commuter") {
+            className = "commuter";
+        } else if (trainType === "freight") {
+            className = "freight";
+        } else {
+            className = "longDistance";
+        }
+
         return divIcon({
             className: "",
-            html: `<div class="train-marker ${isCommuter ? "commuter" : ""}">${trainId}</div>`,
+            html: `<div class="train-marker ${className}">${trainId}</div>`,
             iconSize: [0, 0],
             iconAnchor: [0, 0],
         });
@@ -24,16 +35,23 @@ const TrainsOnMap = ({ filteredTrains }: TrainsOnMapProps) => {
             {filteredTrains.map((train) => {
                 const location = train.trainLocations[0]?.location;
                 if (!location) return null;
-
                 const trainId =
                     train.commuterLineid || train.trainNumber.toString();
-                const isCommuter = train.commuterLineid !== "";
+
+                const trainType =
+                    train.commuterLineid !== ""
+                        ? "commuter"
+                        : train.trainType.trainCategory?.name === "Cargo"
+                          ? "freight"
+                          : "longDistance";
+
+                const uniqueKey = `${train.trainNumber}-${train.departureDate}-${train.trainLocations[0]?.timestamp || ""}-${location[0]}-${location[1]}`;
 
                 return (
                     <Marker
-                        key={train.trainNumber}
+                        key={uniqueKey}
                         position={[location[1], location[0]]}
-                        icon={createTrainIcon(trainId, isCommuter)}
+                        icon={createTrainIcon(trainId, trainType)}
                     >
                         <Popup>
                             <div className="p-2 space-y-2">
@@ -47,6 +65,10 @@ const TrainsOnMap = ({ filteredTrains }: TrainsOnMapProps) => {
                                 <p className="text-sm text-foreground/70">
                                     {translations.currentSpeed}:{" "}
                                     {train.trainLocations[0]?.speed} km/h
+                                </p>
+                                <p className="text-sm text-foreground/70">
+                                    {train.trainType.trainCategory?.name ||
+                                        train.trainType.name}
                                 </p>
                             </div>
                         </Popup>

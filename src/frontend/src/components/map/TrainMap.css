@@ -27,6 +27,14 @@
     background: rgba(0, 128, 0, 0.6);
 }
 
+.train-marker.freight {
+    background: rgba(128, 128, 0, 0.6);
+}
+
+.train-marker.longDistance {
+    background: rgba(255, 0, 0, 0.6);
+}
+
 .leaflet-marker-icon {
     background: none !important;
     border: none !important;
