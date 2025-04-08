@@ -38,7 +38,7 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
     const [trains, setTrains] = useState<TrainType[]>([]);
     const [loading, setLoading] = useState(true);
     const [category, setCategory] = useState<TrainCategory>({
-        name: "Long-distance",
+        name: "longDistance",
     });
     const [leafletMap, setLeafletMap] = useState<LeafletMap | null>(null);
 

@@ -17,12 +17,12 @@ const TrainSelector = ({ category, setCategory }: TrainSelectorProps) => {
                 onChange={(e) => setCategory({ name: e.target.value })}
                 className="px-4 py-2 rounded-md border border-foreground/20 bg-background text-foreground"
             >
-                <option value="all">{translations.allTrains}</option>
-                <option value="commuter">{translations.commuterTrains}</option>
                 <option value="longDistance">
                     {translations.longDistanceTrains}
                 </option>
+                <option value="commuter">{translations.commuterTrains}</option>
                 <option value="freight">{translations.freightTrains}</option>
+                <option value="all">{translations.allTrains}</option>
             </select>
         </div>
     );
