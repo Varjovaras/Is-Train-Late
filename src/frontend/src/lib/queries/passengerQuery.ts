@@ -1,22 +1,16 @@
 export const getPassengerQuery = () => {
-  return passengerQuery
-    .replace(/\s+/g, " ")
-    .replace(/\n/g, " ")
-    .replace(/\\/g, "")
-    .trim();
+    return passengerQuery
+        .replace(/\s+/g, " ")
+        .replace(/\n/g, " ")
+        .replace(/\\/g, "")
+        .trim();
 };
 
 const passengerQuery = `{
   currentlyRunningTrains(
     where: {
       and: [
-        { operator: { shortCode: { equals: "vr" } } },
-        {
-          or: [
-            { trainType: { trainCategory: { name: { equals: "Commuter" } } } },
-            { trainType: { trainCategory: { name: { equals: "Long-distance" } } } }
-          ]
-        }
+        { operator: { shortCode: { equals: "vr" } } }
       ]
     }
   ) {
@@ -176,7 +170,7 @@ export const _fullQuery = `{
 		}
 	}
 }`
-  .replace(/\s+/g, " ")
-  .replace(/\n/g, " ")
-  .replace(/\\/g, "")
-  .trim();
+    .replace(/\s+/g, " ")
+    .replace(/\n/g, " ")
+    .replace(/\\/g, "")
+    .trim();

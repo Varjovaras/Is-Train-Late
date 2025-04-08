@@ -76,6 +76,11 @@ export const translations = {
         showOnlyCommercialStops: "Näytä vain matkustaja-asemat",
         showLessStations: "Näytä vähemmän asemia",
         showAllStations: "Näytä kaikki asemat",
+        lateTrains: "Tällä hetkellä myöhässä olevat junat:",
+        lateFreight: "Tällä hetkellä myöhässä olevat tavarajunat:",
+        noTrainsLate: "Ei myöhässä olevia junia",
+        noFreightTrainsLate: "Ei myöhässä olevia tavarajunia",
+        freightTrains: "Tavarajunat",
     },
     en: {
         title: "Is VR Late?",
@@ -154,6 +159,11 @@ export const translations = {
         showOnlyCommercialStops: "Show only passenger stations",
         showLessStations: "Show less stations",
         showAllStations: "Show all stations",
+        lateTrains: "Currently late trains:",
+        lateFreight: "Currently late freight trains:",
+        noTrainsLate: "No trains running late",
+        noFreightTrainsLate: "No freight trains running late",
+        freightTrains: "Freight trains",
     },
 } as const;
 

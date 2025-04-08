@@ -1,26 +1,19 @@
+import { Suspense } from "react";
+import TrainDataDisplay from "./TrainDataDisplay";
 import { getTrainData } from "@/lib/queries/getTrainData";
-import CommuterTrains from "./CommuterTrains";
-import LongDistanceTrains from "./LongDistanceTrains";
-import type { CurrentlyRunningTrainResponse } from "@/lib/types/trainTypes";
+import Loading from "../ui/Loading";
 
 const TrainData = async () => {
-  const trainResponse = (await getTrainData()) as CurrentlyRunningTrainResponse;
-  const passengerTrainData = trainResponse.data.currentlyRunningTrains;
+    const trainResponse = await getTrainData();
+    const passengerTrainData = trainResponse.data.currentlyRunningTrains;
 
-  const longDistanceTrains = passengerTrainData.filter(
-    (train) => train.commuterLineid === "",
-  );
-
-  const commuterTrains = passengerTrainData.filter(
-    (train) => train.commuterLineid !== "" && train.commuterLineid !== "V",
-  );
-
-  return (
-    <>
-      <LongDistanceTrains trains={longDistanceTrains} />
-      <CommuterTrains trains={commuterTrains} />
-    </>
-  );
+    return (
+        <div className="flex flex-col items-center justify-items-center">
+            <Suspense fallback={<Loading />}>
+                <TrainDataDisplay trains={passengerTrainData} />
+            </Suspense>
+        </div>
+    );
 };
 
 export default TrainData;

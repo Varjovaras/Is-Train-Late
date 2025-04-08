@@ -21,6 +21,5 @@ export const getTrainData = async () => {
     }
 
     const data = await res.json();
-
     return data;
 };

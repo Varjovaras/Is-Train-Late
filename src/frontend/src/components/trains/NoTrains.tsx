@@ -4,37 +4,42 @@ import type { Dispatch, SetStateAction } from "react";
 import DelayThresholdSelector from "../selectors/DelayThresholdSelector";
 
 type NoTrainsProps = {
-	trainType: "commuter" | "longDistance";
-	delayThreshold: number;
-	setDelayThreshold: Dispatch<SetStateAction<number>>;
+    trainType: "commuter" | "longDistance" | "freight" | "all";
+    delayThreshold: number;
+    setDelayThreshold: Dispatch<SetStateAction<number>>;
 };
 
 const NoTrains = ({
-	trainType,
-	delayThreshold,
-	setDelayThreshold,
+    trainType,
+    delayThreshold,
+    setDelayThreshold,
 }: NoTrainsProps) => {
-	const {
-		translations,
-		// , isLoading
-	} = useTranslations();
+    const { translations } = useTranslations();
 
-	const noTrainsMessage =
-		trainType === "commuter"
-			? translations.noCommuterTrainsLate
-			: translations.noLongDistanceTrainsLate;
+    const getNoTrainsMessage = () => {
+        switch (trainType) {
+            case "commuter":
+                return translations.noCommuterTrainsLate;
+            case "longDistance":
+                return translations.noLongDistanceTrainsLate;
+            case "freight":
+                return translations.noFreightTrainsLate;
+            default:
+                return translations.noTrainsLate;
+        }
+    };
 
-	return (
-		<div>
-			<DelayThresholdSelector
-				currentThreshold={delayThreshold}
-				onThresholdChange={setDelayThreshold}
-			/>
-			<h2 className="text-xl font-bold p-2 text-green-500">
-				{noTrainsMessage}
-			</h2>
-		</div>
-	);
+    return (
+        <div>
+            <DelayThresholdSelector
+                currentThreshold={delayThreshold}
+                onThresholdChange={setDelayThreshold}
+            />
+            <h2 className="text-xl font-bold p-2 text-green-500">
+                {getNoTrainsMessage()}
+            </h2>
+        </div>
+    );
 };
 
 export default NoTrains;

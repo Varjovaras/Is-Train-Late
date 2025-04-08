@@ -1,10 +1,7 @@
 import LiveTrainPage from "@/components/train/LiveTrainPage";
 import { getSingleTrainData } from "@/lib/queries/getSingleTrainData";
 import { getDifferentDateTrain } from "@/lib/queries/differentDateQuery";
-import type {
-    DifferentDayTrainResponse,
-    TrainType,
-} from "@/lib/types/trainTypes";
+import type { TrainType } from "@/lib/types/trainTypes";
 import { formatDateForUrl } from "@/lib/utils/dateUtils";
 import DateSpecificTrain from "./components/DateSpecificTrain";
 import { Suspense } from "react";
