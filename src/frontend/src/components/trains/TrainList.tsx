@@ -66,7 +66,7 @@ const TrainList = ({ trains, trainType }: TrainListProps) => {
                             {sortedTrains.map((train) => (
                                 <Train
                                     train={train}
-                                    key={train.trainNumber}
+                                    key={`${train.trainNumber}-${train.departureDate}`}
                                     forceShowAllStations={forceShowAllStations}
                                 />
                             ))}
