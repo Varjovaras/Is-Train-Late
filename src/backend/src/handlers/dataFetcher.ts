@@ -5,7 +5,7 @@ import {
 import type { Train, TrainResponse } from "../../../types/trainTypes";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
-const WRITING_PATH = "../../trainData.json";
+const _WRITING_PATH = "../../trainData.json";
 
 export async function fetchData(query: string): Promise<Train[]> {
 	//remove whitespaces and newline characters to makes .gql query JSON.stringifyable
@@ -27,7 +27,7 @@ export async function fetchData(query: string): Promise<Train[]> {
 	});
 
 	const trainResponse: TrainResponse = await data.json();
-	const dataStr = JSON.stringify(trainResponse);
+	const _dataStr = JSON.stringify(trainResponse);
 
 	const filteredTrains = filterUnwantedTraintypes(
 		trainResponse.data.currentlyRunningTrains,

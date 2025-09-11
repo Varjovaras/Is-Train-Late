@@ -1,11 +1,11 @@
+import Link from "next/link";
 import type { TrainType } from "@/lib/types/trainTypes";
+import { formatTime } from "@/lib/utils/dateUtils";
 import {
 	getDepartureStationShortCode,
 	getEndStationShortCode,
 } from "@/lib/utils/linkUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
-import { formatTime } from "@/lib/utils/dateUtils";
-import Link from "next/link";
 import AirportTrains from "./AirportTrains";
 
 type TrainRouteDisplayProps = {

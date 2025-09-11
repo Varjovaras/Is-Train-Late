@@ -1,6 +1,6 @@
-import { useTranslations } from "@/lib/i18n/useTranslations";
 import { usePathname } from "next/navigation";
 import type { Dispatch, SetStateAction } from "react";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 
 type ShowStationsButtonProps = {
 	showAllStations: boolean;

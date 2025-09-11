@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TimeTableRow } from "@/lib/types/trainTypes";
 import { formatTime } from "@/lib/utils/dateUtils";
@@ -5,7 +6,6 @@ import { removeAsema } from "@/lib/utils/stringUtils";
 import DelayDisplay from "./DelayDisplay";
 import StationIndicator from "./StationIndicator";
 import StationTime from "./StationTime";
-import Link from "next/link";
 
 type StationRowProps = {
 	station: TimeTableRow;

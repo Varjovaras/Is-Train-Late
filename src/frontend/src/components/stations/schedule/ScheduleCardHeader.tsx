@@ -1,12 +1,12 @@
+import Link from "next/link";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type {
 	StationSchedule,
 	StationTimeTableRow,
 } from "@/lib/types/stationTypes";
+import { isToday } from "@/lib/utils/dateUtils";
 import { getTrainTypeString } from "@/lib/utils/stationUtils";
 import RouteDisplay from "./RouteDisplay";
-import Link from "next/link";
-import { isToday } from "@/lib/utils/dateUtils";
 
 type ScheduleHeaderProps = {
 	schedule: StationSchedule;

@@ -3,7 +3,7 @@ import { getMapQuery } from "@/lib/queries/mapQuery";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
 	try {
 		const res = await fetch(GRAPHQL_ENDPOINT, {
 			method: "POST",

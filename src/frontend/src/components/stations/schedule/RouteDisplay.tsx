@@ -1,11 +1,11 @@
-import { getFormattedStationName } from "@/lib/utils/stationUtils";
-import type { StationSchedule } from "@/lib/types/stationTypes";
 import Link from "next/link";
+import { useTranslations } from "@/lib/i18n/useTranslations";
+import type { StationSchedule } from "@/lib/types/stationTypes";
 import {
 	getDepartureStationShortCode,
 	getEndStationShortCode,
 } from "@/lib/utils/linkUtils";
-import { useTranslations } from "@/lib/i18n/useTranslations";
+import { getFormattedStationName } from "@/lib/utils/stationUtils";
 
 type RouteDisplayProps = {
 	schedule: StationSchedule;

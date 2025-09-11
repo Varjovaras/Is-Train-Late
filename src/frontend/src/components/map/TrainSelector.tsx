@@ -1,6 +1,6 @@
+import type { Dispatch, SetStateAction } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainCategory } from "@/lib/types/trainTypes";
-import type { Dispatch, SetStateAction } from "react";
 
 type TrainSelectorProps = {
 	category: TrainCategory;

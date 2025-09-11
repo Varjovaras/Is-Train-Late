@@ -1,5 +1,5 @@
-import type { TrainType } from "@/lib/types/trainTypes";
 import Link from "next/link";
+import type { TrainType } from "@/lib/types/trainTypes";
 
 type TrainButtonProps = {
 	train: TrainType;

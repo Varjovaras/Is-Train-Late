@@ -1,11 +1,12 @@
 "use client";
+import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 import BackHome from "./BackHome";
 import LanguageSwitcher from "./LanguageSwitcher";
 import ThemeSwitcher from "./ThemeSwitcher";
-import Link from "next/link";
-import { useTranslations } from "@/lib/i18n/useTranslations";
-import dynamic from "next/dynamic";
+
 const Clock = dynamic(() => import("./Clock"), { ssr: false });
 
 const TopBar = () => {

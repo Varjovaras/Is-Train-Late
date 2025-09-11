@@ -1,6 +1,6 @@
 "use client";
-import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { Dispatch, SetStateAction } from "react";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 import DelayThresholdSelector from "../selectors/DelayThresholdSelector";
 
 type NoTrainsProps = {

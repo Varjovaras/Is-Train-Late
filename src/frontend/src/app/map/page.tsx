@@ -1,8 +1,8 @@
 "use client";
 import dynamic from "next/dynamic";
-import Loading from "@/components/ui/Loading";
-import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import Loading from "@/components/ui/Loading";
 
 const TrainMap = dynamic(() => import("@/components/map/TrainMap"), {
 	ssr: false,

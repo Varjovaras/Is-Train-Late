@@ -1,4 +1,5 @@
 "use client";
+import { useId } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import DelayOptions from "./DelayOptions";
 
@@ -12,6 +13,7 @@ const DelayThresholdSelector = ({
 	onThresholdChange,
 }: DelayThresholdSelectorProps) => {
 	const { translations, isLoading } = useTranslations();
+	const id = useId();
 
 	return (
 		<div
@@ -23,7 +25,7 @@ const DelayThresholdSelector = ({
 				{translations.delayThreshold}:
 			</label>
 			<select
-				id="delay-threshold"
+				id={id}
 				value={currentThreshold}
 				onChange={(e) => onThresholdChange(Number(e.target.value))}
 				className="px-2 py-1 rounded-md border border-foreground/20 bg-background"

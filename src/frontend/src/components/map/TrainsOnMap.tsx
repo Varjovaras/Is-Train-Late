@@ -1,8 +1,8 @@
-import { useTranslations } from "@/lib/i18n/useTranslations";
-import type { TrainType } from "@/lib/types/trainTypes";
 import { divIcon } from "leaflet";
 import Link from "next/link";
 import { Marker, Popup } from "react-leaflet";
+import { useTranslations } from "@/lib/i18n/useTranslations";
+import type { TrainType } from "@/lib/types/trainTypes";
 
 type TrainsOnMapProps = {
 	filteredTrains: TrainType[];

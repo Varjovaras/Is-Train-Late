@@ -1,14 +1,14 @@
 "use client";
-import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import DatePicker from "../ui/DatePicker";
+import { useId, useState } from "react";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 import { formatDateForUrl } from "@/lib/utils/dateUtils";
 import {
-	validateTrainNumber,
-	validateDate,
 	handleSearchError,
+	validateDate,
+	validateTrainNumber,
 } from "@/lib/utils/searchUtils";
+import DatePicker from "../ui/DatePicker";
 
 const TrainSearch = () => {
 	const router = useRouter();
@@ -16,6 +16,7 @@ const TrainSearch = () => {
 	const [trainNumber, setTrainNumber] = useState("");
 	const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
 	const [error, setError] = useState("");
+	const id = useId();
 
 	const handleTrainSubmit = () => {
 		const trainError = validateTrainNumber(trainNumber, translations);
@@ -37,7 +38,7 @@ const TrainSearch = () => {
 					{translations.trainNumber}
 				</label>
 				<input
-					id="trainNumber"
+					id={id}
 					type="text"
 					value={trainNumber}
 					onChange={(e) => setTrainNumber(e.target.value)}

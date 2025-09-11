@@ -1,8 +1,8 @@
 "use client";
-import type { TrainType } from "@/lib/types/trainTypes";
-import TrainRouteDisplay from "./train/TrainRouteDisplay";
-import { isToday } from "@/lib/utils/dateUtils";
 import { useTranslations } from "@/lib/i18n/useTranslations";
+import type { TrainType } from "@/lib/types/trainTypes";
+import { isToday } from "@/lib/utils/dateUtils";
+import TrainRouteDisplay from "./train/TrainRouteDisplay";
 
 type TrainHeaderProps = {
 	train: TrainType;

@@ -1,8 +1,8 @@
 "use client";
-import { useTranslations } from "@/lib/i18n/useTranslations";
-import type { TrainType } from "@/lib/types/trainTypes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "@/lib/i18n/useTranslations";
+import type { TrainType } from "@/lib/types/trainTypes";
 
 type TrainDetailsButtonProps = {
 	train: TrainType;

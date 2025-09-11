@@ -1,5 +1,4 @@
 "use client";
-import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useState } from "react";
 import StationSearchInput from "./StationSearchInput";
 

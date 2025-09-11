@@ -1,6 +1,6 @@
 "use client";
+import { useId } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import { useEffect } from "react";
 
 type DatePickerProps = {
 	date: string;
@@ -12,6 +12,7 @@ const DatePicker = ({ date, setDate }: DatePickerProps) => {
 	const { translations } = useTranslations();
 	const minDate = "2017-01-01";
 	const today = new Date().toISOString().split("T")[0];
+	const id = useId();
 
 	return (
 		<div className="space-y-2">
@@ -19,7 +20,7 @@ const DatePicker = ({ date, setDate }: DatePickerProps) => {
 				{translations.date}
 			</label>
 			<input
-				id="date"
+				id={id}
 				type="date"
 				value={date}
 				onChange={(e) => {

@@ -1,7 +1,7 @@
 import type { StationSchedule } from "@/lib/types/stationTypes";
-import type { ShowScheduleType } from "./ScheduleOverview";
-import ScheduleHeader from "./ScheduleHeader";
 import ScheduleCard from "./ScheduleCard";
+import ScheduleHeader from "./ScheduleHeader";
+import type { ShowScheduleType } from "./ScheduleOverview";
 
 type ScheduleListProps = {
 	schedules: StationSchedule[];

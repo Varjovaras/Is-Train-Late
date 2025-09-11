@@ -1,5 +1,6 @@
 import type { SingleTrainResponse } from "../types/trainTypes";
 import { getSingleTrainQuery } from "./singleTrainQuery";
+
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
 export const getSingleTrainData = async (trainNumber: string) => {

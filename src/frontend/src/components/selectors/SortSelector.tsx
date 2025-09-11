@@ -1,4 +1,5 @@
 "use client";
+import { useId } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 
 export type SortField = "trainNumber" | "delay";
@@ -16,6 +17,7 @@ type SortSelectorProps = {
 
 const SortSelector = ({ currentSort, onSortChange }: SortSelectorProps) => {
 	const { translations, isLoading } = useTranslations();
+	const id = useId();
 
 	return (
 		<div
@@ -27,7 +29,7 @@ const SortSelector = ({ currentSort, onSortChange }: SortSelectorProps) => {
 				{translations.sortBy}:
 			</label>
 			<select
-				id="sort-select"
+				id={id}
 				value={`${currentSort.field}-${currentSort.direction}`}
 				onChange={(e) => {
 					const [field, direction] = e.target.value.split("-") as [

@@ -1,9 +1,9 @@
+import ScheduleOverview from "@/components/stations/ScheduleOverview";
 import { getStationData } from "@/lib/queries/getStationData";
 import type { StationSchedule } from "@/lib/types/stationTypes";
-import { removeAsema } from "@/lib/utils/stringUtils";
 import { isValidStationCode, majorStations } from "@/lib/utils/majorStations";
 import { sortSchedules } from "@/lib/utils/sortSchedules";
-import ScheduleOverview from "@/components/stations/ScheduleOverview";
+import { removeAsema } from "@/lib/utils/stringUtils";
 
 const Page = async ({
 	params,

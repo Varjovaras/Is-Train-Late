@@ -1,11 +1,11 @@
+import { Suspense } from "react";
 import LiveTrainPage from "@/components/train/LiveTrainPage";
-import { getSingleTrainData } from "@/lib/queries/getSingleTrainData";
+import Loading from "@/components/ui/Loading";
 import { getDifferentDateTrain } from "@/lib/queries/differentDateQuery";
+import { getSingleTrainData } from "@/lib/queries/getSingleTrainData";
 import type { TrainType } from "@/lib/types/trainTypes";
 import { formatDateForUrl } from "@/lib/utils/dateUtils";
 import DateSpecificTrain from "./components/DateSpecificTrain";
-import { Suspense } from "react";
-import Loading from "@/components/ui/Loading";
 import NoTrainFound from "./components/NoTrainFound";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
@@ -16,7 +16,7 @@ const getLiveTrainData = async (
 	try {
 		const trainResponse = await getSingleTrainData(trainNumber);
 		return trainResponse.data.currentlyRunningTrains[0];
-	} catch (error) {
+	} catch (_error) {
 		return null;
 	}
 };

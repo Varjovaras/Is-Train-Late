@@ -1,12 +1,12 @@
 "use client";
+import Link from "next/link";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { StationSchedule } from "@/lib/types/stationTypes";
-import Link from "next/link";
 
 import { findStationDepartureWithId } from "@/lib/utils/scheduleUtils";
-import TimeTableEntry from "./schedule/TimeTableEntry";
-import ScheduleCardStatus from "./schedule/ScheduleCardStatus";
 import ScheduleCardHeader from "./schedule/ScheduleCardHeader";
+import ScheduleCardStatus from "./schedule/ScheduleCardStatus";
+import TimeTableEntry from "./schedule/TimeTableEntry";
 
 type ScheduleCardProps = {
 	schedule: StationSchedule;

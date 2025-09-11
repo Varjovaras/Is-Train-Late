@@ -1,6 +1,6 @@
+import { Suspense } from "react";
 import TrainData from "@/components/trains/TrainData";
 import Loading from "@/components/ui/Loading";
-import { Suspense } from "react";
 
 const Home = async () => {
 	return (

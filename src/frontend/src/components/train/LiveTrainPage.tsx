@@ -1,8 +1,8 @@
+import Link from "next/link";
 import type { TrainType } from "@/lib/types/trainTypes";
 import DelayInformation from "../delayInfo/DelayInformation";
-import Train from "./Train";
-import Link from "next/link";
 import TrainHeader from "../TrainHeader";
+import Train from "./Train";
 
 type LiveTrainPageProps = {
 	train: TrainType;

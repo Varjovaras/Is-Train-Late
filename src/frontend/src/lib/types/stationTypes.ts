@@ -28,7 +28,7 @@ export type StationTimeTableRow = {
 	liveEstimateTime?: string;
 	estimateSource?: string;
 	differenceInMinutes: number;
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	// biome-ignore lint/suspicious/noExplicitAny: not sure of all the types digitraffic data returns
 	causes: any[];
 	trainReady?: {
 		source: string;

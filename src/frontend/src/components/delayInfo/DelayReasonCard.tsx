@@ -1,6 +1,6 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import CauseItem from "./DelayDetailRow";
 import type { TimeTableRow } from "@/lib/types/trainTypes";
+import CauseItem from "./DelayDetailRow";
 
 type DelayReasonCardProps = {
 	timeTableRow: TimeTableRow;
@@ -48,9 +48,7 @@ const DelayReasonCard = ({ timeTableRow, minutes }: DelayReasonCardProps) => {
 					{"+"}
 					{minutes} {translations.minutes}
 				</p>
-			) : (
-				<></>
-			)}
+			) : null}
 		</div>
 	);
 };

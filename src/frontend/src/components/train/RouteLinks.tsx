@@ -1,8 +1,8 @@
+import Link from "next/link";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
-import { removeAsema } from "@/lib/utils/stringUtils";
 import { formatTime } from "@/lib/utils/dateUtils";
-import Link from "next/link";
+import { removeAsema } from "@/lib/utils/stringUtils";
 
 type RouteLinksProps = {
 	train: TrainType;

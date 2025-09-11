@@ -1,18 +1,18 @@
 "use client";
 import { MapContainer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useEffect, useState, useCallback } from "react";
-import type { TrainCategory, TrainType } from "@/lib/types/trainTypes";
+import { useCallback, useEffect, useState } from "react";
 import { getMapData } from "@/lib/queries/getMapData";
+import type { TrainCategory, TrainType } from "@/lib/types/trainTypes";
 import "./TrainMap.css";
-import MapLayersControl from "./MapLayersControl";
-import StationsOnMap from "./StationsOnMap";
-import TrainsOnMap from "./TrainsOnMap";
-import TrainSelector from "./TrainSelector";
-import MapSpinner from "./MapSpinner";
+import type { Map as LeafletMap } from "leaflet";
 import LocationButton from "./LocationButton";
 import LocationSearch from "./LocationSearch";
-import type { Map as LeafletMap } from "leaflet";
+import MapLayersControl from "./MapLayersControl";
+import MapSpinner from "./MapSpinner";
+import StationsOnMap from "./StationsOnMap";
+import TrainSelector from "./TrainSelector";
+import TrainsOnMap from "./TrainsOnMap";
 
 type MapInitializerProps = {
 	onMapReady: (map: LeafletMap) => void;

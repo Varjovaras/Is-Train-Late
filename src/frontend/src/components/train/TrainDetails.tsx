@@ -1,13 +1,13 @@
 "use client";
+import { useState } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
-import { useState } from "react";
+import ShowNonCommercialStopsButton from "./ShowNonCommercialStopsButton";
+import ShowStationsButton from "./ShowStationsButton";
 import TrainBasicInfo from "./TrainBasicInfo";
+import TrainDetailsButton from "./TrainDetailsButton";
 import TrainSpeed from "./TrainSpeed";
 import TrainStations from "./TrainStations";
-import TrainDetailsButton from "./TrainDetailsButton";
-import ShowStationsButton from "./ShowStationsButton";
-import ShowNonCommercialStopsButton from "./ShowNonCommercialStopsButton";
 
 type TrainDetailsProps = {
 	train: TrainType;

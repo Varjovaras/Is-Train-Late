@@ -1,8 +1,8 @@
 "use client";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { majorStations } from "@/lib/utils/majorStations";
-import { useState, useRef, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
 
 // type StationSearchInputProps = {
 //   placeholder?: string;
@@ -18,6 +18,7 @@ const StationSearchInput = () =>
 		const [selectedIndex, setSelectedIndex] = useState(-1);
 		const [showSuggestions, setShowSuggestions] = useState(false);
 		const [dropUp, setDropUp] = useState(false);
+		const id = useId();
 
 		const inputRef = useRef<HTMLInputElement>(null);
 		const suggestionsRef = useRef<HTMLDivElement>(null);
@@ -111,7 +112,7 @@ const StationSearchInput = () =>
 
 				<input
 					ref={inputRef}
-					id="station-search"
+					id={id}
 					type="text"
 					value={searchValue}
 					onChange={(e) => setSearchValue(e.target.value)}

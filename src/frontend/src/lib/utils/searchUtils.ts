@@ -9,7 +9,10 @@ export const handleSearchError = (
 	return false;
 };
 
-export const validateTrainNumber = (trainNumber: string, translations: any) => {
+export const validateTrainNumber = (
+	trainNumber: string,
+	translations: Translations,
+) => {
 	if (!trainNumber.trim()) {
 		return translations.enterTrainNumber;
 	}

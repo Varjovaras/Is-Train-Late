@@ -10,7 +10,7 @@ const DelayCauses = ({ causes }: DelayCausesProps) => {
 	return (
 		<div className="text-sm text-red-500 mt-2">
 			{causes.map((cause, index) => (
-				// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+				// biome-ignore lint/suspicious/noArrayIndexKey: cause can be basically anything digitraffic api returns
 				<div key={index} className="ml-2">
 					• {cause.categoryCode.name}
 				</div>

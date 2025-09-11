@@ -1,7 +1,7 @@
+import { useTranslations } from "@/lib/i18n/useTranslations";
+import type { StationTimeTableRow } from "@/lib/types/stationTypes";
 import { formatDateForDisplay } from "@/lib/utils/dateUtils";
 import DelayCauses from "./DelayCauses";
-import type { StationTimeTableRow } from "@/lib/types/stationTypes";
-import { useTranslations } from "@/lib/i18n/useTranslations";
 
 type TimeTableEntryProps = {
 	row: StationTimeTableRow;

@@ -1,7 +1,7 @@
-import { useTranslations } from "@/lib/i18n/useTranslations";
 import { useState } from "react";
-import { stationCoordinates } from "@/lib/utils/stationCoordinates";
 import { useMap } from "react-leaflet";
+import { useTranslations } from "@/lib/i18n/useTranslations";
+import { stationCoordinates } from "@/lib/utils/stationCoordinates";
 
 const LocationSearch = () => {
 	const { translations } = useTranslations();

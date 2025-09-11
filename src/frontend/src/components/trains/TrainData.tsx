@@ -1,7 +1,7 @@
 import { Suspense } from "react";
-import TrainDataDisplay from "./TrainDataDisplay";
 import { getTrainData } from "@/lib/queries/getTrainData";
 import Loading from "../ui/Loading";
+import TrainDataDisplay from "./TrainDataDisplay";
 
 const TrainData = async () => {
 	const trainResponse = await getTrainData();

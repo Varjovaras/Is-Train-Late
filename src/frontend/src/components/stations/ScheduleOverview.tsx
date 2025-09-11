@@ -1,9 +1,9 @@
 "use client";
-import type { StationSchedule } from "@/lib/types/stationTypes";
-import ScheduleList from "./ScheduleList";
 import { useState } from "react";
+import type { StationSchedule } from "@/lib/types/stationTypes";
 import { stationScheduleFilter } from "@/lib/utils/stationScheduleFilter";
 import ScheduleButtons from "./ScheduleButtons";
+import ScheduleList from "./ScheduleList";
 import TrackSelector from "./TrackSelector";
 
 type ScheduleOverviewProps = {

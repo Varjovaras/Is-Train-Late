@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { ErrorProvider } from "@/components/providers/ErrorProvider";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import ErrorPopup from "@/components/ui/ErrorPopup";
 import Footer from "@/components/ui/Footer";
+import Search from "@/components/ui/Search";
 import Title from "@/components/ui/Title";
 import TopBar from "@/components/ui/TopBar";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import Search from "@/components/ui/Search";
-import { ErrorProvider } from "@/components/providers/ErrorProvider";
-import ErrorPopup from "@/components/ui/ErrorPopup";
 
 const geistSans = localFont({
 	src: "./fonts/GeistVF.woff",
