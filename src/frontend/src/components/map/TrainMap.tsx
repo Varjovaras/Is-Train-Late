@@ -14,18 +14,56 @@ import LocationButton from "./LocationButton";
 import LocationSearch from "./LocationSearch";
 import type { Map as LeafletMap } from "leaflet";
 
-//Need to initialize map to center the map if trainNumber in URL
-const MapInitializer = ({
-    onMapReady,
-}: {
+type MapInitializerProps = {
     onMapReady: (map: LeafletMap) => void;
-}) => {
+    onViewChange: (center: [number, number], zoom: number) => void;
+};
+
+//Need to initialize map to center the map if trainNumber in URL
+const MapInitializer = ({ onMapReady, onViewChange }: MapInitializerProps) => {
     const map = useMap();
 
+    const handleViewChange = useCallback(() => {
+        try {
+            if (map && !map._removed) {
+                const center = map.getCenter();
+                const zoom = map.getZoom();
+                onViewChange([center.lat, center.lng], zoom);
+            }
+        } catch (error) {
+            console.error("Error handling view change:", error);
+        }
+    }, [map, onViewChange]);
+
     useEffect(() => {
+        if (!map) {
+            console.warn("Map not available in MapInitializer");
+            return;
+        }
+
         console.log("Map instance from useMap:", !!map);
-        onMapReady(map);
-    }, [map, onMapReady]);
+
+        try {
+            onMapReady(map);
+
+            // Add event listeners to track view changes
+            map.on("moveend", handleViewChange);
+            map.on("zoomend", handleViewChange);
+        } catch (error) {
+            console.error("Error initializing map:", error);
+        }
+
+        return () => {
+            try {
+                if (map && !map._removed) {
+                    map.off("moveend", handleViewChange);
+                    map.off("zoomend", handleViewChange);
+                }
+            } catch (error) {
+                console.error("Error cleaning up map listeners:", error);
+            }
+        };
+    }, [map, onMapReady, handleViewChange]);
 
     return null;
 };
@@ -41,24 +79,19 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
         name: "longDistance",
     });
     const [leafletMap, setLeafletMap] = useState<LeafletMap | null>(null);
+    const [currentMapCenter, setCurrentMapCenter] = useState<[number, number]>([
+        65.9, 25.7,
+    ]);
+    const [currentZoom, setCurrentZoom] = useState<number>(5);
 
-    useEffect(() => {
-        console.log("Map centering effect triggered");
-        console.log("Train number:", trainNumber);
-        console.log("Leaflet map available:", !!leafletMap);
-
-        if (trainNumber && leafletMap && trains.length > 0) {
-            const targetTrain = trains.find(
-                (train) => train.trainNumber.toString() === trainNumber,
-            );
-            console.log("Target train found:", !!targetTrain);
-            if (targetTrain?.trainLocations[0]?.location) {
-                const [lng, lat] = targetTrain.trainLocations[0].location;
-                console.log("Setting view to:", [lat, lng]);
-                leafletMap.setView([lat, lng], 8);
-            }
-        }
-    }, [trainNumber, leafletMap, trains]);
+    // Define all useCallback hooks before any conditional logic
+    const handleViewChange = useCallback(
+        (center: [number, number], zoom: number) => {
+            setCurrentMapCenter(center);
+            setCurrentZoom(zoom);
+        },
+        [],
+    );
 
     const fetchTrains = useCallback(async () => {
         setLoading(true);
@@ -78,6 +111,24 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
             setLoading(false);
         }
     }, []);
+
+    useEffect(() => {
+        console.log("Map centering effect triggered");
+        console.log("Train number:", trainNumber);
+        console.log("Leaflet map available:", !!leafletMap);
+
+        if (trainNumber && leafletMap && trains.length > 0) {
+            const targetTrain = trains.find(
+                (train) => train.trainNumber.toString() === trainNumber,
+            );
+            console.log("Target train found:", !!targetTrain);
+            if (targetTrain?.trainLocations[0]?.location) {
+                const [lng, lat] = targetTrain.trainLocations[0].location;
+                console.log("Setting view to:", [lat, lng]);
+                leafletMap.setView([lat, lng], 8);
+            }
+        }
+    }, [trainNumber, leafletMap, trains]);
 
     useEffect(() => {
         fetchTrains();
@@ -114,17 +165,24 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
             <TrainSelector category={category} setCategory={setCategory} />
             {loading && trains.length > 0 && <MapSpinner />}
             <MapContainer
-                center={[65.9, 25.7]}
-                zoom={5}
+                center={currentMapCenter}
+                zoom={currentZoom}
                 className="h-full w-full"
                 scrollWheelZoom={true}
                 zoomControl={true}
             >
                 <MapInitializer
                     onMapReady={(map) => {
-                        console.log("Setting leaflet map from MapInitializer");
-                        setLeafletMap(map);
+                        try {
+                            console.log(
+                                "Setting leaflet map from MapInitializer",
+                            );
+                            setLeafletMap(map);
+                        } catch (error) {
+                            console.error("Error setting leaflet map:", error);
+                        }
                     }}
+                    onViewChange={handleViewChange}
                 />
                 <MapLayersControl />
                 <StationsOnMap />
