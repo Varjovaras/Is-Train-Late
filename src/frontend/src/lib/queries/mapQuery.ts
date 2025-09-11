@@ -1,9 +1,9 @@
 export const getMapQuery = () => {
-    return mapQuery
-        .replace(/\s+/g, " ")
-        .replace(/\n/g, " ")
-        .replace(/\\/g, "")
-        .trim();
+	return mapQuery
+		.replace(/\s+/g, " ")
+		.replace(/\n/g, " ")
+		.replace(/\\/g, "")
+		.trim();
 };
 
 const mapQuery = `{

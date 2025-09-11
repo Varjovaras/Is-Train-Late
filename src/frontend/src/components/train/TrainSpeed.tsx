@@ -3,26 +3,26 @@
 import type { TrainType } from "@/lib/types/trainTypes";
 
 type TrainSpeedProps = {
-  train: TrainType;
+	train: TrainType;
 };
 
 const TrainSpeed = ({ train }: TrainSpeedProps) => {
-  // const { translations } = useTranslations();
+	// const { translations } = useTranslations();
 
-  return (
-    <div>
-      {train.trainLocations ? (
-        train.trainLocations.map((location) => (
-          <p className="" key={location.speed + location.timestamp}>
-            {location.speed}km/h
-          </p>
-        ))
-      ) : (
-        <p />
-        // <p className="text-red-500">{translations.noCurrentSpeed}</p>
-      )}
-    </div>
-  );
+	return (
+		<div>
+			{train.trainLocations ? (
+				train.trainLocations.map((location) => (
+					<p className="" key={location.speed + location.timestamp}>
+						{location.speed}km/h
+					</p>
+				))
+			) : (
+				<p />
+				// <p className="text-red-500">{translations.noCurrentSpeed}</p>
+			)}
+		</div>
+	);
 };
 
 export default TrainSpeed;

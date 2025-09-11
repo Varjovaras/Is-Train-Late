@@ -1,10 +1,10 @@
 export const getStationQuery = (stationName: string) => {
-  return stationQuery
-    .replace("STATION_NAME", stationName.toString())
-    .replace(/\s+/g, " ")
-    .replace(/\n/g, " ")
-    .replace(/\\/g, "")
-    .trim();
+	return stationQuery
+		.replace("STATION_NAME", stationName.toString())
+		.replace(/\s+/g, " ")
+		.replace(/\n/g, " ")
+		.replace(/\\/g, "")
+		.trim();
 };
 
 const stationQuery = `{

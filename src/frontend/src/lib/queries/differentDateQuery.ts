@@ -1,15 +1,15 @@
 export const getDifferentDateTrain = (id: string) => {
-  const url = id.split("-");
-  const trainNumber = url[0];
-  const date = `"${url[1]}-${url[2]}-${url[3]}"`;
+	const url = id.split("-");
+	const trainNumber = url[0];
+	const date = `"${url[1]}-${url[2]}-${url[3]}"`;
 
-  return differentDateQuery
-    .replace("TRAIN_NUMBER", trainNumber.toString())
-    .replace("DEPARTURE_DATE", date)
-    .replace(/\s+/g, " ")
-    .replace(/\n/g, " ")
-    .replace(/\\/g, "")
-    .trim();
+	return differentDateQuery
+		.replace("TRAIN_NUMBER", trainNumber.toString())
+		.replace("DEPARTURE_DATE", date)
+		.replace(/\s+/g, " ")
+		.replace(/\n/g, " ")
+		.replace(/\\/g, "")
+		.trim();
 };
 
 const differentDateQuery = `{

@@ -1,9 +1,9 @@
 export const getPassengerQuery = () => {
-    return passengerQuery
-        .replace(/\s+/g, " ")
-        .replace(/\n/g, " ")
-        .replace(/\\/g, "")
-        .trim();
+	return passengerQuery
+		.replace(/\s+/g, " ")
+		.replace(/\n/g, " ")
+		.replace(/\\/g, "")
+		.trim();
 };
 
 const passengerQuery = `{
@@ -170,7 +170,7 @@ export const _fullQuery = `{
 		}
 	}
 }`
-    .replace(/\s+/g, " ")
-    .replace(/\n/g, " ")
-    .replace(/\\/g, "")
-    .trim();
+	.replace(/\s+/g, " ")
+	.replace(/\n/g, " ")
+	.replace(/\\/g, "")
+	.trim();
