@@ -25,7 +25,7 @@ const MapInitializer = ({ onMapReady, onViewChange }: MapInitializerProps) => {
 
     const handleViewChange = useCallback(() => {
         try {
-            if (map && !map._removed) {
+            if (map) {
                 const center = map.getCenter();
                 const zoom = map.getZoom();
                 onViewChange([center.lat, center.lng], zoom);
@@ -55,7 +55,7 @@ const MapInitializer = ({ onMapReady, onViewChange }: MapInitializerProps) => {
 
         return () => {
             try {
-                if (map && !map._removed) {
+                if (map) {
                     map.off("moveend", handleViewChange);
                     map.off("zoomend", handleViewChange);
                 }

@@ -16,7 +16,7 @@ const LocationSearch = () => {
 
     const handleStationSelect = (coords: [number, number]) => {
         try {
-            if (map && !map._removed) {
+            if (map) {
                 map.setView(coords, 13);
                 setSearchTerm("");
             }

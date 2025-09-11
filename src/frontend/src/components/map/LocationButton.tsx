@@ -10,7 +10,7 @@ const LocationButton = () => {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     try {
-                        if (map && !map._removed) {
+                        if (map) {
                             const { latitude, longitude } = position.coords;
                             map.setView([latitude, longitude], 13);
                         }
