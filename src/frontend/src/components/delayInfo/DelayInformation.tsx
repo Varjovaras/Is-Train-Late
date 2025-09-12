@@ -1,4 +1,5 @@
 "use client";
+import { useId } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 import { getTimeDiffByStation } from "@/lib/utils/trainUtils";
@@ -10,6 +11,7 @@ type DelayInformationProps = {
 
 const DelayInformation = ({ train }: DelayInformationProps) => {
 	const { translations, isLoading } = useTranslations();
+	const baseId = useId();
 
 	const timeTablesWithCauses = train.timeTableRows.filter(
 		(row) => row.causes !== null,
@@ -23,9 +25,12 @@ const DelayInformation = ({ train }: DelayInformationProps) => {
 		<div className={`mb-8 ${isLoading ? "fade-out" : "fade-in"}`}>
 			<h2 className="text-2xl font-semibold m-4">{translations.delayCauses}</h2>
 			<div className="space-y-4">
-				{timeTablesWithCauses.map((timeTableRow) => (
+				{timeTablesWithCauses.map((timeTableRow, index) => (
 					<DelayReasonCard
-						key={timeTableRow.scheduledTime.toString()}
+						key={`${baseId}-${
+							// biome-ignore lint/suspicious/noArrayIndexKey: there are no duplicate keys
+							index
+						}`}
 						timeTableRow={timeTableRow}
 						minutes={getTimeDiffByStation(
 							timeTablesWithCauses,

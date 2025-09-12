@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TimeTableRow } from "@/lib/types/trainTypes";
 import CauseItem from "./DelayDetailRow";
@@ -9,20 +10,21 @@ type DelayReasonCardProps = {
 
 const DelayReasonCard = ({ timeTableRow, minutes }: DelayReasonCardProps) => {
 	const { translations } = useTranslations();
+	const baseId = useId();
 	return (
-		<div
-			key={timeTableRow.actualTime?.toString()}
-			className="bg-foreground/5 rounded-lg p-4"
-		>
+		<div className="bg-foreground/5 rounded-lg p-4">
 			<div className="mb-2">
 				<span className="font-semibold text-red-500">
 					{translations.station}{" "}
 				</span>
 				{timeTableRow.station.name}
 			</div>
-			{timeTableRow.causes?.map((cause) => (
+			{timeTableRow.causes?.map((cause, index) => (
 				<div
-					key={cause.categoryCode.name + cause.categoryCode.validFrom}
+					key={`${baseId}-cause-${
+						// biome-ignore lint/suspicious/noArrayIndexKey: there should be no duplicate indexes
+						index
+					}`}
 					className="ml-4 space-y-1"
 				>
 					<CauseItem
