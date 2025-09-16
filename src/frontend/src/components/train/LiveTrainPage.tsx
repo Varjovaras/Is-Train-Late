@@ -3,6 +3,7 @@ import type { TrainType } from "@/lib/types/trainTypes";
 import DelayInformation from "../delayInfo/DelayInformation";
 import TrainHeader from "../TrainHeader";
 import Train from "./Train";
+import TrainProgressBar from "./TrainProgressBar";
 
 type LiveTrainPageProps = {
 	train: TrainType;
@@ -40,6 +41,9 @@ const LiveTrainPage = ({ train }: LiveTrainPageProps) => {
 					</svg>
 					View on Map
 				</Link>
+				<div className="w-full max-w-2xl">
+					<TrainProgressBar train={train} />
+				</div>
 			</div>
 			{hasDelayCauses ? (
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">

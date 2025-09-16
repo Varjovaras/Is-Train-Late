@@ -1,7 +1,9 @@
 "use client";
+import { usePathname } from "next/navigation";
 import type { TrainType } from "@/lib/types/trainTypes";
 import TrainButton from "./TrainButton";
-import TrainDetails from "./TrainDetails";
+import TrainHomeView from "./TrainHomeView";
+import TrainStationsView from "./TrainStationsView";
 
 type TrainProps = {
 	train: TrainType;
@@ -9,6 +11,9 @@ type TrainProps = {
 };
 
 const Train = ({ train, forceShowAllStations }: TrainProps) => {
+	const pathname = usePathname();
+	const isTrainsRoute = pathname.startsWith("/trains/");
+
 	return (
 		<div
 			key={`train-${train.trainNumber}`}
@@ -16,10 +21,14 @@ const Train = ({ train, forceShowAllStations }: TrainProps) => {
 		>
 			<TrainButton train={train} />
 			<div className="flex-1 flex flex-col">
-				<TrainDetails
-					train={train}
-					forceShowAllStations={forceShowAllStations}
-				/>
+				{isTrainsRoute ? (
+					<TrainStationsView
+						train={train}
+						forceShowAllStations={forceShowAllStations}
+					/>
+				) : (
+					<TrainHomeView train={train} />
+				)}
 			</div>
 		</div>
 	);

@@ -5,17 +5,17 @@ import type { TrainType } from "@/lib/types/trainTypes";
 import ShowNonCommercialStopsButton from "./ShowNonCommercialStopsButton";
 import ShowStationsButton from "./ShowStationsButton";
 import TrainBasicInfo from "./TrainBasicInfo";
-import TrainDetailsButton from "./TrainDetailsButton";
-import TrainProgressBar from "./TrainProgressBar";
-
 import TrainStations from "./TrainStations";
 
-type TrainDetailsProps = {
+type TrainStationsViewProps = {
 	train: TrainType;
 	forceShowAllStations: boolean;
 };
 
-const TrainDetails = ({ train, forceShowAllStations }: TrainDetailsProps) => {
+const TrainStationsView = ({
+	train,
+	forceShowAllStations,
+}: TrainStationsViewProps) => {
 	const { isLoading } = useTranslations();
 	const [showAllStations, setShowAllStations] = useState(forceShowAllStations);
 	const [showNonCommercialStops, setShowNonCommercialStops] = useState(false);
@@ -26,7 +26,6 @@ const TrainDetails = ({ train, forceShowAllStations }: TrainDetailsProps) => {
 		>
 			<div className="flex-1 w-full max-w-2xl">
 				<TrainBasicInfo train={train} />
-				<TrainProgressBar train={train} />
 				<TrainStations
 					train={train}
 					showAllStations={forceShowAllStations || showAllStations}
@@ -42,10 +41,9 @@ const TrainDetails = ({ train, forceShowAllStations }: TrainDetailsProps) => {
 					showNonCommercialStops={showNonCommercialStops}
 					setShowNonCommercialStops={setShowNonCommercialStops}
 				/>
-				<TrainDetailsButton train={train} />
 			</div>
 		</div>
 	);
 };
 
-export default TrainDetails;
+export default TrainStationsView;
