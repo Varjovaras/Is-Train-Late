@@ -18,17 +18,17 @@ const TrainBasicInfo = ({ train }: TrainBasicInfoProps) => {
 	return (
 		<div>
 			<RouteLinks train={train} />
-			{currentTimeDiff > 0 ? (
-				<div>
+			<div>
+				{currentTimeDiff > 0 ? (
 					<p className="">
 						<span className="text-red-500 font-bold">{currentTimeDiff}</span>{" "}
 						<span className="">{translations.minutesLate}</span>
 					</p>
-					<TrainSpeed train={train} />
-				</div>
-			) : (
-				<p className="text-green-500">{translations.onTime}</p>
-			)}
+				) : (
+					<p className="text-green-500">{translations.onTime}</p>
+				)}
+				<TrainSpeed train={train} />
+			</div>
 		</div>
 	);
 };
