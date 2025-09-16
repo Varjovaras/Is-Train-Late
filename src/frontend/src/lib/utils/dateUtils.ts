@@ -61,9 +61,9 @@ export const getArrivalCountdown = (
 
 	if (minutesUntilArrival > 0) {
 		return `${translations.arrivalIn} ${minutesUntilArrival} ${translations.minutes}`;
-	} else if (minutesUntilArrival === 0) {
-		return translations.arrivingNow;
-	} else {
-		return translations.arrived;
 	}
+	if (minutesUntilArrival === 0) {
+		return translations.arrivingNow;
+	}
+	return translations.arrived;
 };
