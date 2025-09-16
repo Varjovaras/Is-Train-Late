@@ -1,4 +1,5 @@
 import type { TrainType } from "@/lib/types/trainTypes";
+import { getArrivalCountdown } from "@/lib/utils/dateUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
 
 type TrainProgressBarProps = {
@@ -37,10 +38,6 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 		)[0];
 
 	const nextStop = commercialStops.find((row) => row.actualTime === null);
-
-	const isMoving = train.runningCurrently;
-	const currentSpeed =
-		train.trainLocations?.[train.trainLocations.length - 1]?.speed || 0;
 
 	return (
 		<div className="bg-foreground/5 rounded-lg my-4 p-4 ">
@@ -124,6 +121,11 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 							+{nextStop.differenceInMinutes} min
 						</span>
 					)}
+					<div className="text-xs text-foreground/70 mt-1">
+						{getArrivalCountdown(
+							new Date(nextStop.liveEstimateTime || nextStop.scheduledTime),
+						)}
+					</div>
 				</div>
 			)}
 		</div>

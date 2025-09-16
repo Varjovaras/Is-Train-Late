@@ -49,3 +49,18 @@ export const getDateDisplay = (date: string, translations: Translations) => {
 	if (isTomorrow(date)) return translations.tomorrow;
 	return formatDateForDisplay(date);
 };
+
+export const getArrivalCountdown = (arrivalTime: Date): string => {
+	const now = new Date();
+	const minutesUntilArrival = Math.round(
+		(arrivalTime.getTime() - now.getTime()) / (1000 * 60),
+	);
+
+	if (minutesUntilArrival > 0) {
+		return `Arrival in ${minutesUntilArrival} minutes`;
+	}
+	if (minutesUntilArrival === 0) {
+		return "Arriving now";
+	}
+	return "Arrived";
+};
