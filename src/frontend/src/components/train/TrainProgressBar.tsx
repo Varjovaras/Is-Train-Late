@@ -1,4 +1,5 @@
 import type { TrainType } from "@/lib/types/trainTypes";
+import { removeAsema } from "@/lib/utils/stringUtils";
 
 type TrainProgressBarProps = {
 	train: TrainType;
@@ -9,7 +10,6 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 		(row) => row.trainStopping && row.commercialStop && row.type === "ARRIVAL",
 	);
 
-	// Get the actual starting station (first DEPARTURE) and ending station (last ARRIVAL)
 	const startingStation = train.timeTableRows.find(
 		(row) =>
 			row.trainStopping && row.commercialStop && row.type === "DEPARTURE",
@@ -38,38 +38,20 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 
 	const nextStop = commercialStops.find((row) => row.actualTime === null);
 
-	// const isMoving = train.runningCurrently;
-	// const currentSpeed =
-	// 	train.trainLocations?.[train.trainLocations.length - 1]?.speed || 0;
+	const isMoving = train.runningCurrently;
+	const currentSpeed =
+		train.trainLocations?.[train.trainLocations.length - 1]?.speed || 0;
 
 	return (
-		<div className="bg-foreground/5 rounded-lg my-4 p-8 ">
-			{/* Header with status */}
-			{/*<div className="flex justify-between items-center mb-4">*/}
-			{/*<div className="flex items-center gap-3">*/}
-			{/*<h3 className="font-semibold">Journey Progress</h3>*/}
-			{/*<div className="flex items-center gap-2">
-						<div
-							className={`w-2 h-2 rounded-full ${isMoving ? "bg-green-500" : "bg-foreground/40"}`}
-						/>*/}
-			{/*<span className="text-sm">
-							{isMoving ? `${currentSpeed} km/h` : "Stopped"}
-						</span>*/}
-			{/*</div>*/}
-			{/*</div>*/}
-			{/*<span className="text-sm font-semibold">
-					{completedStops}/{totalStops}
-				</span>*/}
-			{/*</div>*/}
-
+		<div className="bg-foreground/5 rounded-lg my-4 p-4 ">
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
 				<div className="flex items-center gap-2">
 					<div className="w-2 h-2 bg-red-600 rounded-full" />
 					<div>
 						<p className="text-sm opacity-70">Current/Last</p>
-						<p className="font-semibold">
+						<p className="font-semibold text-green-500">
 							{lastCompletedStop
-								? lastCompletedStop.station.name
+								? removeAsema(lastCompletedStop.station.name)
 								: "Not started"}
 						</p>
 					</div>
@@ -78,8 +60,10 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 					<div className="w-2 h-2 bg-green-500 rounded-full" />
 					<div>
 						<p className="text-sm opacity-70">Next Stop</p>
-						<p className="font-semibold">
-							{nextStop ? nextStop.station.name : "Journey complete"}
+						<p className="font-semibold text-blue-500">
+							{nextStop
+								? removeAsema(nextStop.station.name)
+								: "Journey complete"}
 						</p>
 					</div>
 				</div>
@@ -114,12 +98,19 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 
 			{(startingStation || endingStation) && (
 				<div className="flex justify-between text-xs opacity-70 mb-2">
-					<span>{startingStation?.station.name || "Unknown"}</span>
-					<span>{endingStation?.station.name || "Unknown"}</span>
+					<span>
+						{startingStation
+							? removeAsema(startingStation.station.name)
+							: "Unknown"}
+					</span>
+					<span>
+						{endingStation
+							? removeAsema(endingStation.station.name)
+							: "Unknown"}
+					</span>
 				</div>
 			)}
 
-			{/* Timing info */}
 			{nextStop && (
 				<div className="text-sm">
 					Next arrival:{" "}
