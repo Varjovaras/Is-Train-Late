@@ -1,3 +1,5 @@
+"use client";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 import { getArrivalCountdown } from "@/lib/utils/dateUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
@@ -7,6 +9,7 @@ type TrainProgressBarProps = {
 };
 
 const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
+	const { translations } = useTranslations();
 	const commercialStops = train.timeTableRows.filter(
 		(row) => row.trainStopping && row.commercialStop && row.type === "ARRIVAL",
 	);
@@ -45,22 +48,22 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 				<div className="flex items-center gap-2">
 					<div className="w-2 h-2 bg-red-600 rounded-full" />
 					<div>
-						<p className="text-sm opacity-70">Current/Last</p>
+						<p className="text-sm opacity-70">{translations.currentLast}</p>
 						<p className="font-semibold text-green-500">
 							{lastCompletedStop
 								? removeAsema(lastCompletedStop.station.name)
-								: "Not started"}
+								: translations.notStarted}
 						</p>
 					</div>
 				</div>
 				<div className="flex items-center gap-2">
 					<div className="w-2 h-2 bg-green-500 rounded-full" />
 					<div>
-						<p className="text-sm opacity-70">Next Stop</p>
+						<p className="text-sm opacity-70">{translations.nextStop}</p>
 						<p className="font-semibold text-blue-500">
 							{nextStop
 								? removeAsema(nextStop.station.name)
-								: "Journey complete"}
+								: translations.journeyComplete}
 						</p>
 					</div>
 				</div>
@@ -98,19 +101,19 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 					<span>
 						{startingStation
 							? removeAsema(startingStation.station.name)
-							: "Unknown"}
+							: translations.unknown}
 					</span>
 					<span>
 						{endingStation
 							? removeAsema(endingStation.station.name)
-							: "Unknown"}
+							: translations.unknown}
 					</span>
 				</div>
 			)}
 
 			{nextStop && (
 				<div className="text-sm">
-					Next arrival:{" "}
+					{translations.nextArrival}{" "}
 					<span className="font-semibold">
 						{new Date(
 							nextStop.liveEstimateTime || nextStop.scheduledTime,
@@ -124,6 +127,7 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 					<div className="text-xs text-foreground/70 mt-1">
 						{getArrivalCountdown(
 							new Date(nextStop.liveEstimateTime || nextStop.scheduledTime),
+							translations,
 						)}
 					</div>
 				</div>

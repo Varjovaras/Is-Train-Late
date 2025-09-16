@@ -50,17 +50,20 @@ export const getDateDisplay = (date: string, translations: Translations) => {
 	return formatDateForDisplay(date);
 };
 
-export const getArrivalCountdown = (arrivalTime: Date): string => {
+export const getArrivalCountdown = (
+	arrivalTime: Date,
+	translations: Translations,
+): string => {
 	const now = new Date();
 	const minutesUntilArrival = Math.round(
 		(arrivalTime.getTime() - now.getTime()) / (1000 * 60),
 	);
 
 	if (minutesUntilArrival > 0) {
-		return `Arrival in ${minutesUntilArrival} minutes`;
+		return `${translations.arrivalIn} ${minutesUntilArrival} ${translations.minutes}`;
+	} else if (minutesUntilArrival === 0) {
+		return translations.arrivingNow;
+	} else {
+		return translations.arrived;
 	}
-	if (minutesUntilArrival === 0) {
-		return "Arriving now";
-	}
-	return "Arrived";
 };
