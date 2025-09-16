@@ -9,6 +9,18 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 		(row) => row.trainStopping && row.commercialStop && row.type === "ARRIVAL",
 	);
 
+	// Get the actual starting station (first DEPARTURE) and ending station (last ARRIVAL)
+	const startingStation = train.timeTableRows.find(
+		(row) =>
+			row.trainStopping && row.commercialStop && row.type === "DEPARTURE",
+	);
+	const endingStation = train.timeTableRows
+		.filter(
+			(row) =>
+				row.trainStopping && row.commercialStop && row.type === "ARRIVAL",
+		)
+		.pop();
+
 	const completedStops = commercialStops.filter(
 		(row) => row.actualTime !== null,
 	).length;
@@ -73,10 +85,7 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 				</div>
 			</div>
 
-			<div
-				className="relative
-				mb-3"
-			>
+			<div className="relative mb-3">
 				{/* Progress bar background */}
 				<div className="w-full bg-foreground/20 rounded-full h-3">
 					<div
@@ -103,12 +112,10 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 				)}
 			</div>
 
-			{commercialStops.length > 0 && (
+			{(startingStation || endingStation) && (
 				<div className="flex justify-between text-xs opacity-70 mb-2">
-					<span>{commercialStops[0]?.station.name}</span>
-					<span>
-						{commercialStops[commercialStops.length - 1]?.station.name}
-					</span>
+					<span>{startingStation?.station.name || "Unknown"}</span>
+					<span>{endingStation?.station.name || "Unknown"}</span>
 				</div>
 			)}
 
