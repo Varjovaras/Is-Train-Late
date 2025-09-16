@@ -54,6 +54,17 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 								? removeAsema(lastCompletedStop.station.name)
 								: translations.notStarted}
 						</p>
+						{lastCompletedStop && (
+							<p className="text-xs text-foreground/60">
+								{new Date(lastCompletedStop.scheduledTime).toLocaleTimeString(
+									"fi-FI",
+									{
+										hour: "2-digit",
+										minute: "2-digit",
+									},
+								)}
+							</p>
+						)}
 					</div>
 				</div>
 				<div className="flex items-center gap-2">
@@ -65,6 +76,14 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 								? removeAsema(nextStop.station.name)
 								: translations.journeyComplete}
 						</p>
+						{nextStop && (
+							<p className="text-xs text-foreground/60">
+								{new Date(nextStop.scheduledTime).toLocaleTimeString("fi-FI", {
+									hour: "2-digit",
+									minute: "2-digit",
+								})}
+							</p>
+						)}
 					</div>
 				</div>
 			</div>
@@ -120,9 +139,9 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 						).toLocaleTimeString()}
 					</span>
 					{nextStop.differenceInMinutes > 0 && (
-						<span className="text-red-500 font-bold ml-2">
+						<div className="text-red-500 font-bold text-xs mt-1">
 							+{nextStop.differenceInMinutes} min
-						</span>
+						</div>
 					)}
 					<div className="text-xs text-foreground/70 mt-1">
 						{getArrivalCountdown(
