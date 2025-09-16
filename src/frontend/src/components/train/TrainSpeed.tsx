@@ -1,5 +1,3 @@
-// "use client";
-// import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 
 type TrainSpeedProps = {
@@ -7,19 +5,15 @@ type TrainSpeedProps = {
 };
 
 const TrainSpeed = ({ train }: TrainSpeedProps) => {
-	// const { translations } = useTranslations();
+	const currentSpeed =
+		train.trainLocations && train.trainLocations.length > 0
+			? train.trainLocations[train.trainLocations.length - 1].speed
+			: null;
 
 	return (
 		<div>
-			{train.trainLocations ? (
-				train.trainLocations.map((location) => (
-					<p className="" key={location.speed + location.timestamp}>
-						{location.speed}km/h
-					</p>
-				))
-			) : (
-				<p />
-				// <p className="text-red-500">{translations.noCurrentSpeed}</p>
+			{currentSpeed !== null && currentSpeed > 0 && (
+				<p className="text-xs text-foreground/70">{currentSpeed} km/h</p>
 			)}
 		</div>
 	);

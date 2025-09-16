@@ -7,7 +7,7 @@ import ShowStationsButton from "./ShowStationsButton";
 import TrainBasicInfo from "./TrainBasicInfo";
 import TrainDetailsButton from "./TrainDetailsButton";
 import TrainProgressBar from "./TrainProgressBar";
-import TrainSpeed from "./TrainSpeed";
+
 import TrainStations from "./TrainStations";
 
 type TrainDetailsProps = {
@@ -27,7 +27,6 @@ const TrainDetails = ({ train, forceShowAllStations }: TrainDetailsProps) => {
 			<div className="flex-1 w-full max-w-2xl">
 				<TrainBasicInfo train={train} />
 				<TrainProgressBar train={train} />
-				<TrainSpeed train={train} />
 				<TrainStations
 					train={train}
 					showAllStations={forceShowAllStations || showAllStations}
