@@ -10,12 +10,15 @@ const Footer = () => {
 				rel="noopener noreferrer"
 			>
 				<Image
-					aria-hidden
 					src="/hcbull_naama.png"
 					alt="Hardcore Bull Soundcloud icon"
 					width={40}
 					height={40}
-					className="w-[40px] h-[40px]"
+					loading="lazy"
+					priority={false}
+					placeholder="blur"
+					// Base64 blur
+					blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."
 				/>
 				Soundcloud →
 			</a>
@@ -32,6 +35,11 @@ const Footer = () => {
 					width={40}
 					height={40}
 					className="w-[40px] h-[40px]"
+					loading="lazy"
+					priority={false}
+					placeholder="blur"
+					// Base64 blur
+					blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."
 				/>
 				Github →
 			</a>
