@@ -1,7 +1,7 @@
 "use client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
-import { getTimeDiff, getVisitedStations } from "@/lib/utils/trainUtils";
+import { getTrainCurrentDelay } from "@/lib/utils/trainDataUtils";
 import RouteLinks from "./RouteLinks";
 import TrainSpeed from "./TrainSpeed";
 
@@ -12,8 +12,7 @@ type TrainBasicInfoProps = {
 const TrainBasicInfo = ({ train }: TrainBasicInfoProps) => {
 	const { translations } = useTranslations();
 
-	const visitedStations = getVisitedStations(train);
-	const currentTimeDiff = getTimeDiff(visitedStations);
+	const currentTimeDiff = getTrainCurrentDelay(train);
 
 	return (
 		<div>

@@ -2,7 +2,8 @@
 import { useId } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
-import { getTimeDiffByStation } from "@/lib/utils/trainUtils";
+import { getDelayByStation } from "@/lib/utils/trainDataUtils";
+
 import DelayReasonCard from "./DelayReasonCard";
 
 type DelayInformationProps = {
@@ -32,7 +33,7 @@ const DelayInformation = ({ train }: DelayInformationProps) => {
 							index
 						}`}
 						timeTableRow={timeTableRow}
-						minutes={getTimeDiffByStation(
+						minutes={getDelayByStation(
 							timeTablesWithCauses,
 							timeTableRow.station.name,
 						)}

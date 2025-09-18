@@ -1,18 +1,12 @@
 import type { SortOption } from "@/components/selectors/SortSelector";
 import type { TimeTableRow, TrainType } from "@/lib/types/trainTypes";
+import {
+	filterTrainsByDelay as filterByDelay,
+	getTrainCurrentDelay,
+} from "./trainDataUtils";
 
 export const filterTrainsByDelay = (trains: TrainType[], threshold: number) => {
-	if (threshold === 0) {
-		return trains;
-	}
-	return trains.filter((train) => {
-		const timeTableRows = train.timeTableRows.filter(
-			(row) => row.actualTime !== null,
-		);
-		const currentTimeDiff =
-			timeTableRows[timeTableRows.length - 1].differenceInMinutes;
-		return currentTimeDiff >= threshold;
-	});
+	return filterByDelay(trains, threshold);
 };
 
 export const sortTrains = (trains: TrainType[], sortOption: SortOption) => {
@@ -23,17 +17,8 @@ export const sortTrains = (trains: TrainType[], sortOption: SortOption) => {
 			return (a.trainNumber - b.trainNumber) * multiplier;
 		}
 
-		const aTimeTableRows = a.timeTableRows.filter(
-			(row) => row.actualTime !== null,
-		);
-		const bTimeTableRows = b.timeTableRows.filter(
-			(row) => row.actualTime !== null,
-		);
-
-		const aDelay =
-			aTimeTableRows[aTimeTableRows.length - 1].differenceInMinutes;
-		const bDelay =
-			bTimeTableRows[bTimeTableRows.length - 1].differenceInMinutes;
+		const aDelay = getTrainCurrentDelay(a);
+		const bDelay = getTrainCurrentDelay(b);
 
 		return (aDelay - bDelay) * multiplier;
 	});
@@ -59,15 +44,20 @@ export const getTimeDiffByStation = (
 		(row) => row.station.name === stationName && row.type === "DEPARTURE",
 	);
 	if (!station) {
-		station = timeTableRows.find((row) => row.station.shortCode);
+		station = timeTableRows.find(
+			(row) => row.station.shortCode === stationName,
+		);
 	}
 
 	return station?.differenceInMinutes;
 };
 
+// Legacy functions - use trainDataUtils instead for new code
 export const getCommercialStationArrivals = (train: TrainType) => {
 	return train.timeTableRows.filter((row) => {
-		return row.commercialStop === true && row.type === "ARRIVAL";
+		return (
+			row.trainStopping && row.commercialStop === true && row.type === "ARRIVAL"
+		);
 	});
 };
 
@@ -79,7 +69,11 @@ export const getVisitedStations = (train: TrainType) => {
 
 export const getVisitedCommercialStations = (train: TrainType) => {
 	return train.timeTableRows.filter((row) => {
-		return row.actualTime !== null && row.commercialStop === true;
+		return (
+			row.actualTime !== null &&
+			row.trainStopping &&
+			row.commercialStop === true
+		);
 	});
 };
 
@@ -89,7 +83,10 @@ export const getLatestCommercialStationName = (train: TrainType) => {
 	if (visitedStations.length === 0) {
 		// If no stations have been visited, return the departure station
 		const firstDeparture = train.timeTableRows.find(
-			(row) => row.commercialStop === true && row.type === "DEPARTURE",
+			(row) =>
+				row.trainStopping &&
+				row.commercialStop === true &&
+				row.type === "DEPARTURE",
 		);
 		return firstDeparture?.station.name ?? null;
 	}
@@ -118,6 +115,10 @@ export const getNextStation = (train: TrainType) => {
 
 export const getCommercialStationDepartures = (train: TrainType) => {
 	return train.timeTableRows.filter((row) => {
-		return row.commercialStop === true && row.type === "DEPARTURE";
+		return (
+			row.trainStopping &&
+			row.commercialStop === true &&
+			row.type === "DEPARTURE"
+		);
 	});
 };

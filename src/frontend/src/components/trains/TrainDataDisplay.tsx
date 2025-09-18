@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import type { TrainType } from "@/lib/types/trainTypes";
+import { filterTrainsByCategory } from "@/lib/utils/trainDataUtils";
 import TrainList from "./TrainList";
 import TrainTypeSelector from "./TrainTypeSelector";
 
@@ -11,18 +12,10 @@ type TrainDataProps = {
 const TrainDataDisplay = ({ trains }: TrainDataProps) => {
 	const [selectedCategory, setSelectedCategory] = useState("longDistance");
 
-	const filteredTrains = trains.filter((train) => {
-		if (selectedCategory === "all") return true;
-		if (selectedCategory === "commuter") return train.commuterLineid !== "";
-		if (selectedCategory === "longDistance")
-			return (
-				train.commuterLineid === "" &&
-				train.trainType.trainCategory?.name === "Long-distance"
-			);
-		if (selectedCategory === "freight")
-			return train.trainType.trainCategory?.name === "Cargo";
-		return true;
-	});
+	const filteredTrains = filterTrainsByCategory(
+		trains,
+		selectedCategory as "all" | "commuter" | "longDistance" | "freight",
+	);
 
 	return (
 		<div className="w-full">

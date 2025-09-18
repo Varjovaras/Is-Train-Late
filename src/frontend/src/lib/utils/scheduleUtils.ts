@@ -1,10 +1,9 @@
 import type { StationSchedule } from "../types/stationTypes";
+import { findStationTimeTableRow } from "./trainDataUtils";
 
 export const findStationDepartureWithId = (
 	schedule: StationSchedule,
 	stationId: string,
 ) => {
-	return schedule.timeTableRows.find(
-		(row) => row.stationShortCode === stationId && row.type === "DEPARTURE",
-	);
+	return findStationTimeTableRow(schedule, stationId, "DEPARTURE");
 };

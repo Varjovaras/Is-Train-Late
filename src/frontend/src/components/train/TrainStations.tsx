@@ -1,10 +1,9 @@
 import type { TrainType } from "@/lib/types/trainTypes";
 import {
-	getCommercialStationArrivals,
-	getCommercialStationDepartures,
-	getLatestCommercialStationName,
-	getNextStation,
-} from "@/lib/utils/trainUtils";
+	getCommercialStations,
+	getLatestVisitedStationName,
+	getNextCommercialStation,
+} from "@/lib/utils/trainDataUtils";
 import StationRow from "./station/StationRow";
 
 type TrainStationsProps = {
@@ -20,18 +19,18 @@ const TrainStations = ({
 }: TrainStationsProps) => {
 	const passengerStationArrivals = showNonCommercialStops
 		? train.timeTableRows.filter((row) => row.type === "ARRIVAL")
-		: getCommercialStationArrivals(train);
+		: getCommercialStations(train.timeTableRows, "ARRIVAL");
 
 	const firstDeparture = showNonCommercialStops
 		? train.timeTableRows.find((row) => row.type === "DEPARTURE")
-		: getCommercialStationDepartures(train)[0];
+		: getCommercialStations(train.timeTableRows, "DEPARTURE")[0];
 
 	if (!firstDeparture) {
 		return null;
 	}
 
-	const currentStation = getLatestCommercialStationName(train);
-	const nextStationRow = getNextStation(train);
+	const currentStation = getLatestVisitedStationName(train);
+	const nextStationRow = getNextCommercialStation(train);
 
 	// Only include firstDeparture when showing all stations
 	const stationsToShow = showAllStations

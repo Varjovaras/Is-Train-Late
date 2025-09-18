@@ -3,6 +3,10 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 import { getArrivalCountdown } from "@/lib/utils/dateUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
+import {
+	calculateTrainProgress,
+	getCommercialStations,
+} from "@/lib/utils/trainDataUtils";
 
 type TrainProgressBarProps = {
 	train: TrainType;
@@ -10,37 +14,17 @@ type TrainProgressBarProps = {
 
 const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 	const { translations } = useTranslations();
-	const commercialStops = train.timeTableRows.filter(
-		(row) => row.trainStopping && row.commercialStop && row.type === "ARRIVAL",
-	);
+	const progress = calculateTrainProgress(train);
+	const commercialStops = getCommercialStations(train.timeTableRows, "ARRIVAL");
 
-	const startingStation = train.timeTableRows.find(
-		(row) =>
-			row.trainStopping && row.commercialStop && row.type === "DEPARTURE",
-	);
-	const endingStation = train.timeTableRows
-		.filter(
-			(row) =>
-				row.trainStopping && row.commercialStop && row.type === "ARRIVAL",
-		)
-		.pop();
+	const startingStation = getCommercialStations(
+		train.timeTableRows,
+		"DEPARTURE",
+	)[0];
+	const endingStation = commercialStops[commercialStops.length - 1];
 
-	const completedStops = commercialStops.filter(
-		(row) => row.actualTime !== null,
-	).length;
-	const totalStops = commercialStops.length;
-	const progressPercentage =
-		totalStops > 0 ? (completedStops / totalStops) * 100 : 0;
-
-	// Find current and next stations
-	const lastCompletedStop = commercialStops
-		.filter((row) => row.actualTime !== null)
-		.sort(
-			(a, b) =>
-				new Date(b.actualTime).getTime() - new Date(a.actualTime).getTime(),
-		)[0];
-
-	const nextStop = commercialStops.find((row) => row.actualTime === null);
+	const lastCompletedStop = progress.lastCompletedStop;
+	const nextStop = progress.nextStop;
 
 	return (
 		<div className="bg-foreground/5 rounded-lg my-4 p-4 ">
@@ -93,9 +77,9 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 				<div className="w-full bg-foreground/20 rounded-full h-3">
 					<div
 						className="bg-red-600 h-3 rounded-full transition-all duration-500 relative"
-						style={{ width: `${progressPercentage}%` }}
+						style={{ width: `${progress.percentage}%` }}
 					>
-						{progressPercentage > 0 && (
+						{progress.percentage > 0 && (
 							<div className="absolute right-0 top-0 transform translate-x-1/2 -translate-y-1/2">
 								<div className="w-5 h-5 bg-red-600 rounded-full flex items-center justify-center text-white text-xs">
 									🚂
@@ -106,7 +90,7 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 				</div>
 
 				{/* Start train icon if no progress */}
-				{progressPercentage === 0 && (
+				{progress.percentage === 0 && (
 					<div className="absolute left-0 top-0 transform -translate-x-1/2 -translate-y-1/2">
 						<div className="w-5 h-5 bg-foreground/40 rounded-full flex items-center justify-center text-white text-xs">
 							🚂

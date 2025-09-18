@@ -1,5 +1,6 @@
 "use client";
 import type { TrainType } from "@/lib/types/trainTypes";
+import { getTrainCurrentDelay } from "@/lib/utils/trainDataUtils";
 import StatusItem from "./StatusItem";
 
 type TrainProps = {
@@ -7,11 +8,7 @@ type TrainProps = {
 };
 
 const StatusCard = ({ train }: TrainProps) => {
-	const timeTableRows = train.timeTableRows.filter((row) => {
-		return row.actualTime !== null;
-	});
-	const currentTimeDiff =
-		timeTableRows[timeTableRows.length - 1].differenceInMinutes;
+	const currentTimeDiff = getTrainCurrentDelay(train);
 
 	return (
 		<div className="bg-foreground/5 rounded-lg p-6 mb-8">
