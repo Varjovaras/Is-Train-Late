@@ -20,7 +20,7 @@
 		commuterLineid
 		departureDate
 		runningCurrently
-		timetableType
+		# timetableType
 		trainNumber
 		trainType {
 			name
@@ -38,72 +38,33 @@
 			actualTime
 			differenceInMinutes
 			liveEstimateTime
-			estimateSourceType
-			unknownDelay
+			# estimateSourceType, unknownDelay
 			station {
-				passengerTraffic
-				countryCode
-				location
 				name
 				shortCode
-				uicCode
-				type
+				# passengerTraffic, countryCode, location, uicCode, type
 			}
 			causes {
 				categoryCode {
-					code
 					name
-					validFrom
-					validTo
+					# code, validFrom, validTo
 				}
 				detailedCategoryCode {
-					code
 					name
-					validFrom
-					validTo
+					# code, validFrom, validTo
 				}
 				thirdCategoryCode {
-					code
 					name
-					validFrom
-					validTo
+					# code, validFrom, validTo
 				}
 			}
 		}
-		trainTrackingMessages {
-			timestamp
-			trackSectionCode
-			nextTrackSectionCode
-			previousTrackSectionCode
-			type
-			station {
-				passengerTraffic
-				countryCode
-				location
-				name
-				shortCode
-				uicCode
-				type
-			}
-			nextStation {
-				passengerTraffic
-				countryCode
-				location
-				name
-				shortCode
-				uicCode
-				type
-			}
-			previousStation {
-				passengerTraffic
-				countryCode
-				location
-				name
-				shortCode
-				uicCode
-				type
-			}
-		}
+		# trainTrackingMessages {
+		#   timestamp, trackSectionCode, nextTrackSectionCode, previousTrackSectionCode, type
+		#   station { passengerTraffic, countryCode, location, name, shortCode, uicCode, type }
+		#   nextStation { passengerTraffic, countryCode, location, name, shortCode, uicCode, type }
+		#   previousStation { passengerTraffic, countryCode, location, name, shortCode, uicCode, type }
+		# }
 		trainLocations(orderBy: { timestamp: DESCENDING }) {
 			speed
 			location

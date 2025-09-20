@@ -1,11 +1,13 @@
-export const allTrainsQuery = `{
+import { processGraphQLQuery } from "../utils/queryUtils";
+
+const allTrainsQueryRaw = `{
   currentlyRunningTrains(where: {and: [{operator: {shortCode: {equals: "vr"}}}]}) {
     cancelled
     commuterLineid
     departureDate
     runningCurrently
     trainNumber
-    timetableType
+    # timetableType
     trainType {
       name
       trainCategory {
@@ -16,40 +18,12 @@ export const allTrainsQuery = `{
       speed
       location
     }
-    trainTrackingMessages(take: 1) {
-      timestamp
-      trackSectionCode
-      nextTrackSectionCode
-      previousTrackSectionCode
-      type
-      station {
-        passengerTraffic
-        countryCode
-        location
-        name
-        shortCode
-        uicCode
-        type
-      }
-      nextStation {
-        passengerTraffic
-        countryCode
-        location
-        name
-        shortCode
-        uicCode
-        type
-      }
-      previousStation {
-        passengerTraffic
-        countryCode
-        location
-        name
-        shortCode
-        uicCode
-        type
-      }
-    }
+    # trainTrackingMessages(take: 1) {
+    #   timestamp, trackSectionCode, nextTrackSectionCode, previousTrackSectionCode, type
+    #   station { passengerTraffic, countryCode, location, name, shortCode, uicCode, type }
+    #   nextStation { passengerTraffic, countryCode, location, name, shortCode, uicCode, type }
+    #   previousStation { passengerTraffic, countryCode, location, name, shortCode, uicCode, type }
+    # }
     timeTableRows {
       type
       trainStopping
@@ -60,41 +34,28 @@ export const allTrainsQuery = `{
       actualTime
       differenceInMinutes
       liveEstimateTime
-      estimateSourceType
-      unknownDelay
+      # estimateSourceType, unknownDelay
       station {
-        passengerTraffic
-        countryCode
-        location
         name
         shortCode
-        uicCode
-        type
+        # passengerTraffic, countryCode, location, uicCode, type
       }
       causes {
         categoryCode {
-          code
           name
-          validFrom
-          validTo
+          # code, validFrom, validTo
         }
         detailedCategoryCode {
-          code
           name
-          validFrom
-          validTo
+          # code, validFrom, validTo
         }
         thirdCategoryCode {
-          code
           name
-          validFrom
-          validTo
+          # code, validFrom, validTo
         }
       }
     }
   }
-}`
-	.replace(/\s+/g, " ")
-	.replace(/\n/g, " ")
-	.replace(/\\/g, "")
-	.trim();
+}`;
+
+export const allTrainsQuery = processGraphQLQuery(allTrainsQueryRaw);

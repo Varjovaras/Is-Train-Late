@@ -1,10 +1,7 @@
+import { processGraphQLQuery } from "../utils/queryUtils";
+
 export const getSingleTrainQuery = (trainNumber: string) => {
-	return singleTrainQuery
-		.replace("XYZ", trainNumber)
-		.replace(/\s+/g, " ")
-		.replace(/\n/g, " ")
-		.replace(/\\/g, "")
-		.trim();
+	return processGraphQLQuery(singleTrainQuery.replace("XYZ", trainNumber));
 };
 
 const singleTrainQuery = `{
@@ -16,7 +13,7 @@ const singleTrainQuery = `{
         departureDate
         runningCurrently
         trainNumber
-        timetableType
+        # timetableType
         trainType {
           name
           trainCategory {
@@ -27,40 +24,12 @@ const singleTrainQuery = `{
           speed
           location
         }
-        trainTrackingMessages(take: 1) {
-          timestamp
-          trackSectionCode
-          nextTrackSectionCode
-          previousTrackSectionCode
-          type
-          station {
-            passengerTraffic
-            countryCode
-            location
-            name
-            shortCode
-            uicCode
-            type
-          }
-          nextStation {
-            passengerTraffic
-            countryCode
-            location
-            name
-            shortCode
-            uicCode
-            type
-          }
-          previousStation {
-            passengerTraffic
-            countryCode
-            location
-            name
-            shortCode
-            uicCode
-            type
-          }
-        }
+        # trainTrackingMessages(take: 1) {
+        #   timestamp, trackSectionCode, nextTrackSectionCode, previousTrackSectionCode, type
+        #   station { passengerTraffic, countryCode, location, name, shortCode, uicCode, type }
+        #   nextStation { passengerTraffic, countryCode, location, name, shortCode, uicCode, type }
+        #   previousStation { passengerTraffic, countryCode, location, name, shortCode, uicCode, type }
+        # }
         timeTableRows {
           type
           trainStopping
@@ -71,35 +40,24 @@ const singleTrainQuery = `{
           actualTime
           differenceInMinutes
           liveEstimateTime
-          estimateSourceType
-          unknownDelay
+          # estimateSourceType, unknownDelay
           station {
-            passengerTraffic
-            countryCode
-            location
             name
             shortCode
-            uicCode
-            type
+            # passengerTraffic, countryCode, location, uicCode, type
           }
           causes {
             categoryCode {
-              code
               name
-              validFrom
-              validTo
+              # code, validFrom, validTo
             }
             detailedCategoryCode {
-              code
               name
-              validFrom
-              validTo
+              # code, validFrom, validTo
             }
             thirdCategoryCode {
-              code
               name
-              validFrom
-              validTo
+              # code, validFrom, validTo
             }
           }
         }
