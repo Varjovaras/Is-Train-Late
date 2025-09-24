@@ -1,6 +1,9 @@
 "use client";
 import type { TrainType } from "@/lib/types/trainTypes";
-import { getTrainCurrentDelay } from "@/lib/utils/trainDataUtils";
+import {
+	getTrainCurrentDelay,
+	getDelayColorClass,
+} from "@/lib/utils/trainDataUtils";
 import StatusItem from "./StatusItem";
 
 type TrainProps = {
@@ -27,7 +30,7 @@ const StatusCard = ({ train }: TrainProps) => {
 				<StatusItem
 					label="Delay"
 					value={`${currentTimeDiff} minutes`}
-					valueClassName="text-red-500"
+					valueClassName={getDelayColorClass(currentTimeDiff)}
 				/>
 			</div>
 		</div>

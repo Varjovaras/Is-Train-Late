@@ -1,6 +1,7 @@
 import { useId } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TimeTableRow } from "@/lib/types/trainTypes";
+import { getDelayColorClass } from "@/lib/utils/trainDataUtils";
 import CauseItem from "./DelayDetailRow";
 
 type DelayReasonCardProps = {
@@ -11,6 +12,9 @@ type DelayReasonCardProps = {
 const DelayReasonCard = ({ timeTableRow, minutes }: DelayReasonCardProps) => {
 	const { translations } = useTranslations();
 	const baseId = useId();
+	const delayColorClass = minutes
+		? getDelayColorClass(minutes)
+		: "text-gray-500";
 	return (
 		<div className="bg-foreground/5 rounded-lg p-4">
 			<div className="mb-2">
@@ -46,7 +50,7 @@ const DelayReasonCard = ({ timeTableRow, minutes }: DelayReasonCardProps) => {
 				</div>
 			))}
 			{minutes ? (
-				<p className="px-4 py-2 text-sm text-red-700">
+				<p className={`px-4 py-2 text-sm ${delayColorClass}`}>
 					{"+"}
 					{minutes} {translations.minutes}
 				</p>

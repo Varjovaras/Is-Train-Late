@@ -247,3 +247,52 @@ export const filterTrainsByCategory = (
 		return trainCategory === category;
 	});
 };
+
+/**
+ * Color utilities for delays
+ */
+export const getDelayColorClass = (delayMinutes: number): string => {
+	if (delayMinutes <= 0) {
+		return "text-green-500"; // On time or early
+	}
+	if (delayMinutes <= 1) {
+		return "text-green-400"; // 1 minute late
+	}
+	if (delayMinutes <= 2) {
+		return "text-yellow-300"; // 2 minutes late
+	}
+	if (delayMinutes <= 3) {
+		return "text-yellow-400"; // 3 minutes late
+	}
+	if (delayMinutes <= 4) {
+		return "text-yellow-500"; // 4 minutes late
+	}
+	if (delayMinutes <= 5) {
+		return "text-orange-300"; // 5 minutes late
+	}
+	if (delayMinutes <= 7) {
+		return "text-orange-400"; // 6-7 minutes late
+	}
+	if (delayMinutes <= 10) {
+		return "text-orange-500"; // 8-10 minutes late
+	}
+	if (delayMinutes <= 12) {
+		return "text-orange-600"; // 11-12 minutes late
+	}
+	if (delayMinutes <= 15) {
+		return "text-red-400"; // 13-15 minutes late
+	}
+	if (delayMinutes <= 18) {
+		return "text-red-500"; // 16-18 minutes late
+	}
+	if (delayMinutes <= 22) {
+		return "text-red-600"; // 19-22 minutes late
+	}
+	if (delayMinutes <= 30) {
+		return "text-red-700"; // 23-30 minutes late
+	}
+	if (delayMinutes <= 45) {
+		return "text-red-800"; // 31-45 minutes late
+	}
+	return "text-red-900"; // 45+ minutes late
+};
