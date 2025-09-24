@@ -14,7 +14,7 @@ const TrainDataDisplay = ({ trains }: TrainDataProps) => {
 
 	const filteredTrains = filterTrainsByCategory(
 		trains,
-		selectedCategory as "all" | "commuter" | "longDistance" | "freight"
+		selectedCategory as "all" | "commuter" | "longDistance" | "freight",
 	);
 
 	return (
@@ -29,8 +29,8 @@ const TrainDataDisplay = ({ trains }: TrainDataProps) => {
 					selectedCategory === "commuter"
 						? "commuter"
 						: selectedCategory === "freight"
-						? "freight"
-						: "longDistance"
+							? "freight"
+							: "longDistance"
 				}
 			/>
 		</div>

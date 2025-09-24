@@ -1,8 +1,8 @@
 "use client";
 import type { TrainType } from "@/lib/types/trainTypes";
 import {
-	getTrainCurrentDelay,
 	getDelayColorClass,
+	getTrainCurrentDelay,
 } from "@/lib/utils/trainDataUtils";
 import StatusItem from "./StatusItem";
 

@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { type Language, languages } from "@/lib/i18n/config";
 import { useTranslations } from "@/lib/i18n/useTranslations";
