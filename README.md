@@ -1,7 +1,5 @@
 # Is VR Late?
 
-## https://is-train-late.vercel.app/
-
 A real-time train tracking application that shows delayed VR (Finnish Railways) trains. Built with Next.js and TypeScript.
 
 ## Features
@@ -35,46 +33,46 @@ A real-time train tracking application that shows delayed VR (Finnish Railways) 
 git clone https://github.com/varjovaras/is-vr-late.git
 ```
 
+2. Navigate to the frontend directory:
+```bash
+cd is-vr-late/src/frontend
+```
+
 3. Install dependencies:
 ```bash
-bun frontend:install
+bun install
 # or
-npm run frontend:install
+npm install
 # or
-yarn frontend:install
+yarn install
 # or
-pnpm frontend:install
+pnpm install
 ```
 
 4. Run the development server:
 ```bash
-bun fronted:dev
+bun dev
 # or
-npm run frontend:dev
+npm run dev
 # or
-yarn frontend:dev
+yarn dev
 # or
-pnpm frontend:dev
+pnpm dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Frontend Project Structure
 
 ```
 src/
-├── frontend/           # Frontend application
-│   ├── app/           # Next.js app router
-│   ├── components/    # React components
-│   ├── lib/          # Utility functions and configurations
-│   │   └── i18n/     # Internationalization
-│   ├── queries/      # GraphQL queries
-│   └── types/        # TypeScript type definitions
-│
-├── backend/          # Backend application (not used at the moment)
-└── types/            # Shared TypeScript type definitions
+├── app/           # Next.js app router
+├── components/    # React components
+├── lib/          # Utility functions and configurations
+│   └── i18n/     # Internationalization
+├── queries/      # GraphQL queries
+└── types/        # TypeScript type definitions
 ```
-
 
 ## Acknowledgments
 
