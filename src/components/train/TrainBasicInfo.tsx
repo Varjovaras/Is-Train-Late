@@ -2,8 +2,8 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 import {
-	getTrainCurrentDelay,
 	getDelayColorClass,
+	getTrainCurrentDelay,
 } from "@/lib/utils/trainDataUtils";
 import RouteLinks from "./RouteLinks";
 import TrainSpeed from "./TrainSpeed";

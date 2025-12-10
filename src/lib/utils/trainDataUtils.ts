@@ -2,6 +2,11 @@ import type {
 	StationSchedule,
 	StationTimeTableRow,
 } from "../types/stationTypes";
+import {
+	commuterTrainTypeNames,
+	freightTrainTypeNames,
+	longDistanceTrainTypeNames,
+} from "../types/trainNameTypes";
 import type { TimeTableRow, TrainType } from "../types/trainTypes";
 import { removeAsema } from "./stringUtils";
 
@@ -194,20 +199,34 @@ export const filterFutureSchedules = (
 	});
 };
 
-/**
- * Train type categorization
- */
 export const getTrainCategory = (
 	train: TrainType,
 ): "commuter" | "longDistance" | "freight" => {
 	if (train.commuterLineid !== "") return "commuter";
-	if (train.trainType.trainCategory?.name === "Cargo") return "freight";
-	return "longDistance";
-};
 
-/**
- * Station departure/arrival finder
- */
+	const trainTypeName = train.trainType.name;
+
+	// Check against known commuter train types (fallback for trains without commuterLineid)
+	if ((commuterTrainTypeNames as readonly string[]).includes(trainTypeName)) {
+		return "commuter";
+	}
+
+	if ((freightTrainTypeNames as readonly string[]).includes(trainTypeName)) {
+		return "freight";
+	}
+
+	// Check against known long-distance passenger train types
+	if (
+		(longDistanceTrainTypeNames as readonly string[]).includes(trainTypeName)
+	) {
+		return "longDistance";
+	}
+
+	// Default to freight for any unknown train types
+	// This prevents freight trains from appearing in passenger train sections
+	// checking freight already for easy future changes
+	return "freight";
+};
 export const findStationTimeTableRow = (
 	schedule: StationSchedule,
 	stationId: string,
@@ -221,9 +240,6 @@ export const findStationTimeTableRow = (
 	);
 };
 
-/**
- * Train filtering utilities
- */
 export const filterTrainsByDelay = (
 	trains: TrainType[],
 	thresholdMinutes: number,
@@ -248,9 +264,6 @@ export const filterTrainsByCategory = (
 	});
 };
 
-/**
- * Color utilities for delays
- */
 export const getDelayColorClass = (delayMinutes: number): string => {
 	if (delayMinutes <= 0) {
 		return "text-green-500"; // On time or early

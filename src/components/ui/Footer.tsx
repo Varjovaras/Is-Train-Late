@@ -34,7 +34,7 @@ const Footer = () => {
 					alt="Github icon"
 					width={40}
 					height={40}
-					className="w-[40px] h-[40px]"
+					className="w-10 h-10"
 					loading="lazy"
 					priority={false}
 					placeholder="blur"

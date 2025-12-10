@@ -10,7 +10,7 @@ export const longDistanceTrainTypeNames = [
 ] as const;
 export const russianTrafficTrainTypeNames = ["AE", "PVV"] as const;
 export const commuterTrainTypeNames = ["HL", "HV", "HLV"] as const;
-export const freightTrainTypeNames = ["PAI", "T"] as const;
+export const freightTrainTypeNames = ["PAI", "T", "W"] as const;
 export const otherTrainTypeNames = [
 	"LIV",
 	"MUV",
