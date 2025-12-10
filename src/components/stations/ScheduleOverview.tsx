@@ -2,7 +2,6 @@
 import { useState } from "react";
 import type { StationSchedule } from "@/lib/types/stationTypes";
 import { stationScheduleFilter } from "@/lib/utils/stationScheduleFilter";
-import ScheduleButtons from "./ScheduleButtons";
 import ScheduleList from "./ScheduleList";
 import TrackSelector from "./TrackSelector";
 
@@ -11,13 +10,9 @@ type ScheduleOverviewProps = {
 	stationId: string;
 };
 
-export type ShowScheduleType = "current" | "future";
-
 const ScheduleOverview = ({ schedules, stationId }: ScheduleOverviewProps) => {
-	const [showScheduleType, setShowScheduleType] =
-		useState<ShowScheduleType>("current");
 	const [selectedTrack, setSelectedTrack] = useState<string | null>(null);
-	const [currentTrains, futureTrains] = stationScheduleFilter(schedules);
+	const filteredSchedules = stationScheduleFilter(schedules, stationId);
 
 	const filterByTrack = (trains: StationSchedule[]) => {
 		if (!selectedTrack) return trains;
@@ -30,24 +25,7 @@ const ScheduleOverview = ({ schedules, stationId }: ScheduleOverviewProps) => {
 		);
 	};
 
-	const filteredCurrentTrains = filterByTrack(currentTrains);
-	const filteredFutureTrains = filterByTrack(futureTrains);
-
-	const amountOfSchedules = [
-		filteredCurrentTrains.length,
-		filteredFutureTrains.length,
-	] as const;
-
-	const getFilteredSchedules = () => {
-		switch (showScheduleType) {
-			case "current":
-				return filteredCurrentTrains;
-			case "future":
-				return filteredFutureTrains;
-			default:
-				return filteredCurrentTrains;
-		}
-	};
+	const displayedSchedules = filterByTrack(filteredSchedules);
 
 	return (
 		<div className="space-y-8">
@@ -57,17 +35,7 @@ const ScheduleOverview = ({ schedules, stationId }: ScheduleOverviewProps) => {
 				onTrackSelect={setSelectedTrack}
 			/>
 
-			<ScheduleButtons
-				showScheduleType={showScheduleType}
-				setShowScheduleType={setShowScheduleType}
-				amountOfSchedules={amountOfSchedules}
-			/>
-
-			<ScheduleList
-				schedules={getFilteredSchedules()}
-				stationId={stationId}
-				showScheduleType={showScheduleType}
-			/>
+			<ScheduleList schedules={displayedSchedules} stationId={stationId} />
 		</div>
 	);
 };

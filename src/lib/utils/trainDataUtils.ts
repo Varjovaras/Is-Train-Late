@@ -10,9 +10,6 @@ import {
 import type { TimeTableRow, TrainType } from "../types/trainTypes";
 import { removeAsema } from "./stringUtils";
 
-/**
- * Train display name utilities
- */
 export const getTrainDisplayName = (train: TrainType): string => {
 	return train.commuterLineid || `${train.trainType.name} ${train.trainNumber}`;
 };
@@ -23,9 +20,6 @@ export const getTrainDisplayId = (train: TrainType): string => {
 		: train.trainNumber.toString();
 };
 
-/**
- * Train delay calculation utilities
- */
 export const getTrainCurrentDelay = (train: TrainType): number => {
 	const timeTableRows = train.timeTableRows.filter(
 		(row) => row.actualTime !== null,
@@ -49,9 +43,6 @@ export const getDelayByStation = (
 	return station?.differenceInMinutes;
 };
 
-/**
- * Station filtering utilities
- */
 export const getCommercialStations = (
 	timeTableRows: TimeTableRow[],
 	type?: "ARRIVAL" | "DEPARTURE",
@@ -74,9 +65,6 @@ export const getVisitedStations = (
 	});
 };
 
-/**
- * Train route information
- */
 export const getTrainRouteInfo = (train: TrainType) => {
 	const firstStation = train.timeTableRows[0];
 	const lastStation = train.timeTableRows[train.timeTableRows.length - 1];
@@ -95,9 +83,6 @@ export const getTrainRouteInfo = (train: TrainType) => {
 	};
 };
 
-/**
- * Station navigation utilities
- */
 export const getLatestVisitedStationName = (
 	train: TrainType,
 ): string | null => {
@@ -138,9 +123,6 @@ export const getNextCommercialStation = (
 	);
 };
 
-/**
- * Train progress calculation
- */
 export const calculateTrainProgress = (train: TrainType) => {
 	const commercialStops = getCommercialStations(train.timeTableRows, "ARRIVAL");
 	const completedStops = getVisitedStations(commercialStops);
@@ -157,9 +139,6 @@ export const calculateTrainProgress = (train: TrainType) => {
 	};
 };
 
-/**
- * Train link generation utilities
- */
 export const getTrainLink = (train: TrainType, includeDate = false): string => {
 	if (includeDate) {
 		return `/trains/${train.trainNumber}-${train.departureDate}`;
@@ -169,34 +148,6 @@ export const getTrainLink = (train: TrainType, includeDate = false): string => {
 
 export const getStationLink = (stationShortCode: string): string => {
 	return `/stations/${stationShortCode}`;
-};
-
-/**
- * Schedule filtering utilities
- */
-export const filterSchedulesByTimeWindow = (
-	schedules: StationSchedule[],
-	minutesFromNow: number,
-) => {
-	const cutoffTime = new Date(Date.now() + minutesFromNow * 60000);
-	const now = new Date();
-
-	return schedules.filter((schedule) => {
-		const firstTime = new Date(schedule.timeTableRows[0].scheduledTime);
-		return firstTime >= now && firstTime <= cutoffTime;
-	});
-};
-
-export const filterFutureSchedules = (
-	schedules: StationSchedule[],
-	minutesFromNow: number,
-) => {
-	const cutoffTime = new Date(Date.now() + minutesFromNow * 60000);
-
-	return schedules.filter((schedule) => {
-		const firstTime = new Date(schedule.timeTableRows[0].scheduledTime);
-		return firstTime > cutoffTime;
-	});
 };
 
 export const getTrainCategory = (
@@ -227,6 +178,7 @@ export const getTrainCategory = (
 	// checking freight already for easy future changes
 	return "freight";
 };
+
 export const findStationTimeTableRow = (
 	schedule: StationSchedule,
 	stationId: string,
