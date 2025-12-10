@@ -26,7 +26,7 @@ const LocationSearch = () => {
 	};
 
 	return (
-		<div className="absolute top-16 sm:top-2 left-14 sm:right-2 z z-[400] w-42 sm:w-64">
+		<div className="absolute top-16 sm:top-2 left-14 sm:right-2 z z-400 w-42 sm:w-64">
 			<div className="relative">
 				<input
 					type="text"

@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 import { getArrivalCountdown } from "@/lib/utils/dateUtils";
@@ -34,9 +35,16 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 					<div>
 						<p className="text-sm opacity-70">{translations.currentLast}</p>
 						<p className="font-semibold text-green-500">
-							{lastCompletedStop
-								? removeAsema(lastCompletedStop.station.name)
-								: translations.notStarted}
+							{lastCompletedStop ? (
+								<Link
+									href={`/stations/${lastCompletedStop.station.shortCode}`}
+									className="hover:underline"
+								>
+									{removeAsema(lastCompletedStop.station.name)}
+								</Link>
+							) : (
+								translations.notStarted
+							)}
 						</p>
 						{lastCompletedStop && (
 							<p className="text-xs text-foreground/60">
@@ -56,9 +64,16 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 					<div>
 						<p className="text-sm opacity-70">{translations.nextStop}</p>
 						<p className="font-semibold text-blue-500">
-							{nextStop
-								? removeAsema(nextStop.station.name)
-								: translations.journeyComplete}
+							{nextStop ? (
+								<Link
+									href={`/stations/${nextStop.station.shortCode}`}
+									className="hover:underline"
+								>
+									{removeAsema(nextStop.station.name)}
+								</Link>
+							) : (
+								translations.journeyComplete
+							)}
 						</p>
 						{nextStop && (
 							<p className="text-xs text-foreground/60">
@@ -102,14 +117,28 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 			{(startingStation || endingStation) && (
 				<div className="flex justify-between text-xs opacity-70 mb-2">
 					<span>
-						{startingStation
-							? removeAsema(startingStation.station.name)
-							: translations.unknown}
+						{startingStation ? (
+							<Link
+								href={`/stations/${startingStation.station.shortCode}`}
+								className="hover:underline"
+							>
+								{removeAsema(startingStation.station.name)}
+							</Link>
+						) : (
+							translations.unknown
+						)}
 					</span>
 					<span>
-						{endingStation
-							? removeAsema(endingStation.station.name)
-							: translations.unknown}
+						{endingStation ? (
+							<Link
+								href={`/stations/${endingStation.station.shortCode}`}
+								className="hover:underline"
+							>
+								{removeAsema(endingStation.station.name)}
+							</Link>
+						) : (
+							translations.unknown
+						)}
 					</span>
 				</div>
 			)}

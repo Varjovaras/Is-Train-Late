@@ -4,16 +4,16 @@ import Loading from "../ui/Loading";
 import TrainDataDisplay from "./TrainDataDisplay";
 
 const TrainData = async () => {
-    const trainResponse = await getTrainData();
-    const passengerTrainData = trainResponse.data.currentlyRunningTrains;
+	const trainResponse = await getTrainData();
+	const passengerTrainData = trainResponse.data.currentlyRunningTrains;
 
-    return (
-        <div className="flex flex-col items-center justify-items-center">
-            <Suspense fallback={<Loading />}>
-                <TrainDataDisplay trains={passengerTrainData} />
-            </Suspense>
-        </div>
-    );
+	return (
+		<div className="flex flex-col items-center justify-items-center">
+			<Suspense fallback={<Loading />}>
+				<TrainDataDisplay trains={passengerTrainData} />
+			</Suspense>
+		</div>
+	);
 };
 
 export default TrainData;

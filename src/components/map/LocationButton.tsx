@@ -29,7 +29,7 @@ const LocationButton = () => {
 		<button
 			type="button"
 			onClick={handleClick}
-			className="absolute bottom-4 right-4 z-[400] bg-background/80 hover:bg-background p-2 rounded-lg border border-foreground/20"
+			className="absolute bottom-4 right-4 z-400 bg-background/80 hover:bg-background p-2 rounded-lg border border-foreground/20"
 			aria-label={translations.centerOnLocation}
 		>
 			<svg

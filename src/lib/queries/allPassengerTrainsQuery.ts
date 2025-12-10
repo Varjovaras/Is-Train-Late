@@ -96,7 +96,7 @@ export const passengerQuery = `{
     }
   }
 }`
-    .replace(/\s+/g, " ")
-    .replace(/\n/g, " ")
-    .replace(/\\/g, "")
-    .trim();
+	.replace(/\s+/g, " ")
+	.replace(/\n/g, " ")
+	.replace(/\\/g, "")
+	.trim();

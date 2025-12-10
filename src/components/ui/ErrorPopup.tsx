@@ -34,7 +34,7 @@ const ErrorPopup = () => {
 				</button>
 
 				<div className="flex items-start gap-4">
-					<div className="flex-shrink-0 bg-red-100 rounded-full p-2">
+					<div className="shrink-0 bg-red-100 rounded-full p-2">
 						<svg
 							role="img"
 							focusable="false"

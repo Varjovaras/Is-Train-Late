@@ -1,0 +1,11 @@
+{
+	"lsp": {
+		"biome": {
+			"binary": {
+				"path": "/var/biome-2.2.3/bin/biome",
+
+				"arguments": ["lsp-proxy"]
+			}
+		}
+	}
+}
