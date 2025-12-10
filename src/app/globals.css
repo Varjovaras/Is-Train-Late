@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-/* biome-ignore lint/suspicious/noUnknownAtRules: not needed, this is tailwind */
 @theme {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
