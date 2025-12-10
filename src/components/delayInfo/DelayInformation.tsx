@@ -36,8 +36,10 @@ const DelayInformation = ({ train }: DelayInformationProps) => {
 
 	return (
 		<div className={`mb-8 ${isLoading ? "fade-out" : "fade-in"}`}>
-			<h2 className="text-2xl font-semibold m-4">{translations.delayCauses}</h2>
-			<div className="space-y-4">
+			<h2 className="text-2xl font-semibold m-2 p-4 pb-2">
+				{translations.delayCauses}
+			</h2>
+			<div className="space-y-4 mx-2">
 				{timeTablesWithCauses.map((timeTableRow, index) => (
 					<DelayReasonCard
 						key={`${baseId}-${
