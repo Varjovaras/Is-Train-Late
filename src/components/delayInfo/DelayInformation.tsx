@@ -14,9 +14,21 @@ const DelayInformation = ({ train }: DelayInformationProps) => {
 	const { translations, isLoading } = useTranslations();
 	const baseId = useId();
 
-	const timeTablesWithCauses = train.timeTableRows.filter(
-		(row) => row.causes !== null,
-	);
+	const timeTablesWithCauses = train.timeTableRows.filter((row) => {
+		// Filter out rows without causes or with empty causes array
+		if (!row.causes || row.causes.length === 0) return false;
+
+		// Check if at least one cause has meaningful text content
+		return row.causes.some((cause) => {
+			const hasCategory = cause.categoryCode?.name?.trim().length > 0;
+			const hasDetails = cause.detailedCategoryCode?.name?.trim().length > 0;
+			const hasAdditionalInfo =
+				cause.thirdCategoryCode?.name?.trim().length > 0;
+
+			// Include this cause if any of the fields have text
+			return hasCategory || hasDetails || hasAdditionalInfo;
+		});
+	});
 
 	if (timeTablesWithCauses.length === 0) {
 		return null;
