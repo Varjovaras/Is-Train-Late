@@ -6,7 +6,6 @@ import { filterTrainsByDelay, sortTrains } from "@/lib/utils/trainUtils";
 import Selectors from "../selectors/Selectors";
 import type { SortOption } from "../selectors/SortSelector";
 import Train from "../train/Train";
-import ProdErrorBoundary from "../ui/ProdErrorBoundary";
 import NoTrains from "./NoTrains";
 
 type TrainListProps = {
@@ -65,21 +64,11 @@ const TrainList = ({ trains, trainType }: TrainListProps) => {
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
               {sortedTrains.map((train) => (
-                <ProdErrorBoundary
+                <Train
+                  train={train}
                   key={`${train.trainNumber}-${train.departureDate}`}
-                  name="TrainCard"
-                  context={{
-                    trainNumber: train.trainNumber,
-                    departureDate: train.departureDate,
-                    commuterLineid: train.commuterLineid,
-                    trainType: train.trainType?.name,
-                  }}
-                >
-                  <Train
-                    train={train}
-                    forceShowAllStations={forceShowAllStations}
-                  />
-                </ProdErrorBoundary>
+                  forceShowAllStations={forceShowAllStations}
+                />
               ))}
             </div>
           </>

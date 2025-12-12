@@ -2,29 +2,28 @@
 import { useEffect, useState } from "react";
 
 const Clock = () => {
-	const [time, setTime] = useState<Date | null>(null);
+  const [time, setTime] = useState(() => new Date());
 
-	useEffect(() => {
-		const timer = setInterval(() => {
-			setTime(new Date());
-		}, 1000);
+  useEffect(() => {
+    setTime(new Date());
 
-		return () => clearInterval(timer);
-	}, []);
+    const timer = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
 
-	return (
-		<div className="font-mono text-sm">
-			{time ? (
-				time.toLocaleTimeString("fi-FI", {
-					hour: "2-digit",
-					minute: "2-digit",
-					second: "2-digit",
-				})
-			) : (
-				<div></div>
-			)}
-		</div>
-	);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="font-mono text-sm">
+      {time.toLocaleTimeString("fi-FI", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        timeZone: "Europe/Helsinki",
+      })}
+    </div>
+  );
 };
 
 export default Clock;
