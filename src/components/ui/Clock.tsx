@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 const Clock = () => {
-	const [time, setTime] = useState(new Date());
+	const [time, setTime] = useState<Date | null>(null);
 
 	useEffect(() => {
 		const timer = setInterval(() => {
@@ -14,11 +14,15 @@ const Clock = () => {
 
 	return (
 		<div className="font-mono text-sm">
-			{time.toLocaleTimeString("fi-FI", {
-				hour: "2-digit",
-				minute: "2-digit",
-				second: "2-digit",
-			})}
+			{time ? (
+				time.toLocaleTimeString("fi-FI", {
+					hour: "2-digit",
+					minute: "2-digit",
+					second: "2-digit",
+				})
+			) : (
+				<div></div>
+			)}
 		</div>
 	);
 };
