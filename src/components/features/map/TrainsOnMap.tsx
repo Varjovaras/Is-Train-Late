@@ -1,80 +1,70 @@
-import { divIcon } from "leaflet";
-import Link from "next/link";
-import { Marker, Popup } from "react-leaflet";
-import { useTranslations } from "@/lib/i18n/useTranslations";
+"use client";
+import { useState } from "react";
+import { Marker, Popup } from "react-map-gl/maplibre";
 import type { TrainType } from "@/lib/types/trainTypes";
+import TrainIcon from "./TrainIcon";
+import TrainPopupContent from "./TrainPopupContent";
 
 type TrainsOnMapProps = {
-	filteredTrains: TrainType[];
+  filteredTrains: TrainType[];
+};
+
+const getTrainType = (
+  train: TrainType
+): "commuter" | "longDistance" | "freight" => {
+  if (train.commuterLineid !== "") return "commuter";
+  if (train.trainType.trainCategory?.name === "Cargo") return "freight";
+  return "longDistance";
+};
+
+const TrainMarker = ({ train }: { train: TrainType }) => {
+  const [showPopup, setShowPopup] = useState(false);
+  const location = train.trainLocations[0]?.location;
+
+  if (!location) return null;
+
+  const trainType = getTrainType(train);
+  const trainId = train.commuterLineid || train.trainNumber.toString();
+
+  return (
+    <>
+      <Marker
+        longitude={location[0]}
+        latitude={location[1]}
+        anchor="center"
+        onClick={(e) => {
+          e.originalEvent.stopPropagation();
+          setShowPopup(true);
+        }}
+      >
+        <TrainIcon type={trainType} label={trainId} />
+      </Marker>
+      {showPopup && (
+        <Popup
+          longitude={location[0]}
+          latitude={location[1]}
+          anchor="bottom"
+          onClose={() => setShowPopup(false)}
+          closeButton={true}
+          closeOnClick={false}
+          className="train-popup"
+        >
+          <TrainPopupContent train={train} />
+        </Popup>
+      )}
+    </>
+  );
 };
 
 const TrainsOnMap = ({ filteredTrains }: TrainsOnMapProps) => {
-	const { translations } = useTranslations();
-
-	const createTrainIcon = (trainId: string, trainType: string) => {
-		let className = "";
-
-		if (trainType === "commuter") {
-			className = "commuter";
-		} else if (trainType === "freight") {
-			className = "freight";
-		} else {
-			className = "longDistance";
-		}
-
-		return divIcon({
-			className: "",
-			html: `<div class="train-marker ${className}">${trainId}</div>`,
-			iconSize: [0, 0],
-			iconAnchor: [0, 0],
-		});
-	};
-
-	return (
-		<>
-			{filteredTrains.map((train) => {
-				const location = train.trainLocations[0]?.location;
-				if (!location) return null;
-				const trainId = train.commuterLineid || train.trainNumber.toString();
-
-				const trainType =
-					train.commuterLineid !== ""
-						? "commuter"
-						: train.trainType.trainCategory?.name === "Cargo"
-							? "freight"
-							: "longDistance";
-
-				const uniqueKey = `${train.trainNumber}-${train.departureDate}-${train.trainLocations[0]?.timestamp || ""}-${location[0]}-${location[1]}`;
-
-				return (
-					<Marker
-						key={uniqueKey}
-						position={[location[1], location[0]]}
-						icon={createTrainIcon(trainId, trainType)}
-					>
-						<Popup>
-							<div className="p-2 space-y-2">
-								<Link
-									href={`/trains/${train.trainNumber}`}
-									className="block font-bold text-lg hover:text-red-600 transition-colors"
-								>
-									{train.commuterLineid ||
-										`${train.trainType.name} ${train.trainNumber}`}
-								</Link>
-								<p className="text-sm text-foreground/70">
-									{translations.currentSpeed}: {train.trainLocations[0]?.speed}{" "}
-									km/h
-								</p>
-								<p className="text-sm text-foreground/70">
-									{train.trainType.trainCategory?.name || train.trainType.name}
-								</p>
-							</div>
-						</Popup>
-					</Marker>
-				);
-			})}
-		</>
-	);
+  return (
+    <>
+      {filteredTrains.map((train) => {
+        const uniqueKey = `${train.trainNumber}-${train.departureDate}`;
+        return <TrainMarker key={uniqueKey} train={train} />;
+      })}
+    </>
+  );
 };
 
 export default TrainsOnMap;
