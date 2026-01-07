@@ -35,7 +35,10 @@ const ScheduleOverview = ({ schedules, stationId }: ScheduleOverviewProps) => {
 				onTrackSelect={setSelectedTrack}
 			/>
 
-			<ScheduleList schedules={displayedSchedules} stationId={stationId} />
+			<ScheduleList
+				schedules={displayedSchedules}
+				stationId={stationId}
+			/>
 		</div>
 	);
 };

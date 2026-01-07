@@ -41,7 +41,8 @@ const ScheduleCardHeader = ({
 					{getTrainTypeString(schedule, translations)}
 					{departureRow?.commercialTrack && (
 						<span className="ml-2">
-							• {translations.track} {departureRow.commercialTrack}
+							• {translations.track}{" "}
+							{departureRow.commercialTrack}
 						</span>
 					)}
 				</p>

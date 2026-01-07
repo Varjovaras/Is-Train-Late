@@ -17,7 +17,8 @@ const TrainStationsView = ({
 	forceShowAllStations,
 }: TrainStationsViewProps) => {
 	const { isLoading } = useTranslations();
-	const [showAllStations, setShowAllStations] = useState(forceShowAllStations);
+	const [showAllStations, setShowAllStations] =
+		useState(forceShowAllStations);
 	const [showNonCommercialStops, setShowNonCommercialStops] = useState(false);
 
 	return (

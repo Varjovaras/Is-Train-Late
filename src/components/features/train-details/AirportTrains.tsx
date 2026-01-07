@@ -12,7 +12,8 @@ const AirportTrains = ({ train }: AirportTrainsProps) => {
 	const { translations } = useTranslations();
 
 	const firstTimeTableRow = train.timeTableRows[0];
-	const lastTimeTableRow = train.timeTableRows[train.timeTableRows.length - 1];
+	const lastTimeTableRow =
+		train.timeTableRows[train.timeTableRows.length - 1];
 
 	const startStation = removeAsema(firstTimeTableRow.station.name);
 	const endStation = removeAsema(lastTimeTableRow.station.name);
@@ -25,7 +26,9 @@ const AirportTrains = ({ train }: AirportTrainsProps) => {
 				<Link href={"/stations/HKI"} className="text-green-500">
 					{startStation}
 				</Link>
-				<span className="text-sm text-foreground/60">{departureTime}</span>
+				<span className="text-sm text-foreground/60">
+					{departureTime}
+				</span>
 			</div>
 			{" → "}
 			<Link href={"/stations/HKI"} className="text-green-700">
@@ -44,7 +47,9 @@ const AirportTrains = ({ train }: AirportTrainsProps) => {
 				<Link href={"/stations/HKI"} className="text-green-500">
 					{endStation}
 				</Link>
-				<span className="text-sm text-foreground/60">{arrivalTime}</span>
+				<span className="text-sm text-foreground/60">
+					{arrivalTime}
+				</span>
 			</div>
 		</div>
 	);

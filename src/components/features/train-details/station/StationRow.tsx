@@ -25,7 +25,9 @@ const StationRow = ({
 	const { translations } = useTranslations();
 
 	const scheduledTime = formatTime(station.scheduledTime);
-	const actualTime = station.actualTime ? formatTime(station.actualTime) : null;
+	const actualTime = station.actualTime
+		? formatTime(station.actualTime)
+		: null;
 	const estimatedTime = station.liveEstimateTime
 		? formatTime(station.liveEstimateTime)
 		: scheduledTime;

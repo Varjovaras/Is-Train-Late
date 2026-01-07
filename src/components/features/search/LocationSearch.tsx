@@ -14,7 +14,9 @@ const LocationSearch = () => {
 		? Object.entries(stationCoordinates)
 				.filter(
 					([code, station]) =>
-						station.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+						station.name
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase()) ||
 						code.toLowerCase().includes(searchTerm.toLowerCase()),
 				)
 				.slice(0, 8)
@@ -35,7 +37,10 @@ const LocationSearch = () => {
 		[map],
 	);
 
-	const handleKeyDown = (e: React.KeyboardEvent, coords: [number, number]) => {
+	const handleKeyDown = (
+		e: React.KeyboardEvent,
+		coords: [number, number],
+	) => {
 		if (e.key === "Enter" || e.key === " ") {
 			e.preventDefault();
 			handleStationSelect(coords);
@@ -77,15 +82,24 @@ const LocationSearch = () => {
 							key={code}
 							type="button"
 							onClick={() =>
-								handleStationSelect(station.coords as [number, number])
+								handleStationSelect(
+									station.coords as [number, number],
+								)
 							}
 							onKeyDown={(e) =>
-								handleKeyDown(e, station.coords as [number, number])
+								handleKeyDown(
+									e,
+									station.coords as [number, number],
+								)
 							}
 							className="w-full px-4 py-3 text-left hover:bg-foreground/10 transition-colors border-b border-foreground/5 last:border-b-0 focus:bg-foreground/10 focus:outline-none"
 						>
-							<div className="font-medium text-foreground">{station.name}</div>
-							<div className="text-xs text-foreground/50 mt-0.5">{code}</div>
+							<div className="font-medium text-foreground">
+								{station.name}
+							</div>
+							<div className="text-xs text-foreground/50 mt-0.5">
+								{code}
+							</div>
 						</button>
 					))}
 				</div>

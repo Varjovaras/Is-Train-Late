@@ -57,7 +57,9 @@ const ErrorPopup = () => {
 					</div>
 
 					<div className="flex-1">
-						<h3 className="text-lg font-medium text-red-600 mb-2">Error</h3>
+						<h3 className="text-lg font-medium text-red-600 mb-2">
+							Error
+						</h3>
 						<p className="text-foreground/80">{error}</p>
 
 						<div className="mt-4">

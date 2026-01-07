@@ -29,10 +29,10 @@ const LanguageSwitcher = () => {
 					onClick={() => handleLanguageChange(code as Language)}
 					className={`px-2 py-1 text-sm rounded-md transition-colors
             ${
-							currentLang === code
-								? "bg-foreground text-background"
-								: "hover:bg-foreground/10"
-						}`}
+				currentLang === code
+					? "bg-foreground text-background"
+					: "hover:bg-foreground/10"
+			}`}
 				>
 					{name}
 				</button>

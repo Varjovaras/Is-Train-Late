@@ -49,8 +49,12 @@ const TopBar = () => {
 						href="/map"
 						className="px-2 sm:px-4 py-2 text-xs sm:text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
 					>
-						<span className="hidden sm:inline">🗺️ {translations.map}</span>
-						<span className="sm:hidden p-2">{translations.mapMobile}</span>
+						<span className="hidden sm:inline">
+							🗺️ {translations.map}
+						</span>
+						<span className="sm:hidden p-2">
+							{translations.mapMobile}
+						</span>
 					</Link>
 				</div>
 				<div className="flex items-center gap-2 sm:gap-4">

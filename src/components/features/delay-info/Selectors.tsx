@@ -21,7 +21,10 @@ const Selectors = ({
 				currentThreshold={delayThreshold}
 				onThresholdChange={setDelayThreshold}
 			/>
-			<SortSelector currentSort={sortOption} onSortChange={setSortOption} />
+			<SortSelector
+				currentSort={sortOption}
+				onSortChange={setSortOption}
+			/>
 		</div>
 	);
 };

@@ -26,7 +26,8 @@ const DelayReasonCard = ({ timeTableRow, minutes }: DelayReasonCardProps) => {
 			{timeTableRow.causes
 				?.filter((cause) => {
 					// Only show causes that have at least one field with meaningful text
-					const hasCategory = cause.categoryCode?.name?.trim().length > 0;
+					const hasCategory =
+						cause.categoryCode?.name?.trim().length > 0;
 					const hasDetails =
 						cause.detailedCategoryCode?.name?.trim().length > 0;
 					const hasAdditionalInfo =

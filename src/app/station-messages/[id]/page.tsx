@@ -30,7 +30,9 @@ const Page = async ({
 	if (stationMessages.length === 0) {
 		return (
 			<div className="flex flex-col items-center p-8">
-				<h1 className="text-xl">No active messages for station {stationId}</h1>
+				<h1 className="text-xl">
+					No active messages for station {stationId}
+				</h1>
 			</div>
 		);
 	}
@@ -48,31 +50,42 @@ const Page = async ({
 				>
 					<div className="flex justify-between items-start gap-4">
 						{message.trainNumber && (
-							<p className="font-bold">Train {message.trainNumber}</p>
+							<p className="font-bold">
+								Train {message.trainNumber}
+							</p>
 						)}
 						<p className="text-sm text-foreground/60">
-							Valid until {new Date(message.endValidity).toLocaleString()}
+							Valid until{" "}
+							{new Date(message.endValidity).toLocaleString()}
 						</p>
 					</div>
 
 					{message.audio && (
 						<div className="space-y-2">
-							<h3 className="font-semibold">Audio announcement:</h3>
-							<p className="text-foreground/80">{message.audio.text.en}</p>
+							<h3 className="font-semibold">
+								Audio announcement:
+							</h3>
+							<p className="text-foreground/80">
+								{message.audio.text.en}
+							</p>
 						</div>
 					)}
 
 					{message.video && (
 						<div className="space-y-2">
 							<h3 className="font-semibold">Display message:</h3>
-							<p className="text-foreground/80">{message.video.text.en}</p>
+							<p className="text-foreground/80">
+								{message.video.text.en}
+							</p>
 						</div>
 					)}
 
 					{message.stations.length > 1 && (
 						<div className="text-sm text-foreground/60">
 							Also displayed at:{" "}
-							{message.stations.filter((s) => s !== stationId).join(", ")}
+							{message.stations
+								.filter((s) => s !== stationId)
+								.join(", ")}
 						</div>
 					)}
 				</div>

@@ -11,7 +11,9 @@ import type { TimeTableRow, TrainType } from "../types/trainTypes";
 import { removeAsema } from "./stringUtils";
 
 export const getTrainDisplayName = (train: TrainType): string => {
-	return train.commuterLineid || `${train.trainType.name} ${train.trainNumber}`;
+	return (
+		train.commuterLineid || `${train.trainType.name} ${train.trainNumber}`
+	);
 };
 
 export const getTrainDisplayId = (train: TrainType): string => {
@@ -124,7 +126,10 @@ export const getNextCommercialStation = (
 };
 
 export const calculateTrainProgress = (train: TrainType) => {
-	const commercialStops = getCommercialStations(train.timeTableRows, "ARRIVAL");
+	const commercialStops = getCommercialStations(
+		train.timeTableRows,
+		"ARRIVAL",
+	);
 	const completedStops = getVisitedStations(commercialStops);
 	const totalStops = commercialStops.length;
 	const progressPercentage =
@@ -168,7 +173,9 @@ export const getTrainCategory = (
 
 	// Check against known long-distance passenger train types
 	if (
-		(longDistanceTrainTypeNames as readonly string[]).includes(trainTypeName)
+		(longDistanceTrainTypeNames as readonly string[]).includes(
+			trainTypeName,
+		)
 	) {
 		return "longDistance";
 	}

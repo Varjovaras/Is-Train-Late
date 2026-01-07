@@ -33,7 +33,11 @@ const TrainIcon = ({ type, label, heading = 0 }: TrainIconProps) => {
 					strokeWidth="2"
 				/>
 				{/* Direction indicator */}
-				<path d="M18 6 L22 14 L18 12 L14 14 Z" fill="white" opacity="0.9" />
+				<path
+					d="M18 6 L22 14 L18 12 L14 14 Z"
+					fill="white"
+					opacity="0.9"
+				/>
 			</svg>
 			{/* Label */}
 			<div className="absolute inset-0 flex items-center justify-center pt-1">

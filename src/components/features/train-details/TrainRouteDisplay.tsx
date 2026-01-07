@@ -18,7 +18,8 @@ const TrainRouteDisplay = ({ train }: TrainRouteDisplayProps) => {
 	}
 
 	const firstTimeTableRow = train.timeTableRows[0];
-	const lastTimeTableRow = train.timeTableRows[train.timeTableRows.length - 1];
+	const lastTimeTableRow =
+		train.timeTableRows[train.timeTableRows.length - 1];
 
 	const startStation = removeAsema(firstTimeTableRow.station.name);
 	const endStation = removeAsema(lastTimeTableRow.station.name);
@@ -34,7 +35,9 @@ const TrainRouteDisplay = ({ train }: TrainRouteDisplayProps) => {
 				>
 					{startStation}
 				</Link>
-				<span className="text-sm text-foreground/60">{departureTime}</span>
+				<span className="text-sm text-foreground/60">
+					{departureTime}
+				</span>
 			</div>
 			<span>→</span>
 			<div className="flex flex-col items-center">
@@ -44,7 +47,9 @@ const TrainRouteDisplay = ({ train }: TrainRouteDisplayProps) => {
 				>
 					{endStation}
 				</Link>
-				<span className="text-sm text-foreground/60">{arrivalTime}</span>
+				<span className="text-sm text-foreground/60">
+					{arrivalTime}
+				</span>
 			</div>
 		</div>
 	);

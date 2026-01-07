@@ -23,7 +23,9 @@ const Search = () => {
 						type="radio"
 						value="train"
 						checked={searchType === "train"}
-						onChange={(e) => setSearchType(e.target.value as SearchType)}
+						onChange={(e) =>
+							setSearchType(e.target.value as SearchType)
+						}
 						className="appearance-none w-4 h-4 rounded-full border-2 border-foreground/60 checked:border-foreground checked:bg-red-500/50 checked:border-0 transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-foreground/60"
 					/>
 					<span
@@ -41,7 +43,9 @@ const Search = () => {
 						type="radio"
 						value="station"
 						checked={searchType === "station"}
-						onChange={(e) => setSearchType(e.target.value as SearchType)}
+						onChange={(e) =>
+							setSearchType(e.target.value as SearchType)
+						}
 						className="appearance-none w-4 h-4 rounded-full border-2 border-foreground/60 checked:border-foreground checked:bg-red-500/50 checked:border-0 transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-foreground/60"
 					/>
 					<span

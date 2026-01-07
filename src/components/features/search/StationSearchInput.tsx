@@ -142,7 +142,9 @@ const StationSearchInput = () =>
                 ${index === selectedIndex ? "bg-foreground/10" : ""}`}
 							>
 								<span>{name}</span>
-								<span className="text-foreground/60 text-sm">{code}</span>
+								<span className="text-foreground/60 text-sm">
+									{code}
+								</span>
 							</button>
 						))}
 					</div>

@@ -21,7 +21,8 @@ const DelayInformation = ({ train }: DelayInformationProps) => {
 		// Check if at least one cause has meaningful text content
 		return row.causes.some((cause) => {
 			const hasCategory = cause.categoryCode?.name?.trim().length > 0;
-			const hasDetails = cause.detailedCategoryCode?.name?.trim().length > 0;
+			const hasDetails =
+				cause.detailedCategoryCode?.name?.trim().length > 0;
 			const hasAdditionalInfo =
 				cause.thirdCategoryCode?.name?.trim().length > 0;
 

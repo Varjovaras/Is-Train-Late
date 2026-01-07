@@ -13,7 +13,9 @@ const TrainSpeed = ({ train }: TrainSpeedProps) => {
 	return (
 		<div>
 			{currentSpeed !== null && currentSpeed > 0 && (
-				<p className="text-xs text-foreground/70">{currentSpeed} km/h</p>
+				<p className="text-xs text-foreground/70">
+					{currentSpeed} km/h
+				</p>
 			)}
 		</div>
 	);

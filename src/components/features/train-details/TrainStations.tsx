@@ -63,7 +63,9 @@ const TrainStations = ({
 					key={station.scheduledTime.toString() + station.type}
 					station={station}
 					isCurrentStation={station.station.name === currentStation}
-					isNextStation={station.station.name === nextStationRow?.station.name}
+					isNextStation={
+						station.station.name === nextStationRow?.station.name
+					}
 					isDepartureStation={showAllStations && index === 0}
 					isFutureStation={index > currentStationIndex}
 				/>

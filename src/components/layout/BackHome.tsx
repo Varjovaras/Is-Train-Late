@@ -9,7 +9,9 @@ const BackHome = () => {
 	const { translations, isLoading } = useTranslations();
 
 	const buttonText =
-		pathname !== "/" ? translations.backHome : translations.refreshTrainData;
+		pathname !== "/"
+			? translations.backHome
+			: translations.refreshTrainData;
 	const isHomePage = pathname === "/";
 	const buttonTextMobile = isHomePage
 		? translations.refreshTrainDataMobile

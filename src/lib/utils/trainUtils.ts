@@ -56,7 +56,9 @@ export const getTimeDiffByStation = (
 export const getCommercialStationArrivals = (train: TrainType) => {
 	return train.timeTableRows.filter((row) => {
 		return (
-			row.trainStopping && row.commercialStop === true && row.type === "ARRIVAL"
+			row.trainStopping &&
+			row.commercialStop === true &&
+			row.type === "ARRIVAL"
 		);
 	});
 };

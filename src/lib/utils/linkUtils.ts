@@ -7,7 +7,9 @@ export const getDepartureStationShortCode = (
 	train?: TrainType,
 ) => {
 	if (stationSchedule) {
-		return getStationLink(stationSchedule.timeTableRows[0].stationShortCode);
+		return getStationLink(
+			stationSchedule.timeTableRows[0].stationShortCode,
+		);
 	}
 	if (train) {
 		return getStationLink(train.timeTableRows[0].station.shortCode);
@@ -21,13 +23,15 @@ export const getEndStationShortCode = (
 ) => {
 	if (stationSchedule) {
 		return getStationLink(
-			stationSchedule.timeTableRows[stationSchedule.timeTableRows.length - 1]
-				.stationShortCode,
+			stationSchedule.timeTableRows[
+				stationSchedule.timeTableRows.length - 1
+			].stationShortCode,
 		);
 	}
 	if (train) {
 		return getStationLink(
-			train.timeTableRows[train.timeTableRows.length - 1].station.shortCode,
+			train.timeTableRows[train.timeTableRows.length - 1].station
+				.shortCode,
 		);
 	}
 	return getStationLink("HKI");

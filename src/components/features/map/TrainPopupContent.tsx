@@ -17,14 +17,20 @@ const TrainPopupContent = ({ train }: TrainPopupContentProps) => {
 				href={`/trains/${train.trainNumber}`}
 				className="block text-lg font-bold text-foreground hover:text-red-500 transition-colors"
 			>
-				{train.commuterLineid || `${train.trainType.name} ${train.trainNumber}`}
+				{train.commuterLineid ||
+					`${train.trainType.name} ${train.trainNumber}`}
 			</Link>
 			<div className="mt-2 space-y-1 text-sm text-foreground/70">
 				<p>
 					{translations.currentSpeed}:{" "}
-					<span className="font-medium text-foreground">{speed} km/h</span>
+					<span className="font-medium text-foreground">
+						{speed} km/h
+					</span>
 				</p>
-				<p>{train.trainType.trainCategory?.name || train.trainType.name}</p>
+				<p>
+					{train.trainType.trainCategory?.name ||
+						train.trainType.name}
+				</p>
 			</div>
 		</div>
 	);

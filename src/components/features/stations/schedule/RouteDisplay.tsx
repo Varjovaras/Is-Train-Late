@@ -18,7 +18,8 @@ const RouteDisplay = ({ schedule }: RouteDisplayProps) => {
 		schedule.timeTableRows[0].stationShortCode,
 	);
 	const endStation = getFormattedStationName(
-		schedule.timeTableRows[schedule.timeTableRows.length - 1].stationShortCode,
+		schedule.timeTableRows[schedule.timeTableRows.length - 1]
+			.stationShortCode,
 	);
 
 	if (schedule.commuterLineID === "P" || schedule.commuterLineID === "I") {

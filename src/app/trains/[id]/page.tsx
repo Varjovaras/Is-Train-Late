@@ -26,7 +26,9 @@ const getTodayTrainData = async (
 ): Promise<TrainType | null> => {
 	try {
 		const today = new Date();
-		const formattedDate = formatDateForUrl(today.toISOString().split("T")[0]);
+		const formattedDate = formatDateForUrl(
+			today.toISOString().split("T")[0],
+		);
 		const todayTrainId = `${trainNumber}-${formattedDate}`;
 
 		const res = await fetch(GRAPHQL_ENDPOINT, {
@@ -56,7 +58,10 @@ const getTodayTrainData = async (
 		console.warn("Unexpected API response structure:", trainResponse);
 		return null;
 	} catch (error) {
-		console.log(`Error fetching today's data for train ${trainNumber}:`, error);
+		console.log(
+			`Error fetching today's data for train ${trainNumber}:`,
+			error,
+		);
 		return null;
 	}
 };

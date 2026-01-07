@@ -44,7 +44,9 @@ const RootLayout = ({
 							<TopBar />
 							<div className="flex-1 py-20 px-4 mt-4 flex flex-col items-center max-w-7xl mx-auto w-full">
 								<Title />
-								<main className="flex-1 w-full">{children}</main>
+								<main className="flex-1 w-full">
+									{children}
+								</main>
 								<Search />
 								<Footer />
 							</div>

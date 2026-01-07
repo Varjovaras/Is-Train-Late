@@ -24,7 +24,9 @@ const StatusCard = ({ train }: TrainProps) => {
 					label="Status"
 					value={train.runningCurrently ? "En Route" : "Not Running"}
 					valueClassName={
-						train.runningCurrently ? "text-green-500" : "text-red-500"
+						train.runningCurrently
+							? "text-green-500"
+							: "text-red-500"
 					}
 				/>
 				<StatusItem

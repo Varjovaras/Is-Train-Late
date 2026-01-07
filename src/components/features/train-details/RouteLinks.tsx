@@ -48,7 +48,9 @@ const RouteLinks = ({ train }: RouteLinksProps) => {
 				>
 					{departureStationName}
 				</Link>
-				<span className="text-xs text-foreground/60">{departureTime}</span>
+				<span className="text-xs text-foreground/60">
+					{departureTime}
+				</span>
 			</div>
 			<span className="text-gray-400 shrink-0">→</span>
 			<div className="flex flex-col items-end">
@@ -58,7 +60,9 @@ const RouteLinks = ({ train }: RouteLinksProps) => {
 				>
 					{endStationName}
 				</Link>
-				<span className="text-xs text-foreground/60">{arrivalTime}</span>
+				<span className="text-xs text-foreground/60">
+					{arrivalTime}
+				</span>
 			</div>
 		</div>
 	);

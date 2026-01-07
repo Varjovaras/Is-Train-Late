@@ -40,8 +40,12 @@ const SortSelector = ({ currentSort, onSortChange }: SortSelectorProps) => {
 				}}
 				className="px-2 py-1 rounded-md border border-foreground/20 bg-background min-w-[200px] max-w-full"
 			>
-				<option value="trainNumber-asc">{translations.trainNumberAsc}</option>
-				<option value="trainNumber-desc">{translations.trainNumberDesc}</option>
+				<option value="trainNumber-asc">
+					{translations.trainNumberAsc}
+				</option>
+				<option value="trainNumber-desc">
+					{translations.trainNumberDesc}
+				</option>
 				<option value="delay-asc">{translations.delayAsc}</option>
 				<option value="delay-desc">{translations.delayDesc}</option>
 			</select>

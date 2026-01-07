@@ -25,7 +25,10 @@ const Page = async ({
 				{removeAsema(stationName)}
 			</h2>
 
-			<ScheduleOverview schedules={sortedSchedules} stationId={stationId} />
+			<ScheduleOverview
+				schedules={sortedSchedules}
+				stationId={stationId}
+			/>
 		</div>
 	);
 };

@@ -44,7 +44,9 @@ const TrainSelector = ({ category, setCategory }: TrainSelectorProps) => {
 						aria-pressed={category.name === cat.name}
 					>
 						<span className="mr-1">{cat.icon}</span>
-						<span className="hidden sm:inline">{labels[cat.name]}</span>
+						<span className="hidden sm:inline">
+							{labels[cat.name]}
+						</span>
 					</button>
 				))}
 			</div>

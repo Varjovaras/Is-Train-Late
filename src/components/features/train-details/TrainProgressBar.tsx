@@ -16,7 +16,10 @@ type TrainProgressBarProps = {
 const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 	const { translations } = useTranslations();
 	const progress = calculateTrainProgress(train);
-	const commercialStops = getCommercialStations(train.timeTableRows, "ARRIVAL");
+	const commercialStops = getCommercialStations(
+		train.timeTableRows,
+		"ARRIVAL",
+	);
 
 	const formatTimeFi = (value: string | Date) => {
 		const date = value instanceof Date ? value : new Date(value);
@@ -43,14 +46,18 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 				<div className="flex items-center gap-2">
 					<div className="w-2 h-2 bg-red-600 rounded-full" />
 					<div>
-						<p className="text-sm opacity-70">{translations.currentLast}</p>
+						<p className="text-sm opacity-70">
+							{translations.currentLast}
+						</p>
 						<p className="font-semibold text-green-500">
 							{lastCompletedStop ? (
 								<Link
 									href={`/stations/${lastCompletedStop.station.shortCode}`}
 									className="hover:underline"
 								>
-									{removeAsema(lastCompletedStop.station.name)}
+									{removeAsema(
+										lastCompletedStop.station.name,
+									)}
 								</Link>
 							) : (
 								translations.notStarted
@@ -66,7 +73,9 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 				<div className="flex items-center gap-2">
 					<div className="w-2 h-2 bg-green-500 rounded-full" />
 					<div>
-						<p className="text-sm opacity-70">{translations.nextStop}</p>
+						<p className="text-sm opacity-70">
+							{translations.nextStop}
+						</p>
 						<p className="font-semibold text-blue-500">
 							{nextStop ? (
 								<Link
@@ -148,7 +157,9 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 				<div className="text-sm">
 					{translations.nextArrival}{" "}
 					<span className="font-semibold">
-						{formatTimeFi(nextStop.liveEstimateTime || nextStop.scheduledTime)}
+						{formatTimeFi(
+							nextStop.liveEstimateTime || nextStop.scheduledTime,
+						)}
 					</span>
 					{nextStop.differenceInMinutes > 0 && (
 						<div className="text-red-500 font-bold text-xs mt-1">
@@ -157,7 +168,10 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 					)}
 					<div className="text-xs text-foreground/70 mt-1">
 						{getArrivalCountdown(
-							new Date(nextStop.liveEstimateTime || nextStop.scheduledTime),
+							new Date(
+								nextStop.liveEstimateTime ||
+									nextStop.scheduledTime,
+							),
 							translations,
 						)}
 					</div>

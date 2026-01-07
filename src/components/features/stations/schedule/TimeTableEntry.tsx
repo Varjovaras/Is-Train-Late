@@ -20,13 +20,16 @@ const TimeTableEntry = ({ row }: TimeTableEntryProps) => {
 					</span>
 				</div>
 				{row.cancelled && (
-					<span className="text-sm text-red-500">{translations.cancelled}</span>
+					<span className="text-sm text-red-500">
+						{translations.cancelled}
+					</span>
 				)}
 			</div>
 
 			<div className="space-y-1 mt-1">
 				<div className="text-sm text-foreground/60">
-					{translations.scheduled}: {formatDateForDisplay(row.scheduledTime)}
+					{translations.scheduled}:{" "}
+					{formatDateForDisplay(row.scheduledTime)}
 				</div>
 
 				{row.actualTime && (
