@@ -1,5 +1,5 @@
-import type { StationSchedule } from "@/lib/types/stationTypes";
 import { useTranslations } from "@/lib/i18n/useTranslations";
+import type { StationSchedule } from "@/lib/types/stationTypes";
 import ScheduleCard from "./ScheduleCard";
 
 type ScheduleListProps = {
