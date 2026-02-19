@@ -59,8 +59,8 @@ const TrainMarker = ({ train }: { train: TrainType }) => {
 const TrainsOnMap = ({ filteredTrains }: TrainsOnMapProps) => {
 	return (
 		<>
-			{filteredTrains.map((train) => {
-				const uniqueKey = `${train.trainNumber}-${train.departureDate}`;
+			{filteredTrains.map((train, i) => {
+				const uniqueKey = `${train.trainNumber}-${train.departureDate ?? i}`;
 				return <TrainMarker key={uniqueKey} train={train} />;
 			})}
 		</>
