@@ -11,8 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MapRouteImport } from './routes/map'
+import { Route as ApiTrainsRouteImport } from './routes/api/trains'
+import { Route as LiveTrainsIdRouteImport } from './routes/live-trains/$id'
 import { Route as StationMessagesIdRouteImport } from './routes/station-messages/$id'
 import { Route as StationsIdRouteImport } from './routes/stations/$id'
+import { Route as TrainByDateIdRouteImport } from './routes/train-by-date/$id'
 import { Route as TrainsIdRouteImport } from './routes/trains/$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -25,6 +28,16 @@ const MapRoute = MapRouteImport.update({
   path: '/map',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiTrainsRoute = ApiTrainsRouteImport.update({
+  id: '/api/trains',
+  path: '/api/trains',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LiveTrainsIdRoute = LiveTrainsIdRouteImport.update({
+  id: '/live-trains/$id',
+  path: '/live-trains/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StationMessagesIdRoute = StationMessagesIdRouteImport.update({
   id: '/station-messages/$id',
   path: '/station-messages/$id',
@@ -33,6 +46,11 @@ const StationMessagesIdRoute = StationMessagesIdRouteImport.update({
 const StationsIdRoute = StationsIdRouteImport.update({
   id: '/stations/$id',
   path: '/stations/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrainByDateIdRoute = TrainByDateIdRouteImport.update({
+  id: '/train-by-date/$id',
+  path: '/train-by-date/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TrainsIdRoute = TrainsIdRouteImport.update({
@@ -44,45 +62,75 @@ const TrainsIdRoute = TrainsIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
+  '/api/trains': typeof ApiTrainsRoute
+  '/live-trains/$id': typeof LiveTrainsIdRoute
   '/station-messages/$id': typeof StationMessagesIdRoute
   '/stations/$id': typeof StationsIdRoute
+  '/train-by-date/$id': typeof TrainByDateIdRoute
   '/trains/$id': typeof TrainsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
+  '/api/trains': typeof ApiTrainsRoute
+  '/live-trains/$id': typeof LiveTrainsIdRoute
   '/station-messages/$id': typeof StationMessagesIdRoute
   '/stations/$id': typeof StationsIdRoute
+  '/train-by-date/$id': typeof TrainByDateIdRoute
   '/trains/$id': typeof TrainsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/map': typeof MapRoute
+  '/api/trains': typeof ApiTrainsRoute
+  '/live-trains/$id': typeof LiveTrainsIdRoute
   '/station-messages/$id': typeof StationMessagesIdRoute
   '/stations/$id': typeof StationsIdRoute
+  '/train-by-date/$id': typeof TrainByDateIdRoute
   '/trains/$id': typeof TrainsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/map' | '/station-messages/$id' | '/stations/$id' | '/trains/$id'
+    | '/'
+    | '/map'
+    | '/api/trains'
+    | '/live-trains/$id'
+    | '/station-messages/$id'
+    | '/stations/$id'
+    | '/train-by-date/$id'
+    | '/trains/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/map' | '/station-messages/$id' | '/stations/$id' | '/trains/$id'
+  to:
+    | '/'
+    | '/map'
+    | '/api/trains'
+    | '/live-trains/$id'
+    | '/station-messages/$id'
+    | '/stations/$id'
+    | '/train-by-date/$id'
+    | '/trains/$id'
   id:
     | '__root__'
     | '/'
     | '/map'
+    | '/api/trains'
+    | '/live-trains/$id'
     | '/station-messages/$id'
     | '/stations/$id'
+    | '/train-by-date/$id'
     | '/trains/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MapRoute: typeof MapRoute
+  ApiTrainsRoute: typeof ApiTrainsRoute
+  LiveTrainsIdRoute: typeof LiveTrainsIdRoute
   StationMessagesIdRoute: typeof StationMessagesIdRoute
   StationsIdRoute: typeof StationsIdRoute
+  TrainByDateIdRoute: typeof TrainByDateIdRoute
   TrainsIdRoute: typeof TrainsIdRoute
 }
 
@@ -102,6 +150,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MapRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/trains': {
+      id: '/api/trains'
+      path: '/api/trains'
+      fullPath: '/api/trains'
+      preLoaderRoute: typeof ApiTrainsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/live-trains/$id': {
+      id: '/live-trains/$id'
+      path: '/live-trains/$id'
+      fullPath: '/live-trains/$id'
+      preLoaderRoute: typeof LiveTrainsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/station-messages/$id': {
       id: '/station-messages/$id'
       path: '/station-messages/$id'
@@ -114,6 +176,13 @@ declare module '@tanstack/react-router' {
       path: '/stations/$id'
       fullPath: '/stations/$id'
       preLoaderRoute: typeof StationsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/train-by-date/$id': {
+      id: '/train-by-date/$id'
+      path: '/train-by-date/$id'
+      fullPath: '/train-by-date/$id'
+      preLoaderRoute: typeof TrainByDateIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/trains/$id': {
@@ -129,8 +198,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MapRoute: MapRoute,
+  ApiTrainsRoute: ApiTrainsRoute,
+  LiveTrainsIdRoute: LiveTrainsIdRoute,
   StationMessagesIdRoute: StationMessagesIdRoute,
   StationsIdRoute: StationsIdRoute,
+  TrainByDateIdRoute: TrainByDateIdRoute,
   TrainsIdRoute: TrainsIdRoute,
 }
 export const routeTree = rootRouteImport
