@@ -1,4 +1,6 @@
 "use client";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
 import { useError } from "@/components/providers/ErrorProvider";
 
@@ -30,7 +32,7 @@ const ErrorPopup = () => {
                     className="absolute top-3 right-3 text-foreground/60 hover:text-foreground"
                     aria-label="Close"
                 >
-                    ✕
+                    <FontAwesomeIcon icon={faXmark} aria-hidden="true" className="h-4 w-4" />
                 </button>
 
                 <div className="flex items-start gap-4">

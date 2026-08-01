@@ -14,7 +14,6 @@ export const getStationData = async (
         minutes_after_departure: "0",
         minutes_before_arrival: "0",
         minutes_after_arrival: "0",
-        train_categories: "Commuter,Long-distance",
     });
     url.search = searchParams.toString();
 

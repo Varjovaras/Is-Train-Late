@@ -1,4 +1,6 @@
 "use client";
+import { faMap } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import Clock from "@/components/common/Clock";
@@ -46,7 +48,14 @@ const TopBar = () => {
                         search={{ train: undefined }}
                         className="px-2 sm:px-4 py-2 text-xs sm:text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
                     >
-                        <span className="hidden sm:inline">🗺️ {translations.map}</span>
+                        <span className="hidden sm:inline">
+                            <FontAwesomeIcon
+                                icon={faMap}
+                                aria-hidden="true"
+                                className="mr-1 h-3 w-3"
+                            />
+                            {translations.map}
+                        </span>
                         <span className="sm:hidden p-2">{translations.mapMobile}</span>
                     </Link>
                 </div>

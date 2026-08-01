@@ -1,4 +1,6 @@
 "use client";
+import { faMap, faTrain, faTrainSubway, faTruck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { Dispatch, SetStateAction } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainCategory } from "@/lib/types/trainTypes";
@@ -9,10 +11,10 @@ type TrainSelectorProps = {
 };
 
 const categories = [
-    { name: "longDistance", icon: "🚄" },
-    { name: "commuter", icon: "🚃" },
-    { name: "freight", icon: "🚛" },
-    { name: "all", icon: "🗺️" },
+    { name: "longDistance", icon: faTrain },
+    { name: "commuter", icon: faTrainSubway },
+    { name: "freight", icon: faTruck },
+    { name: "all", icon: faMap },
 ] as const;
 
 const TrainSelector = ({ category, setCategory }: TrainSelectorProps) => {
@@ -43,7 +45,11 @@ const TrainSelector = ({ category, setCategory }: TrainSelectorProps) => {
 						`}
                         aria-pressed={category.name === cat.name}
                     >
-                        <span className="mr-1">{cat.icon}</span>
+                        <FontAwesomeIcon
+                            icon={cat.icon}
+                            aria-hidden="true"
+                            className="mr-1 h-4 w-4"
+                        />
                         <span className="hidden sm:inline">{labels[cat.name]}</span>
                     </button>
                 ))}

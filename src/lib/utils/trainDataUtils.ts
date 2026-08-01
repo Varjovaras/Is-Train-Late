@@ -184,6 +184,45 @@ export const filterTrainsByCategory = (
     });
 };
 
+export const getStationScheduleCategory = (
+    schedule: StationSchedule,
+): "commuter" | "longDistance" | "freight" => {
+    if (schedule.commuterLineID !== "") return "commuter";
+
+    const trainTypeName = schedule.trainType;
+
+    if (schedule.trainCategory === "Commuter") return "commuter";
+
+    if (
+        schedule.trainCategory === "Cargo" ||
+        (freightTrainTypeNames as readonly string[]).includes(trainTypeName)
+    ) {
+        return "freight";
+    }
+
+    if ((commuterTrainTypeNames as readonly string[]).includes(trainTypeName)) {
+        return "commuter";
+    }
+
+    return "longDistance";
+};
+
+export const filterSchedulesByCategory = (
+    schedules: StationSchedule[],
+    category: "all" | "commuter" | "longDistance" | "freight" | "passengerCommuter",
+): StationSchedule[] => {
+    if (category === "all") return schedules;
+
+    if (category === "passengerCommuter") {
+        const passengerTrains = schedules.filter(
+            (schedule) => getStationScheduleCategory(schedule) !== "freight",
+        );
+        return passengerTrains.length > 0 ? passengerTrains : schedules;
+    }
+
+    return schedules.filter((schedule) => getStationScheduleCategory(schedule) === category);
+};
+
 export const getDelayColorClass = (delayMinutes: number): string => {
     if (delayMinutes <= 0) {
         return "text-green-500"; // On time or early

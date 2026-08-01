@@ -1,4 +1,6 @@
 "use client";
+import { faTrain } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "@tanstack/react-router";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
@@ -94,7 +96,11 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
                         {progress.percentage > 0 && (
                             <div className="absolute right-0 top-0 transform translate-x-1/2 -translate-y-1/2">
                                 <div className="w-5 h-5 bg-red-600 rounded-full flex items-center justify-center text-white text-xs">
-                                    🚂
+                                    <FontAwesomeIcon
+                                        icon={faTrain}
+                                        aria-hidden="true"
+                                        className="h-3 w-3"
+                                    />
                                 </div>
                             </div>
                         )}
@@ -105,7 +111,11 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
                 {progress.percentage === 0 && (
                     <div className="absolute left-0 top-0 transform -translate-x-1/2 -translate-y-1/2">
                         <div className="w-5 h-5 bg-foreground/40 rounded-full flex items-center justify-center text-white text-xs">
-                            🚂
+                            <FontAwesomeIcon
+                                icon={faTrain}
+                                aria-hidden="true"
+                                className="h-3 w-3"
+                            />
                         </div>
                     </div>
                 )}
