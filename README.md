@@ -1,6 +1,6 @@
 # Is VR Late?
 
-A real-time train tracking application that shows delayed VR (Finnish Railways) trains. Built with Next.js and TypeScript.
+A real-time train tracking application that shows delayed VR (Finnish Railways) trains. Built with TanStack Start and TypeScript.
 
 ## Features
 
@@ -13,7 +13,9 @@ A real-time train tracking application that shows delayed VR (Finnish Railways) 
 
 ## Tech Stack
 
-- [Next.js](https://nextjs.org/)
+- [TanStack Start](https://tanstack.com/start)
+- [Vite](https://vite.dev/)
+- [Nitro](https://nitro.build/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Bun](https://bun.sh/)
@@ -64,13 +66,13 @@ yarn dev
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
 
 ## Frontend Project Structure
 
 ```
 src/
-├── app/           # Next.js app router
+├── app/           # TanStack file-based routes
 ├── components/    # React components
 ├── lib/          # Utility functions and configurations
 │   └── i18n/     # Internationalization

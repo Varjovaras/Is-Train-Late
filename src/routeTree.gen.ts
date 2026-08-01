@@ -8,15 +8,15 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as MapRouteImport } from './routes/map'
-import { Route as ApiTrainsRouteImport } from './routes/api/trains'
-import { Route as LiveTrainsIdRouteImport } from './routes/live-trains/$id'
-import { Route as StationMessagesIdRouteImport } from './routes/station-messages/$id'
-import { Route as StationsIdRouteImport } from './routes/stations/$id'
-import { Route as TrainByDateIdRouteImport } from './routes/train-by-date/$id'
-import { Route as TrainsIdRouteImport } from './routes/trains/$id'
+import { Route as rootRouteImport } from './app/__root'
+import { Route as IndexRouteImport } from './app/index'
+import { Route as MapRouteImport } from './app/map'
+import { Route as ApiTrainsRouteImport } from './app/api/trains'
+import { Route as LiveTrainsIdRouteImport } from './app/live-trains/$id'
+import { Route as StationMessagesIdRouteImport } from './app/station-messages/$id'
+import { Route as StationsIdRouteImport } from './app/stations/$id'
+import { Route as TrainByDateIdRouteImport } from './app/train-by-date/$id'
+import { Route as TrainsIdRouteImport } from './app/trains/$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',

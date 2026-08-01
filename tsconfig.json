@@ -11,25 +11,15 @@
         "moduleResolution": "bundler",
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "jsx": "preserve",
+        "jsx": "react-jsx",
         "incremental": true,
         "noFallthroughCasesInSwitch": true,
-        "plugins": [
-            {
-                "name": "next"
-            }
-        ],
+        "types": ["vite/client"],
         "paths": {
             "@/*": ["./src/*"],
             "@queries/*": ["./src/queries/*"]
         }
     },
-    "include": [
-        "next-env.d.ts",
-        "**/*.ts",
-        "**/*.tsx",
-        ".next/types/**/*.ts",
-        ".next/dev/types/**/*.ts"
-    ],
-    "exclude": ["node_modules"]
+    "include": ["**/*.ts", "**/*.tsx"],
+    "exclude": ["node_modules", ".output"]
 }
