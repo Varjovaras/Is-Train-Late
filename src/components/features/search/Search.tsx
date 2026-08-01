@@ -1,61 +1,178 @@
 "use client";
-import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import { useEffect, useId, useRef, useState } from "react";
+import DatePicker from "@/components/common/DatePicker";
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import StationSearch from "./StationSearch";
-import TrainSearch from "./TrainSearch";
-
-type SearchType = "train" | "station";
+import { formatDateForUrl } from "@/lib/utils/dateUtils";
+import { majorStations } from "@/lib/utils/majorStations";
+import { handleSearchError, validateDate, validateTrainNumber } from "@/lib/utils/searchUtils";
 
 const Search = () => {
+    const navigate = useNavigate();
     const { translations, isLoading } = useTranslations();
-    const [searchType, setSearchType] = useState<SearchType>("train");
+    const [searchValue, setSearchValue] = useState("");
+    const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+    const [selectedIndex, setSelectedIndex] = useState(-1);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    const [dropUp, setDropUp] = useState(false);
+    const [error, setError] = useState("");
+    const id = useId();
+
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const clearInput = () => {
+        setSearchValue("");
+        setShowSuggestions(false);
+        setSelectedIndex(-1);
+        setError("");
+    };
+
+    const handleStationSelect = (code: string) => {
+        clearInput();
+        navigate({ to: `/stations/${code}` });
+    };
+
+    const handleTrainSubmit = () => {
+        const trainError = validateTrainNumber(searchValue, translations);
+        if (trainError) return handleSearchError(trainError, setError);
+
+        const dateError = validateDate(date, translations);
+        if (dateError) return handleSearchError(dateError, setError);
+
+        const formattedDate = formatDateForUrl(date);
+        navigate({ to: `/trains/${searchValue.trim()}-${formattedDate}` });
+        clearInput();
+        return true;
+    };
+
+    const handleSubmit = () => {
+        if (suggestions.length === 1) {
+            handleStationSelect(suggestions[0][0]);
+            return;
+        }
+        if (selectedIndex >= 0) {
+            handleStationSelect(suggestions[selectedIndex][0]);
+            return;
+        }
+        handleTrainSubmit();
+    };
+
+    const inputLower = searchValue.toLowerCase();
+    const suggestions =
+        searchValue.length < 2
+            ? []
+            : Object.entries(majorStations)
+                  .filter(
+                      ([code, name]) =>
+                          name.toLowerCase().includes(inputLower) ||
+                          code.toLowerCase().includes(inputLower),
+                  )
+                  .slice(0, 10);
+
+    const handleInputChange = (value: string) => {
+        setSearchValue(value);
+        setSelectedIndex(-1);
+        setShowSuggestions(true);
+        setError("");
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            handleSubmit();
+            return;
+        }
+
+        if (!showSuggestions || suggestions.length === 0) return;
+
+        switch (e.key) {
+            case "ArrowDown":
+                e.preventDefault();
+                setSelectedIndex((prev) => (prev < suggestions.length - 1 ? prev + 1 : prev));
+                break;
+
+            case "ArrowUp":
+                e.preventDefault();
+                setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1));
+                break;
+
+            case "Escape":
+                setShowSuggestions(false);
+                setSelectedIndex(-1);
+                break;
+        }
+    };
+
+    useEffect(() => {
+        const checkPosition = () => {
+            if (inputRef.current) {
+                const rect = inputRef.current.getBoundingClientRect();
+                setDropUp(window.innerHeight - rect.bottom < 300);
+            }
+        };
+
+        checkPosition();
+        window.addEventListener("resize", checkPosition);
+        return () => window.removeEventListener("resize", checkPosition);
+    }, []);
 
     return (
         <form
             onSubmit={(e) => e.preventDefault()}
             className={`p-4 space-y-4 w-full max-w-md relative ${isLoading ? "fade-out" : "fade-in"}`}
         >
-            <div className="flex gap-6 justify-center">
-                <label className="inline-flex items-center cursor-pointer">
-                    <input
-                        type="radio"
-                        value="train"
-                        checked={searchType === "train"}
-                        onChange={(e) => setSearchType(e.target.value as SearchType)}
-                        className="appearance-none w-4 h-4 rounded-full border-2 border-foreground/60 checked:border-foreground checked:bg-red-500/50 checked:border-0 transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-foreground/60"
-                    />
-                    <span
-                        className={`ml-2 transition-colors ${
-                            searchType === "train"
-                                ? "text-foreground font-medium"
-                                : "text-foreground/60"
-                        }`}
-                    >
-                        {translations.findTrain}
-                    </span>
+            <div className="space-y-2 relative z-50">
+                <label htmlFor={id} className="text-sm font-medium">
+                    {translations.selectStation}
                 </label>
-                <label className="flex items-center cursor-pointer">
-                    <input
-                        type="radio"
-                        value="station"
-                        checked={searchType === "station"}
-                        onChange={(e) => setSearchType(e.target.value as SearchType)}
-                        className="appearance-none w-4 h-4 rounded-full border-2 border-foreground/60 checked:border-foreground checked:bg-red-500/50 checked:border-0 transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-foreground/60"
-                    />
-                    <span
-                        className={`ml-2 transition-colors ${
-                            searchType === "station"
-                                ? "text-foreground font-medium"
-                                : "text-foreground/60"
-                        }`}
+
+                <input
+                    ref={inputRef}
+                    id={id}
+                    type="text"
+                    value={searchValue}
+                    onChange={(e) => handleInputChange(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    onFocus={() => setShowSuggestions(true)}
+                    placeholder={translations.searchTrainOrStation}
+                    className="w-full px-4 py-2 border border-foreground rounded-md
+              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+              bg-background text-foreground"
+                />
+
+                {showSuggestions && suggestions.length > 0 && (
+                    <div
+                        className={`absolute z-10 w-full bg-background border
+              border-foreground/20 rounded-md shadow-lg overflow-y-auto
+              ${dropUp ? "bottom-full mb-1" : "top-full mt-1"}`}
+                        style={{ maxHeight: "300px" }}
                     >
-                        {translations.selectStation}
-                    </span>
-                </label>
+                        {suggestions.map(([code, name], index) => (
+                            <button
+                                key={code}
+                                type="button"
+                                onClick={() => handleStationSelect(code)}
+                                className={`w-full px-4 py-2 text-left hover:bg-foreground/10
+                  flex justify-between items-center
+                  ${index === selectedIndex ? "bg-foreground/10" : ""}`}
+                            >
+                                <span>{name}</span>
+                                <span className="text-foreground/60 text-sm">{code}</span>
+                            </button>
+                        ))}
+                    </div>
+                )}
             </div>
-            <div className="relative z-50">
-                {searchType === "train" ? <TrainSearch /> : <StationSearch />}
-            </div>{" "}
+            <DatePicker date={date} setDate={setDate} />
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+            <button
+                type="button"
+                onClick={handleSubmit}
+                className="w-full px-4 py-2 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={!searchValue.trim() || !date}
+            >
+                {translations.findTrain}
+            </button>
         </form>
     );
 };
