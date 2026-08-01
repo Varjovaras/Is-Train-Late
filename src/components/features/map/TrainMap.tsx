@@ -1,5 +1,6 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
 import MapGL, {
     GeolocateControl,
     type MapRef,
@@ -8,8 +9,8 @@ import MapGL, {
 } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./TrainMap.css";
-import { getMapData } from "@/lib/queries/getMapData";
-import type { TrainCategory, TrainType } from "@/lib/types/trainTypes";
+import { mapTrainsQueryOptions } from "@/lib/queries/queryOptions";
+import type { TrainCategory } from "@/lib/types/trainTypes";
 import StationsOnMap from "./StationsOnMap";
 import TrainSelector from "./TrainSelector";
 import TrainsOnMap from "./TrainsOnMap";
@@ -22,8 +23,6 @@ const DARK_STYLE = "https://tiles.openfreemap.org/styles/liberty";
 
 const TrainMap = ({ trainNumber }: TrainMapProps) => {
     const mapRef = useRef<MapRef>(null);
-    const [trains, setTrains] = useState<TrainType[]>([]);
-    const [loading, setLoading] = useState(true);
     const [category, setCategory] = useState<TrainCategory>({
         name: "longDistance",
     });
@@ -33,19 +32,13 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
         zoom: 5,
     });
 
-    const fetchTrains = useCallback(async () => {
-        try {
-            const response = await getMapData();
-            const trainsWithLocations = response.data.currentlyRunningTrains.filter(
-                (train) => train.trainLocations && train.trainLocations.length > 0,
-            );
-            setTrains(trainsWithLocations);
-        } catch (err) {
-            console.error("Error fetching train data:", err);
-        } finally {
-            setLoading(false);
+    const { data: trains = [], error, isFetching, isPending } = useQuery(mapTrainsQueryOptions());
+
+    useEffect(() => {
+        if (error) {
+            console.error("Error fetching train data:", error);
         }
-    }, []);
+    }, [error]);
 
     // Center on train if trainNumber provided
     useEffect(() => {
@@ -64,13 +57,6 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
         }
     }, [trainNumber, trains]);
 
-    // Fetch trains on mount and every 10 seconds
-    useEffect(() => {
-        fetchTrains();
-        const interval = setInterval(fetchTrains, 10000);
-        return () => clearInterval(interval);
-    }, [fetchTrains]);
-
     const filteredTrains = trains.filter((train) => {
         switch (category.name) {
             case "commuter":
@@ -87,7 +73,7 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
         }
     });
 
-    if (loading && trains.length === 0) {
+    if (isPending && trains.length === 0) {
         return (
             <div className="flex items-center justify-center h-full bg-background">
                 <div className="flex flex-col items-center gap-3">
@@ -114,7 +100,7 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
                 <TrainsOnMap filteredTrains={filteredTrains} />
             </MapGL>
             <TrainSelector category={category} setCategory={setCategory} />
-            {loading && trains.length > 0 && (
+            {isFetching && trains.length > 0 && (
                 <div className="absolute top-4 right-4 z-10">
                     <div className="bg-background/90 backdrop-blur-sm rounded-full p-2 shadow-lg border border-foreground/10">
                         <div className="animate-spin h-4 w-4 border-2 border-foreground/20 border-t-foreground rounded-full" />

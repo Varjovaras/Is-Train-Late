@@ -1,20 +1,19 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import Loading from "@/components/common/Loading";
 import TrainDataDisplay from "@/components/features/train-lists/TrainDataDisplay";
-import { getTrainData } from "@/lib/queries/getTrainData";
-import type { TrainType } from "@/lib/types/trainTypes";
+import { homeTrainsQueryOptions } from "@/lib/queries/queryOptions";
 
 export const Route = createFileRoute("/")({
-    loader: async () => {
-        const response = await getTrainData();
-        return response.data.currentlyRunningTrains as TrainType[];
+    loader: ({ context: { queryClient } }) => {
+        return queryClient.ensureQueryData(homeTrainsQueryOptions());
     },
     pendingComponent: Loading,
     component: Home,
 });
 
 function Home() {
-    const trains = Route.useLoaderData();
+    const { data: trains } = useSuspenseQuery(homeTrainsQueryOptions());
 
     return (
         <div className="flex flex-col items-center justify-items-center">

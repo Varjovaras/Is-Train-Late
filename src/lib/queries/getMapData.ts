@@ -1,6 +1,8 @@
 import type { CurrentlyRunningTrainResponse } from "../types/trainTypes";
 
-export const getMapData = async (): Promise<CurrentlyRunningTrainResponse> => {
+export const getMapData = async ({
+    signal,
+}: { signal?: AbortSignal } = {}): Promise<CurrentlyRunningTrainResponse> => {
     try {
         const res = await fetch("/api/trains", {
             method: "POST",
@@ -8,6 +10,7 @@ export const getMapData = async (): Promise<CurrentlyRunningTrainResponse> => {
                 "Content-Type": "application/json",
             },
             cache: "no-store",
+            signal,
         });
 
         if (!res.ok) {

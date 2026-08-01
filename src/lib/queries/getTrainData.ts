@@ -1,8 +1,11 @@
 import { getPassengerQuery } from "./passengerQuery";
+import type { CurrentlyRunningTrainResponse } from "../types/trainTypes";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
-export const getTrainData = async () => {
+export const getTrainData = async ({
+    signal,
+}: { signal?: AbortSignal } = {}): Promise<CurrentlyRunningTrainResponse> => {
     const res = await fetch(GRAPHQL_ENDPOINT, {
         method: "POST",
         headers: {
@@ -13,12 +16,13 @@ export const getTrainData = async () => {
             query: getPassengerQuery(),
         }),
         cache: "no-store",
+        signal,
     });
 
     if (!res.ok) {
         throw new Error(`Train data not available. HTTP error! status: ${res.status}`);
     }
 
-    const data = await res.json();
+    const data = (await res.json()) as CurrentlyRunningTrainResponse;
     return data;
 };

@@ -3,7 +3,10 @@ import { getSingleTrainQuery } from "./singleTrainQuery";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
-export const getSingleTrainData = async (trainNumber: string) => {
+export const getSingleTrainData = async (
+    trainNumber: string,
+    { signal }: { signal?: AbortSignal } = {},
+): Promise<SingleTrainResponse> => {
     if (Number.isNaN(Number(trainNumber))) {
         throw new Error("Not a valid train number");
     }
@@ -18,6 +21,7 @@ export const getSingleTrainData = async (trainNumber: string) => {
             query: getSingleTrainQuery(trainNumber),
         }),
         cache: "no-store",
+        signal,
     });
 
     if (!res.ok) {

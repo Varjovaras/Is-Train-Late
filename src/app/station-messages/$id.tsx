@@ -1,33 +1,21 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import Loading from "@/components/common/Loading";
-import type { StationMessage } from "@/lib/types/stationMessageTypes";
+import { stationMessagesQueryOptions } from "@/lib/queries/queryOptions";
 import { removeAsema } from "@/lib/utils/stringUtils";
 
-const REST_ENDPOINT = "https://rata.digitraffic.fi/api/v1/passenger-information/active?station=";
-
 export const Route = createFileRoute("/station-messages/$id")({
-    loader: async ({ params }) => {
-        const stationId = params.id.toUpperCase();
-        const response = await fetch(`${REST_ENDPOINT}${stationId}`, {
-            cache: "no-store",
-        });
-
-        if (!response.ok) {
-            return { stationId, messages: null, status: response.status };
-        }
-
-        return {
-            stationId,
-            messages: (await response.json()) as StationMessage[],
-            status: response.status,
-        };
+    loader: ({ context: { queryClient }, params }) => {
+        return queryClient.ensureQueryData(stationMessagesQueryOptions(params.id));
     },
     pendingComponent: Loading,
     component: StationMessagesRoute,
 });
 
 function StationMessagesRoute() {
-    const { stationId, messages, status } = Route.useLoaderData();
+    const { id } = Route.useParams();
+    const { data } = useSuspenseQuery(stationMessagesQueryOptions(id));
+    const { stationId, messages, status } = data;
 
     if (!messages) {
         return (

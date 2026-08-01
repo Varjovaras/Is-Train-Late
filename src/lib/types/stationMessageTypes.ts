@@ -36,3 +36,9 @@ export type StationMessage = {
     audio?: AudioVideo;
     video?: AudioVideo;
 };
+
+export type StationMessagesResult = {
+    stationId: string;
+    messages: StationMessage[] | null;
+    status: number;
+};

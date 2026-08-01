@@ -1,28 +1,23 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import ScheduleOverview from "@/components/features/stations/ScheduleOverview";
 import Loading from "@/components/common/Loading";
-import { getStationData } from "@/lib/queries/getStationData";
-import type { StationSchedule } from "@/lib/types/stationTypes";
+import ScheduleOverview from "@/components/features/stations/ScheduleOverview";
 import { isValidStationCode, majorStations } from "@/lib/utils/majorStations";
-import { sortSchedules } from "@/lib/utils/sortSchedules";
+import { stationSchedulesQueryOptions } from "@/lib/queries/queryOptions";
 import { removeAsema } from "@/lib/utils/stringUtils";
 
 export const Route = createFileRoute("/stations/$id")({
-    loader: async ({ params }) => {
-        const stationId = params.id.toUpperCase();
-        const schedules = (await getStationData(stationId)) as StationSchedule[];
-
-        return {
-            stationId,
-            schedules: sortSchedules(schedules, stationId),
-        };
+    loader: ({ context: { queryClient }, params }) => {
+        return queryClient.ensureQueryData(stationSchedulesQueryOptions(params.id));
     },
     pendingComponent: Loading,
     component: StationRoute,
 });
 
 function StationRoute() {
-    const { stationId, schedules } = Route.useLoaderData();
+    const { id } = Route.useParams();
+    const { data } = useSuspenseQuery(stationSchedulesQueryOptions(id));
+    const { stationId, schedules } = data;
     const stationName = isValidStationCode(stationId) ? majorStations[stationId] : stationId;
 
     return (
