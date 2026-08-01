@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect } from "react";
 import appCss from "@/app/globals.css?url";
+import favicon from "@/favicon.ico?url";
 import ErrorPopup from "@/components/common/ErrorPopup";
 import Search from "@/components/features/search/Search";
 import Footer from "@/components/layout/Footer";
@@ -31,6 +32,10 @@ export const Route = createRootRoute({
             {
                 rel: "stylesheet",
                 href: appCss,
+            },
+            {
+                rel: "icon",
+                href: favicon,
             },
         ],
     }),

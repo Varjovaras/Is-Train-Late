@@ -28,7 +28,6 @@
         "react-map-gl": "^7.1.9"
     },
     "devDependencies": {
-        "@tailwindcss/postcss": "^4.1.17",
         "@tailwindcss/vite": "^4.3.3",
         "@types/node": "^24.10.2",
         "@types/react": "^19.2.7",
