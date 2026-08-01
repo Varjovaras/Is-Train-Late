@@ -1,4 +1,6 @@
 "use client";
+import { faTrain } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useId, useRef, useState } from "react";
 import DatePicker from "@/components/common/DatePicker";
@@ -160,7 +162,16 @@ const Search = () => {
                   ${index === selectedIndex ? "bg-foreground/10" : ""}
                   ${passengerStationCodes.has(code) ? "" : "opacity-60"}`}
                             >
-                                <span>{name}</span>
+                                <span className="flex items-center gap-2">
+                                    {passengerStationCodes.has(code) && (
+                                        <FontAwesomeIcon
+                                            icon={faTrain}
+                                            aria-hidden="true"
+                                            className="h-4 w-4 shrink-0 text-foreground/70"
+                                        />
+                                    )}
+                                    <span>{name}</span>
+                                </span>
                                 <span className="text-foreground/60 text-sm">{code}</span>
                             </button>
                         ))}
