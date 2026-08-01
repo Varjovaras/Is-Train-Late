@@ -1,7 +1,7 @@
 import { processGraphQLQuery } from "../utils/queryUtils";
 
 export const getSingleTrainQuery = (trainNumber: string) => {
-	return processGraphQLQuery(singleTrainQuery.replace("XYZ", trainNumber));
+    return processGraphQLQuery(singleTrainQuery.replace("XYZ", trainNumber));
 };
 
 const singleTrainQuery = `{

@@ -1,19 +1,19 @@
 type StationIndicatorProps = {
-	isCurrentStation: boolean;
-	isNextStation: boolean;
-	isDepartureStation: boolean;
+    isCurrentStation: boolean;
+    isNextStation: boolean;
+    isDepartureStation: boolean;
 };
 
 const StationIndicator = ({
-	isCurrentStation,
-	isNextStation,
-	isDepartureStation,
+    isCurrentStation,
+    isNextStation,
+    isDepartureStation,
 }: StationIndicatorProps) => (
-	<div className="w-6 text-center shrink-0">
-		{isDepartureStation && "↓"}
-		{isCurrentStation && !isDepartureStation && "→"}
-		{isNextStation && !isDepartureStation && "⟶"}
-	</div>
+    <div className="w-6 text-center shrink-0">
+        {isDepartureStation && "↓"}
+        {isCurrentStation && !isDepartureStation && "→"}
+        {isNextStation && !isDepartureStation && "⟶"}
+    </div>
 );
 
 export default StationIndicator;

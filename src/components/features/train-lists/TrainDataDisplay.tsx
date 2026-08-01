@@ -6,35 +6,35 @@ import TrainList from "./TrainList";
 import TrainTypeSelector from "./TrainTypeSelector";
 
 type TrainDataProps = {
-	trains: TrainType[];
+    trains: TrainType[];
 };
 
 const TrainDataDisplay = ({ trains }: TrainDataProps) => {
-	const [selectedCategory, setSelectedCategory] = useState("longDistance");
+    const [selectedCategory, setSelectedCategory] = useState("longDistance");
 
-	const filteredTrains = filterTrainsByCategory(
-		trains,
-		selectedCategory as "all" | "commuter" | "longDistance" | "freight",
-	);
+    const filteredTrains = filterTrainsByCategory(
+        trains,
+        selectedCategory as "all" | "commuter" | "longDistance" | "freight",
+    );
 
-	return (
-		<div className="w-full">
-			<TrainTypeSelector
-				selectedCategory={selectedCategory}
-				onCategoryChange={setSelectedCategory}
-			/>
-			<TrainList
-				trains={filteredTrains}
-				trainType={
-					selectedCategory === "commuter"
-						? "commuter"
-						: selectedCategory === "freight"
-							? "freight"
-							: "longDistance"
-				}
-			/>
-		</div>
-	);
+    return (
+        <div className="w-full">
+            <TrainTypeSelector
+                selectedCategory={selectedCategory}
+                onCategoryChange={setSelectedCategory}
+            />
+            <TrainList
+                trains={filteredTrains}
+                trainType={
+                    selectedCategory === "commuter"
+                        ? "commuter"
+                        : selectedCategory === "freight"
+                          ? "freight"
+                          : "longDistance"
+                }
+            />
+        </div>
+    );
 };
 
 export default TrainDataDisplay;

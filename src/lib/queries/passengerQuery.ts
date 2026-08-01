@@ -1,11 +1,11 @@
 import { processGraphQLQuery } from "../utils/queryUtils";
 
 export const getPassengerQuery = () => {
-	return processGraphQLQuery(passengerQuery);
+    return processGraphQLQuery(passengerQuery);
 };
 
 export const getFullQuery = () => {
-	return processGraphQLQuery(_fullQuery);
+    return processGraphQLQuery(_fullQuery);
 };
 
 const passengerQuery = `{

@@ -29,16 +29,19 @@ A real-time train tracking application that shows delayed VR (Finnish Railways) 
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/varjovaras/is-vr-late.git
 ```
 
 2. Navigate to the frontend directory:
+
 ```bash
 cd is-vr-late/src/frontend
 ```
 
 3. Install dependencies:
+
 ```bash
 bun install
 # or
@@ -50,6 +53,7 @@ pnpm install
 ```
 
 4. Run the development server:
+
 ```bash
 bun dev
 # or

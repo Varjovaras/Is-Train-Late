@@ -1,31 +1,31 @@
 /* MapLibre popup styling */
 .maplibregl-popup-content {
-	background: var(--background);
-	color: var(--foreground);
-	border-radius: 0.5rem;
-	padding: 0.75rem;
-	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-	border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--background);
+    color: var(--foreground);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .maplibregl-popup-close-button {
-	color: var(--foreground);
-	font-size: 1.25rem;
-	padding: 0.25rem 0.5rem;
-	right: 0.25rem;
-	top: 0.25rem;
+    color: var(--foreground);
+    font-size: 1.25rem;
+    padding: 0.25rem 0.5rem;
+    right: 0.25rem;
+    top: 0.25rem;
 }
 
 .maplibregl-popup-close-button:hover {
-	background: rgba(255, 255, 255, 0.1);
-	border-radius: 0.25rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.25rem;
 }
 
 .maplibregl-popup-tip {
-	border-top-color: var(--background);
+    border-top-color: var(--background);
 }
 
 /* Ensure popup is above other elements */
 .maplibregl-popup {
-	z-index: 100;
+    z-index: 100;
 }
