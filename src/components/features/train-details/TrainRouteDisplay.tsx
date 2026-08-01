@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import type { TrainType } from "@/lib/types/trainTypes";
 import { formatTime } from "@/lib/utils/dateUtils";
 import { getDepartureStationShortCode, getEndStationShortCode } from "@/lib/utils/linkUtils";
@@ -26,7 +26,7 @@ const TrainRouteDisplay = ({ train }: TrainRouteDisplayProps) => {
         <div className="text-2xl text-foreground/70 flex items-center justify-center gap-4">
             <div className="flex flex-col items-center">
                 <Link
-                    href={getDepartureStationShortCode(undefined, train)}
+                    to={getDepartureStationShortCode(undefined, train)}
                     className="text-green-500"
                 >
                     {startStation}
@@ -35,7 +35,7 @@ const TrainRouteDisplay = ({ train }: TrainRouteDisplayProps) => {
             </div>
             <span>→</span>
             <div className="flex flex-col items-center">
-                <Link href={getEndStationShortCode(undefined, train)} className="text-blue-500">
+                <Link to={getEndStationShortCode(undefined, train)} className="text-blue-500">
                     {endStation}
                 </Link>
                 <span className="text-sm text-foreground/60">{arrivalTime}</span>

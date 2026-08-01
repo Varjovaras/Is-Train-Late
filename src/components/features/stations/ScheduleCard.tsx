@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { StationSchedule } from "@/lib/types/stationTypes";
 
@@ -37,9 +37,11 @@ const ScheduleCard = ({ schedule, stationId }: ScheduleCardProps) => {
 
             <div className="mt-auto pt-2 border-t border-foreground/10">
                 <Link
-                    href={`/trains/${schedule.trainNumber}-${schedule.departureDate}`}
+                    to="/trains/$id"
+                    params={{
+                        id: `${schedule.trainNumber}-${schedule.departureDate}`,
+                    }}
                     className="text-sm text-blue-500 hover:underline"
-                    prefetch={false}
                 >
                     {translations.viewDetails} →
                 </Link>

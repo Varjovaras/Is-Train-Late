@@ -10,33 +10,80 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MapRouteImport } from './routes/map'
+import { Route as StationMessagesIdRouteImport } from './routes/station-messages/$id'
+import { Route as StationsIdRouteImport } from './routes/stations/$id'
+import { Route as TrainsIdRouteImport } from './routes/trains/$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MapRoute = MapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StationMessagesIdRoute = StationMessagesIdRouteImport.update({
+  id: '/station-messages/$id',
+  path: '/station-messages/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StationsIdRoute = StationsIdRouteImport.update({
+  id: '/stations/$id',
+  path: '/stations/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrainsIdRoute = TrainsIdRouteImport.update({
+  id: '/trains/$id',
+  path: '/trains/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/map': typeof MapRoute
+  '/station-messages/$id': typeof StationMessagesIdRoute
+  '/stations/$id': typeof StationsIdRoute
+  '/trains/$id': typeof TrainsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/map': typeof MapRoute
+  '/station-messages/$id': typeof StationMessagesIdRoute
+  '/stations/$id': typeof StationsIdRoute
+  '/trains/$id': typeof TrainsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/map': typeof MapRoute
+  '/station-messages/$id': typeof StationMessagesIdRoute
+  '/stations/$id': typeof StationsIdRoute
+  '/trains/$id': typeof TrainsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/map' | '/station-messages/$id' | '/stations/$id' | '/trains/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/map' | '/station-messages/$id' | '/stations/$id' | '/trains/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/map'
+    | '/station-messages/$id'
+    | '/stations/$id'
+    | '/trains/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MapRoute: typeof MapRoute
+  StationMessagesIdRoute: typeof StationMessagesIdRoute
+  StationsIdRoute: typeof StationsIdRoute
+  TrainsIdRoute: typeof TrainsIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +95,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/map': {
+      id: '/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/station-messages/$id': {
+      id: '/station-messages/$id'
+      path: '/station-messages/$id'
+      fullPath: '/station-messages/$id'
+      preLoaderRoute: typeof StationMessagesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stations/$id': {
+      id: '/stations/$id'
+      path: '/stations/$id'
+      fullPath: '/stations/$id'
+      preLoaderRoute: typeof StationsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trains/$id': {
+      id: '/trains/$id'
+      path: '/trains/$id'
+      fullPath: '/trains/$id'
+      preLoaderRoute: typeof TrainsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MapRoute: MapRoute,
+  StationMessagesIdRoute: StationMessagesIdRoute,
+  StationsIdRoute: StationsIdRoute,
+  TrainsIdRoute: TrainsIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

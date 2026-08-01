@@ -1,5 +1,5 @@
 "use client";
-import { usePathname } from "next/navigation";
+import { useLocation } from "@tanstack/react-router";
 import type { TrainType } from "@/lib/types/trainTypes";
 import TrainButton from "./TrainButton";
 import TrainHomeView from "./TrainHomeView";
@@ -11,7 +11,7 @@ type TrainProps = {
 };
 
 const Train = ({ train, forceShowAllStations }: TrainProps) => {
-    const pathname = usePathname();
+    const pathname = useLocation({ select: (location) => location.pathname });
     const isTrainsRoute = pathname.startsWith("/trains/");
 
     return (

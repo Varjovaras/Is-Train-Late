@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "@tanstack/react-router";
 import { useId, useState } from "react";
 import DatePicker from "@/components/common/DatePicker";
 import { useTranslations } from "@/lib/i18n/useTranslations";
@@ -7,7 +7,7 @@ import { formatDateForUrl } from "@/lib/utils/dateUtils";
 import { handleSearchError, validateDate, validateTrainNumber } from "@/lib/utils/searchUtils";
 
 const TrainSearch = () => {
-    const router = useRouter();
+    const navigate = useNavigate();
     const { translations } = useTranslations();
     const [trainNumber, setTrainNumber] = useState("");
     const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
@@ -23,7 +23,7 @@ const TrainSearch = () => {
 
         const formattedDate = formatDateForUrl(date);
         setTrainNumber("");
-        router.push(`/trains/${trainNumber}-${formattedDate}`);
+        navigate({ to: `/trains/${trainNumber}-${formattedDate}` });
         return true;
     };
 

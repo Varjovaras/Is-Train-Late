@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { majorStations } from "@/lib/utils/majorStations";
@@ -10,7 +10,7 @@ import { majorStations } from "@/lib/utils/majorStations";
 
 const StationSearchInput = () => {
     // { placeholder }: StationSearchInputProps
-    const router = useRouter();
+    const navigate = useNavigate();
     const { translations } = useTranslations();
     const [searchValue, setSearchValue] = useState("");
     const [suggestions, setSuggestions] = useState<[string, string][]>([]);
@@ -30,7 +30,7 @@ const StationSearchInput = () => {
 
     const handleStationSelect = (code: string) => {
         clearInput();
-        router.push(`/stations/${code}`);
+        navigate({ to: `/stations/${code}` });
     };
 
     const updateSuggestions = useCallback((input: string) => {

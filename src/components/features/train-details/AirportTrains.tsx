@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 import { formatTime } from "@/lib/utils/dateUtils";
@@ -22,26 +22,26 @@ const AirportTrains = ({ train }: AirportTrainsProps) => {
     return (
         <div className="text-2xl text-foreground/70">
             <div className="flex flex-col">
-                <Link href={"/stations/HKI"} className="text-green-500">
+                <Link to="/stations/$id" params={{ id: "HKI" }} className="text-green-500">
                     {startStation}
                 </Link>
                 <span className="text-sm text-foreground/60">{departureTime}</span>
             </div>
             {" → "}
-            <Link href={"/stations/HKI"} className="text-green-700">
+            <Link to="/stations/$id" params={{ id: "HKI" }} className="text-green-700">
                 {train.commuterLineid === "P" ? "Myyrmäki" : "Tikkurila"}
             </Link>
             {" → "}
-            <Link href={"/stations/HKI"} className="text-blue-500">
+            <Link to="/stations/$id" params={{ id: "HKI" }} className="text-blue-500">
                 {translations.airport}
             </Link>
             {" → "}
-            <Link href={"/stations/HKI"} className="text-green-700">
+            <Link to="/stations/$id" params={{ id: "HKI" }} className="text-green-700">
                 {train.commuterLineid === "P" ? "Tikkurila" : "Myyrmäki"}
             </Link>
             {" → "}
             <div className="flex flex-col">
-                <Link href={"/stations/HKI"} className="text-green-500">
+                <Link to="/stations/$id" params={{ id: "HKI" }} className="text-green-500">
                     {endStation}
                 </Link>
                 <span className="text-sm text-foreground/60">{arrivalTime}</span>

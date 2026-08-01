@@ -1,6 +1,5 @@
 "use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, useLocation } from "@tanstack/react-router";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 
@@ -10,7 +9,7 @@ type TrainDetailsButtonProps = {
 
 const TrainDetailsButton = ({ train }: TrainDetailsButtonProps) => {
     const { translations } = useTranslations();
-    const pathname = usePathname();
+    const pathname = useLocation({ select: (location) => location.pathname });
     if (pathname.startsWith("/trains/")) {
         return null;
     }
@@ -18,7 +17,8 @@ const TrainDetailsButton = ({ train }: TrainDetailsButtonProps) => {
     return (
         <Link
             type="button"
-            href={`/trains/${train.trainNumber}`}
+            to="/trains/$id"
+            params={{ id: String(train.trainNumber) }}
             className="p-2 m-2 text-sm text-center border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
         >
             {train.trainType.name}

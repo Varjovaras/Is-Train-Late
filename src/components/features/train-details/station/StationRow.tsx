@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TimeTableRow } from "@/lib/types/trainTypes";
 import { formatTime } from "@/lib/utils/dateUtils";
@@ -49,7 +49,8 @@ const StationRow = ({
                     isDepartureStation={isDepartureStation}
                 />
                 <Link
-                    href={`/stations/${station.station.shortCode}`}
+                    to="/stations/$id"
+                    params={{ id: station.station.shortCode }}
                     className={`truncate shrink hover:underline
             ${isDepartureStation ? "text-emerald-600 font-bold" : ""}
             ${isCurrentStation && !isDepartureStation ? "text-green-500 font-bold" : ""}

@@ -43,6 +43,7 @@ const TopBar = () => {
                     <BackHome />
                     <Link
                         to="/map"
+                        search={{ train: undefined }}
                         className="px-2 sm:px-4 py-2 text-xs sm:text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
                     >
                         <span className="hidden sm:inline">🗺️ {translations.map}</span>

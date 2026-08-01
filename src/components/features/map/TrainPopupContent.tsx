@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 
@@ -14,7 +14,8 @@ const TrainPopupContent = ({ train }: TrainPopupContentProps) => {
     return (
         <div className="min-w-[180px]">
             <Link
-                href={`/trains/${train.trainNumber}`}
+                to="/trains/$id"
+                params={{ id: String(train.trainNumber) }}
                 className="block text-lg font-bold text-foreground hover:text-red-500 transition-colors"
             >
                 {train.commuterLineid || `${train.trainType.name} ${train.trainNumber}`}

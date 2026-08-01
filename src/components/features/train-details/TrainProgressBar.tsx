@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 import { getArrivalCountdown } from "@/lib/utils/dateUtils";
@@ -41,7 +41,8 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
                         <p className="font-semibold text-green-500">
                             {lastCompletedStop ? (
                                 <Link
-                                    href={`/stations/${lastCompletedStop.station.shortCode}`}
+                                    to="/stations/$id"
+                                    params={{ id: lastCompletedStop.station.shortCode }}
                                     className="hover:underline"
                                 >
                                     {removeAsema(lastCompletedStop.station.name)}
@@ -64,7 +65,8 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
                         <p className="font-semibold text-blue-500">
                             {nextStop ? (
                                 <Link
-                                    href={`/stations/${nextStop.station.shortCode}`}
+                                    to="/stations/$id"
+                                    params={{ id: nextStop.station.shortCode }}
                                     className="hover:underline"
                                 >
                                     {removeAsema(nextStop.station.name)}
@@ -114,7 +116,8 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
                     <span>
                         {startingStation ? (
                             <Link
-                                href={`/stations/${startingStation.station.shortCode}`}
+                                to="/stations/$id"
+                                params={{ id: startingStation.station.shortCode }}
                                 className="hover:underline"
                             >
                                 {removeAsema(startingStation.station.name)}
@@ -126,7 +129,8 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
                     <span>
                         {endingStation ? (
                             <Link
-                                href={`/stations/${endingStation.station.shortCode}`}
+                                to="/stations/$id"
+                                params={{ id: endingStation.station.shortCode }}
                                 className="hover:underline"
                             >
                                 {removeAsema(endingStation.station.name)}

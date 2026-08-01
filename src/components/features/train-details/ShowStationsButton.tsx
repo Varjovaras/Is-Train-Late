@@ -1,4 +1,4 @@
-import { usePathname } from "next/navigation";
+import { useLocation } from "@tanstack/react-router";
 import type { Dispatch, SetStateAction } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 
@@ -8,7 +8,7 @@ type ShowStationsButtonProps = {
 };
 
 const ShowStationsButton = ({ showAllStations, setShowAllStations }: ShowStationsButtonProps) => {
-    const pathname = usePathname();
+    const pathname = useLocation({ select: (location) => location.pathname });
     const { translations } = useTranslations();
 
     if (pathname.startsWith("/trains/")) {

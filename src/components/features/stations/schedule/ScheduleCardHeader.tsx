@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { StationSchedule, StationTimeTableRow } from "@/lib/types/stationTypes";
 import { isToday } from "@/lib/utils/dateUtils";
@@ -24,7 +24,7 @@ const ScheduleCardHeader = ({ schedule, departureRow }: ScheduleHeaderProps) => 
         <div className="flex justify-between items-start min-w-0">
             <div className="space-y-1">
                 <Link
-                    href={getLinkDestination()}
+                    to={getLinkDestination()}
                     className="font-bold text-lg hover:underline truncate block"
                 >
                     {schedule.commuterLineID || `${schedule.trainType} ${schedule.trainNumber}`}

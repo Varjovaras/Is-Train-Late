@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import DelayInformation from "@/components/features/delay-info/DelayInformation";
 import TrainHeader from "@/components/layout/TrainHeader";
 import type { TrainType } from "@/lib/types/trainTypes";
@@ -18,7 +18,8 @@ const LiveTrainPage = ({ train }: LiveTrainPageProps) => {
             <div className="w-full flex flex-col items-center gap-4 mb-8">
                 <TrainHeader train={train} />
                 <Link
-                    href={`/map?train=${train.trainNumber}`}
+                    to="/map"
+                    search={{ train: String(train.trainNumber) }}
                     className="px-6 py-3 border border-foreground bg-foreground text-background hover:bg-background hover:text-foreground rounded-md transition-colors text-lg font-medium flex items-center gap-2"
                 >
                     <svg

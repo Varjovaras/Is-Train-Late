@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Marker, Popup } from "react-map-gl/maplibre";
 import { type StationCode, stationCoordinates } from "@/lib/utils/stationCoordinates";
@@ -36,7 +36,8 @@ const StationMarker = ({ code, station }: { code: string; station: Station }) =>
                     closeOnClick={false}
                 >
                     <Link
-                        href={`/stations/${code}`}
+                        to="/stations/$id"
+                        params={{ id: code }}
                         className="font-bold text-foreground hover:text-red-500 transition-colors"
                     >
                         {station.name}
