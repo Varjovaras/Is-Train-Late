@@ -4,7 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import DatePicker from "@/components/common/DatePicker";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { formatDateForUrl } from "@/lib/utils/dateUtils";
-import { majorStations } from "@/lib/utils/majorStations";
+import { majorStations, passengerStationCodes } from "@/lib/utils/majorStations";
 import { handleSearchError, validateDate, validateTrainNumber } from "@/lib/utils/searchUtils";
 
 const Search = () => {
@@ -58,16 +58,19 @@ const Search = () => {
     };
 
     const inputLower = searchValue.toLowerCase();
-    const suggestions =
+    const matchingSuggestions =
         searchValue.length < 2
             ? []
-            : Object.entries(majorStations)
-                  .filter(
-                      ([code, name]) =>
-                          name.toLowerCase().includes(inputLower) ||
-                          code.toLowerCase().includes(inputLower),
-                  )
-                  .slice(0, 10);
+            : Object.entries(majorStations).filter(
+                  ([code, name]) =>
+                      name.toLowerCase().includes(inputLower) ||
+                      code.toLowerCase().includes(inputLower),
+              );
+
+    const suggestions = [
+        ...matchingSuggestions.filter(([code]) => passengerStationCodes.has(code)),
+        ...matchingSuggestions.filter(([code]) => !passengerStationCodes.has(code)),
+    ].slice(0, 10);
 
     const handleInputChange = (value: string) => {
         setSearchValue(value);
@@ -154,7 +157,8 @@ const Search = () => {
                                 onClick={() => handleStationSelect(code)}
                                 className={`w-full px-4 py-2 text-left hover:bg-foreground/10
                   flex justify-between items-center
-                  ${index === selectedIndex ? "bg-foreground/10" : ""}`}
+                  ${index === selectedIndex ? "bg-foreground/10" : ""}
+                  ${passengerStationCodes.has(code) ? "" : "opacity-60"}`}
                             >
                                 <span>{name}</span>
                                 <span className="text-foreground/60 text-sm">{code}</span>
