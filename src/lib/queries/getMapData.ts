@@ -7,8 +7,7 @@ export const getMapData = async (): Promise<CurrentlyRunningTrainResponse> => {
             headers: {
                 "Content-Type": "application/json",
             },
-            // Adding cache control to prevent too frequent requests
-            next: { revalidate: 5 }, // Revalidate every 5 seconds
+            cache: "no-store",
         });
 
         if (!res.ok) {

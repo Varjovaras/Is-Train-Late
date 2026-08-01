@@ -1,4 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { ClientOnly, createFileRoute } from "@tanstack/react-router";
+import { lazy, Suspense } from "react";
+import Loading from "@/components/common/Loading";
+
+const TrainMap = lazy(() => import("@/components/features/map/TrainMap"));
 
 export const Route = createFileRoute("/map")({
     validateSearch: (search: Record<string, unknown>) => ({
@@ -8,5 +12,15 @@ export const Route = createFileRoute("/map")({
 });
 
 function MapRoute() {
-    return null;
+    const { train } = Route.useSearch();
+
+    return (
+        <ClientOnly fallback={<Loading />}>
+            <Suspense fallback={<Loading />}>
+                <div className="w-full h-[calc(100vh-200px)] min-h-[500px] border border-foreground/20 rounded-lg overflow-hidden">
+                    <TrainMap trainNumber={train} />
+                </div>
+            </Suspense>
+        </ClientOnly>
+    );
 }
