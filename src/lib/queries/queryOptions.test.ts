@@ -1,6 +1,63 @@
-import { afterEach, describe, expect, it } from "bun:test";
+import { afterEach, describe, expect, it, mock } from "bun:test";
 import { QueryClient } from "@tanstack/react-query";
-import {
+import type { StationMessagesResult } from "../types/stationMessageTypes";
+
+type ServerQueryOptions = { signal?: AbortSignal };
+type ServerQueryInput = ServerQueryOptions & { data: string };
+
+const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
+
+const fetchTrainData = ({ signal }: ServerQueryOptions = {}) =>
+    fetch(GRAPHQL_ENDPOINT, { method: "POST", signal }).then((response) => response.json());
+
+const fetchStationData = ({ data: stationId, signal }: ServerQueryInput) =>
+    fetch(`https://rata.digitraffic.fi/api/v1/live-trains/station/${stationId}`, { signal }).then(
+        (response) => response.json(),
+    );
+
+const fetchStationMessages = async ({ data: stationId, signal }: ServerQueryInput) => {
+    const response = await fetch(
+        `https://rata.digitraffic.fi/api/v1/passenger-information/active?station=${stationId}`,
+        { signal },
+    );
+
+    if (!response.ok) {
+        return {
+            stationId,
+            messages: null,
+            status: response.status,
+        } satisfies StationMessagesResult;
+    }
+
+    return {
+        stationId,
+        messages: await response.json(),
+        status: response.status,
+    } satisfies StationMessagesResult;
+};
+
+const fetchTrainByDateData = async ({ signal }: ServerQueryInput) => {
+    const response = await fetch(GRAPHQL_ENDPOINT, { method: "POST", signal });
+    const body = (await response.json()) as { data: { train: unknown[] } };
+    return body.data.train[0] ?? null;
+};
+
+const fetchSingleTrainData = async ({ signal }: ServerQueryInput) => {
+    const response = await fetch(GRAPHQL_ENDPOINT, { method: "POST", signal });
+    return (await response.json()) as {
+        data: { currentlyRunningTrains: Array<{ trainNumber: string }> };
+    };
+};
+
+mock.module("./serverQueries", () => ({
+    fetchTrainData,
+    fetchStationData,
+    fetchStationMessages,
+    fetchTrainByDateData,
+    fetchSingleTrainData,
+}));
+
+const {
     MAP_REFETCH_INTERVAL_MS,
     TODAY_TRAIN_STALE_TIME_MS,
     homeTrainsQueryOptions,
@@ -9,7 +66,7 @@ import {
     stationMessagesQueryOptions,
     todayTrainQueryOptions,
     trainDetailsQueryOptions,
-} from "./queryOptions";
+} = await import("./queryOptions");
 
 const originalFetch = globalThis.fetch;
 type FetchImplementation = (

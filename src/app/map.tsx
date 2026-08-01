@@ -17,7 +17,7 @@ function MapRoute() {
     return (
         <ClientOnly fallback={<Loading />}>
             <Suspense fallback={<Loading />}>
-                <div className="w-full h-[calc(100vh-200px)] min-h-[500px] border border-foreground/20 rounded-lg overflow-hidden">
+                <div className="w-full h-[calc(100vh-200px)] min-h-125 border border-foreground/20 rounded-lg overflow-hidden">
                     <TrainMap trainNumber={train} />
                 </div>
             </Suspense>

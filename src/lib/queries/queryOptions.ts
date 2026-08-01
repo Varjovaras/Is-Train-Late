@@ -3,11 +3,13 @@ import { formatDateForUrl } from "../utils/dateUtils";
 import { isValidTrainId } from "../utils/urlUtils";
 import { sortSchedules } from "../utils/sortSchedules";
 import { getMapData } from "./getMapData";
-import { getStationData } from "./getStationData";
-import { getStationMessages } from "./getStationMessages";
-import { getTrainByDateData } from "./getTrainByDateData";
-import { getSingleTrainData } from "./getSingleTrainData";
-import { getTrainData } from "./getTrainData";
+import {
+    fetchSingleTrainData,
+    fetchStationData,
+    fetchStationMessages,
+    fetchTrainByDateData,
+    fetchTrainData,
+} from "./serverQueries";
 import type { StationSchedule } from "../types/stationTypes";
 import type { TrainType } from "../types/trainTypes";
 
@@ -31,7 +33,7 @@ export const queryKeys = {
 export const homeTrainsQueryOptions = () =>
     queryOptions({
         queryKey: queryKeys.homeTrains,
-        queryFn: ({ signal }) => getTrainData({ signal }),
+        queryFn: ({ signal }) => fetchTrainData({ signal }),
         select: (response) => response.data.currentlyRunningTrains as TrainType[],
     });
 
@@ -51,7 +53,7 @@ export const stationSchedulesQueryOptions = (stationId: string) => {
 
     return queryOptions({
         queryKey: queryKeys.stationSchedules(normalizedStationId),
-        queryFn: ({ signal }) => getStationData(normalizedStationId, { signal }),
+        queryFn: ({ signal }) => fetchStationData({ data: normalizedStationId, signal }),
         select: (schedules: StationSchedule[]) => ({
             stationId: normalizedStationId,
             schedules: sortSchedules(schedules, normalizedStationId),
@@ -64,14 +66,14 @@ export const stationMessagesQueryOptions = (stationId: string) => {
 
     return queryOptions({
         queryKey: queryKeys.stationMessages(normalizedStationId),
-        queryFn: ({ signal }) => getStationMessages(normalizedStationId, { signal }),
+        queryFn: ({ signal }) => fetchStationMessages({ data: normalizedStationId, signal }),
     });
 };
 
 export const datedTrainQueryOptions = (trainId: string) =>
     queryOptions({
         queryKey: queryKeys.datedTrain(trainId),
-        queryFn: ({ signal }) => getTrainByDateData(trainId, { signal }),
+        queryFn: ({ signal }) => fetchTrainByDateData({ data: trainId, signal }),
     });
 
 export const todayTrainQueryOptions = (trainNumber: string) => {
@@ -81,14 +83,7 @@ export const todayTrainQueryOptions = (trainNumber: string) => {
 
     return queryOptions({
         queryKey: queryKeys.todayTrain(todayTrainId),
-        queryFn: async ({ signal }) => {
-            try {
-                return await getTrainByDateData(todayTrainId, { signal });
-            } catch (error) {
-                console.warn(`Error fetching today's data for train ${trainNumber}:`, error);
-                return null;
-            }
-        },
+        queryFn: ({ signal }) => fetchTrainByDateData({ data: todayTrainId, signal }),
         staleTime: TODAY_TRAIN_STALE_TIME_MS,
     });
 };
@@ -111,14 +106,14 @@ export const trainDetailsQueryOptions = (trainId: string) =>
 
                 return {
                     kind: "date",
-                    train: await getTrainByDateData(trainId, { signal }),
+                    train: await fetchTrainByDateData({ data: trainId, signal }),
                 };
             }
 
             let liveTrain: TrainType | null = null;
 
             try {
-                const response = await getSingleTrainData(trainId, { signal });
+                const response = await fetchSingleTrainData({ data: trainId, signal });
                 liveTrain = response.data.currentlyRunningTrains[0] ?? null;
             } catch {
                 liveTrain = null;

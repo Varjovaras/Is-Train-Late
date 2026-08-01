@@ -3,12 +3,16 @@ import { createRouter } from "@tanstack/react-router";
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
 import { routeTree } from "./routeTree.gen";
 
+const QUERY_STALE_TIME_MS = 10_000;
+
 export function getRouter() {
     const queryClient = new QueryClient({
         defaultOptions: {
             queries: {
                 retry: false,
-                staleTime: 0,
+                // Keep server-rendered query data fresh briefly after hydration
+                // instead of immediately refetching every route on the client.
+                staleTime: QUERY_STALE_TIME_MS,
                 refetchOnWindowFocus: false,
             },
         },
@@ -17,7 +21,7 @@ export function getRouter() {
     const router = createRouter({
         routeTree,
         scrollRestoration: true,
-        defaultPreloadStaleTime: 0,
+        defaultPreloadStaleTime: QUERY_STALE_TIME_MS,
         context: { queryClient },
     });
 

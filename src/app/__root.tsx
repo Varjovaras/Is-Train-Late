@@ -15,7 +15,7 @@ import Search from "@/components/features/search/Search";
 import Footer from "@/components/layout/Footer";
 import Title from "@/components/layout/Title";
 import TopBar from "@/components/layout/TopBar";
-import { ErrorProvider, useError } from "@/components/providers/ErrorProvider";
+import { ErrorProvider } from "@/components/providers/ErrorProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
@@ -47,16 +47,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootErrorComponent({ error, reset }: ErrorComponentProps) {
-    const { showError } = useError();
-
     useEffect(() => {
         console.error(error);
-        showError(error.message || "An unexpected error occurred");
-    }, [error, showError]);
+    }, [error]);
 
     return (
         <div className="flex flex-col items-center gap-4 p-8">
-            <h2 className="text-xl text-red-500">{error.message}</h2>
+            <h2 className="text-xl text-red-500">
+                {error.message || "An unexpected error occurred"}
+            </h2>
             <button
                 type="button"
                 onClick={() => reset()}
