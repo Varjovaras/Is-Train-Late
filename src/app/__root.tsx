@@ -47,6 +47,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootErrorComponent({ error, reset }: ErrorComponentProps) {
+    console.log("Tanstack :)");
     useEffect(() => {
         console.error(error);
     }, [error]);
