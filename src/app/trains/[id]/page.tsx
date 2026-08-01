@@ -14,7 +14,7 @@ const getLiveTrainData = async (trainNumber: string): Promise<TrainType | null> 
     try {
         const trainResponse = await getSingleTrainData(trainNumber);
         return trainResponse.data.currentlyRunningTrains[0];
-    } catch (_error) {
+    } catch {
         return null;
     }
 };
