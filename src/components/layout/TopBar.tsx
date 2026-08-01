@@ -1,15 +1,11 @@
 "use client";
-import dynamic from "next/dynamic";
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import Clock from "@/components/common/Clock";
 import LanguageSwitcher from "@/components/common/LanguageSwitcher";
 import ThemeSwitcher from "@/components/common/ThemeSwitcher";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import BackHome from "./BackHome";
-
-const Clock = dynamic(() => import("@/components/common/Clock"), {
-    ssr: false,
-});
 
 const TopBar = () => {
     const [isVisible, setIsVisible] = useState(true);
@@ -46,7 +42,7 @@ const TopBar = () => {
                 <div className="flex items-center gap-2 sm:gap-4">
                     <BackHome />
                     <Link
-                        href="/map"
+                        to="/map"
                         className="px-2 sm:px-4 py-2 text-xs sm:text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
                     >
                         <span className="hidden sm:inline">🗺️ {translations.map}</span>
