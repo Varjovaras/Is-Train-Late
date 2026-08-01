@@ -17,7 +17,7 @@ const DatePicker = ({ date, setDate }: DatePickerProps) => {
 
     return (
         <div className="space-y-2">
-            <label htmlFor="date" className="text-sm font-medium px-2">
+            <label htmlFor={id} className="text-sm font-medium px-2">
                 {translations.date}
             </label>
             <input

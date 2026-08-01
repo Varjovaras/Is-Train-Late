@@ -103,7 +103,7 @@ const StationSearchInput = () => {
 
     return (
         <div className="space-y-2 relative">
-            <label htmlFor="station-search" className="text-sm font-medium">
+            <label htmlFor={id} className="text-sm font-medium">
                 {translations.selectStation}
             </label>
 

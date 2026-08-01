@@ -30,7 +30,7 @@ const TrainSearch = () => {
     return (
         <div className="space-y-4">
             <div className="space-y-2">
-                <label htmlFor="trainNumber" className="text-sm font-medium">
+                <label htmlFor={id} className="text-sm font-medium">
                     {translations.trainNumber}
                 </label>
                 <input

@@ -17,7 +17,7 @@ const DelayThresholdSelector = ({
 
     return (
         <div className={`flex items-center gap-2 ${isLoading ? "fade-out" : "fade-in"}`}>
-            <label htmlFor="delay-threshold" className="text-sm">
+            <label htmlFor={id} className="text-sm">
                 {translations.delayThreshold}:
             </label>
             <select

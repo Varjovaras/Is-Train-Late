@@ -23,7 +23,7 @@ const SortSelector = ({ currentSort, onSortChange }: SortSelectorProps) => {
         <div
             className={`flex flex-wrap items-center gap-2 w-full ${isLoading ? "fade-out" : "fade-in"}`}
         >
-            <label htmlFor="sort-select" className="text-sm whitespace-nowrap">
+            <label htmlFor={id} className="text-sm whitespace-nowrap">
                 {translations.sortBy}:
             </label>
             <select
