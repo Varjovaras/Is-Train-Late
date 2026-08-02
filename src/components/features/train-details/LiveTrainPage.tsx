@@ -14,7 +14,7 @@ const LiveTrainPage = ({ train }: LiveTrainPageProps) => {
     const hasDelayCauses = timeTablesWithCauses.length > 0;
 
     return (
-        <div className="mx-auto flex flex-col items-center max-w-4xl px-4">
+        <div className="mx-auto flex flex-col items-center max-w-6xl px-4">
             <div className="w-full flex flex-col items-center gap-4 mb-8">
                 <TrainHeader train={train} />
                 <Link
@@ -45,7 +45,7 @@ const LiveTrainPage = ({ train }: LiveTrainPageProps) => {
                 </div>
             </div>
             {hasDelayCauses ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+                <div className="space-y-8 w-full">
                     <DelayInformation train={train} />
                     <Train train={train} forceShowAllStations />
                 </div>

@@ -21,7 +21,7 @@ const TrainStationsView = ({ train, forceShowAllStations }: TrainStationsViewPro
         <div
             className={`mt-2 ${isLoading ? "fade-out" : "fade-in"} flex flex-col flex-1 items-center`}
         >
-            <div className="flex-1 w-full max-w-2xl">
+            <div className="flex-1 w-full">
                 <TrainBasicInfo train={train} />
                 <TrainStations
                     train={train}
@@ -29,7 +29,7 @@ const TrainStationsView = ({ train, forceShowAllStations }: TrainStationsViewPro
                     showNonCommercialStops={showNonCommercialStops}
                 />
             </div>
-            <div className="flex flex-col gap-2 mt-4 w-full max-w-2xl">
+            <div className="flex flex-col gap-2 mt-4 w-full">
                 <ShowStationsButton
                     showAllStations={showAllStations}
                     setShowAllStations={setShowAllStations}

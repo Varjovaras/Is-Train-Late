@@ -60,7 +60,16 @@ const StationRow = ({
                 </Link>
             </div>
 
-            <div className="flex flex-col items-end gap-1 text-sm min-w-[90px] sm:min-w-[150px] shrink-0">
+            {station.commercialTrack && (
+                <div className="flex items-center justify-end gap-1 text-sm text-foreground/60 shrink-0 min-w-[60px]">
+                    <span className="hidden sm:inline">{translations.track}</span>
+                    <span className="font-medium text-foreground/80">
+                        {station.commercialTrack}
+                    </span>
+                </div>
+            )}
+
+            <div className="flex flex-col items-end gap-1 text-sm min-w-[120px] sm:min-w-[200px] shrink-0">
                 <StationTime
                     label={translations.scheduled}
                     time={scheduledTime}
