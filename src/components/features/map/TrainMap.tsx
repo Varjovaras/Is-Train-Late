@@ -1,11 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import MapGL, {
-    GeolocateControl,
-    type MapRef,
-    NavigationControl,
-    type ViewStateChangeEvent,
-} from "react-map-gl/maplibre";
+import MapGL, { GeolocateControl, type MapRef, NavigationControl } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./TrainMap.css";
 import { mapTrainsQueryOptions } from "@/lib/queries/queryOptions";
@@ -19,29 +14,25 @@ type TrainMapProps = {
 };
 
 const DARK_STYLE = "https://tiles.openfreemap.org/styles/liberty";
+const INITIAL_VIEW_STATE = { longitude: 25.7, latitude: 65.9, zoom: 5 };
 
 const TrainMap = ({ trainNumber }: TrainMapProps) => {
     const mapRef = useRef<MapRef>(null);
     const [category, setCategory] = useState<TrainCategory>({
         name: "longDistance",
     });
-    const [viewState, setViewState] = useState({
-        longitude: 25.7,
-        latitude: 65.9,
-        zoom: 5,
-    });
+    const lastCenteredTrain = useRef<string | undefined>(undefined);
 
-    const { data: trains = [], error, isFetching, isPending } = useQuery(mapTrainsQueryOptions());
-
-    useEffect(() => {
-        if (error) {
-            console.error("Error fetching train data:", error);
-        }
-    }, [error]);
+    const { data: trains = [], isFetching, isPending } = useQuery(mapTrainsQueryOptions());
 
     // Center on train if trainNumber provided
     useEffect(() => {
-        if (trainNumber && mapRef.current && trains.length > 0) {
+        if (
+            trainNumber &&
+            trainNumber !== lastCenteredTrain.current &&
+            mapRef.current &&
+            trains.length > 0
+        ) {
             const targetTrain = trains.find(
                 (train) => train.trainNumber.toString() === trainNumber,
             );
@@ -52,6 +43,7 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
                     zoom: 10,
                     duration: 1500,
                 });
+                lastCenteredTrain.current = trainNumber;
             }
         }
     }, [trainNumber, trains]);
@@ -87,8 +79,7 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
         <div className="relative h-full w-full">
             <MapGL
                 ref={mapRef}
-                {...viewState}
-                onMove={(evt: ViewStateChangeEvent) => setViewState(evt.viewState)}
+                initialViewState={INITIAL_VIEW_STATE}
                 mapStyle={DARK_STYLE}
                 style={{ width: "100%", height: "100%" }}
             >
