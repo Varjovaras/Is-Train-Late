@@ -9,6 +9,7 @@ const SearchPopover = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { translations } = useTranslations();
     const dialogRef = useRef<HTMLDialogElement>(null);
+    const buttonRef = useRef<HTMLButtonElement>(null);
     const locationHref = useRouterState({ select: (s) => s.location.href });
 
     useEffect(() => {
@@ -18,6 +19,17 @@ const SearchPopover = () => {
     useEffect(() => {
         if (!isOpen) return;
 
+        const positionDialog = () => {
+            const dialog = dialogRef.current;
+            const button = buttonRef.current;
+            if (!dialog || !button) return;
+            const rect = button.getBoundingClientRect();
+            const width = dialog.offsetWidth;
+            const left = Math.max(8, Math.min(rect.right - width, window.innerWidth - width - 8));
+            dialog.style.left = `${left}px`;
+            dialog.style.top = `${rect.bottom + 4}px`;
+        };
+
         const handleClick = (e: MouseEvent) => {
             const dialog = dialogRef.current;
             if (dialog && e.target === dialog) {
@@ -25,8 +37,13 @@ const SearchPopover = () => {
             }
         };
 
+        positionDialog();
+        window.addEventListener("resize", positionDialog);
         document.addEventListener("click", handleClick);
-        return () => document.removeEventListener("click", handleClick);
+        return () => {
+            window.removeEventListener("resize", positionDialog);
+            document.removeEventListener("click", handleClick);
+        };
     }, [isOpen]);
 
     const toggleDialog = () => {
@@ -43,11 +60,12 @@ const SearchPopover = () => {
     return (
         <div>
             <button
+                ref={buttonRef}
                 type="button"
                 onClick={toggleDialog}
                 aria-expanded={isOpen}
                 aria-haspopup="dialog"
-                className="px-2 sm:px-4 py-2 text-xs sm:text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors [anchor-name:--search-popover-btn]"
+                className="px-2 sm:px-4 py-2 text-xs sm:text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
             >
                 <span className="hidden sm:inline">
                     <FontAwesomeIcon
@@ -69,7 +87,7 @@ const SearchPopover = () => {
                 ref={dialogRef}
                 aria-label={translations.search}
                 onClose={() => setIsOpen(false)}
-                className="absolute [position-anchor:--search-popover-btn] [position-area:bottom_right] m-0 mt-1 w-[min(28rem,calc(100vw-1.5rem))] bg-background border border-foreground/20 rounded-md shadow-lg backdrop:bg-transparent"
+                className="fixed m-0 w-[min(28rem,calc(100vw-1.5rem))] bg-background text-foreground border border-foreground/20 rounded-md shadow-lg backdrop:bg-transparent"
             >
                 <Search />
             </dialog>
