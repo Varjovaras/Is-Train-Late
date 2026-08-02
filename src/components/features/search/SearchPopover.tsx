@@ -13,7 +13,7 @@ const SearchPopover = () => {
     const locationHref = useRouterState({ select: (s) => s.location.href });
 
     useEffect(() => {
-        setIsOpen(false);
+        dialogRef.current?.close();
     }, [locationHref]);
 
     useEffect(() => {
