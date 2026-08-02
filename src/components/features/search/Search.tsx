@@ -21,6 +21,7 @@ const Search = () => {
     const id = useId();
 
     const inputRef = useRef<HTMLInputElement>(null);
+    const listRef = useRef<HTMLDivElement>(null);
 
     const clearInput = () => {
         setSearchValue("");
@@ -121,6 +122,12 @@ const Search = () => {
         return () => window.removeEventListener("resize", checkPosition);
     }, []);
 
+    useEffect(() => {
+        if (selectedIndex < 0 || !listRef.current) return;
+        const item = listRef.current.children[selectedIndex] as HTMLElement | undefined;
+        item?.scrollIntoView({ block: "nearest" });
+    }, [selectedIndex]);
+
     return (
         <form
             onSubmit={(e) => e.preventDefault()}
@@ -147,6 +154,7 @@ const Search = () => {
 
                 {showSuggestions && suggestions.length > 0 && (
                     <div
+                        ref={listRef}
                         className={`absolute z-10 w-full bg-background border
               border-foreground/20 rounded-md shadow-lg overflow-y-auto
               ${dropUp ? "bottom-full mb-1" : "top-full mt-1"}`}

@@ -72,7 +72,7 @@ const SearchPopover = () => {
                 <div
                     role="dialog"
                     aria-label={translations.search}
-                    className="absolute right-0 top-full mt-1 z-10 w-[min(28rem,calc(100vw-1.5rem))] max-h-[calc(100dvh-5rem)] overflow-y-auto bg-background border border-foreground/20 rounded-md shadow-lg"
+                    className="absolute right-0 top-full mt-1 z-10 w-[min(28rem,calc(100vw-1.5rem))] bg-background border border-foreground/20 rounded-md shadow-lg"
                 >
                     <Search />
                 </div>
