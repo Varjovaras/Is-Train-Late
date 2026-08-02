@@ -1,7 +1,7 @@
 import { faMap } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Clock from "@/components/common/Clock";
 import LanguageSwitcher from "@/components/common/LanguageSwitcher";
 import ThemeSwitcher from "@/components/common/ThemeSwitcher";
@@ -11,28 +11,25 @@ import BackHome from "./BackHome";
 
 const TopBar = () => {
     const [isVisible, setIsVisible] = useState(true);
-    const [lastScrollY, setLastScrollY] = useState(0);
+    const lastScrollY = useRef(0);
+    const visibility = useRef(true);
     const { translations } = useTranslations();
 
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
+            const shouldBeVisible = currentScrollY < 10 || currentScrollY <= lastScrollY.current;
 
-            //check if user is at the top of the page
-            if (currentScrollY < 10) {
-                setIsVisible(true);
-            } else if (currentScrollY > lastScrollY) {
-                setIsVisible(false);
-            } else {
-                setIsVisible(true);
+            lastScrollY.current = currentScrollY;
+            if (shouldBeVisible !== visibility.current) {
+                visibility.current = shouldBeVisible;
+                setIsVisible(shouldBeVisible);
             }
-
-            setLastScrollY(currentScrollY);
         };
 
-        window.addEventListener("scroll", handleScroll);
+        window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
-    }, [lastScrollY]);
+    }, []);
 
     return (
         <div
