@@ -1,17 +1,10 @@
-import { useEffect, useState } from "react";
 import { type Language, languages } from "@/lib/i18n/config";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 
 const LanguageSwitcher = () => {
-    const [currentLang, setCurrentLang] = useState<Language>("en");
-    const { isLoading } = useTranslations();
-    useEffect(() => {
-        const savedLang = localStorage.getItem("preferredLanguage") as Language;
-        setCurrentLang(savedLang || "fi");
-    }, []);
+    const { currentLang, isLoading } = useTranslations();
 
     const handleLanguageChange = (newLang: Language) => {
-        setCurrentLang(newLang);
         localStorage.setItem("preferredLanguage", newLang);
         window.location.reload();
     };

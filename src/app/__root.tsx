@@ -11,6 +11,7 @@ import Title from "@/components/layout/Title";
 import TopBar from "@/components/layout/TopBar";
 import { ErrorProvider } from "@/components/providers/ErrorProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { LanguageProvider } from "@/lib/i18n/useTranslations";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
     head: () => ({
@@ -53,19 +54,21 @@ function RootLayout() {
                 </head>
                 <body className="antialiased min-h-screen">
                     <ThemeProvider>
-                        <ErrorProvider>
-                            <div className="font-(family-name:--font-geist-mono) min-h-screen flex flex-col">
-                                <TopBar />
-                                <div className="flex-1 py-20 px-4 mt-4 flex flex-col items-center max-w-7xl mx-auto w-full">
-                                    <Title />
-                                    <main className="flex-1 w-full">
-                                        <Outlet />
-                                    </main>
-                                    <Footer />
+                        <LanguageProvider>
+                            <ErrorProvider>
+                                <div className="font-(family-name:--font-geist-mono) min-h-screen flex flex-col">
+                                    <TopBar />
+                                    <div className="flex-1 py-20 px-4 mt-4 flex flex-col items-center max-w-7xl mx-auto w-full">
+                                        <Title />
+                                        <main className="flex-1 w-full">
+                                            <Outlet />
+                                        </main>
+                                        <Footer />
+                                    </div>
                                 </div>
-                            </div>
-                            <ErrorPopup />
-                        </ErrorProvider>
+                                <ErrorPopup />
+                            </ErrorProvider>
+                        </LanguageProvider>
                     </ThemeProvider>
                     <Scripts />
                 </body>
