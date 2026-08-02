@@ -9,28 +9,21 @@ export const stationScheduleFilter = (
     // Filter schedules to only include trains that:
     // 1. Actually stop at this station
     // 2. Haven't departed yet (scheduled time is in the future)
-    const filtered = stationSchedules.filter((schedule) => {
+    const nowTime = now.getTime();
+    const filtered: Array<{ schedule: StationSchedule; stationTime: number }> = [];
+
+    for (const schedule of stationSchedules) {
         const stationRow = schedule.timeTableRows.find(
             (row) => row.stationShortCode === stationId && row.trainStopping,
         );
 
-        if (!stationRow) return false;
+        if (!stationRow) continue;
 
-        const stationTime = new Date(stationRow.scheduledTime);
-        return stationTime >= now;
-    });
+        const stationTime = new Date(stationRow.scheduledTime).getTime();
+        if (!Number.isFinite(stationTime) || stationTime < nowTime) continue;
 
-    // Sort by scheduled time at this station
-    return filtered.sort((a, b) => {
-        const timeA = a.timeTableRows.find(
-            (row) => row.stationShortCode === stationId && row.trainStopping,
-        )?.scheduledTime;
-        const timeB = b.timeTableRows.find(
-            (row) => row.stationShortCode === stationId && row.trainStopping,
-        )?.scheduledTime;
+        filtered.push({ schedule, stationTime });
+    }
 
-        if (!timeA || !timeB) return 0;
-
-        return new Date(timeA).getTime() - new Date(timeB).getTime();
-    });
+    return filtered.sort((a, b) => a.stationTime - b.stationTime).map(({ schedule }) => schedule);
 };

@@ -11,9 +11,11 @@ export const getTrainDisplayName = (train: TrainType): string => {
 };
 
 export const getTrainCurrentDelay = (train: TrainType): number => {
-    const timeTableRows = train.timeTableRows.filter((row) => row.actualTime !== null);
-    if (timeTableRows.length === 0) return 0;
-    return timeTableRows[timeTableRows.length - 1].differenceInMinutes;
+    for (let index = train.timeTableRows.length - 1; index >= 0; index -= 1) {
+        const row = train.timeTableRows[index];
+        if (row.actualTime !== null) return row.differenceInMinutes;
+    }
+    return 0;
 };
 
 export const getDelayByStation = (
@@ -81,16 +83,28 @@ export const getNextCommercialStation = (train: TrainType): TimeTableRow | undef
 
 export const calculateTrainProgress = (train: TrainType) => {
     const commercialStops = getCommercialStations(train.timeTableRows, "ARRIVAL");
-    const completedStops = getVisitedStations(commercialStops);
-    const totalStops = commercialStops.length;
-    const progressPercentage = totalStops > 0 ? (completedStops.length / totalStops) * 100 : 0;
+    let completed = 0;
+    let lastCompletedStop: TimeTableRow | null = null;
+    let nextStop: TimeTableRow | null = null;
+
+    for (const stop of commercialStops) {
+        if (stop.actualTime !== null) {
+            completed += 1;
+            lastCompletedStop = stop;
+        } else if (nextStop === null) {
+            nextStop = stop;
+        }
+    }
+
+    const total = commercialStops.length;
+    const progressPercentage = total > 0 ? (completed / total) * 100 : 0;
 
     return {
-        completed: completedStops.length,
-        total: totalStops,
+        completed,
+        total,
         percentage: progressPercentage,
-        lastCompletedStop: completedStops[completedStops.length - 1] || null,
-        nextStop: getNextCommercialStation(train) || null,
+        lastCompletedStop,
+        nextStop,
     };
 };
 
