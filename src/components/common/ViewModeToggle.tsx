@@ -1,13 +1,13 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 
-export type StationView = "card" | "list";
+export type ViewMode = "card" | "list";
 
-type StationViewToggleProps = {
-    view: StationView;
-    onViewChange: (view: StationView) => void;
+type ViewModeToggleProps = {
+    view: ViewMode;
+    onViewChange: (view: ViewMode) => void;
 };
 
-const StationViewToggle = ({ view, onViewChange }: StationViewToggleProps) => {
+const ViewModeToggle = ({ view, onViewChange }: ViewModeToggleProps) => {
     const { translations } = useTranslations();
 
     return (
@@ -34,4 +34,4 @@ const StationViewToggle = ({ view, onViewChange }: StationViewToggleProps) => {
     );
 };
 
-export default StationViewToggle;
+export default ViewModeToggle;

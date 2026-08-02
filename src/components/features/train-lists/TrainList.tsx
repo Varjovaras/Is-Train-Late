@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import ViewModeToggle from "@/components/common/ViewModeToggle";
+import type { ViewMode } from "@/components/common/ViewModeToggle";
 import Selectors from "@/components/features/delay-info/Selectors";
 import type { SortOption } from "@/components/features/delay-info/SortSelector";
 import Train from "@/components/features/train-details/Train";
@@ -7,13 +9,16 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 import { filterTrainsByDelay, sortTrains } from "@/lib/utils/trainUtils";
 import NoTrains from "./NoTrains";
+import TrainRow from "./TrainRow";
 
 type TrainListProps = {
     trains: TrainType[];
     trainType: "commuter" | "longDistance" | "freight" | "all";
+    view: ViewMode;
+    onViewChange: (view: ViewMode) => void;
 };
 
-const TrainList = ({ trains, trainType }: TrainListProps) => {
+const TrainList = ({ trains, trainType, view, onViewChange }: TrainListProps) => {
     const { translations, isLoading } = useTranslations();
     const [delayThreshold, setDelayThreshold] = useState(5);
     const [sortOption, setSortOption] = useState<SortOption>({
@@ -40,10 +45,13 @@ const TrainList = ({ trains, trainType }: TrainListProps) => {
 
     return (
         <div className={`p-2 space-y-4 w-full ${isLoading ? "fade-out" : "fade-in"}`}>
-            <h2 className="text-left text-2xl">
-                {getTitle()} ({delayThreshold}
-                {translations.minutesOrMore})
-            </h2>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                <h2 className="text-left text-2xl">
+                    {getTitle()} ({delayThreshold}
+                    {translations.minutesOrMore})
+                </h2>
+                <ViewModeToggle view={view} onViewChange={onViewChange} />
+            </div>
 
             <div>
                 {sortedTrains.length < 1 ? (
@@ -60,15 +68,26 @@ const TrainList = ({ trains, trainType }: TrainListProps) => {
                             sortOption={sortOption}
                             setSortOption={setSortOption}
                         />
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-                            {sortedTrains.map((train) => (
-                                <Train
-                                    train={train}
-                                    key={`${train.trainNumber}-${train.departureDate}`}
-                                    forceShowAllStations={forceShowAllStations}
-                                />
-                            ))}
-                        </div>
+                        {view === "card" ? (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+                                {sortedTrains.map((train) => (
+                                    <Train
+                                        train={train}
+                                        key={`${train.trainNumber}-${train.departureDate}`}
+                                        forceShowAllStations={forceShowAllStations}
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="space-y-2 w-full">
+                                {sortedTrains.map((train) => (
+                                    <TrainRow
+                                        key={`${train.trainNumber}-${train.departureDate}`}
+                                        train={train}
+                                    />
+                                ))}
+                            </div>
+                        )}
                     </>
                 )}
             </div>
