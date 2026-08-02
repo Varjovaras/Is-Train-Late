@@ -11,7 +11,6 @@ import { useEffect } from "react";
 import appCss from "@/app/globals.css?url";
 import favicon from "@/favicon.ico?url";
 import ErrorPopup from "@/components/common/ErrorPopup";
-import Search from "@/components/features/search/Search";
 import Footer from "@/components/layout/Footer";
 import Title from "@/components/layout/Title";
 import TopBar from "@/components/layout/TopBar";
@@ -96,7 +95,6 @@ function RootLayout() {
                                     <main className="flex-1 w-full">
                                         <Outlet />
                                     </main>
-                                    <Search />
                                     <Footer />
                                 </div>
                             </div>

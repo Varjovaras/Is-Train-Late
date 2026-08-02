@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Clock from "@/components/common/Clock";
 import LanguageSwitcher from "@/components/common/LanguageSwitcher";
 import ThemeSwitcher from "@/components/common/ThemeSwitcher";
+import SearchPopover from "@/components/features/search/SearchPopover";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import BackHome from "./BackHome";
 
@@ -63,6 +64,7 @@ const TopBar = () => {
                     <div className="hidden sm:block">
                         <Clock />
                     </div>
+                    <SearchPopover />
                     <ThemeSwitcher />
                     <LanguageSwitcher />
                 </div>
