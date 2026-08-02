@@ -91,6 +91,8 @@ export const translations = {
         arrivingNow: "Saapuu nyt",
         arrived: "Saapunut",
         unknown: "Tuntematon",
+        cardView: "Kortit",
+        listView: "Lista",
     },
     en: {
         title: "Is VR Late?",
@@ -184,6 +186,8 @@ export const translations = {
         arrivingNow: "Arriving now",
         arrived: "Arrived",
         unknown: "Unknown",
+        cardView: "Cards",
+        listView: "List",
     },
 } as const;
 
