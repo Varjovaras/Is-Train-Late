@@ -1,4 +1,5 @@
 import type { TrainType } from "@/lib/types/trainTypes";
+import { formatDate } from "@/lib/utils/dateUtils";
 import { getDelayColorClass, getTrainCurrentDelay } from "@/lib/utils/trainDataUtils";
 import StatusItem from "./StatusItem";
 
@@ -12,10 +13,7 @@ const StatusCard = ({ train }: TrainProps) => {
     return (
         <div className="bg-foreground/5 rounded-lg p-6 mb-8">
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-                <StatusItem
-                    label="Departure Date"
-                    value={new Date(train.departureDate).toLocaleDateString()}
-                />
+                <StatusItem label="Departure Date" value={formatDate(train.departureDate)} />
                 <StatusItem
                     label="Status"
                     value={train.runningCurrently ? "En Route" : "Not Running"}

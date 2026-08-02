@@ -2,6 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import Loading from "@/components/common/Loading";
 import { stationMessagesQueryOptions } from "@/lib/queries/queryOptions";
+import { formatDateTime } from "@/lib/utils/dateUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
 
 export const Route = createFileRoute("/station-messages/$id")({
@@ -49,7 +50,7 @@ function StationMessagesRoute() {
                             <p className="font-bold">Train {message.trainNumber}</p>
                         )}
                         <p className="text-sm text-foreground/60">
-                            Valid until {new Date(message.endValidity).toLocaleString()}
+                            Valid until {formatDateTime(message.endValidity)}
                         </p>
                     </div>
 

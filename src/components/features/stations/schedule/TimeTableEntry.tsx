@@ -35,7 +35,7 @@ const TimeTableEntry = ({ row }: TimeTableEntryProps) => {
                                 : "text-green-500 text-sm"
                         }
                     >
-                        {translations.actual}: {new Date(row.actualTime).toLocaleTimeString()}
+                        {translations.actual}: {formatDateForDisplay(row.actualTime)}
                         {row.differenceInMinutes > 0 &&
                             ` (+${row.differenceInMinutes}${translations.minShortened})`}
                     </div>
@@ -43,8 +43,7 @@ const TimeTableEntry = ({ row }: TimeTableEntryProps) => {
 
                 {row.liveEstimateTime && !row.actualTime && (
                     <div className="text-yellow-500 text-sm">
-                        {translations.estimated}:{" "}
-                        {new Date(row.liveEstimateTime).toLocaleTimeString()}
+                        {translations.estimated}: {formatDateForDisplay(row.liveEstimateTime)}
                     </div>
                 )}
 

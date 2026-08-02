@@ -1,16 +1,11 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import type { QueryClient } from "@tanstack/react-query";
-import {
-    type ErrorComponentProps,
-    HeadContent,
-    Outlet,
-    Scripts,
-    createRootRouteWithContext,
-} from "@tanstack/react-router";
-import { useEffect } from "react";
+import { HeadContent, Outlet, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
 import appCss from "@/app/globals.css?url";
 import favicon from "@/favicon.ico?url";
 import ErrorPopup from "@/components/common/ErrorPopup";
+import NotFoundComponent from "@/components/common/NotFoundComponent";
+import RootErrorComponent from "@/components/common/RootErrorComponent";
 import Footer from "@/components/layout/Footer";
 import Title from "@/components/layout/Title";
 import TopBar from "@/components/layout/TopBar";
@@ -44,35 +39,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     notFoundComponent: NotFoundComponent,
     component: RootLayout,
 });
-
-function RootErrorComponent({ error, reset }: ErrorComponentProps) {
-    useEffect(() => {
-        console.error(error);
-    }, [error]);
-
-    return (
-        <div className="flex flex-col items-center gap-4 p-8">
-            <h2 className="text-xl text-red-500">
-                {error.message || "An unexpected error occurred"}
-            </h2>
-            <button
-                type="button"
-                onClick={() => reset()}
-                className="px-4 py-2 text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-            >
-                Try again
-            </button>
-        </div>
-    );
-}
-
-function NotFoundComponent() {
-    return (
-        <div className="flex flex-col items-center gap-4 p-8">
-            <h1 className="text-xl text-red-500">Page not found</h1>
-        </div>
-    );
-}
 
 function RootLayout() {
     console.log("Tanstack :)");

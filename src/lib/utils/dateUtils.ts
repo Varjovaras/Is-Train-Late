@@ -25,6 +25,18 @@ export const formatDateForDisplay = (date: string) => {
     });
 };
 
+export const formatDate = (date: Date | string) => {
+    return new Date(date).toLocaleDateString("fi-FI", {
+        timeZone: "Europe/Helsinki",
+    });
+};
+
+export const formatDateTime = (date: Date | string) => {
+    return new Date(date).toLocaleString("fi-FI", {
+        timeZone: "Europe/Helsinki",
+    });
+};
+
 export const isToday = (date: string) => {
     const today = new Date();
     const compareDate = new Date(date);

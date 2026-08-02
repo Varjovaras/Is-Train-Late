@@ -91,7 +91,6 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
                 onMove={(evt: ViewStateChangeEvent) => setViewState(evt.viewState)}
                 mapStyle={DARK_STYLE}
                 style={{ width: "100%", height: "100%" }}
-                attributionControl={true}
             >
                 <NavigationControl position="bottom-right" showCompass={false} />
                 <GeolocateControl position="bottom-right" trackUserLocation={true} />

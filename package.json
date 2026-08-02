@@ -27,7 +27,7 @@
         "maplibre-gl": "^4.7.1",
         "react": "^19.2.1",
         "react-dom": "^19.2.1",
-        "react-map-gl": "^7.1.9"
+        "react-map-gl": "^8.1.2"
     },
     "devDependencies": {
         "@rolldown/plugin-babel": "^0.2.3",
