@@ -18,9 +18,12 @@ export const ThemeProvider = ({
 
     useEffect(() => {
         const savedTheme = localStorage.getItem("theme") as Theme;
-        if (savedTheme) {
+        if (savedTheme === "light" || savedTheme === "dark") {
             setTheme(savedTheme);
         }
+    }, []);
+
+    useEffect(() => {
         document.documentElement.classList.toggle("dark", theme === "dark");
     }, [theme]);
 
