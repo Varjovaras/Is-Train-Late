@@ -1,5 +1,3 @@
-"use client";
-
 type TrainIconProps = {
     type: "commuter" | "longDistance" | "freight";
     label: string | number;

@@ -1,4 +1,3 @@
-"use client";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Marker, Popup } from "react-map-gl/maplibre";

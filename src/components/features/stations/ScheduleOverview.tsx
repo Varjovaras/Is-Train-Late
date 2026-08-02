@@ -1,4 +1,3 @@
-"use client";
 import { useState } from "react";
 import TrainTypeSelector from "@/components/features/train-lists/TrainTypeSelector";
 import { useViewMode } from "@/lib/hooks/useViewMode";

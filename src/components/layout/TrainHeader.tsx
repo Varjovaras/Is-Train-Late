@@ -1,4 +1,3 @@
-"use client";
 import TrainRouteDisplay from "@/components/features/train-details/TrainRouteDisplay";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";

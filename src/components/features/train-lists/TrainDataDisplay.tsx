@@ -1,4 +1,3 @@
-"use client";
 import { useState } from "react";
 import { useViewMode } from "@/lib/hooks/useViewMode";
 import type { TrainType } from "@/lib/types/trainTypes";

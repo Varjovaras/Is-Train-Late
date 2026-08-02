@@ -1,4 +1,3 @@
-"use client";
 import { faMap, faTrain, faTrainSubway, faTruck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { Dispatch, SetStateAction } from "react";

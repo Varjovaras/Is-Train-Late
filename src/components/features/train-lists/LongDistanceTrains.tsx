@@ -1,4 +1,3 @@
-"use client";
 import { useViewMode } from "@/lib/hooks/useViewMode";
 import type { TrainType } from "@/lib/types/trainTypes";
 import TrainList from "./TrainList";

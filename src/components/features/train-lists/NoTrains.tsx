@@ -1,4 +1,3 @@
-"use client";
 import type { Dispatch, SetStateAction } from "react";
 import DelayThresholdSelector from "@/components/features/delay-info/DelayThresholdSelector";
 import { useTranslations } from "@/lib/i18n/useTranslations";

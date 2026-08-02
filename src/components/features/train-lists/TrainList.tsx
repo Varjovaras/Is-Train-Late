@@ -1,4 +1,3 @@
-"use client";
 import { useState } from "react";
 import ViewModeToggle from "@/components/common/ViewModeToggle";
 import type { ViewMode } from "@/components/common/ViewModeToggle";

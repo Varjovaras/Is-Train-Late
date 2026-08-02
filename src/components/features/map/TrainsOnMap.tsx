@@ -1,4 +1,3 @@
-"use client";
 import { useState } from "react";
 import { Marker, Popup } from "react-map-gl/maplibre";
 import type { TrainType } from "@/lib/types/trainTypes";
