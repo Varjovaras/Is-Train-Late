@@ -13,8 +13,9 @@ type TrainStationsViewProps = {
 
 const TrainStationsView = ({ train, forceShowAllStations }: TrainStationsViewProps) => {
     const { isLoading } = useTranslations();
-    const [showAllStations, setShowAllStations] = useState(forceShowAllStations);
+    const [userShowAllStations, setUserShowAllStations] = useState(false);
     const [showNonCommercialStops, setShowNonCommercialStops] = useState(false);
+    const showAllStations = forceShowAllStations || userShowAllStations;
 
     return (
         <div
@@ -24,14 +25,14 @@ const TrainStationsView = ({ train, forceShowAllStations }: TrainStationsViewPro
                 <TrainBasicInfo train={train} />
                 <TrainStations
                     train={train}
-                    showAllStations={forceShowAllStations || showAllStations}
+                    showAllStations={showAllStations}
                     showNonCommercialStops={showNonCommercialStops}
                 />
             </div>
             <div className="flex flex-col gap-2 mt-4 w-full">
                 <ShowStationsButton
                     showAllStations={showAllStations}
-                    setShowAllStations={setShowAllStations}
+                    setShowAllStations={setUserShowAllStations}
                 />
                 <ShowNonCommercialStopsButton
                     showNonCommercialStops={showNonCommercialStops}

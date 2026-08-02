@@ -27,11 +27,11 @@ const ScheduleCard = ({ schedule, stationId }: ScheduleCardProps) => {
             </div>
 
             <div className="space-y-2">
-                {schedule.timeTableRows
-                    .filter((row) => row.stationShortCode === stationId)
-                    .map((row) => (
+                {schedule.timeTableRows.map((row) =>
+                    row.stationShortCode === stationId ? (
                         <TimeTableEntry key={`${row.type}-${row.scheduledTime}`} row={row} />
-                    ))}
+                    ) : null,
+                )}
             </div>
 
             <div className="mt-auto pt-2 border-t border-foreground/10">

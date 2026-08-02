@@ -12,7 +12,7 @@ const Search = () => {
     const navigate = useNavigate();
     const { translations, isLoading } = useTranslations();
     const [searchValue, setSearchValue] = useState("");
-    const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+    const [date, setDate] = useState(() => new Date().toISOString().split("T")[0]);
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [dropUp, setDropUp] = useState(false);

@@ -35,7 +35,7 @@ const TrainSelector = ({ category, setCategory }: TrainSelectorProps) => {
                         type="button"
                         onClick={() => setCategory({ name: cat.name })}
                         className={`
-							px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200
+							px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-200
 							${
                                 category.name === cat.name
                                     ? "bg-foreground text-background shadow-sm"

@@ -1,4 +1,4 @@
-import { createContext, type ReactNode, useContext, useState } from "react";
+import { createContext, type ReactNode, useCallback, useContext, useMemo, useState } from "react";
 
 type ErrorContextType = {
     error: string | null;
@@ -11,22 +11,20 @@ const ErrorContext = createContext<ErrorContextType | undefined>(undefined);
 export const ErrorProvider = ({ children }: { children: ReactNode }) => {
     const [error, setError] = useState<string | null>(null);
 
-    const showError = (message: string) => {
+    const showError = useCallback((message: string) => {
         setError(message);
         setTimeout(() => {
             setError(null);
         }, 5000);
-    };
+    }, []);
 
-    const clearError = () => {
+    const clearError = useCallback(() => {
         setError(null);
-    };
+    }, []);
 
-    return (
-        <ErrorContext.Provider value={{ error, showError, clearError }}>
-            {children}
-        </ErrorContext.Provider>
-    );
+    const value = useMemo(() => ({ error, showError, clearError }), [error, showError, clearError]);
+
+    return <ErrorContext.Provider value={value}>{children}</ErrorContext.Provider>;
 };
 
 export const useError = () => {

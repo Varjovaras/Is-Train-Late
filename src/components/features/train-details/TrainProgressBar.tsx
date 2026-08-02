@@ -11,20 +11,20 @@ type TrainProgressBarProps = {
     train: TrainType;
 };
 
+const formatTimeFi = (value: string | Date) => {
+    const date = value instanceof Date ? value : new Date(value);
+    if (Number.isNaN(date.getTime())) return "";
+    return date.toLocaleTimeString("fi-FI", {
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone: "Europe/Helsinki",
+    });
+};
+
 const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
     const { translations } = useTranslations();
     const progress = calculateTrainProgress(train);
     const commercialStops = getCommercialStations(train.timeTableRows, "ARRIVAL");
-
-    const formatTimeFi = (value: string | Date) => {
-        const date = value instanceof Date ? value : new Date(value);
-        if (Number.isNaN(date.getTime())) return "";
-        return date.toLocaleTimeString("fi-FI", {
-            hour: "2-digit",
-            minute: "2-digit",
-            timeZone: "Europe/Helsinki",
-        });
-    };
 
     const startingStation = getCommercialStations(train.timeTableRows, "DEPARTURE")[0];
     const endingStation = commercialStops[commercialStops.length - 1];
@@ -89,7 +89,7 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
                 {/* Progress bar background */}
                 <div className="w-full bg-foreground/20 rounded-full h-3">
                     <div
-                        className="bg-red-600 h-3 rounded-full transition-all duration-500 relative"
+                        className="bg-red-600 h-3 rounded-full transition-[width] duration-500 relative"
                         style={{ width: `${progress.percentage}%` }}
                     >
                         {progress.percentage > 0 && (

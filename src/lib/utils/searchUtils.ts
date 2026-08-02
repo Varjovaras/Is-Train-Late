@@ -22,10 +22,3 @@ export const validateDate = (date: string, translations: Translations) => {
     }
     return null;
 };
-
-export const validateStation = (stationCode: string, translations: Translations) => {
-    if (!stationCode) {
-        return translations.selectStation;
-    }
-    return null;
-};

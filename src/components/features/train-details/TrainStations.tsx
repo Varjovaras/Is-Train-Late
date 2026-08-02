@@ -1,10 +1,10 @@
-import type { TrainType } from "@/lib/types/trainTypes";
+import type { TimeTableRow, TrainType } from "@/lib/types/trainTypes";
 import {
     getCommercialStations,
     getLatestVisitedStationName,
     getNextCommercialStation,
 } from "@/lib/utils/trainDataUtils";
-import StationRow from "./station/StationRow";
+import StationRow, { type StationStatus } from "./station/StationRow";
 
 type TrainStationsProps = {
     train: TrainType;
@@ -51,16 +51,20 @@ const TrainStations = ({ train, showAllStations, showNonCommercialStops }: Train
                 currentStation === firstDeparture.station.name),
     );
 
+    const getStationStatus = (station: TimeTableRow, index: number): StationStatus => {
+        if (showAllStations && index === 0) return "departure";
+        if (station.station.name === currentStation) return "current";
+        if (station.station.name === nextStationRow?.station.name) return "next";
+        return index > currentStationIndex ? "future" : "past";
+    };
+
     return (
         <div className="my-4 space-y-2 ">
             {stationsToShow.map((station, index) => (
                 <StationRow
                     key={station.scheduledTime.toString() + station.type}
                     station={station}
-                    isCurrentStation={station.station.name === currentStation}
-                    isNextStation={station.station.name === nextStationRow?.station.name}
-                    isDepartureStation={showAllStations && index === 0}
-                    isFutureStation={index > currentStationIndex}
+                    status={getStationStatus(station, index)}
                 />
             ))}
         </div>

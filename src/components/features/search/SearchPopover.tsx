@@ -8,7 +8,7 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 const SearchPopover = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { translations } = useTranslations();
-    const wrapperRef = useRef<HTMLDivElement>(null);
+    const dialogRef = useRef<HTMLDialogElement>(null);
     const locationHref = useRouterState({ select: (s) => s.location.href });
 
     useEffect(() => {
@@ -18,38 +18,36 @@ const SearchPopover = () => {
     useEffect(() => {
         if (!isOpen) return;
 
-        const handleMouseDown = (e: MouseEvent) => {
-            if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
-                setIsOpen(false);
+        const handleClick = (e: MouseEvent) => {
+            const dialog = dialogRef.current;
+            if (dialog && e.target === dialog) {
+                dialog.close();
             }
         };
 
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === "Escape") setIsOpen(false);
-        };
-
-        document.addEventListener("mousedown", handleMouseDown);
-        document.addEventListener("keydown", handleKeyDown);
-        return () => {
-            document.removeEventListener("mousedown", handleMouseDown);
-            document.removeEventListener("keydown", handleKeyDown);
-        };
+        document.addEventListener("click", handleClick);
+        return () => document.removeEventListener("click", handleClick);
     }, [isOpen]);
 
-    useEffect(() => {
-        if (isOpen) {
-            wrapperRef.current?.querySelector("input")?.focus();
+    const toggleDialog = () => {
+        const dialog = dialogRef.current;
+        if (!dialog) return;
+        if (dialog.open) {
+            dialog.close();
+        } else {
+            dialog.showModal();
+            setIsOpen(true);
         }
-    }, [isOpen]);
+    };
 
     return (
-        <div ref={wrapperRef} className="relative">
+        <div>
             <button
                 type="button"
-                onClick={() => setIsOpen((prev) => !prev)}
+                onClick={toggleDialog}
                 aria-expanded={isOpen}
                 aria-haspopup="dialog"
-                className="px-2 sm:px-4 py-2 text-xs sm:text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors"
+                className="px-2 sm:px-4 py-2 text-xs sm:text-sm border border-foreground rounded-md hover:bg-foreground hover:text-background transition-colors [anchor-name:--search-popover-btn]"
             >
                 <span className="hidden sm:inline">
                     <FontAwesomeIcon
@@ -67,15 +65,14 @@ const SearchPopover = () => {
                     />
                 </span>
             </button>
-            {isOpen && (
-                <div
-                    role="dialog"
-                    aria-label={translations.search}
-                    className="absolute right-0 top-full mt-1 z-10 w-[min(28rem,calc(100vw-1.5rem))] bg-background border border-foreground/20 rounded-md shadow-lg"
-                >
-                    <Search />
-                </div>
-            )}
+            <dialog
+                ref={dialogRef}
+                aria-label={translations.search}
+                onClose={() => setIsOpen(false)}
+                className="absolute [position-anchor:--search-popover-btn] [position-area:bottom_right] m-0 mt-1 w-[min(28rem,calc(100vw-1.5rem))] bg-background border border-foreground/20 rounded-md shadow-lg backdrop:bg-transparent"
+            >
+                <Search />
+            </dialog>
         </div>
     );
 };

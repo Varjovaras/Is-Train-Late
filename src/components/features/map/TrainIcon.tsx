@@ -4,13 +4,13 @@ type TrainIconProps = {
     heading?: number;
 };
 
-const TrainIcon = ({ type, label, heading = 0 }: TrainIconProps) => {
-    const colors = {
-        commuter: { bg: "#22c55e", border: "#16a34a" }, // green
-        longDistance: { bg: "#ef4444", border: "#dc2626" }, // red
-        freight: { bg: "#eab308", border: "#ca8a04" }, // yellow
-    };
+const colors = {
+    commuter: { bg: "#22c55e", border: "#16a34a" }, // green
+    longDistance: { bg: "#ef4444", border: "#dc2626" }, // red
+    freight: { bg: "#eab308", border: "#ca8a04" }, // yellow
+};
 
+const TrainIcon = ({ type, label, heading = 0 }: TrainIconProps) => {
     const { bg, border } = colors[type];
 
     return (

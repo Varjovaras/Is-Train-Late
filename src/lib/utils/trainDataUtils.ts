@@ -5,14 +5,9 @@ import {
     longDistanceTrainTypeNames,
 } from "../types/trainNameTypes";
 import type { TimeTableRow, TrainType } from "../types/trainTypes";
-import { removeAsema } from "./stringUtils";
 
 export const getTrainDisplayName = (train: TrainType): string => {
     return train.commuterLineid || `${train.trainType.name} ${train.trainNumber}`;
-};
-
-export const getTrainDisplayId = (train: TrainType): string => {
-    return train.commuterLineid !== "" ? train.commuterLineid : train.trainNumber.toString();
 };
 
 export const getTrainCurrentDelay = (train: TrainType): number => {
@@ -54,24 +49,6 @@ export const getVisitedStations = (
             ? hasActualTime && row.trainStopping && row.commercialStop === true
             : hasActualTime;
     });
-};
-
-export const getTrainRouteInfo = (train: TrainType) => {
-    const firstStation = train.timeTableRows[0];
-    const lastStation = train.timeTableRows[train.timeTableRows.length - 1];
-
-    return {
-        departure: {
-            station: firstStation.station,
-            name: removeAsema(firstStation.station.name),
-            shortCode: firstStation.station.shortCode,
-        },
-        arrival: {
-            station: lastStation.station,
-            name: removeAsema(lastStation.station.name),
-            shortCode: lastStation.station.shortCode,
-        },
-    };
 };
 
 export const getLatestVisitedStationName = (train: TrainType): string | null => {

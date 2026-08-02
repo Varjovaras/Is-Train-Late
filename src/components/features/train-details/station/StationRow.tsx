@@ -7,21 +7,14 @@ import DelayDisplay from "./DelayDisplay";
 import StationIndicator from "./StationIndicator";
 import StationTime from "./StationTime";
 
+export type StationStatus = "departure" | "current" | "next" | "future" | "past";
+
 type StationRowProps = {
     station: TimeTableRow;
-    isCurrentStation: boolean;
-    isNextStation: boolean;
-    isDepartureStation: boolean;
-    isFutureStation: boolean;
+    status: StationStatus;
 };
 
-const StationRow = ({
-    station,
-    isCurrentStation,
-    isNextStation,
-    isDepartureStation,
-    isFutureStation,
-}: StationRowProps) => {
+const StationRow = ({ station, status }: StationRowProps) => {
     const { translations } = useTranslations();
 
     const scheduledTime = formatTime(station.scheduledTime);
@@ -35,10 +28,15 @@ const StationRow = ({
 
     const stationName = removeAsema(station.station.name);
 
+    const isDepartureStation = status === "departure";
+    const isCurrentStation = status === "current";
+    const isNextStation = status === "next";
+    const isFutureStation = status === "next" || status === "future";
+
     const rowClassName = `flex gap-4 py-2 px-3 rounded-md
     ${isDepartureStation ? "bg-blue-500/5" : ""}
-    ${isCurrentStation && !isDepartureStation ? "bg-green-500/5" : ""}
-    ${isNextStation && !isDepartureStation ? "bg-blue-500/5" : ""}`;
+    ${isCurrentStation ? "bg-green-500/5" : ""}
+    ${isNextStation ? "bg-blue-500/5" : ""}`;
 
     return (
         <div className={rowClassName}>
@@ -53,8 +51,8 @@ const StationRow = ({
                     params={{ id: station.station.shortCode }}
                     className={`truncate shrink hover:underline
             ${isDepartureStation ? "text-emerald-600 font-bold" : ""}
-            ${isCurrentStation && !isDepartureStation ? "text-green-500 font-bold" : ""}
-            ${isNextStation && !isDepartureStation ? "text-blue-500 font-bold" : ""}`}
+            ${isCurrentStation ? "text-green-500 font-bold" : ""}
+            ${isNextStation ? "text-blue-500 font-bold" : ""}`}
                 >
                     {stationName}
                 </Link>
