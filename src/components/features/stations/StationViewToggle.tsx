@@ -11,7 +11,7 @@ const StationViewToggle = ({ view, onViewChange }: StationViewToggleProps) => {
     const { translations } = useTranslations();
 
     return (
-        <div className="inline-flex rounded-md border border-foreground/20 overflow-hidden">
+        <div className="inline-flex shrink-0 rounded-md border border-foreground/20 overflow-hidden">
             <button
                 type="button"
                 onClick={() => onViewChange("card")}
