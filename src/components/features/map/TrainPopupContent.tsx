@@ -1,6 +1,13 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useTranslations } from "@/lib/i18n/useTranslations";
+import { trainDetailsQueryOptions } from "@/lib/queries/queryOptions";
 import type { TrainType } from "@/lib/types/trainTypes";
+import {
+    getLatestVisitedStationName,
+    getNextCommercialStation,
+    getTrainCurrentDelay,
+} from "@/lib/utils/trainDataUtils";
 
 type TrainPopupContentProps = {
     train: TrainType;
@@ -8,14 +15,23 @@ type TrainPopupContentProps = {
 
 const TrainPopupContent = ({ train }: TrainPopupContentProps) => {
     const { translations } = useTranslations();
-    const speed = train.trainLocations[0]?.speed;
+    const { data: trainDetails, isPending } = useQuery(
+        trainDetailsQueryOptions(String(train.trainNumber)),
+    );
+    const detailedTrain = trainDetails?.train;
+    const speed = detailedTrain?.trainLocations[0]?.speed ?? train.trainLocations[0]?.speed;
+    const currentStation = detailedTrain ? getLatestVisitedStationName(detailedTrain) : null;
+    const nextStation = detailedTrain
+        ? getNextCommercialStation(detailedTrain)?.station.name
+        : null;
+    const delay = detailedTrain ? getTrainCurrentDelay(detailedTrain) : undefined;
 
     return (
         <div className="min-w-[180px]">
             <Link
                 to="/trains/$id"
                 params={{ id: String(train.trainNumber) }}
-                className="block text-lg font-bold text-foreground hover:text-red-500 transition-colors"
+                className="block text-lg font-bold text-foreground transition-colors hover:text-red-500"
             >
                 {train.commuterLineid || `${train.trainType.name} ${train.trainNumber}`}
             </Link>
@@ -27,6 +43,25 @@ const TrainPopupContent = ({ train }: TrainPopupContentProps) => {
                     </span>
                 </p>
                 <p>{train.trainType.trainCategory?.name || train.trainType.name}</p>
+                {isPending && <p>{translations.mapLoading}</p>}
+                {currentStation && (
+                    <p>
+                        {translations.latestStation} {currentStation}
+                    </p>
+                )}
+                {nextStation && (
+                    <p>
+                        {translations.nextStation} {nextStation}
+                    </p>
+                )}
+                {delay !== undefined && (
+                    <p>
+                        {translations.delay}:{" "}
+                        {delay === 0
+                            ? translations.onTime
+                            : `${delay} ${translations.minShortened}`}
+                    </p>
+                )}
             </div>
         </div>
     );

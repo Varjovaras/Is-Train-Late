@@ -1,5 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { Layer, Popup, Source } from "react-map-gl/maplibre";
+import { useTranslations } from "@/lib/i18n/useTranslations";
+import { stationSchedulesQueryOptions } from "@/lib/queries/queryOptions";
 import { type StationCode, stationCoordinates } from "@/lib/utils/stationCoordinates";
 import type { MapPopupSelection } from "./mapTypes";
 
@@ -65,8 +68,18 @@ const stationClusterCountLayer = {
 };
 
 const StationsOnMap = ({ popup, setPopup }: StationsOnMapProps) => {
+    const { currentLang, translations } = useTranslations();
     const stationCode = popup?.type === "station" ? popup.id : undefined;
     const station = stationCode ? stationCoordinates[stationCode as StationCode] : undefined;
+    const {
+        data: stationSchedules,
+        isError,
+        isPending,
+    } = useQuery({
+        ...stationSchedulesQueryOptions(stationCode ?? ""),
+        enabled: Boolean(stationCode),
+    });
+    const upcomingSchedules = stationSchedules?.schedules.slice(0, 3) ?? [];
 
     return (
         <>
@@ -98,6 +111,51 @@ const StationsOnMap = ({ popup, setPopup }: StationsOnMapProps) => {
                     >
                         {station.name}
                     </Link>
+                    <div className="mt-2 space-y-1 text-sm text-foreground/70">
+                        {isPending && <p>{translations.mapLoading}</p>}
+                        {isError && <p>{translations.mapDataError}</p>}
+                        {!isPending && !isError && upcomingSchedules.length === 0 && (
+                            <p>{translations.noUpcomingDepartures}</p>
+                        )}
+                        {!isPending && !isError && upcomingSchedules.length > 0 && (
+                            <>
+                                <p className="font-medium text-foreground">
+                                    {translations.upcomingDepartures}
+                                </p>
+                                <ul className="space-y-1">
+                                    {upcomingSchedules.map((schedule) => {
+                                        const stationRow = schedule.timeTableRows.find(
+                                            (row) =>
+                                                row.stationShortCode === stationCode &&
+                                                row.trainStopping,
+                                        );
+                                        if (!stationRow) return null;
+
+                                        const time = new Intl.DateTimeFormat(currentLang, {
+                                            hour: "2-digit",
+                                            minute: "2-digit",
+                                        }).format(new Date(stationRow.scheduledTime));
+
+                                        return (
+                                            <li
+                                                key={`${schedule.trainNumber}-${schedule.departureDate}`}
+                                            >
+                                                <Link
+                                                    to="/trains/$id"
+                                                    params={{
+                                                        id: `${schedule.trainNumber}-${schedule.departureDate}`,
+                                                    }}
+                                                    className="text-red-500 hover:underline"
+                                                >
+                                                    {time} · {schedule.trainNumber}
+                                                </Link>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </>
+                        )}
+                    </div>
                 </Popup>
             )}
         </>
