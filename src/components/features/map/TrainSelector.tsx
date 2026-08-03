@@ -29,14 +29,19 @@ const TrainSelector = ({ category, setCategory, counts }: TrainSelectorProps) =>
 
     return (
         <div className="absolute top-4 left-4 z-10">
-            <div className="flex gap-1 bg-background/90 backdrop-blur-sm rounded-lg p-1 shadow-lg border border-foreground/10">
+            <div
+                className="flex gap-1 rounded-lg border border-foreground/10 bg-background/90 p-1 shadow-lg backdrop-blur-sm"
+                role="group"
+                aria-label={translations.mapFilters}
+            >
                 {categories.map((cat) => (
                     <button
                         key={cat.name}
                         type="button"
                         onClick={() => setCategory({ name: cat.name })}
+                        aria-label={labels[cat.name]}
                         className={`
-							px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-200
+														px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-1
 							${
                                 category.name === cat.name
                                     ? "bg-foreground text-background shadow-sm"

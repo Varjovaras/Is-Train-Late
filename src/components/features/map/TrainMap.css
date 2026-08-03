@@ -6,6 +6,7 @@
     padding: 0.75rem;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    overscroll-behavior: contain;
 }
 
 .maplibregl-popup-close-button {
@@ -19,6 +20,11 @@
 .maplibregl-popup-close-button:hover {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 0.25rem;
+}
+
+.maplibregl-popup-close-button:focus-visible {
+    outline: 2px solid var(--foreground);
+    outline-offset: 2px;
 }
 
 .maplibregl-popup-tip {

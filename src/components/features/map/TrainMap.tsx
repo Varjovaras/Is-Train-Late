@@ -131,6 +131,7 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
                 mapStyle={DARK_STYLE}
                 style={{ width: "100%", height: "100%" }}
                 onClick={() => setPopup(null)}
+                aria-label={translations.map}
             >
                 <NavigationControl position="bottom-right" showCompass={false} />
                 <GeolocateControl position="bottom-right" trackUserLocation={true} />
@@ -150,7 +151,11 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
             <TrainSelector category={category} setCategory={setCategory} counts={categoryCounts} />
             {isFetching && trains.length > 0 && (
                 <div className="absolute top-4 right-4 z-10">
-                    <div className="bg-background/90 backdrop-blur-sm rounded-full p-2 shadow-lg border border-foreground/10">
+                    <div
+                        className="rounded-full border border-foreground/10 bg-background/90 p-2 shadow-lg backdrop-blur-sm"
+                        role="status"
+                        aria-label={translations.mapRefreshing}
+                    >
                         <div className="animate-spin h-4 w-4 border-2 border-foreground/20 border-t-foreground rounded-full" />
                     </div>
                 </div>
