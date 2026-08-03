@@ -6,6 +6,7 @@ import { getMapData } from "./getMapData";
 import {
     fetchSingleTrainData,
     fetchStationData,
+    fetchStationMetadata,
     fetchStationMessages,
     fetchTrainByDateData,
     fetchTrainData,
@@ -14,6 +15,7 @@ import type { StationSchedule } from "../types/stationTypes";
 import type { TrainType } from "../types/trainTypes";
 
 export const MAP_REFETCH_INTERVAL_MS = 10_000;
+export const STATION_METADATA_STALE_TIME_MS = 86_400_000;
 export const TODAY_TRAIN_STALE_TIME_MS = 300_000;
 
 export const normalizeStationId = (stationId: string) => stationId.toUpperCase();
@@ -21,6 +23,7 @@ export const normalizeStationId = (stationId: string) => stationId.toUpperCase()
 export const queryKeys = {
     homeTrains: ["trains", "home"] as const,
     mapTrains: ["trains", "map"] as const,
+    stationMetadata: ["stations", "metadata"] as const,
     stationSchedules: (stationId: string) =>
         ["station", "schedules", normalizeStationId(stationId)] as const,
     stationMessages: (stationId: string) =>
@@ -46,6 +49,13 @@ export const mapTrainsQueryOptions = () =>
             response.data.currentlyRunningTrains.filter(
                 (train) => train.trainLocations && train.trainLocations.length > 0,
             ),
+    });
+
+export const stationMetadataQueryOptions = () =>
+    queryOptions({
+        queryKey: queryKeys.stationMetadata,
+        queryFn: ({ signal }) => fetchStationMetadata({ signal }),
+        staleTime: STATION_METADATA_STALE_TIME_MS,
     });
 
 export const stationSchedulesQueryOptions = (stationId: string) => {

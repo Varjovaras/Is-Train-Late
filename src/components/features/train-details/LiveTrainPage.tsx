@@ -19,7 +19,7 @@ const LiveTrainPage = ({ train }: LiveTrainPageProps) => {
                 <TrainHeader train={train} />
                 <Link
                     to="/map"
-                    search={{ train: String(train.trainNumber) }}
+                    search={{ train: String(train.trainNumber), category: undefined }}
                     className="px-6 py-3 border border-foreground bg-foreground text-background hover:bg-surface hover:text-foreground rounded-md transition-colors text-lg font-medium flex items-center gap-2"
                 >
                     <svg

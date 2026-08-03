@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { getStationData } from "./getStationData";
 import { getStationMessages } from "./getStationMessages";
 import { getSingleTrainData } from "./getSingleTrainData";
+import { getStationMetadata } from "./getStationMetadata";
 import { getTrainByDateData } from "./getTrainByDateData";
 import { getTrainData } from "./getTrainData";
 
@@ -10,6 +11,10 @@ export const fetchTrainData = createServerFn({ method: "GET" }).handler(() => ge
 export const fetchStationData = createServerFn({ method: "GET" })
     .validator((stationId: string) => stationId)
     .handler(({ data: stationId }) => getStationData(stationId));
+
+export const fetchStationMetadata = createServerFn({ method: "GET" }).handler(() =>
+    getStationMetadata(),
+);
 
 export const fetchStationMessages = createServerFn({ method: "GET" })
     .validator((stationId: string) => stationId)

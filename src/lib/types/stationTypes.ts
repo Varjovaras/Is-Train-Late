@@ -1,3 +1,16 @@
+export type StationMetadataType = "STATION" | "STOPPING_POINT";
+
+export type StationMetadata = {
+    countryCode: "FI";
+    latitude: number;
+    longitude: number;
+    passengerTraffic: boolean;
+    stationName: string;
+    stationShortCode: string;
+    stationUICCode?: number;
+    type: StationMetadataType;
+};
+
 export type StationSchedule = {
     trainNumber: number;
     departureDate: string;

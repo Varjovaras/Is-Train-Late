@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { faCrosshairs, faExpand, faLocationArrow } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
+import { GeoJSONSource } from "maplibre-gl";
 import MapGL, {
     AttributionControl,
     GeolocateControl,
@@ -13,7 +14,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import "./TrainMap.css";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import { mapTrainsQueryOptions } from "@/lib/queries/queryOptions";
+import { mapTrainsQueryOptions, stationMetadataQueryOptions } from "@/lib/queries/queryOptions";
 import {
     getMapTrainId,
     isMapBaseMode,
@@ -71,6 +72,11 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
         isPending,
         refetch,
     } = useQuery(mapTrainsQueryOptions());
+    const {
+        data: stations = [],
+        isError: isStationsError,
+        refetch: refetchStations,
+    } = useQuery(stationMetadataQueryOptions());
 
     useEffect(() => {
         setCategory(initialCategory ?? "longDistance");
@@ -197,20 +203,19 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
             return;
         }
 
-        if (feature.layer.id === "station-clusters") {
+        if (
+            feature.layer.id === "station-clusters" ||
+            feature.layer.id === "station-cluster-count"
+        ) {
             const clusterId = feature.properties?.cluster_id;
             const map = mapRef.current?.getMap();
             const source = map?.getSource("stations");
+            const pointGeometry = feature.geometry.type === "Point" ? feature.geometry : undefined;
 
-            if (
-                typeof clusterId === "number" &&
-                source &&
-                "getClusterExpansionZoom" in source &&
-                feature.geometry.type === "Point"
-            ) {
+            if (typeof clusterId === "number" && source instanceof GeoJSONSource && pointGeometry) {
                 void source.getClusterExpansionZoom(clusterId).then((zoom) => {
                     map?.easeTo({
-                        center: feature.geometry.coordinates as [number, number],
+                        center: pointGeometry.coordinates as [number, number],
                         zoom,
                     });
                 });
@@ -264,7 +269,11 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
                 style={{ width: "100%", height: "100%" }}
                 attributionControl={false}
                 dragRotate={false}
-                interactiveLayerIds={["station-clusters", "station-points"]}
+                interactiveLayerIds={[
+                    "station-clusters",
+                    "station-cluster-count",
+                    "station-points",
+                ]}
                 onClick={handleMapClick}
                 onDragStart={() => setIsFollowing(false)}
                 aria-label={translations.map}
@@ -273,7 +282,7 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
                 <GeolocateControl position="bottom-right" trackUserLocation={true} />
                 <AttributionControl position="bottom-left" compact={false} />
                 {mapBaseMode === "railway" && <RailwayLayer />}
-                <StationsOnMap popup={popup} setPopup={setPopup} />
+                <StationsOnMap stations={stations} popup={popup} setPopup={setPopup} />
                 <TrainsOnMap filteredTrains={filteredTrains} popup={popup} setPopup={setPopup} />
             </MapGL>
             {filteredTrains.length === 0 && !isError && (
@@ -303,6 +312,21 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
                     }}
                 />
             </div>
+            {isStationsError && (
+                <div
+                    className="absolute top-28 left-4 z-10 flex max-w-[calc(100%-2rem)] items-center gap-3 rounded-lg border border-red-500/40 bg-surface/95 px-3 py-2 text-sm shadow-lg backdrop-blur-sm"
+                    role="alert"
+                >
+                    <span className="text-foreground/80">{translations.mapStationDataError}</span>
+                    <button
+                        type="button"
+                        onClick={() => refetchStations()}
+                        className="shrink-0 font-medium text-red-500 underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                    >
+                        {translations.retry}
+                    </button>
+                </div>
+            )}
             <div className="absolute right-16 bottom-4 z-10 flex gap-2">
                 <button
                     type="button"

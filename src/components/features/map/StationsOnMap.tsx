@@ -1,36 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+import type { CircleLayerSpecification, SymbolLayerSpecification } from "maplibre-gl";
+import { useMemo } from "react";
 import { Layer, Popup, Source } from "react-map-gl/maplibre";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { stationSchedulesQueryOptions } from "@/lib/queries/queryOptions";
-import { type StationCode, stationCoordinates } from "@/lib/utils/stationCoordinates";
+import type { StationMetadata } from "@/lib/types/stationTypes";
+import { stationMetadataToGeoJson } from "@/lib/utils/stationMetadata";
 import type { MapPopupSelection } from "./mapTypes";
 
 type StationsOnMapProps = {
+    stations: StationMetadata[];
     popup: MapPopupSelection;
     setPopup: (popup: MapPopupSelection) => void;
 };
 
-const stationData = {
-    type: "FeatureCollection" as const,
-    features: Object.entries(stationCoordinates).map(([code, station]) => ({
-        type: "Feature" as const,
-        geometry: {
-            type: "Point" as const,
-            coordinates: [station.coords[1], station.coords[0]],
-        },
-        properties: {
-            code,
-            name: station.name,
-        },
-    })),
-};
-
-const stationPointLayer = {
+const stationPointLayer: CircleLayerSpecification = {
     id: "station-points",
-    type: "circle" as const,
+    type: "circle",
     source: "stations",
-    filter: ["!", ["has", "point_count"]] as [string, string[]],
+    filter: ["!", ["has", "point_count"]] as ["!", ["has", "point_count"]],
     paint: {
         "circle-color": "#ffffff",
         "circle-radius": 4,
@@ -39,11 +28,11 @@ const stationPointLayer = {
     },
 };
 
-const stationClusterLayer = {
+const stationClusterLayer: CircleLayerSpecification = {
     id: "station-clusters",
-    type: "circle" as const,
+    type: "circle",
     source: "stations",
-    filter: ["has", "point_count"] as [string, string],
+    filter: ["has", "point_count"] as ["has", "point_count"],
     paint: {
         "circle-color": ["step", ["get", "point_count"], "#64748b", 25, "#475569", 100, "#334155"],
         "circle-radius": ["step", ["get", "point_count"], 16, 25, 20, 100, 24],
@@ -52,11 +41,11 @@ const stationClusterLayer = {
     },
 };
 
-const stationClusterCountLayer = {
+const stationClusterCountLayer: SymbolLayerSpecification = {
     id: "station-cluster-count",
-    type: "symbol" as const,
+    type: "symbol",
     source: "stations",
-    filter: ["has", "point_count"] as [string, string],
+    filter: ["has", "point_count"] as ["has", "point_count"],
     layout: {
         "text-field": "{point_count_abbreviated}",
         "text-font": ["Open Sans Bold"],
@@ -67,10 +56,15 @@ const stationClusterCountLayer = {
     },
 };
 
-const StationsOnMap = ({ popup, setPopup }: StationsOnMapProps) => {
+const StationsOnMap = ({ stations, popup, setPopup }: StationsOnMapProps) => {
     const { currentLang, translations } = useTranslations();
     const stationCode = popup?.type === "station" ? popup.id : undefined;
-    const station = stationCode ? stationCoordinates[stationCode as StationCode] : undefined;
+    const stationData = useMemo(() => stationMetadataToGeoJson(stations), [stations]);
+    const stationsByCode = useMemo(
+        () => new Map(stations.map((station) => [station.stationShortCode, station])),
+        [stations],
+    );
+    const station = stationCode ? stationsByCode.get(stationCode) : undefined;
     const {
         data: stationSchedules,
         isError,
@@ -83,22 +77,24 @@ const StationsOnMap = ({ popup, setPopup }: StationsOnMapProps) => {
 
     return (
         <>
-            <Source
-                id="stations"
-                type="geojson"
-                data={stationData}
-                cluster={true}
-                clusterMaxZoom={8}
-                clusterRadius={45}
-            >
-                <Layer {...stationClusterLayer} />
-                <Layer {...stationClusterCountLayer} />
-                <Layer {...stationPointLayer} />
-            </Source>
+            {stations.length > 0 && (
+                <Source
+                    id="stations"
+                    type="geojson"
+                    data={stationData}
+                    cluster={true}
+                    clusterMaxZoom={8}
+                    clusterRadius={45}
+                >
+                    <Layer {...stationClusterLayer} />
+                    <Layer {...stationClusterCountLayer} />
+                    <Layer {...stationPointLayer} />
+                </Source>
+            )}
             {station && stationCode && (
                 <Popup
-                    longitude={station.coords[1]}
-                    latitude={station.coords[0]}
+                    longitude={station.longitude}
+                    latitude={station.latitude}
                     anchor="bottom"
                     onClose={() => setPopup(null)}
                     closeButton={true}
@@ -109,7 +105,7 @@ const StationsOnMap = ({ popup, setPopup }: StationsOnMapProps) => {
                         params={{ id: stationCode }}
                         className="font-bold text-foreground transition-colors hover:text-red-500"
                     >
-                        {station.name}
+                        {station.stationName}
                     </Link>
                     <div className="mt-2 space-y-1 text-sm text-foreground/70">
                         {isPending && <p>{translations.mapLoading}</p>}

@@ -1,0 +1,64 @@
+import { describe, expect, it } from "bun:test";
+import { normalizeStationMetadata, stationMetadataToGeoJson } from "./stationMetadata";
+
+const station = (overrides: Record<string, unknown> = {}) => ({
+    countryCode: "FI",
+    latitude: 60.1719,
+    longitude: 24.9414,
+    passengerTraffic: true,
+    stationName: "Helsinki asema",
+    stationShortCode: "HKI",
+    stationUICCode: 1,
+    type: "STATION",
+    ...overrides,
+});
+
+describe("station metadata normalization", () => {
+    it("keeps Finnish stations and stopping points while excluding other point types", () => {
+        const result = normalizeStationMetadata([
+            station(),
+            station({
+                stationShortCode: "STP",
+                stationName: "Testi seisake",
+                type: "STOPPING_POINT",
+            }),
+            station({ countryCode: "RU", stationShortCode: "RUS" }),
+            station({ type: "TURNOUT_IN_THE_OPEN_LINE", stationShortCode: "TURN" }),
+        ]);
+
+        expect(result.map(({ stationShortCode, type }) => [stationShortCode, type])).toEqual([
+            ["HKI", "STATION"],
+            ["STP", "STOPPING_POINT"],
+        ]);
+    });
+
+    it("rejects missing names and invalid coordinates", () => {
+        const result = normalizeStationMetadata([
+            station({ stationName: "" }),
+            station({ stationShortCode: "BAD-LAT", latitude: 91 }),
+            station({ stationShortCode: "BAD-LON", longitude: Number.NaN }),
+            station({ stationShortCode: "VALID", stationName: "Valid" }),
+        ]);
+
+        expect(result.map(({ stationShortCode }) => stationShortCode)).toEqual(["VALID"]);
+    });
+
+    it("keeps the first valid record for a duplicate station code", () => {
+        const result = normalizeStationMetadata([
+            station(),
+            station({ stationName: "Duplicate Helsinki" }),
+        ]);
+
+        expect(result).toHaveLength(1);
+        expect(result[0]?.stationName).toBe("Helsinki asema");
+    });
+});
+
+describe("station metadata GeoJSON", () => {
+    it("writes GeoJSON coordinates as longitude followed by latitude", () => {
+        const [feature] = stationMetadataToGeoJson(normalizeStationMetadata([station()])).features;
+
+        expect(feature?.geometry.coordinates).toEqual([24.9414, 60.1719]);
+        expect(feature?.properties).toMatchObject({ code: "HKI", name: "Helsinki asema" });
+    });
+});

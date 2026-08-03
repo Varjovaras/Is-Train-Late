@@ -15,6 +15,8 @@ const fetchStationData = ({ data: stationId, signal }: ServerQueryInput) =>
         (response) => response.json(),
     );
 
+const fetchStationMetadata = () => Promise.resolve([]);
+
 const fetchStationMessages = async ({ data: stationId, signal }: ServerQueryInput) => {
     const response = await fetch(
         `https://rata.digitraffic.fi/api/v1/passenger-information/active?station=${stationId}`,
@@ -52,6 +54,7 @@ const fetchSingleTrainData = async ({ signal }: ServerQueryInput) => {
 mock.module("./serverQueries", () => ({
     fetchTrainData,
     fetchStationData,
+    fetchStationMetadata,
     fetchStationMessages,
     fetchTrainByDateData,
     fetchSingleTrainData,
@@ -59,10 +62,12 @@ mock.module("./serverQueries", () => ({
 
 const {
     MAP_REFETCH_INTERVAL_MS,
+    STATION_METADATA_STALE_TIME_MS,
     TODAY_TRAIN_STALE_TIME_MS,
     homeTrainsQueryOptions,
     normalizeStationId,
     queryKeys,
+    stationMetadataQueryOptions,
     stationMessagesQueryOptions,
     todayTrainQueryOptions,
     trainDetailsQueryOptions,
@@ -99,6 +104,8 @@ describe("query options", () => {
 
     it("configures the map and today-train freshness windows", () => {
         expect(MAP_REFETCH_INTERVAL_MS).toBe(10_000);
+        expect([...stationMetadataQueryOptions().queryKey]).toEqual(["stations", "metadata"]);
+        expect(stationMetadataQueryOptions().staleTime).toBe(STATION_METADATA_STALE_TIME_MS);
         expect(todayTrainQueryOptions("10").staleTime).toBe(TODAY_TRAIN_STALE_TIME_MS);
     });
 
