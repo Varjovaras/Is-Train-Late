@@ -1,5 +1,7 @@
 import { Marker, Popup } from "react-map-gl/maplibre";
+import { useEffect, useRef, useState } from "react";
 import type { TrainType } from "@/lib/types/trainTypes";
+import { updateTrainHeadingCache } from "@/lib/utils/trainDirection";
 import { getMapTrainId, type MapPopupSelection } from "./mapTypes";
 import TrainIcon from "./TrainIcon";
 import TrainPopupContent from "./TrainPopupContent";
@@ -18,9 +20,10 @@ const getTrainType = (train: TrainType): "commuter" | "longDistance" | "freight"
 
 const TrainMarker = ({
     train,
+    heading,
     popup,
     setPopup,
-}: { train: TrainType } & Pick<TrainsOnMapProps, "popup" | "setPopup">) => {
+}: { train: TrainType; heading?: number } & Pick<TrainsOnMapProps, "popup" | "setPopup">) => {
     const location = train.trainLocations[0]?.location;
 
     if (!location) return null;
@@ -45,6 +48,7 @@ const TrainMarker = ({
                     type={trainType}
                     label={trainLabel}
                     ariaLabel={`Open train ${trainLabel} ${train.trainNumber}`}
+                    heading={heading}
                     onClick={() => setPopup({ type: "train", id: trainId })}
                 />
             </Marker>
@@ -66,12 +70,44 @@ const TrainMarker = ({
 };
 
 const TrainsOnMap = ({ filteredTrains, popup, setPopup }: TrainsOnMapProps) => {
+    const headingCache = useRef(new Map<string, number>()).current;
+    const [headings, setHeadings] = useState<Map<string, number>>(() => new Map());
+
+    useEffect(() => {
+        setHeadings((previousHeadings) => {
+            const nextHeadings = new Map(previousHeadings);
+            let hasChanged = false;
+
+            for (const train of filteredTrains) {
+                const trainId = getMapTrainId(train);
+                const heading = updateTrainHeadingCache(
+                    headingCache,
+                    trainId,
+                    train.trainLocations,
+                );
+
+                if (heading !== undefined && nextHeadings.get(trainId) !== heading) {
+                    nextHeadings.set(trainId, heading);
+                    hasChanged = true;
+                }
+            }
+
+            return hasChanged ? nextHeadings : previousHeadings;
+        });
+    }, [filteredTrains, headingCache]);
+
     return (
         <>
             {filteredTrains.map((train) => {
                 const uniqueKey = getMapTrainId(train);
                 return (
-                    <TrainMarker key={uniqueKey} train={train} popup={popup} setPopup={setPopup} />
+                    <TrainMarker
+                        key={uniqueKey}
+                        train={train}
+                        heading={headings.get(uniqueKey)}
+                        popup={popup}
+                        setPopup={setPopup}
+                    />
                 );
             })}
         </>

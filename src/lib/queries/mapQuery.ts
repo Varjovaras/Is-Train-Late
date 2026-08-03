@@ -11,6 +11,7 @@ const mapQuery = `{
     }
   ) {
     trainNumber
+    departureDate
     commuterLineid
     trainType {
       name
@@ -18,7 +19,7 @@ const mapQuery = `{
         name
       }
     }
-    trainLocations(orderBy: { timestamp: DESCENDING }, take: 1) {
+    trainLocations(orderBy: { timestamp: DESCENDING }, take: 2) {
       speed
       timestamp
       location

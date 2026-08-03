@@ -3,6 +3,7 @@ import { faCrosshairs, faExpand, faLocationArrow } from "@fortawesome/free-solid
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import MapGL, {
+    AttributionControl,
     GeolocateControl,
     type MapLayerMouseEvent,
     type MapRef,
@@ -13,7 +14,16 @@ import "./TrainMap.css";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { mapTrainsQueryOptions } from "@/lib/queries/queryOptions";
-import { getMapTrainId, type MapCategoryName, type MapPopupSelection } from "./mapTypes";
+import {
+    getMapTrainId,
+    isMapBaseMode,
+    MAP_BASE_MODE_KEY,
+    type MapBaseMode,
+    type MapCategoryName,
+    type MapPopupSelection,
+} from "./mapTypes";
+import RailwayLayer from "./RailwayLayer";
+import MapBaseModeToggle from "./MapBaseModeToggle";
 import StationsOnMap from "./StationsOnMap";
 import TrainSelector from "./TrainSelector";
 import TrainsOnMap from "./TrainsOnMap";
@@ -33,6 +43,7 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
     const [category, setCategory] = useState<MapCategoryName>(initialCategory ?? "longDistance");
     const [popup, setPopup] = useState<MapPopupSelection>(null);
     const [isFollowing, setIsFollowing] = useState(false);
+    const [mapBaseMode, setMapBaseMode] = useState<MapBaseMode>("railway");
     const lastCenteredTrain = useRef<string | undefined>(undefined);
     const { theme } = useTheme();
     const { currentLang, translations } = useTranslations();
@@ -64,6 +75,13 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
     useEffect(() => {
         setCategory(initialCategory ?? "longDistance");
     }, [initialCategory]);
+
+    useEffect(() => {
+        const savedMapBaseMode = localStorage.getItem(MAP_BASE_MODE_KEY);
+        if (isMapBaseMode(savedMapBaseMode)) {
+            setMapBaseMode(savedMapBaseMode);
+        }
+    }, []);
 
     // Center on train if trainNumber provided
     useEffect(() => {
@@ -244,6 +262,8 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
                 initialViewState={INITIAL_VIEW_STATE}
                 mapStyle={theme === "dark" ? DARK_STYLE : LIGHT_STYLE}
                 style={{ width: "100%", height: "100%" }}
+                attributionControl={false}
+                dragRotate={false}
                 interactiveLayerIds={["station-clusters", "station-points"]}
                 onClick={handleMapClick}
                 onDragStart={() => setIsFollowing(false)}
@@ -251,6 +271,8 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
             >
                 <NavigationControl position="bottom-right" showCompass={false} />
                 <GeolocateControl position="bottom-right" trackUserLocation={true} />
+                <AttributionControl position="bottom-left" compact={false} />
+                {mapBaseMode === "railway" && <RailwayLayer />}
                 <StationsOnMap popup={popup} setPopup={setPopup} />
                 <TrainsOnMap filteredTrains={filteredTrains} popup={popup} setPopup={setPopup} />
             </MapGL>
@@ -272,6 +294,15 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
                 }}
                 counts={categoryCounts}
             />
+            <div className="absolute top-16 left-4 z-10">
+                <MapBaseModeToggle
+                    mode={mapBaseMode}
+                    onModeChange={(nextMode) => {
+                        setMapBaseMode(nextMode);
+                        localStorage.setItem(MAP_BASE_MODE_KEY, nextMode);
+                    }}
+                />
+            </div>
             <div className="absolute right-16 bottom-4 z-10 flex gap-2">
                 <button
                     type="button"
@@ -302,7 +333,7 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
             </div>
             {lastUpdatedLabel && (
                 <div
-                    className={`absolute bottom-4 left-4 z-10 rounded-md border px-3 py-2 text-xs shadow-lg backdrop-blur-sm ${
+                    className={`absolute bottom-10 left-4 z-10 rounded-md border px-3 py-2 text-xs shadow-lg backdrop-blur-sm ${
                         isDataStale
                             ? "border-amber-500/40 bg-amber-50/95 text-amber-900 dark:bg-amber-950/90 dark:text-amber-100"
                             : "border-foreground/10 bg-background/90 text-foreground/70"

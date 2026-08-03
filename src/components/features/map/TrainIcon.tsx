@@ -12,7 +12,7 @@ const colors = {
     freight: { bg: "#eab308", border: "#ca8a04" }, // yellow
 };
 
-const TrainIcon = ({ type, label, ariaLabel, onClick, heading = 0 }: TrainIconProps) => {
+const TrainIcon = ({ type, label, ariaLabel, onClick, heading }: TrainIconProps) => {
     const { bg, border } = colors[type];
 
     return (
@@ -24,7 +24,6 @@ const TrainIcon = ({ type, label, ariaLabel, onClick, heading = 0 }: TrainIconPr
                 onClick();
             }}
             className="relative cursor-pointer rounded-full border-0 bg-transparent p-0 transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
-            style={{ transform: `rotate(${heading}deg)` }}
         >
             <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true">
                 {/* Outer glow */}
@@ -32,7 +31,14 @@ const TrainIcon = ({ type, label, ariaLabel, onClick, heading = 0 }: TrainIconPr
                 {/* Main circle */}
                 <circle cx="18" cy="18" r="14" fill={bg} stroke={border} strokeWidth="2" />
                 {/* Direction indicator */}
-                <path d="M18 6 L22 14 L18 12 L14 14 Z" fill="white" opacity="0.9" />
+                {heading !== undefined && (
+                    <path
+                        d="M18 6 L22 14 L18 12 L14 14 Z"
+                        fill="white"
+                        opacity="0.9"
+                        transform={`rotate(${heading} 18 18)`}
+                    />
+                )}
             </svg>
             {/* Label */}
             <div className="absolute inset-0 flex items-center justify-center pt-1">
