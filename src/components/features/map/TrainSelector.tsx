@@ -1,12 +1,11 @@
 import { faMap, faTrain, faTrainSubway, faTruck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type { Dispatch, SetStateAction } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import type { TrainCategory } from "@/lib/types/trainTypes";
+import type { MapCategoryName } from "./mapTypes";
 
 type TrainSelectorProps = {
-    category: TrainCategory;
-    setCategory: Dispatch<SetStateAction<TrainCategory>>;
+    category: MapCategoryName;
+    onCategoryChange: (category: MapCategoryName) => void;
     counts: Record<string, number>;
 };
 
@@ -17,7 +16,7 @@ const categories = [
     { name: "all", icon: faMap },
 ] as const;
 
-const TrainSelector = ({ category, setCategory, counts }: TrainSelectorProps) => {
+const TrainSelector = ({ category, onCategoryChange, counts }: TrainSelectorProps) => {
     const { translations } = useTranslations();
 
     const labels: Record<string, string> = {
@@ -38,17 +37,17 @@ const TrainSelector = ({ category, setCategory, counts }: TrainSelectorProps) =>
                     <button
                         key={cat.name}
                         type="button"
-                        onClick={() => setCategory({ name: cat.name })}
+                        onClick={() => onCategoryChange(cat.name)}
                         aria-label={labels[cat.name]}
                         className={`
 														px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-1
 							${
-                                category.name === cat.name
+                                category === cat.name
                                     ? "bg-foreground text-background shadow-sm"
                                     : "text-foreground/70 hover:text-foreground hover:bg-foreground/10"
                             }
 						`}
-                        aria-pressed={category.name === cat.name}
+                        aria-pressed={category === cat.name}
                     >
                         <FontAwesomeIcon
                             icon={cat.icon}

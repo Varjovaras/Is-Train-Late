@@ -5,29 +5,28 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import "./TrainMap.css";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { mapTrainsQueryOptions } from "@/lib/queries/queryOptions";
-import type { TrainCategory } from "@/lib/types/trainTypes";
-import type { MapPopupSelection } from "./mapTypes";
+import type { MapCategoryName, MapPopupSelection } from "./mapTypes";
 import StationsOnMap from "./StationsOnMap";
 import TrainSelector from "./TrainSelector";
 import TrainsOnMap from "./TrainsOnMap";
 
 type TrainMapProps = {
     trainNumber?: string;
+    initialCategory?: MapCategoryName;
+    onCategoryChange?: (category: MapCategoryName) => void;
 };
 
 const DARK_STYLE = "https://tiles.openfreemap.org/styles/liberty";
 const INITIAL_VIEW_STATE = { longitude: 25.7, latitude: 65.9, zoom: 5 };
 
-const TrainMap = ({ trainNumber }: TrainMapProps) => {
+const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapProps) => {
     const mapRef = useRef<MapRef>(null);
-    const [category, setCategory] = useState<TrainCategory>({
-        name: "longDistance",
-    });
+    const [category, setCategory] = useState<MapCategoryName>(initialCategory ?? "longDistance");
     const [popup, setPopup] = useState<MapPopupSelection>(null);
     const lastCenteredTrain = useRef<string | undefined>(undefined);
     const { currentLang, translations } = useTranslations();
 
-    const matchesCategory = (train: (typeof trains)[number], categoryName: string) => {
+    const matchesCategory = (train: (typeof trains)[number], categoryName: MapCategoryName) => {
         switch (categoryName) {
             case "commuter":
                 return train.commuterLineid !== "";
@@ -51,6 +50,10 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
         refetch,
     } = useQuery(mapTrainsQueryOptions());
 
+    useEffect(() => {
+        setCategory(initialCategory ?? "longDistance");
+    }, [initialCategory]);
+
     // Center on train if trainNumber provided
     useEffect(() => {
         if (!popup) return;
@@ -66,6 +69,11 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
     }, [popup]);
 
     useEffect(() => {
+        if (!trainNumber) {
+            lastCenteredTrain.current = undefined;
+            return;
+        }
+
         if (
             trainNumber &&
             trainNumber !== lastCenteredTrain.current &&
@@ -87,7 +95,7 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
         }
     }, [trainNumber, trains]);
 
-    const filteredTrains = trains.filter((train) => matchesCategory(train, category.name));
+    const filteredTrains = trains.filter((train) => matchesCategory(train, category));
     const categoryCounts = {
         longDistance: trains.filter((train) => matchesCategory(train, "longDistance")).length,
         commuter: trains.filter((train) => matchesCategory(train, "commuter")).length,
@@ -163,7 +171,14 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
                     </div>
                 </div>
             )}
-            <TrainSelector category={category} setCategory={setCategory} counts={categoryCounts} />
+            <TrainSelector
+                category={category}
+                onCategoryChange={(nextCategory) => {
+                    setCategory(nextCategory);
+                    onCategoryChange?.(nextCategory);
+                }}
+                counts={categoryCounts}
+            />
             {lastUpdatedLabel && (
                 <div
                     className={`absolute bottom-4 left-4 z-10 rounded-md border px-3 py-2 text-xs shadow-lg backdrop-blur-sm ${
