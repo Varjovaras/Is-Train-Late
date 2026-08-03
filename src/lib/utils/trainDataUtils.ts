@@ -251,7 +251,7 @@ export const getDelayColorClass = (delayMinutes: number): string => {
     if (delayMinutes <= 45) {
         return "text-red-900"; // 31-45 minutes late
     }
-    return "text-red-950"; // 45+ minutes late
+    return "text-red-800"; // 45+ minutes late
 };
 
 export const getTrainDelayColor = (delayMinutes: number): string => {

@@ -43,8 +43,8 @@ const TrainRow = ({ train }: TrainRowProps) => {
                 </div>
             </div>
 
-            <div className="lg:flex-1">
-                <RouteLinks train={train} />
+            <div className="min-w-0 lg:flex-1 flex justify-center">
+                <RouteLinks train={train} variant="list" />
             </div>
 
             <div className="lg:ml-auto flex items-center">

@@ -6,10 +6,12 @@ import { removeAsema } from "@/lib/utils/stringUtils";
 
 type RouteLinksProps = {
     train: TrainType;
+    variant?: "default" | "list";
 };
 
-const RouteLinks = ({ train }: RouteLinksProps) => {
+const RouteLinks = ({ train, variant = "default" }: RouteLinksProps) => {
     const { translations } = useTranslations();
+    const isListView = variant === "list";
     const departureStation = train.timeTableRows[0].station;
     const departureStationName = removeAsema(departureStation.name);
     const endStation = train.timeTableRows[train.timeTableRows.length - 1].station;
@@ -21,6 +23,42 @@ const RouteLinks = ({ train }: RouteLinksProps) => {
     );
 
     if (train.commuterLineid === "P" || train.commuterLineid === "I") {
+        if (isListView) {
+            return (
+                <div className="grid w-full max-w-md mx-auto grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-2 text-sm">
+                    <div className="min-w-0">
+                        <Link
+                            to="/stations/$id"
+                            params={{ id: "HKI" }}
+                            className="block truncate text-green-500"
+                        >
+                            {departureStationName}
+                        </Link>
+                    </div>
+                    <span className="justify-self-center">→</span>
+                    <div className="min-w-0 text-center">
+                        <Link
+                            to="/stations/$id"
+                            params={{ id: "LEN" }}
+                            className="block truncate text-blue-500"
+                        >
+                            {translations.airport}
+                        </Link>
+                    </div>
+                    <span className="justify-self-center">→</span>
+                    <div className="min-w-0 text-right">
+                        <Link
+                            to="/stations/$id"
+                            params={{ id: "HKI" }}
+                            className="block truncate text-green-500"
+                        >
+                            {endStationName}
+                        </Link>
+                    </div>
+                </div>
+            );
+        }
+
         return (
             <p className="text-sm">
                 <Link to="/stations/$id" params={{ id: "HKI" }} className="text-green-500">
@@ -35,6 +73,34 @@ const RouteLinks = ({ train }: RouteLinksProps) => {
                     {endStationName}
                 </Link>
             </p>
+        );
+    }
+
+    if (isListView) {
+        return (
+            <div className="grid w-full max-w-md mx-auto grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-4 text-xl">
+                <div className="min-w-0 flex flex-col items-start">
+                    <Link
+                        to="/stations/$id"
+                        params={{ id: departureStation.shortCode }}
+                        className="block max-w-full truncate text-green-500 hover:underline"
+                    >
+                        {departureStationName}
+                    </Link>
+                    <span className="text-xs text-foreground/60">{departureTime}</span>
+                </div>
+                <span className="justify-self-center text-gray-400">→</span>
+                <div className="min-w-0 flex flex-col items-end text-right">
+                    <Link
+                        to="/stations/$id"
+                        params={{ id: endStation.shortCode }}
+                        className="block max-w-full truncate text-blue-500 hover:underline"
+                    >
+                        {endStationName}
+                    </Link>
+                    <span className="text-xs text-foreground/60">{arrivalTime}</span>
+                </div>
+            </div>
         );
     }
 
