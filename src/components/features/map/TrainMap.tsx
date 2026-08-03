@@ -1,4 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
+import { faCrosshairs, faExpand, faLocationArrow } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import MapGL, {
     GeolocateControl,
@@ -30,6 +32,7 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
     const mapRef = useRef<MapRef>(null);
     const [category, setCategory] = useState<MapCategoryName>(initialCategory ?? "longDistance");
     const [popup, setPopup] = useState<MapPopupSelection>(null);
+    const [isFollowing, setIsFollowing] = useState(false);
     const lastCenteredTrain = useRef<string | undefined>(undefined);
     const { theme } = useTheme();
     const { currentLang, translations } = useTranslations();
@@ -104,6 +107,20 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
     }, [trainNumber, trains]);
 
     const filteredTrains = trains.filter((train) => matchesCategory(train, category));
+    const visibleTrainLocations = filteredTrains
+        .map((train) => train.trainLocations[0]?.location)
+        .filter((location): location is [number, number] => Boolean(location));
+    const selectedTrainId = popup?.type === "train" ? popup.id : trainNumber;
+    const followedTrain = selectedTrainId
+        ? filteredTrains.find(
+              (train) =>
+                  (train.commuterLineid || train.trainNumber.toString()) === selectedTrainId ||
+                  train.trainNumber.toString() === selectedTrainId,
+          )
+        : undefined;
+    const followedLocation = followedTrain?.trainLocations[0]?.location;
+    const followedLongitude = followedLocation?.[0];
+    const followedLatitude = followedLocation?.[1];
     const categoryCounts = {
         longDistance: trains.filter((train) => matchesCategory(train, "longDistance")).length,
         commuter: trains.filter((train) => matchesCategory(train, "commuter")).length,
@@ -125,6 +142,37 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
               second: "2-digit",
           }).format(lastUpdatedDate)
         : null;
+
+    const fitVisibleTrains = () => {
+        if (visibleTrainLocations.length === 0 || !mapRef.current) return;
+
+        const longitudes = visibleTrainLocations.map(([longitude]) => longitude);
+        const latitudes = visibleTrainLocations.map(([, latitude]) => latitude);
+
+        mapRef.current.fitBounds(
+            [
+                [Math.min(...longitudes), Math.min(...latitudes)],
+                [Math.max(...longitudes), Math.max(...latitudes)],
+            ],
+            { padding: 80, maxZoom: 10, duration: 800 },
+        );
+    };
+
+    useEffect(() => {
+        if (
+            !isFollowing ||
+            followedLongitude === undefined ||
+            followedLatitude === undefined ||
+            !mapRef.current
+        ) {
+            return;
+        }
+
+        mapRef.current.easeTo({
+            center: [followedLongitude, followedLatitude],
+            duration: 500,
+        });
+    }, [followedLatitude, followedLongitude, isFollowing]);
 
     const handleMapClick = (event: MapLayerMouseEvent) => {
         const feature = event.features?.[0];
@@ -200,6 +248,7 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
                 style={{ width: "100%", height: "100%" }}
                 interactiveLayerIds={["station-clusters", "station-points"]}
                 onClick={handleMapClick}
+                onDragStart={() => setIsFollowing(false)}
                 aria-label={translations.map}
             >
                 <NavigationControl position="bottom-right" showCompass={false} />
@@ -225,6 +274,34 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
                 }}
                 counts={categoryCounts}
             />
+            <div className="absolute right-16 bottom-4 z-10 flex gap-2">
+                <button
+                    type="button"
+                    onClick={fitVisibleTrains}
+                    disabled={visibleTrainLocations.length === 0}
+                    aria-label={translations.fitVisibleTrains}
+                    className="rounded-md border border-foreground/10 bg-background/90 p-2 text-foreground shadow-lg backdrop-blur-sm transition-colors hover:bg-foreground/10 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+                >
+                    <FontAwesomeIcon icon={faExpand} aria-hidden="true" />
+                </button>
+                <button
+                    type="button"
+                    onClick={() => setIsFollowing((following) => !following)}
+                    disabled={!followedTrain}
+                    aria-label={
+                        isFollowing ? translations.stopFollowingTrain : translations.followTrain
+                    }
+                    aria-pressed={isFollowing}
+                    className={`rounded-md border border-foreground/10 bg-background/90 p-2 text-foreground shadow-lg backdrop-blur-sm transition-colors hover:bg-foreground/10 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 ${
+                        isFollowing ? "text-red-500" : ""
+                    }`}
+                >
+                    <FontAwesomeIcon
+                        icon={isFollowing ? faLocationArrow : faCrosshairs}
+                        aria-hidden="true"
+                    />
+                </button>
+            </div>
             {lastUpdatedLabel && (
                 <div
                     className={`absolute bottom-4 left-4 z-10 rounded-md border px-3 py-2 text-xs shadow-lg backdrop-blur-sm ${

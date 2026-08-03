@@ -2,6 +2,7 @@ type TrainIconProps = {
     type: "commuter" | "longDistance" | "freight";
     label: string | number;
     ariaLabel: string;
+    onClick: () => void;
     heading?: number;
 };
 
@@ -11,13 +12,17 @@ const colors = {
     freight: { bg: "#eab308", border: "#ca8a04" }, // yellow
 };
 
-const TrainIcon = ({ type, label, ariaLabel, heading = 0 }: TrainIconProps) => {
+const TrainIcon = ({ type, label, ariaLabel, onClick, heading = 0 }: TrainIconProps) => {
     const { bg, border } = colors[type];
 
     return (
         <button
             type="button"
             aria-label={ariaLabel}
+            onClick={(event) => {
+                event.stopPropagation();
+                onClick();
+            }}
             className="relative cursor-pointer rounded-full border-0 bg-transparent p-0 transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
             style={{ transform: `rotate(${heading}deg)` }}
         >

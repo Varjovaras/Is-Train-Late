@@ -40,7 +40,12 @@ const TrainMarker = ({
                     setPopup({ type: "train", id: trainId });
                 }}
             >
-                <TrainIcon type={trainType} label={trainId} ariaLabel={`Open train ${trainId}`} />
+                <TrainIcon
+                    type={trainType}
+                    label={trainId}
+                    ariaLabel={`Open train ${trainId}`}
+                    onClick={() => setPopup({ type: "train", id: trainId })}
+                />
             </Marker>
             {showPopup && (
                 <Popup
