@@ -1,6 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import MapGL, { GeolocateControl, type MapRef, NavigationControl } from "react-map-gl/maplibre";
+import MapGL, {
+    GeolocateControl,
+    type MapLayerMouseEvent,
+    type MapRef,
+    NavigationControl,
+} from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./TrainMap.css";
 import { useTranslations } from "@/lib/i18n/useTranslations";
@@ -118,6 +123,43 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
           }).format(lastUpdatedDate)
         : null;
 
+    const handleMapClick = (event: MapLayerMouseEvent) => {
+        const feature = event.features?.[0];
+        if (!feature) {
+            setPopup(null);
+            return;
+        }
+
+        if (feature.layer.id === "station-clusters") {
+            const clusterId = feature.properties?.cluster_id;
+            const map = mapRef.current?.getMap();
+            const source = map?.getSource("stations");
+
+            if (
+                typeof clusterId === "number" &&
+                source &&
+                "getClusterExpansionZoom" in source &&
+                feature.geometry.type === "Point"
+            ) {
+                void source.getClusterExpansionZoom(clusterId).then((zoom) => {
+                    map?.easeTo({
+                        center: feature.geometry.coordinates as [number, number],
+                        zoom,
+                    });
+                });
+            }
+            return;
+        }
+
+        if (feature.layer.id === "station-points") {
+            const code = feature.properties?.code;
+            setPopup(typeof code === "string" ? { type: "station", id: code } : null);
+            return;
+        }
+
+        setPopup(null);
+    };
+
     if (isPending && trains.length === 0) {
         return (
             <div className="flex items-center justify-center h-full bg-background" role="status">
@@ -153,7 +195,8 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
                 initialViewState={INITIAL_VIEW_STATE}
                 mapStyle={DARK_STYLE}
                 style={{ width: "100%", height: "100%" }}
-                onClick={() => setPopup(null)}
+                interactiveLayerIds={["station-clusters", "station-points"]}
+                onClick={handleMapClick}
                 aria-label={translations.map}
             >
                 <NavigationControl position="bottom-right" showCompass={false} />
