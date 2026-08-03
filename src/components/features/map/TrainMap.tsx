@@ -8,6 +8,7 @@ import MapGL, {
 } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./TrainMap.css";
+import { useTheme } from "@/components/providers/ThemeProvider";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { mapTrainsQueryOptions } from "@/lib/queries/queryOptions";
 import type { MapCategoryName, MapPopupSelection } from "./mapTypes";
@@ -21,7 +22,8 @@ type TrainMapProps = {
     onCategoryChange?: (category: MapCategoryName) => void;
 };
 
-const DARK_STYLE = "https://tiles.openfreemap.org/styles/liberty";
+const LIGHT_STYLE = "https://tiles.openfreemap.org/styles/liberty";
+const DARK_STYLE = "https://tiles.openfreemap.org/styles/dark";
 const INITIAL_VIEW_STATE = { longitude: 25.7, latitude: 65.9, zoom: 5 };
 
 const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapProps) => {
@@ -29,6 +31,7 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
     const [category, setCategory] = useState<MapCategoryName>(initialCategory ?? "longDistance");
     const [popup, setPopup] = useState<MapPopupSelection>(null);
     const lastCenteredTrain = useRef<string | undefined>(undefined);
+    const { theme } = useTheme();
     const { currentLang, translations } = useTranslations();
 
     const matchesCategory = (train: (typeof trains)[number], categoryName: MapCategoryName) => {
@@ -193,7 +196,7 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
             <MapGL
                 ref={mapRef}
                 initialViewState={INITIAL_VIEW_STATE}
-                mapStyle={DARK_STYLE}
+                mapStyle={theme === "dark" ? DARK_STYLE : LIGHT_STYLE}
                 style={{ width: "100%", height: "100%" }}
                 interactiveLayerIds={["station-clusters", "station-points"]}
                 onClick={handleMapClick}

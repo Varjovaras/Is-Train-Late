@@ -33,7 +33,7 @@ function MapRoute() {
     return (
         <ClientOnly fallback={<Loading />}>
             <Suspense fallback={<Loading />}>
-                <div className="w-full h-[calc(100vh-200px)] min-h-125 border border-foreground/20 rounded-lg overflow-hidden">
+                <div className="h-[clamp(31.25rem,calc(100dvh-12rem),45rem)] min-h-125 w-full overflow-hidden rounded-lg border border-foreground/20">
                     <TrainMap
                         trainNumber={train}
                         initialCategory={category}

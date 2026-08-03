@@ -35,3 +35,11 @@
 .maplibregl-popup {
     z-index: 100;
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .maplibregl-popup,
+    .maplibregl-marker,
+    .maplibregl-ctrl button {
+        transition: none !important;
+    }
+}
