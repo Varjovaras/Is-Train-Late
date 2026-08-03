@@ -1,20 +1,12 @@
 type TrainIconProps = {
-    type: "commuter" | "longDistance" | "freight";
+    color: string;
     label: string | number;
     ariaLabel: string;
     onClick: () => void;
     heading?: number;
 };
 
-const colors = {
-    commuter: { bg: "#22c55e", border: "#16a34a" }, // green
-    longDistance: { bg: "#ef4444", border: "#dc2626" }, // red
-    freight: { bg: "#eab308", border: "#ca8a04" }, // yellow
-};
-
-const TrainIcon = ({ type, label, ariaLabel, onClick, heading }: TrainIconProps) => {
-    const { bg, border } = colors[type];
-
+const TrainIcon = ({ color, label, ariaLabel, onClick, heading }: TrainIconProps) => {
     return (
         <button
             type="button"
@@ -26,10 +18,11 @@ const TrainIcon = ({ type, label, ariaLabel, onClick, heading }: TrainIconProps)
             className="relative cursor-pointer rounded-full border-0 bg-transparent p-0 transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
         >
             <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true">
-                {/* Outer glow */}
-                <circle cx="18" cy="18" r="16" fill={bg} opacity="0.3" />
+                {/* Delay color glow */}
+                <circle cx="18" cy="18" r="16" fill={color} opacity="0.25" />
+                <circle cx="18" cy="18" r="16" fill="none" stroke={color} strokeWidth="2" />
                 {/* Main circle */}
-                <circle cx="18" cy="18" r="14" fill={bg} stroke={border} strokeWidth="2" />
+                <circle cx="18" cy="18" r="14" fill={color} stroke="white" strokeWidth="2" />
                 {/* Direction indicator */}
                 {heading !== undefined && (
                     <path

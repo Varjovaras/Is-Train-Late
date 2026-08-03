@@ -253,3 +253,11 @@ export const getDelayColorClass = (delayMinutes: number): string => {
     }
     return "text-red-950"; // 45+ minutes late
 };
+
+export const getTrainDelayColor = (delayMinutes: number): string => {
+    const safeDelay = Number.isFinite(delayMinutes) ? delayMinutes : 0;
+    const normalizedDelay = Math.min(Math.max(safeDelay, 0), 45) / 45;
+    const hue = Math.round(120 - normalizedDelay * 120);
+
+    return `hsl(${hue} 72% 45%)`;
+};

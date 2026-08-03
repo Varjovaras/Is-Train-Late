@@ -24,5 +24,9 @@ const mapQuery = `{
       timestamp
       location
     }
+    timeTableRows {
+      actualTime
+      differenceInMinutes
+    }
   }
 }`;

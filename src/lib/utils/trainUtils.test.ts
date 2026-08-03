@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import type { TimeTableRow, TrainType } from "../types/trainTypes";
-import { getTrainCurrentDelay } from "./trainDataUtils";
+import { getTrainCurrentDelay, getTrainDelayColor } from "./trainDataUtils";
 import { sortTrains } from "./trainUtils";
 
 const row = (differenceInMinutes: number, actualTime: Date | null): TimeTableRow =>
@@ -46,6 +46,17 @@ describe("train data performance helpers", () => {
         trainData.timeTableRows.push(row(12, new Date("2026-08-02T10:02:00Z")));
 
         expect(getTrainCurrentDelay(trainData)).toBe(12);
+    });
+
+    it("uses green for on-time and early trains", () => {
+        expect(getTrainDelayColor(0)).toBe("hsl(120 72% 45%)");
+        expect(getTrainDelayColor(-2)).toBe(getTrainDelayColor(0));
+    });
+
+    it("moves progressively from green toward red as delay increases", () => {
+        expect(getTrainDelayColor(15)).toBe("hsl(80 72% 45%)");
+        expect(getTrainDelayColor(45)).toBe("hsl(0 72% 45%)");
+        expect(getTrainDelayColor(60)).toBe(getTrainDelayColor(45));
     });
 
     it("sorts delay values while computing each train delay once", () => {

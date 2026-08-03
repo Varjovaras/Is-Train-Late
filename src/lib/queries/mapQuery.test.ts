@@ -7,5 +7,6 @@ describe("map query", () => {
 
         expect(query).toContain("departureDate");
         expect(query).toContain("trainLocations(orderBy: { timestamp: DESCENDING }, take: 2)");
+        expect(query).toContain("timeTableRows { actualTime differenceInMinutes }");
     });
 });

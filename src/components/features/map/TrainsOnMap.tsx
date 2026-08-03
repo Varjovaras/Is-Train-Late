@@ -1,7 +1,9 @@
 import { Marker, Popup } from "react-map-gl/maplibre";
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 import { updateTrainHeadingCache } from "@/lib/utils/trainDirection";
+import { getTrainCurrentDelay, getTrainDelayColor } from "@/lib/utils/trainDataUtils";
 import { getMapTrainId, type MapPopupSelection } from "./mapTypes";
 import TrainIcon from "./TrainIcon";
 import TrainPopupContent from "./TrainPopupContent";
@@ -12,10 +14,11 @@ type TrainsOnMapProps = {
     setPopup: (popup: MapPopupSelection) => void;
 };
 
-const getTrainType = (train: TrainType): "commuter" | "longDistance" | "freight" => {
-    if (train.commuterLineid !== "") return "commuter";
-    if (train.trainType.trainCategory?.name === "Cargo") return "freight";
-    return "longDistance";
+type TrainMarkerProps = Pick<TrainsOnMapProps, "popup" | "setPopup"> & {
+    train: TrainType;
+    heading?: number;
+    delayColor: string;
+    statusLabel: string;
 };
 
 const TrainMarker = ({
@@ -23,12 +26,13 @@ const TrainMarker = ({
     heading,
     popup,
     setPopup,
-}: { train: TrainType; heading?: number } & Pick<TrainsOnMapProps, "popup" | "setPopup">) => {
+    delayColor,
+    statusLabel,
+}: TrainMarkerProps) => {
     const location = train.trainLocations[0]?.location;
 
     if (!location) return null;
 
-    const trainType = getTrainType(train);
     const trainId = getMapTrainId(train);
     const trainLabel = train.commuterLineid || train.trainNumber.toString();
     const showPopup = popup?.type === "train" && popup.id === trainId;
@@ -45,9 +49,9 @@ const TrainMarker = ({
                 }}
             >
                 <TrainIcon
-                    type={trainType}
+                    color={delayColor}
                     label={trainLabel}
-                    ariaLabel={`Open train ${trainLabel} ${train.trainNumber}`}
+                    ariaLabel={`Open train ${trainLabel} ${train.trainNumber}, ${statusLabel}`}
                     heading={heading}
                     onClick={() => setPopup({ type: "train", id: trainId })}
                 />
@@ -70,6 +74,7 @@ const TrainMarker = ({
 };
 
 const TrainsOnMap = ({ filteredTrains, popup, setPopup }: TrainsOnMapProps) => {
+    const { translations } = useTranslations();
     const headingCache = useRef(new Map<string, number>()).current;
     const [headings, setHeadings] = useState<Map<string, number>>(() => new Map());
 
@@ -100,6 +105,12 @@ const TrainsOnMap = ({ filteredTrains, popup, setPopup }: TrainsOnMapProps) => {
         <>
             {filteredTrains.map((train) => {
                 const uniqueKey = getMapTrainId(train);
+                const currentDelay = getTrainCurrentDelay(train);
+                const statusLabel =
+                    currentDelay > 0
+                        ? `${currentDelay} ${translations.minutesLate}`
+                        : translations.onTime;
+
                 return (
                     <TrainMarker
                         key={uniqueKey}
@@ -107,6 +118,8 @@ const TrainsOnMap = ({ filteredTrains, popup, setPopup }: TrainsOnMapProps) => {
                         heading={headings.get(uniqueKey)}
                         popup={popup}
                         setPopup={setPopup}
+                        delayColor={getTrainDelayColor(currentDelay)}
+                        statusLabel={statusLabel}
                     />
                 );
             })}
