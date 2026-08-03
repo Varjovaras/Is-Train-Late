@@ -87,7 +87,7 @@ const SearchPopover = () => {
                 ref={dialogRef}
                 aria-label={translations.search}
                 onClose={() => setIsOpen(false)}
-                className="fixed m-0 w-[min(28rem,calc(100vw-1.5rem))] bg-background text-foreground border border-foreground/20 rounded-md shadow-lg backdrop:bg-transparent"
+                className="fixed m-0 w-[min(28rem,calc(100vw-1.5rem))] bg-surface text-foreground border border-border rounded-md shadow-lg backdrop:bg-transparent"
             >
                 <Search />
             </dialog>

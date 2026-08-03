@@ -231,7 +231,7 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
         return (
             <div className="flex items-center justify-center h-full bg-background" role="status">
                 <div className="flex flex-col items-center gap-3">
-                    <div className="animate-spin rounded-full h-10 w-10 border-2 border-foreground/20 border-t-foreground" />
+                    <div className="animate-spin rounded-full h-10 w-10 border-2 border-border border-t-foreground" />
                     <span className="text-sm text-foreground/60">{translations.mapLoading}</span>
                 </div>
             </div>
@@ -281,7 +281,7 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
                     className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center p-6"
                     role="status"
                 >
-                    <div className="rounded-lg border border-foreground/10 bg-background/95 px-4 py-3 text-center text-sm text-foreground/70 shadow-lg backdrop-blur-sm">
+                    <div className="rounded-lg border border-border-subtle bg-surface/95 px-4 py-3 text-center text-sm text-foreground/70 shadow-lg backdrop-blur-sm">
                         {translations.noTrainsOnMap}
                     </div>
                 </div>
@@ -309,7 +309,7 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
                     onClick={fitVisibleTrains}
                     disabled={visibleTrainLocations.length === 0}
                     aria-label={translations.fitVisibleTrains}
-                    className="rounded-md border border-foreground/10 bg-background/90 p-2 text-foreground shadow-lg backdrop-blur-sm transition-colors hover:bg-foreground/10 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+                    className="rounded-md border border-border-subtle bg-surface/90 p-2 text-foreground shadow-lg backdrop-blur-sm transition-colors hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
                 >
                     <FontAwesomeIcon icon={faExpand} aria-hidden="true" />
                 </button>
@@ -321,7 +321,7 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
                         isFollowing ? translations.stopFollowingTrain : translations.followTrain
                     }
                     aria-pressed={isFollowing}
-                    className={`rounded-md border border-foreground/10 bg-background/90 p-2 text-foreground shadow-lg backdrop-blur-sm transition-colors hover:bg-foreground/10 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 ${
+                    className={`rounded-md border border-border-subtle bg-surface/90 p-2 text-foreground shadow-lg backdrop-blur-sm transition-colors hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 ${
                         isFollowing ? "text-red-500" : ""
                     }`}
                 >
@@ -336,7 +336,7 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
                     className={`absolute bottom-10 left-4 z-10 rounded-md border px-3 py-2 text-xs shadow-lg backdrop-blur-sm ${
                         isDataStale
                             ? "border-amber-500/40 bg-amber-50/95 text-amber-900 dark:bg-amber-950/90 dark:text-amber-100"
-                            : "border-foreground/10 bg-background/90 text-foreground/70"
+                            : "border-border-subtle bg-surface/90 text-foreground/70"
                     }`}
                     role="status"
                 >
@@ -349,17 +349,17 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
             {isFetching && trains.length > 0 && (
                 <div className="absolute top-4 right-4 z-10">
                     <div
-                        className="rounded-full border border-foreground/10 bg-background/90 p-2 shadow-lg backdrop-blur-sm"
+                        className="rounded-full border border-border-subtle bg-surface/90 p-2 shadow-lg backdrop-blur-sm"
                         role="status"
                         aria-label={translations.mapRefreshing}
                     >
-                        <div className="animate-spin h-4 w-4 border-2 border-foreground/20 border-t-foreground rounded-full" />
+                        <div className="animate-spin h-4 w-4 border-2 border-border border-t-foreground rounded-full" />
                     </div>
                 </div>
             )}
             {isError && trains.length > 0 && (
                 <div
-                    className="absolute top-16 right-4 z-10 flex items-center gap-3 rounded-lg border border-red-500/40 bg-background/95 px-3 py-2 text-sm shadow-lg backdrop-blur-sm"
+                    className="absolute top-16 right-4 z-10 flex items-center gap-3 rounded-lg border border-red-500/40 bg-surface/95 px-3 py-2 text-sm shadow-lg backdrop-blur-sm"
                     role="alert"
                 >
                     <span className="text-foreground/80">{translations.mapDataError}</span>

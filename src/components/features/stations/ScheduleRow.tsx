@@ -25,7 +25,7 @@ const ScheduleRow = ({ schedule, stationId }: ScheduleRowProps) => {
     const stationRows = schedule.timeTableRows.filter((row) => row.stationShortCode === stationId);
 
     return (
-        <div className="border border-foreground/20 rounded-lg px-4 py-3 flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-4">
+        <div className="border border-border bg-surface rounded-lg px-4 py-3 flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-4">
             <div className="min-w-0 lg:w-1/3 space-y-1">
                 <Link
                     to={getLinkDestination()}

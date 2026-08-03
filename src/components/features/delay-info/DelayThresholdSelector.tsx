@@ -23,7 +23,7 @@ const DelayThresholdSelector = ({
                 id={id}
                 value={currentThreshold}
                 onChange={(e) => onThresholdChange(Number(e.target.value))}
-                className="px-2 py-1 rounded-md border border-foreground/20 bg-background"
+                className="px-2 py-1 rounded-md border border-border bg-surface"
             >
                 <DelayOptions />
             </select>

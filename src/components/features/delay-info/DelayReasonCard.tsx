@@ -13,7 +13,7 @@ const DelayReasonCard = ({ timeTableRow, minutes }: DelayReasonCardProps) => {
     const { translations } = useTranslations();
     const delayColorClass = minutes ? getDelayColorClass(minutes) : "text-gray-500";
     return (
-        <div className="bg-foreground/5 rounded-lg p-4">
+        <div className="bg-surface-muted rounded-lg p-4">
             <div className="mb-2">
                 <span className="font-semibold text-red-500">{translations.station} </span>
                 {timeTableRow.station.name}

@@ -35,7 +35,7 @@ const SortSelector = ({ currentSort, onSortChange }: SortSelectorProps) => {
                     ];
                     onSortChange({ field, direction });
                 }}
-                className="px-2 py-1 rounded-md border border-foreground/20 bg-background min-w-[200px] max-w-full"
+                className="px-2 py-1 rounded-md border border-border bg-surface min-w-[200px] max-w-full"
             >
                 <option value="trainNumber-asc">{translations.trainNumberAsc}</option>
                 <option value="trainNumber-desc">{translations.trainNumberDesc}</option>

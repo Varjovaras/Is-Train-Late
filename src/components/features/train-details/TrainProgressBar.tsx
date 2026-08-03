@@ -33,7 +33,7 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
     const nextStop = progress.nextStop;
 
     return (
-        <div className="bg-foreground/5 rounded-lg my-4 p-4 ">
+        <div className="bg-surface-muted rounded-lg my-4 p-4 ">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-red-600 rounded-full" />
@@ -87,7 +87,7 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
 
             <div className="relative mb-3">
                 {/* Progress bar background */}
-                <div className="w-full bg-foreground/20 rounded-full h-3">
+                <div className="w-full bg-border rounded-full h-3">
                     <div
                         className="bg-red-600 h-3 rounded-full transition-[width] duration-500 relative"
                         style={{ width: `${progress.percentage}%` }}

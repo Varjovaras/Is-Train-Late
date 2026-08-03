@@ -24,7 +24,7 @@ const ErrorPopup = () => {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-foreground/30 backdrop-blur-sm transition-opacity">
-            <div className="relative bg-background border border-red-500 rounded-lg shadow-lg w-full max-w-md p-6 fade-in">
+            <div className="relative bg-surface border border-red-500 rounded-lg shadow-lg w-full max-w-md p-6 fade-in">
                 <button
                     type="button"
                     onClick={clearError}

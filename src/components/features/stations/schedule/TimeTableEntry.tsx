@@ -10,7 +10,7 @@ type TimeTableEntryProps = {
 const TimeTableEntry = ({ row }: TimeTableEntryProps) => {
     const { translations } = useTranslations();
     return (
-        <div className="border-t border-foreground/10 pt-2">
+        <div className="border-t border-border-subtle pt-2">
             <div className="flex justify-between items-start">
                 <div>
                     <span className="text-sm font-medium">

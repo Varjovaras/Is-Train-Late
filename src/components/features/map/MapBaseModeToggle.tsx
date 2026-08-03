@@ -14,7 +14,7 @@ const MapBaseModeToggle = ({ mode, onModeChange }: MapBaseModeToggleProps) => {
 
     return (
         <div
-            className="flex gap-1 rounded-lg border border-foreground/10 bg-background/90 p-1 shadow-lg backdrop-blur-sm"
+            className="flex gap-1 rounded-lg border border-border-subtle bg-surface/90 p-1 shadow-lg backdrop-blur-sm"
             role="group"
             aria-label={translations.mapBaseMode}
         >

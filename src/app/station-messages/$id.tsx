@@ -43,7 +43,7 @@ function StationMessagesRoute() {
             {messages.map((message) => (
                 <div
                     key={message.id}
-                    className="border border-foreground/20 rounded-lg p-4 space-y-4"
+                    className="border border-border bg-surface rounded-lg p-4 space-y-4"
                 >
                     <div className="flex justify-between items-start gap-4">
                         {message.trainNumber && (

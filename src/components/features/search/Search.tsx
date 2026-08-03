@@ -148,14 +148,14 @@ const Search = () => {
                     placeholder={translations.searchTrainOrStation}
                     className="w-full px-4 py-2 border border-foreground rounded-md
               focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
-              bg-background text-foreground"
+              bg-surface text-foreground"
                 />
 
                 {showSuggestions && suggestions.length > 0 && (
                     <div
                         ref={listRef}
-                        className={`absolute z-10 w-full bg-background border
-              border-foreground/20 rounded-md shadow-lg overflow-y-auto
+                        className={`absolute z-10 w-full bg-surface border
+              border-border rounded-md shadow-lg overflow-y-auto
               ${dropUp ? "bottom-full mb-1" : "top-full mt-1"}`}
                         style={{ maxHeight: "300px" }}
                     >
@@ -164,9 +164,9 @@ const Search = () => {
                                 key={code}
                                 type="button"
                                 onClick={() => handleStationSelect(code)}
-                                className={`w-full px-4 py-2 text-left hover:bg-foreground/10
+                                className={`w-full px-4 py-2 text-left hover:bg-surface-hover
                   flex justify-between items-center
-                  ${index === selectedIndex ? "bg-foreground/10" : ""}
+                  ${index === selectedIndex ? "bg-surface-hover" : ""}
                   ${passengerStationCodes.has(code) ? "" : "opacity-60"}`}
                             >
                                 <span className="flex items-center gap-2">

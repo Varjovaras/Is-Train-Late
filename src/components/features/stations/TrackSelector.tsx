@@ -37,7 +37,7 @@ const TrackSelector = ({ schedules, stationId, onTrackSelect }: TrackSelectorPro
                 aria-label="Select track"
                 value={selectedTrack ?? "all"}
                 onChange={handleTrackChange}
-                className="px-4 py-2 rounded-md border border-foreground/20 bg-background hover:bg-foreground/10 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="px-4 py-2 rounded-md border border-border bg-surface hover:bg-surface-hover transition-colors focus:outline-none focus:ring-2 focus:ring-green-500"
             >
                 <option value="all">All Tracks</option>
                 {tracks.map((track) => (

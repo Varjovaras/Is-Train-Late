@@ -9,7 +9,7 @@ const ThemeSwitcher = () => {
         <button
             onClick={toggleTheme}
             type="button"
-            className="p-2 rounded-md hover:bg-foreground/10 transition-colors"
+            className="p-2 rounded-md hover:bg-surface-hover transition-colors"
             aria-label="Toggle theme"
         >
             <FontAwesomeIcon

@@ -11,12 +11,12 @@ const ViewModeToggle = ({ view, onViewChange }: ViewModeToggleProps) => {
     const { translations } = useTranslations();
 
     return (
-        <div className="inline-flex shrink-0 rounded-md border border-foreground/20 overflow-hidden">
+        <div className="inline-flex shrink-0 rounded-md border border-border overflow-hidden">
             <button
                 type="button"
                 onClick={() => onViewChange("list")}
                 className={`px-3 py-1.5 text-sm ${
-                    view === "list" ? "bg-foreground text-background" : "hover:bg-foreground/10"
+                    view === "list" ? "bg-foreground text-background" : "hover:bg-surface-hover"
                 }`}
             >
                 {translations.listView}
@@ -24,8 +24,8 @@ const ViewModeToggle = ({ view, onViewChange }: ViewModeToggleProps) => {
             <button
                 type="button"
                 onClick={() => onViewChange("card")}
-                className={`px-3 py-1.5 text-sm border-l border-foreground/20 ${
-                    view === "card" ? "bg-foreground text-background" : "hover:bg-foreground/10"
+                className={`px-3 py-1.5 text-sm border-l border-border ${
+                    view === "card" ? "bg-foreground text-background" : "hover:bg-surface-hover"
                 }`}
             >
                 {translations.cardView}

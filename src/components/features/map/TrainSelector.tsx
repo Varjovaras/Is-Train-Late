@@ -29,7 +29,7 @@ const TrainSelector = ({ category, onCategoryChange, counts }: TrainSelectorProp
     return (
         <div className="absolute top-4 left-4 z-10">
             <div
-                className="flex gap-1 rounded-lg border border-foreground/10 bg-background/90 p-1 shadow-lg backdrop-blur-sm"
+                className="flex gap-1 rounded-lg border border-border-subtle bg-surface/90 p-1 shadow-lg backdrop-blur-sm"
                 role="group"
                 aria-label={translations.mapFilters}
             >
@@ -44,7 +44,7 @@ const TrainSelector = ({ category, onCategoryChange, counts }: TrainSelectorProp
 							${
                                 category === cat.name
                                     ? "bg-foreground text-background shadow-sm"
-                                    : "text-foreground/70 hover:text-foreground hover:bg-foreground/10"
+                                    : "text-foreground/70 hover:text-foreground hover:bg-surface-hover"
                             }
 						`}
                         aria-pressed={category === cat.name}
