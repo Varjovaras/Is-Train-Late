@@ -20,6 +20,7 @@ const mapQuery = `{
     }
     trainLocations(orderBy: { timestamp: DESCENDING }, take: 1) {
       speed
+      timestamp
       location
     }
   }

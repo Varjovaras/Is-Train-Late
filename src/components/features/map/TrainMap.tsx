@@ -25,7 +25,7 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
     });
     const [popup, setPopup] = useState<MapPopupSelection>(null);
     const lastCenteredTrain = useRef<string | undefined>(undefined);
-    const { translations } = useTranslations();
+    const { currentLang, translations } = useTranslations();
 
     const matchesCategory = (train: (typeof trains)[number], categoryName: string) => {
         switch (categoryName) {
@@ -94,6 +94,21 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
         freight: trains.filter((train) => matchesCategory(train, "freight")).length,
         all: trains.length,
     };
+    const latestTimestamp = trains.reduce<string | undefined>((latest, train) => {
+        const timestamp = train.trainLocations[0]?.timestamp;
+        if (!timestamp) return latest;
+
+        return !latest || Date.parse(timestamp) > Date.parse(latest) ? timestamp : latest;
+    }, undefined);
+    const lastUpdatedDate = latestTimestamp ? new Date(latestTimestamp) : undefined;
+    const isDataStale = lastUpdatedDate ? Date.now() - lastUpdatedDate.getTime() > 60_000 : false;
+    const lastUpdatedLabel = lastUpdatedDate
+        ? new Intl.DateTimeFormat(currentLang, {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+          }).format(lastUpdatedDate)
+        : null;
 
     if (isPending && trains.length === 0) {
         return (
@@ -149,6 +164,21 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
                 </div>
             )}
             <TrainSelector category={category} setCategory={setCategory} counts={categoryCounts} />
+            {lastUpdatedLabel && (
+                <div
+                    className={`absolute bottom-4 left-4 z-10 rounded-md border px-3 py-2 text-xs shadow-lg backdrop-blur-sm ${
+                        isDataStale
+                            ? "border-amber-500/40 bg-amber-50/95 text-amber-900 dark:bg-amber-950/90 dark:text-amber-100"
+                            : "border-foreground/10 bg-background/90 text-foreground/70"
+                    }`}
+                    role="status"
+                >
+                    <span>
+                        {translations.mapLastUpdated}: {lastUpdatedLabel}
+                    </span>
+                    {isDataStale && <span className="ml-2">{translations.mapDataStale}</span>}
+                </div>
+            )}
             {isFetching && trains.length > 0 && (
                 <div className="absolute top-4 right-4 z-10">
                     <div

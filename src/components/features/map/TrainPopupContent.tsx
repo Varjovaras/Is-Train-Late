@@ -8,7 +8,7 @@ type TrainPopupContentProps = {
 
 const TrainPopupContent = ({ train }: TrainPopupContentProps) => {
     const { translations } = useTranslations();
-    const speed = train.trainLocations[0]?.speed ?? 0;
+    const speed = train.trainLocations[0]?.speed;
 
     return (
         <div className="min-w-[180px]">
@@ -22,7 +22,9 @@ const TrainPopupContent = ({ train }: TrainPopupContentProps) => {
             <div className="mt-2 space-y-1 text-sm text-foreground/70">
                 <p>
                     {translations.currentSpeed}:{" "}
-                    <span className="font-medium text-foreground">{speed} km/h</span>
+                    <span className="font-medium text-foreground">
+                        {speed === undefined ? translations.noCurrentSpeed : `${speed} km/h`}
+                    </span>
                 </p>
                 <p>{train.trainType.trainCategory?.name || train.trainType.name}</p>
             </div>
