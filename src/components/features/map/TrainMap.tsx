@@ -27,6 +27,22 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
     const lastCenteredTrain = useRef<string | undefined>(undefined);
     const { translations } = useTranslations();
 
+    const matchesCategory = (train: (typeof trains)[number], categoryName: string) => {
+        switch (categoryName) {
+            case "commuter":
+                return train.commuterLineid !== "";
+            case "longDistance":
+                return (
+                    train.commuterLineid === "" &&
+                    train.trainType.trainCategory?.name === "Long-distance"
+                );
+            case "freight":
+                return train.trainType.trainCategory?.name === "Cargo";
+            default:
+                return true;
+        }
+    };
+
     const {
         data: trains = [],
         isError,
@@ -71,21 +87,13 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
         }
     }, [trainNumber, trains]);
 
-    const filteredTrains = trains.filter((train) => {
-        switch (category.name) {
-            case "commuter":
-                return train.commuterLineid !== "";
-            case "longDistance":
-                return (
-                    train.commuterLineid === "" &&
-                    train.trainType.trainCategory?.name === "Long-distance"
-                );
-            case "freight":
-                return train.trainType.trainCategory?.name === "Cargo";
-            default:
-                return true;
-        }
-    });
+    const filteredTrains = trains.filter((train) => matchesCategory(train, category.name));
+    const categoryCounts = {
+        longDistance: trains.filter((train) => matchesCategory(train, "longDistance")).length,
+        commuter: trains.filter((train) => matchesCategory(train, "commuter")).length,
+        freight: trains.filter((train) => matchesCategory(train, "freight")).length,
+        all: trains.length,
+    };
 
     if (isPending && trains.length === 0) {
         return (
@@ -129,7 +137,17 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
                 <StationsOnMap popup={popup} setPopup={setPopup} />
                 <TrainsOnMap filteredTrains={filteredTrains} popup={popup} setPopup={setPopup} />
             </MapGL>
-            <TrainSelector category={category} setCategory={setCategory} />
+            {filteredTrains.length === 0 && !isError && (
+                <div
+                    className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center p-6"
+                    role="status"
+                >
+                    <div className="rounded-lg border border-foreground/10 bg-background/95 px-4 py-3 text-center text-sm text-foreground/70 shadow-lg backdrop-blur-sm">
+                        {translations.noTrainsOnMap}
+                    </div>
+                </div>
+            )}
+            <TrainSelector category={category} setCategory={setCategory} counts={categoryCounts} />
             {isFetching && trains.length > 0 && (
                 <div className="absolute top-4 right-4 z-10">
                     <div className="bg-background/90 backdrop-blur-sm rounded-full p-2 shadow-lg border border-foreground/10">

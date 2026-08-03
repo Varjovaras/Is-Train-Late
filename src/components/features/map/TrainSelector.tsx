@@ -7,6 +7,7 @@ import type { TrainCategory } from "@/lib/types/trainTypes";
 type TrainSelectorProps = {
     category: TrainCategory;
     setCategory: Dispatch<SetStateAction<TrainCategory>>;
+    counts: Record<string, number>;
 };
 
 const categories = [
@@ -16,7 +17,7 @@ const categories = [
     { name: "all", icon: faMap },
 ] as const;
 
-const TrainSelector = ({ category, setCategory }: TrainSelectorProps) => {
+const TrainSelector = ({ category, setCategory, counts }: TrainSelectorProps) => {
     const { translations } = useTranslations();
 
     const labels: Record<string, string> = {
@@ -50,6 +51,7 @@ const TrainSelector = ({ category, setCategory }: TrainSelectorProps) => {
                             className="mr-1 h-4 w-4"
                         />
                         <span className="hidden sm:inline">{labels[cat.name]}</span>
+                        <span className="ml-1 text-xs opacity-70">{counts[cat.name]}</span>
                     </button>
                 ))}
             </div>
