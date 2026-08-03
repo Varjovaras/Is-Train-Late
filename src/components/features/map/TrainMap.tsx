@@ -5,6 +5,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import "./TrainMap.css";
 import { mapTrainsQueryOptions } from "@/lib/queries/queryOptions";
 import type { TrainCategory } from "@/lib/types/trainTypes";
+import type { MapPopupSelection } from "./mapTypes";
 import StationsOnMap from "./StationsOnMap";
 import TrainSelector from "./TrainSelector";
 import TrainsOnMap from "./TrainsOnMap";
@@ -21,11 +22,25 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
     const [category, setCategory] = useState<TrainCategory>({
         name: "longDistance",
     });
+    const [popup, setPopup] = useState<MapPopupSelection>(null);
     const lastCenteredTrain = useRef<string | undefined>(undefined);
 
     const { data: trains = [], isFetching, isPending } = useQuery(mapTrainsQueryOptions());
 
     // Center on train if trainNumber provided
+    useEffect(() => {
+        if (!popup) return;
+
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                setPopup(null);
+            }
+        };
+
+        window.addEventListener("keydown", handleEscape);
+        return () => window.removeEventListener("keydown", handleEscape);
+    }, [popup]);
+
     useEffect(() => {
         if (
             trainNumber &&
@@ -82,11 +97,12 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
                 initialViewState={INITIAL_VIEW_STATE}
                 mapStyle={DARK_STYLE}
                 style={{ width: "100%", height: "100%" }}
+                onClick={() => setPopup(null)}
             >
                 <NavigationControl position="bottom-right" showCompass={false} />
                 <GeolocateControl position="bottom-right" trackUserLocation={true} />
-                <StationsOnMap />
-                <TrainsOnMap filteredTrains={filteredTrains} />
+                <StationsOnMap popup={popup} setPopup={setPopup} />
+                <TrainsOnMap filteredTrains={filteredTrains} popup={popup} setPopup={setPopup} />
             </MapGL>
             <TrainSelector category={category} setCategory={setCategory} />
             {isFetching && trains.length > 0 && (

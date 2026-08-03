@@ -1,6 +1,7 @@
 type TrainIconProps = {
     type: "commuter" | "longDistance" | "freight";
     label: string | number;
+    ariaLabel: string;
     heading?: number;
 };
 
@@ -10,12 +11,14 @@ const colors = {
     freight: { bg: "#eab308", border: "#ca8a04" }, // yellow
 };
 
-const TrainIcon = ({ type, label, heading = 0 }: TrainIconProps) => {
+const TrainIcon = ({ type, label, ariaLabel, heading = 0 }: TrainIconProps) => {
     const { bg, border } = colors[type];
 
     return (
-        <div
-            className="relative cursor-pointer transition-transform hover:scale-110"
+        <button
+            type="button"
+            aria-label={ariaLabel}
+            className="relative cursor-pointer rounded-full border-0 bg-transparent p-0 transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
             style={{ transform: `rotate(${heading}deg)` }}
         >
             <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true">
@@ -30,7 +33,7 @@ const TrainIcon = ({ type, label, heading = 0 }: TrainIconProps) => {
             <div className="absolute inset-0 flex items-center justify-center pt-1">
                 <span className="text-white font-bold text-xs drop-shadow-sm">{label}</span>
             </div>
-        </div>
+        </button>
     );
 };
 

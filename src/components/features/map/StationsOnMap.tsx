@@ -1,12 +1,22 @@
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
 import { Marker, Popup } from "react-map-gl/maplibre";
 import { type StationCode, stationCoordinates } from "@/lib/utils/stationCoordinates";
+import type { MapPopupSelection } from "./mapTypes";
 
 type Station = (typeof stationCoordinates)[StationCode];
 
-const StationMarker = ({ code, station }: { code: string; station: Station }) => {
-    const [showPopup, setShowPopup] = useState(false);
+type StationsOnMapProps = {
+    popup: MapPopupSelection;
+    setPopup: (popup: MapPopupSelection) => void;
+};
+
+const StationMarker = ({
+    code,
+    station,
+    popup,
+    setPopup,
+}: { code: string; station: Station } & StationsOnMapProps) => {
+    const showPopup = popup?.type === "station" && popup.id === code;
 
     return (
         <>
@@ -16,23 +26,27 @@ const StationMarker = ({ code, station }: { code: string; station: Station }) =>
                 anchor="center"
                 onClick={(e) => {
                     e.originalEvent.stopPropagation();
-                    setShowPopup(true);
+                    setPopup({ type: "station", id: code });
                 }}
             >
-                <div className="cursor-pointer transition-transform hover:scale-125">
+                <button
+                    type="button"
+                    aria-label={`Open station ${station.name}`}
+                    className="cursor-pointer rounded-full border-0 bg-transparent p-0 transition-transform hover:scale-125 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                >
                     <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
                         <circle cx="7" cy="7" r="5" fill="white" stroke="#374151" strokeWidth="2" />
                     </svg>
-                </div>
+                </button>
             </Marker>
             {showPopup && (
                 <Popup
                     longitude={station.coords[1]}
                     latitude={station.coords[0]}
                     anchor="bottom"
-                    onClose={() => setShowPopup(false)}
+                    onClose={() => setPopup(null)}
                     closeButton={true}
-                    closeOnClick={false}
+                    closeOnClick={true}
                 >
                     <Link
                         to="/stations/$id"
@@ -47,11 +61,17 @@ const StationMarker = ({ code, station }: { code: string; station: Station }) =>
     );
 };
 
-const StationsOnMap = () => {
+const StationsOnMap = ({ popup, setPopup }: StationsOnMapProps) => {
     return (
         <>
             {Object.entries(stationCoordinates).map(([code, station]) => (
-                <StationMarker key={code} code={code} station={station} />
+                <StationMarker
+                    key={code}
+                    code={code}
+                    station={station}
+                    popup={popup}
+                    setPopup={setPopup}
+                />
             ))}
         </>
     );

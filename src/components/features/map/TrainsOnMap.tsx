@@ -1,11 +1,13 @@
-import { useState } from "react";
 import { Marker, Popup } from "react-map-gl/maplibre";
 import type { TrainType } from "@/lib/types/trainTypes";
+import type { MapPopupSelection } from "./mapTypes";
 import TrainIcon from "./TrainIcon";
 import TrainPopupContent from "./TrainPopupContent";
 
 type TrainsOnMapProps = {
     filteredTrains: TrainType[];
+    popup: MapPopupSelection;
+    setPopup: (popup: MapPopupSelection) => void;
 };
 
 const getTrainType = (train: TrainType): "commuter" | "longDistance" | "freight" => {
@@ -14,14 +16,18 @@ const getTrainType = (train: TrainType): "commuter" | "longDistance" | "freight"
     return "longDistance";
 };
 
-const TrainMarker = ({ train }: { train: TrainType }) => {
-    const [showPopup, setShowPopup] = useState(false);
+const TrainMarker = ({
+    train,
+    popup,
+    setPopup,
+}: { train: TrainType } & Pick<TrainsOnMapProps, "popup" | "setPopup">) => {
     const location = train.trainLocations[0]?.location;
 
     if (!location) return null;
 
     const trainType = getTrainType(train);
     const trainId = train.commuterLineid || train.trainNumber.toString();
+    const showPopup = popup?.type === "train" && popup.id === trainId;
 
     return (
         <>
@@ -31,17 +37,17 @@ const TrainMarker = ({ train }: { train: TrainType }) => {
                 anchor="center"
                 onClick={(e) => {
                     e.originalEvent.stopPropagation();
-                    setShowPopup(true);
+                    setPopup({ type: "train", id: trainId });
                 }}
             >
-                <TrainIcon type={trainType} label={trainId} />
+                <TrainIcon type={trainType} label={trainId} ariaLabel={`Open train ${trainId}`} />
             </Marker>
             {showPopup && (
                 <Popup
                     longitude={location[0]}
                     latitude={location[1]}
                     anchor="bottom"
-                    onClose={() => setShowPopup(false)}
+                    onClose={() => setPopup(null)}
                     closeButton={true}
                     closeOnClick={true}
                     className="train-popup"
@@ -53,12 +59,14 @@ const TrainMarker = ({ train }: { train: TrainType }) => {
     );
 };
 
-const TrainsOnMap = ({ filteredTrains }: TrainsOnMapProps) => {
+const TrainsOnMap = ({ filteredTrains, popup, setPopup }: TrainsOnMapProps) => {
     return (
         <>
             {filteredTrains.map((train) => {
                 const uniqueKey = `${train.trainNumber}-${train.departureDate}`;
-                return <TrainMarker key={uniqueKey} train={train} />;
+                return (
+                    <TrainMarker key={uniqueKey} train={train} popup={popup} setPopup={setPopup} />
+                );
             })}
         </>
     );
