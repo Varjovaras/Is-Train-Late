@@ -13,7 +13,7 @@ import "./TrainMap.css";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { mapTrainsQueryOptions } from "@/lib/queries/queryOptions";
-import type { MapCategoryName, MapPopupSelection } from "./mapTypes";
+import { getMapTrainId, type MapCategoryName, type MapPopupSelection } from "./mapTypes";
 import StationsOnMap from "./StationsOnMap";
 import TrainSelector from "./TrainSelector";
 import TrainsOnMap from "./TrainsOnMap";
@@ -110,14 +110,12 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
     const visibleTrainLocations = filteredTrains
         .map((train) => train.trainLocations[0]?.location)
         .filter((location): location is [number, number] => Boolean(location));
-    const selectedTrainId = popup?.type === "train" ? popup.id : trainNumber;
-    const followedTrain = selectedTrainId
-        ? filteredTrains.find(
-              (train) =>
-                  (train.commuterLineid || train.trainNumber.toString()) === selectedTrainId ||
-                  train.trainNumber.toString() === selectedTrainId,
-          )
-        : undefined;
+    const followedTrain =
+        popup?.type === "train"
+            ? filteredTrains.find((train) => getMapTrainId(train) === popup.id)
+            : trainNumber
+              ? filteredTrains.find((train) => train.trainNumber.toString() === trainNumber)
+              : undefined;
     const followedLocation = followedTrain?.trainLocations[0]?.location;
     const followedLongitude = followedLocation?.[0];
     const followedLatitude = followedLocation?.[1];

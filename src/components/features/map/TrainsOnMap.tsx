@@ -1,6 +1,6 @@
 import { Marker, Popup } from "react-map-gl/maplibre";
 import type { TrainType } from "@/lib/types/trainTypes";
-import type { MapPopupSelection } from "./mapTypes";
+import { getMapTrainId, type MapPopupSelection } from "./mapTypes";
 import TrainIcon from "./TrainIcon";
 import TrainPopupContent from "./TrainPopupContent";
 
@@ -26,7 +26,8 @@ const TrainMarker = ({
     if (!location) return null;
 
     const trainType = getTrainType(train);
-    const trainId = train.commuterLineid || train.trainNumber.toString();
+    const trainId = getMapTrainId(train);
+    const trainLabel = train.commuterLineid || train.trainNumber.toString();
     const showPopup = popup?.type === "train" && popup.id === trainId;
 
     return (
@@ -42,8 +43,8 @@ const TrainMarker = ({
             >
                 <TrainIcon
                     type={trainType}
-                    label={trainId}
-                    ariaLabel={`Open train ${trainId}`}
+                    label={trainLabel}
+                    ariaLabel={`Open train ${trainLabel} ${train.trainNumber}`}
                     onClick={() => setPopup({ type: "train", id: trainId })}
                 />
             </Marker>
@@ -68,7 +69,7 @@ const TrainsOnMap = ({ filteredTrains, popup, setPopup }: TrainsOnMapProps) => {
     return (
         <>
             {filteredTrains.map((train) => {
-                const uniqueKey = `${train.trainNumber}-${train.departureDate}`;
+                const uniqueKey = getMapTrainId(train);
                 return (
                     <TrainMarker key={uniqueKey} train={train} popup={popup} setPopup={setPopup} />
                 );
