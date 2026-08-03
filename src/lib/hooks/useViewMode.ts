@@ -4,7 +4,7 @@ import type { ViewMode } from "@/components/common/ViewModeToggle";
 const VIEW_MODE_KEY = "stationView";
 
 export const useViewMode = () => {
-    const [view, setView] = useState<ViewMode>("card");
+    const [view, setView] = useState<ViewMode>("list");
 
     useEffect(() => {
         const savedView = localStorage.getItem(VIEW_MODE_KEY) as ViewMode;
