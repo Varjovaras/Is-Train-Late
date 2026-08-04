@@ -72,7 +72,7 @@ const StationsOnMap = ({ stations, popup, setPopup }: StationsOnMapProps) => {
                     </Link>
                     <div className="mt-2 space-y-1 text-sm text-foreground/70">
                         {isPending && <p>{translations.mapLoading}</p>}
-                        {isError && <p>{translations.mapDataError}</p>}
+                        {isError && <p>{translations.mapStationDataError}</p>}
                         {!isPending && !isError && upcomingSchedules.length === 0 && (
                             <p>{translations.noUpcomingDepartures}</p>
                         )}

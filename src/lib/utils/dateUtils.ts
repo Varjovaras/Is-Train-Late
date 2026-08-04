@@ -69,7 +69,7 @@ export const getArrivalCountdown = (arrivalTime: Date, translations: Translation
     const minutesUntilArrival = Math.round((arrivalTime.getTime() - now.getTime()) / (1000 * 60));
 
     if (minutesUntilArrival > 0) {
-        return `${translations.arrivalIn} ${minutesUntilArrival} ${translations.minutes}`;
+        return translations.arrivalInMinutes.replace("{n}", String(minutesUntilArrival));
     }
     if (minutesUntilArrival === 0) {
         return translations.arrivingNow;

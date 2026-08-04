@@ -2,9 +2,11 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
 import { useError } from "@/components/providers/ErrorProvider";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 
 const ErrorPopup = () => {
     const { error, clearError } = useError();
+    const { translations } = useTranslations();
 
     // Close on ESC key press
     useEffect(() => {
@@ -29,7 +31,7 @@ const ErrorPopup = () => {
                     type="button"
                     onClick={clearError}
                     className="absolute top-3 right-3 text-foreground/60 hover:text-foreground"
-                    aria-label="Close"
+                    aria-label={translations.closeAriaLabel}
                 >
                     <FontAwesomeIcon icon={faXmark} aria-hidden="true" className="h-4 w-4" />
                 </button>
@@ -50,7 +52,7 @@ const ErrorPopup = () => {
                             strokeLinejoin="round"
                             className="text-red-600"
                         >
-                            <title>Error icon</title>
+                            <title>{translations.errorIconTitle}</title>
                             <circle cx="12" cy="12" r="10" />
                             <line x1="12" y1="8" x2="12" y2="12" />
                             <line x1="12" y1="16" x2="12.01" y2="16" />
@@ -58,7 +60,9 @@ const ErrorPopup = () => {
                     </div>
 
                     <div className="flex-1">
-                        <h3 className="text-lg font-medium text-red-600 mb-2">Error</h3>
+                        <h3 className="text-lg font-medium text-red-600 mb-2">
+                            {translations.errorTitle}
+                        </h3>
                         <p className="text-foreground/80">{error}</p>
 
                         <div className="mt-4">
@@ -67,7 +71,7 @@ const ErrorPopup = () => {
                                 onClick={clearError}
                                 className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
                             >
-                                Dismiss
+                                {translations.dismiss}
                             </button>
                         </div>
                     </div>

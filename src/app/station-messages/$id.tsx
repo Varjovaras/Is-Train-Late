@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import Loading from "@/components/common/Loading";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 import { stationMessagesQueryOptions } from "@/lib/queries/queryOptions";
 import { formatDateTime } from "@/lib/utils/dateUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
@@ -17,12 +18,13 @@ function StationMessagesRoute() {
     const { id } = Route.useParams();
     const { data } = useSuspenseQuery(stationMessagesQueryOptions(id));
     const { stationId, messages, status } = data;
+    const { translations, currentLang } = useTranslations();
 
     if (!messages) {
         return (
             <div className="flex flex-col items-center p-8">
                 <h1 className="text-xl text-red-500">
-                    Station data not available. HTTP error! status: {status}
+                    {translations.stationDataError.replace("{status}", String(status))}
                 </h1>
             </div>
         );
@@ -31,14 +33,18 @@ function StationMessagesRoute() {
     if (messages.length === 0) {
         return (
             <div className="flex flex-col items-center p-8">
-                <h1 className="text-xl">No active messages for station {stationId}</h1>
+                <h1 className="text-xl">
+                    {translations.noActiveMessages.replace("{station}", stationId)}
+                </h1>
             </div>
         );
     }
 
     return (
         <div className="mx-auto flex flex-col max-w-4xl p-4 gap-8">
-            <h1 className="text-2xl font-bold">Messages for station {removeAsema(stationId)}</h1>
+            <h1 className="text-2xl font-bold">
+                {translations.messagesForStation.replace("{station}", removeAsema(stationId))}
+            </h1>
 
             {messages.map((message) => (
                 <div
@@ -47,30 +53,38 @@ function StationMessagesRoute() {
                 >
                     <div className="flex justify-between items-start gap-4">
                         {message.trainNumber && (
-                            <p className="font-bold">Train {message.trainNumber}</p>
+                            <p className="font-bold">
+                                {translations.trainWithNumber.replace(
+                                    "{trainNumber}",
+                                    String(message.trainNumber),
+                                )}
+                            </p>
                         )}
                         <p className="text-sm text-foreground/60">
-                            Valid until {formatDateTime(message.endValidity)}
+                            {translations.validUntil.replace(
+                                "{time}",
+                                formatDateTime(message.endValidity),
+                            )}
                         </p>
                     </div>
 
                     {message.audio && (
                         <div className="space-y-2">
-                            <h3 className="font-semibold">Audio announcement:</h3>
-                            <p className="text-foreground/80">{message.audio.text.en}</p>
+                            <h3 className="font-semibold">{translations.audioAnnouncement}</h3>
+                            <p className="text-foreground/80">{message.audio.text[currentLang]}</p>
                         </div>
                     )}
 
                     {message.video && (
                         <div className="space-y-2">
-                            <h3 className="font-semibold">Display message:</h3>
-                            <p className="text-foreground/80">{message.video.text.en}</p>
+                            <h3 className="font-semibold">{translations.displayMessage}</h3>
+                            <p className="text-foreground/80">{message.video.text[currentLang]}</p>
                         </div>
                     )}
 
                     {message.stations.length > 1 && (
                         <div className="text-sm text-foreground/60">
-                            Also displayed at:{" "}
+                            {translations.alsoDisplayedAt}{" "}
                             {message.stations.filter((s) => s !== stationId).join(", ")}
                         </div>
                     )}

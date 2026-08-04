@@ -20,6 +20,9 @@ next-env.d.ts
 # nitro runtime cache
 /.data/
 
+# private vps notes
+vps_to_know.md
+
 # local configuration and secrets
 .env
 .env.*

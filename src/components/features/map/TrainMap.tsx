@@ -8,6 +8,7 @@ import MapGL, {
 } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./TrainMap.css";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 import { mapTrainsQueryOptions, stationMetadataQueryOptions } from "@/lib/queries/queryOptions";
 import type { TrainCategory } from "@/lib/types/trainTypes";
 import RailwaysOnMap from "./RailwaysOnMap";
@@ -24,6 +25,7 @@ const DARK_STYLE = "https://tiles.openfreemap.org/styles/liberty";
 const INITIAL_VIEW_STATE = { longitude: 25.7, latitude: 65.9, zoom: 5 };
 
 const TrainMap = ({ trainNumber }: TrainMapProps) => {
+    const { translations } = useTranslations();
     const mapRef = useRef<MapRef>(null);
     const [category, setCategory] = useState<TrainCategory>({
         name: "longDistance",
@@ -108,7 +110,7 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
             <div className="flex items-center justify-center h-full bg-background">
                 <div className="flex flex-col items-center gap-3">
                     <div className="animate-spin rounded-full h-10 w-10 border-2 border-foreground/20 border-t-foreground" />
-                    <span className="text-sm text-foreground/60">Loading map...</span>
+                    <span className="text-sm text-foreground/60">{translations.mapLoading}</span>
                 </div>
             </div>
         );

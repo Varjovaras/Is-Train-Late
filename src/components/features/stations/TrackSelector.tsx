@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { StationSchedule } from "@/lib/types/stationTypes";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 
 interface TrackSelectorProps {
     schedules: StationSchedule[];
@@ -9,6 +10,7 @@ interface TrackSelectorProps {
 
 const TrackSelector = ({ schedules, stationId, onTrackSelect }: TrackSelectorProps) => {
     const [selectedTrack, setSelectedTrack] = useState<string | null>(null);
+    const { translations } = useTranslations();
     const tracks = Array.from(
         new Set(
             schedules
@@ -34,15 +36,15 @@ const TrackSelector = ({ schedules, stationId, onTrackSelect }: TrackSelectorPro
     return (
         <div className="flex justify-center">
             <select
-                aria-label="Select track"
+                aria-label={translations.selectTrackAria}
                 value={selectedTrack ?? "all"}
                 onChange={handleTrackChange}
                 className="px-4 py-2 rounded-md border border-border bg-surface hover:bg-surface-hover transition-colors focus:outline-none focus:ring-2 focus:ring-green-500"
             >
-                <option value="all">All Tracks</option>
+                <option value="all">{translations.allTracks}</option>
                 {tracks.map((track) => (
                     <option key={track} value={track}>
-                        Track {track}
+                        {translations.trackNumber.replace("{track}", track)}
                     </option>
                 ))}
             </select>

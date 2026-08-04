@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import Loading from "@/components/common/Loading";
 import LiveTrainPage from "@/components/features/train-details/LiveTrainPage";
 import NoTrainFound from "@/components/features/train-details/NoTrainFound";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 import { trainDetailsQueryOptions } from "@/lib/queries/queryOptions";
 import { formatDate } from "@/lib/utils/dateUtils";
 
@@ -18,9 +19,10 @@ function TrainRoute() {
     const { id } = Route.useParams();
     const { data } = useSuspenseQuery(trainDetailsQueryOptions(id));
     const { kind, train } = data;
+    const { translations } = useTranslations();
 
     if (kind === "invalid") {
-        return <div>Not a valid train id</div>;
+        return <div>{translations.invalidTrainId}</div>;
     }
 
     if (train) {
@@ -29,16 +31,16 @@ function TrainRoute() {
 
     if (kind === "date") {
         const [trainNumber, year, month, day] = id.split("-");
+        const formattedDate = formatDate(`${year}-${month}-${day}`);
 
         return (
             <div className="flex flex-col items-center">
                 <h1 className="px-2 py-8 text-xl text-red-500">
-                    No train found with number {trainNumber} for date{" "}
-                    {formatDate(`${year}-${month}-${day}`)}
+                    {translations.noTrainFoundForDate
+                        .replace("{trainNumber}", trainNumber)
+                        .replace("{date}", formattedDate)}
                 </h1>
-                <p className="mt-4 text-sm text-foreground/60">
-                    Try searching for a different date or train number.
-                </p>
+                <p className="mt-4 text-sm text-foreground/60">{translations.tryDifferentSearch}</p>
             </div>
         );
     }
