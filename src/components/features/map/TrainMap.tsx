@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import MapGL, {
     GeolocateControl,
     type MapLayerMouseEvent,
@@ -69,21 +69,23 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
         }
     }, [trainNumber, trains]);
 
-    const filteredTrains = trains.filter((train) => {
-        switch (category.name) {
-            case "commuter":
-                return train.commuterLineid !== "";
-            case "longDistance":
-                return (
-                    train.commuterLineid === "" &&
-                    train.trainType.trainCategory?.name === "Long-distance"
-                );
-            case "freight":
-                return train.trainType.trainCategory?.name === "Cargo";
-            default:
-                return true;
-        }
-    });
+    const filteredTrains = useMemo(() => {
+        return trains.filter((train) => {
+            switch (category.name) {
+                case "commuter":
+                    return train.commuterLineid !== "";
+                case "longDistance":
+                    return (
+                        train.commuterLineid === "" &&
+                        train.trainType.trainCategory?.name === "Long-distance"
+                    );
+                case "freight":
+                    return train.trainType.trainCategory?.name === "Cargo";
+                default:
+                    return true;
+            }
+        });
+    }, [trains, category]);
 
     const handleMapClick = (event: MapLayerMouseEvent) => {
         const feature = event.features?.[0];
