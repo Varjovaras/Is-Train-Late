@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { trainDetailsQueryOptions } from "@/lib/queries/queryOptions";
-import type { TrainType } from "@/lib/types/trainTypes";
+import type { MapTrain } from "@/lib/types/trainTypes";
 import {
     getLatestVisitedStationName,
     getNextCommercialStation,
@@ -10,7 +10,7 @@ import {
 } from "@/lib/utils/trainDataUtils";
 
 type TrainPopupContentProps = {
-    train: TrainType;
+    train: MapTrain;
 };
 
 const TrainPopupContent = ({ train }: TrainPopupContentProps) => {

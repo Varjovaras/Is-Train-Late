@@ -1,8 +1,8 @@
-import type { CurrentlyRunningTrainResponse } from "../types/trainTypes";
+import type { MapTrainsResponse } from "../types/trainTypes";
 
 export const getMapData = async ({
     signal,
-}: { signal?: AbortSignal } = {}): Promise<CurrentlyRunningTrainResponse> => {
+}: { signal?: AbortSignal } = {}): Promise<MapTrainsResponse> => {
     try {
         const res = await fetch("/api/trains", {
             method: "POST",
@@ -18,7 +18,7 @@ export const getMapData = async ({
             throw new Error(errorData.error || `API error: ${res.status}`);
         }
 
-        const data = (await res.json()) as CurrentlyRunningTrainResponse;
+        const data = (await res.json()) as MapTrainsResponse;
         return data;
     } catch (error) {
         // Re-throw the error with a more descriptive message

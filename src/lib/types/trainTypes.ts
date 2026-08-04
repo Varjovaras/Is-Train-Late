@@ -44,6 +44,21 @@ export type CurrentlyRunningTrainResponse = {
     };
 };
 
+export type MapTrain = {
+    trainNumber: number;
+    departureDate: Date;
+    commuterLineid: string;
+    trainType: TypeOfTrain;
+    trainLocations: TrainLocation[];
+    delay: number;
+};
+
+export type MapTrainsResponse = {
+    data: {
+        currentlyRunningTrains: MapTrain[];
+    };
+};
+
 export type SingleTrainResponse = {
     data: {
         currentlyRunningTrains: TrainType[];

@@ -24,8 +24,11 @@ const mapQuery = `{
       timestamp
       location
     }
-    timeTableRows {
-      actualTime
+    timeTableRows(
+      where: { actualTime: { unequals: null } }
+      orderBy: { scheduledTime: DESCENDING }
+      take: 1
+    ) {
       differenceInMinutes
     }
   }

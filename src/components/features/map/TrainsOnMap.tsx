@@ -1,21 +1,21 @@
 import { Marker, Popup } from "react-map-gl/maplibre";
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import type { TrainType } from "@/lib/types/trainTypes";
+import type { MapTrain } from "@/lib/types/trainTypes";
 import { updateTrainHeadingCache } from "@/lib/utils/trainDirection";
-import { getTrainCurrentDelay, getTrainDelayColor } from "@/lib/utils/trainDataUtils";
+import { getTrainDelayColor } from "@/lib/utils/trainDataUtils";
 import { getMapTrainId, type MapPopupSelection } from "./mapTypes";
 import TrainIcon from "./TrainIcon";
 import TrainPopupContent from "./TrainPopupContent";
 
 type TrainsOnMapProps = {
-    filteredTrains: TrainType[];
+    filteredTrains: MapTrain[];
     popup: MapPopupSelection;
     setPopup: (popup: MapPopupSelection) => void;
 };
 
 type TrainMarkerProps = Pick<TrainsOnMapProps, "popup" | "setPopup"> & {
-    train: TrainType;
+    train: MapTrain;
     heading?: number;
     delayColor: string;
     statusLabel: string;
@@ -105,7 +105,7 @@ const TrainsOnMap = ({ filteredTrains, popup, setPopup }: TrainsOnMapProps) => {
         <>
             {filteredTrains.map((train) => {
                 const uniqueKey = getMapTrainId(train);
-                const currentDelay = getTrainCurrentDelay(train);
+                const currentDelay = train.delay;
                 const statusLabel =
                     currentDelay > 0
                         ? `${currentDelay} ${translations.minutesLate}`
