@@ -25,6 +25,11 @@ export default defineConfig({
         }),
         viteReact(),
         babel({ presets: [reactCompilerPreset()] }),
-        nitro(),
+        nitro({
+            compressPublicAssets: {
+                gzip: true,
+                brotli: true,
+            },
+        }),
     ],
 });

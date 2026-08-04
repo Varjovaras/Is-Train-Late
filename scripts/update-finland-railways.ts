@@ -1,5 +1,6 @@
-import { writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import { brotliCompressSync } from "node:zlib";
 
 const OVERPASS_URLS = [
     "https://overpass.kumi.systems/api/interpreter",
@@ -82,4 +83,14 @@ const geoJson = {
 };
 
 await writeFile(OUTPUT_PATH, `${JSON.stringify(geoJson)}\n`, "utf8");
-console.log(`Wrote ${features.length} railway lines to ${OUTPUT_PATH}`);
+
+const data = await readFile(OUTPUT_PATH);
+const gzipData = Bun.gzipSync(data);
+const brotliData = brotliCompressSync(data);
+await writeFile(`${OUTPUT_PATH}.gz`, gzipData);
+await writeFile(`${OUTPUT_PATH}.br`, brotliData);
+
+console.log(
+    `Wrote ${features.length} railway lines to ${OUTPUT_PATH} ` +
+        `(gzip: ${(gzipData.byteLength / 1024).toFixed(0)} kB, brotli: ${(brotliData.byteLength / 1024).toFixed(0)} kB)`,
+);
