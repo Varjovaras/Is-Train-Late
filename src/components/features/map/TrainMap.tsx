@@ -21,7 +21,7 @@ type TrainMapProps = {
     trainNumber?: string;
 };
 
-const DARK_STYLE = "https://tiles.openfreemap.org/styles/liberty";
+const DARK_STYLE = "/map-style.json";
 const INITIAL_VIEW_STATE = { longitude: 25.7, latitude: 65.9, zoom: 5 };
 
 const TrainMap = ({ trainNumber }: TrainMapProps) => {
@@ -124,6 +124,7 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
                 mapStyle={DARK_STYLE}
                 interactiveLayerIds={["station-points"]}
                 onClick={handleMapClick}
+                attributionControl={false}
                 style={{ width: "100%", height: "100%" }}
             >
                 <NavigationControl position="bottom-right" showCompass={false} />

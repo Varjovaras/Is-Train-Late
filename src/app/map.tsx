@@ -20,6 +20,27 @@ function MapRoute() {
                 <div className="w-full h-[calc(100vh-200px)] min-h-125 border border-foreground/20 rounded-lg overflow-hidden">
                     <TrainMap trainNumber={train} />
                 </div>
+                <div className="w-full mt-1 text-[10px] text-foreground/60 text-center">
+                    <a href="https://openfreemap.org" target="_blank" rel="noopener noreferrer">
+                        OpenFreeMap
+                    </a>
+                    {" © "}
+                    <a
+                        href="https://www.openmaptiles.org/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        OpenMapTiles
+                    </a>
+                    {" Data from "}
+                    <a
+                        href="https://www.openstreetmap.org/copyright"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        OpenStreetMap
+                    </a>
+                </div>
             </Suspense>
         </ClientOnly>
     );
