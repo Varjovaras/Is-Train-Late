@@ -1,10 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { faCrosshairs, faExpand, faLocationArrow } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef, useState } from "react";
 import { GeoJSONSource } from "maplibre-gl";
+import { useEffect, useRef, useState } from "react";
 import MapGL, {
-    AttributionControl,
     GeolocateControl,
     type MapLayerMouseEvent,
     type MapRef,
@@ -12,84 +9,32 @@ import MapGL, {
 } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./TrainMap.css";
-import { useTheme } from "@/components/providers/ThemeProvider";
-import { useTranslations } from "@/lib/i18n/useTranslations";
 import { mapTrainsQueryOptions, stationMetadataQueryOptions } from "@/lib/queries/queryOptions";
-import {
-    getMapTrainId,
-    isMapBaseMode,
-    MAP_BASE_MODE_KEY,
-    type MapBaseMode,
-    type MapCategoryName,
-    type MapPopupSelection,
-} from "./mapTypes";
-import RailwayLayer from "./RailwayLayer";
-import MapBaseModeToggle from "./MapBaseModeToggle";
+import type { TrainCategory } from "@/lib/types/trainTypes";
+import RailwaysOnMap from "./RailwaysOnMap";
 import StationsOnMap from "./StationsOnMap";
 import TrainSelector from "./TrainSelector";
 import TrainsOnMap from "./TrainsOnMap";
+import type { MapPopupSelection } from "./mapTypes";
 
 type TrainMapProps = {
     trainNumber?: string;
-    initialCategory?: MapCategoryName;
-    onCategoryChange?: (category: MapCategoryName) => void;
 };
 
-const LIGHT_STYLE = "https://tiles.openfreemap.org/styles/liberty";
-const DARK_STYLE = "https://tiles.openfreemap.org/styles/dark";
+const DARK_STYLE = "https://tiles.openfreemap.org/styles/liberty";
 const INITIAL_VIEW_STATE = { longitude: 25.7, latitude: 65.9, zoom: 5 };
 
-const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapProps) => {
+const TrainMap = ({ trainNumber }: TrainMapProps) => {
     const mapRef = useRef<MapRef>(null);
-    const [category, setCategory] = useState<MapCategoryName>(initialCategory ?? "longDistance");
+    const [category, setCategory] = useState<TrainCategory>({
+        name: "longDistance",
+    });
     const [popup, setPopup] = useState<MapPopupSelection>(null);
-    const [isFollowing, setIsFollowing] = useState(false);
-    const [mapBaseMode, setMapBaseMode] = useState<MapBaseMode>("railway");
     const lastCenteredTrain = useRef<string | undefined>(undefined);
-    const { theme } = useTheme();
-    const { currentLang, translations } = useTranslations();
 
-    const matchesCategory = (train: (typeof trains)[number], categoryName: MapCategoryName) => {
-        switch (categoryName) {
-            case "commuter":
-                return train.commuterLineid !== "";
-            case "longDistance":
-                return (
-                    train.commuterLineid === "" &&
-                    train.trainType.trainCategory?.name === "Long-distance"
-                );
-            case "freight":
-                return train.trainType.trainCategory?.name === "Cargo";
-            default:
-                return true;
-        }
-    };
+    const { data: trains = [], isFetching, isPending } = useQuery(mapTrainsQueryOptions());
+    const { data: stations = [] } = useQuery(stationMetadataQueryOptions());
 
-    const {
-        data: trains = [],
-        isError,
-        isFetching,
-        isPending,
-        refetch,
-    } = useQuery(mapTrainsQueryOptions());
-    const {
-        data: stations = [],
-        isError: isStationsError,
-        refetch: refetchStations,
-    } = useQuery(stationMetadataQueryOptions());
-
-    useEffect(() => {
-        setCategory(initialCategory ?? "longDistance");
-    }, [initialCategory]);
-
-    useEffect(() => {
-        const savedMapBaseMode = localStorage.getItem(MAP_BASE_MODE_KEY);
-        if (isMapBaseMode(savedMapBaseMode)) {
-            setMapBaseMode(savedMapBaseMode);
-        }
-    }, []);
-
-    // Center on train if trainNumber provided
     useEffect(() => {
         if (!popup) return;
 
@@ -104,11 +49,6 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
     }, [popup]);
 
     useEffect(() => {
-        if (!trainNumber) {
-            lastCenteredTrain.current = undefined;
-            return;
-        }
-
         if (
             trainNumber &&
             trainNumber !== lastCenteredTrain.current &&
@@ -130,71 +70,21 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
         }
     }, [trainNumber, trains]);
 
-    const filteredTrains = trains.filter((train) => matchesCategory(train, category));
-    const visibleTrainLocations = filteredTrains
-        .map((train) => train.trainLocations[0]?.location)
-        .filter((location): location is [number, number] => Boolean(location));
-    const followedTrain =
-        popup?.type === "train"
-            ? filteredTrains.find((train) => getMapTrainId(train) === popup.id)
-            : trainNumber
-              ? filteredTrains.find((train) => train.trainNumber.toString() === trainNumber)
-              : undefined;
-    const followedLocation = followedTrain?.trainLocations[0]?.location;
-    const followedLongitude = followedLocation?.[0];
-    const followedLatitude = followedLocation?.[1];
-    const categoryCounts = {
-        longDistance: trains.filter((train) => matchesCategory(train, "longDistance")).length,
-        commuter: trains.filter((train) => matchesCategory(train, "commuter")).length,
-        freight: trains.filter((train) => matchesCategory(train, "freight")).length,
-        all: trains.length,
-    };
-    const latestTimestamp = trains.reduce<string | undefined>((latest, train) => {
-        const timestamp = train.trainLocations[0]?.timestamp;
-        if (!timestamp) return latest;
-
-        return !latest || Date.parse(timestamp) > Date.parse(latest) ? timestamp : latest;
-    }, undefined);
-    const lastUpdatedDate = latestTimestamp ? new Date(latestTimestamp) : undefined;
-    const isDataStale = lastUpdatedDate ? Date.now() - lastUpdatedDate.getTime() > 60_000 : false;
-    const lastUpdatedLabel = lastUpdatedDate
-        ? new Intl.DateTimeFormat(currentLang, {
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit",
-          }).format(lastUpdatedDate)
-        : null;
-
-    const fitVisibleTrains = () => {
-        if (visibleTrainLocations.length === 0 || !mapRef.current) return;
-
-        const longitudes = visibleTrainLocations.map(([longitude]) => longitude);
-        const latitudes = visibleTrainLocations.map(([, latitude]) => latitude);
-
-        mapRef.current.fitBounds(
-            [
-                [Math.min(...longitudes), Math.min(...latitudes)],
-                [Math.max(...longitudes), Math.max(...latitudes)],
-            ],
-            { padding: 80, maxZoom: 10, duration: 800 },
-        );
-    };
-
-    useEffect(() => {
-        if (
-            !isFollowing ||
-            followedLongitude === undefined ||
-            followedLatitude === undefined ||
-            !mapRef.current
-        ) {
-            return;
+    const filteredTrains = trains.filter((train) => {
+        switch (category.name) {
+            case "commuter":
+                return train.commuterLineid !== "";
+            case "longDistance":
+                return (
+                    train.commuterLineid === "" &&
+                    train.trainType.trainCategory?.name === "Long-distance"
+                );
+            case "freight":
+                return train.trainType.trainCategory?.name === "Cargo";
+            default:
+                return true;
         }
-
-        mapRef.current.easeTo({
-            center: [followedLongitude, followedLatitude],
-            duration: 500,
-        });
-    }, [followedLatitude, followedLongitude, isFollowing]);
+    });
 
     const handleMapClick = (event: MapLayerMouseEvent) => {
         const feature = event.features?.[0];
@@ -234,27 +124,10 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
 
     if (isPending && trains.length === 0) {
         return (
-            <div className="flex items-center justify-center h-full bg-background" role="status">
+            <div className="flex items-center justify-center h-full bg-background">
                 <div className="flex flex-col items-center gap-3">
-                    <div className="animate-spin rounded-full h-10 w-10 border-2 border-border border-t-foreground" />
-                    <span className="text-sm text-foreground/60">{translations.mapLoading}</span>
-                </div>
-            </div>
-        );
-    }
-
-    if (isError && trains.length === 0) {
-        return (
-            <div className="flex items-center justify-center h-full bg-background p-6" role="alert">
-                <div className="flex max-w-sm flex-col items-center gap-4 text-center">
-                    <p className="text-sm text-foreground/70">{translations.mapDataError}</p>
-                    <button
-                        type="button"
-                        onClick={() => refetch()}
-                        className="rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition-colors hover:bg-foreground/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
-                    >
-                        {translations.retry}
-                    </button>
+                    <div className="animate-spin rounded-full h-10 w-10 border-2 border-foreground/20 border-t-foreground" />
+                    <span className="text-sm text-foreground/60">Loading map...</span>
                 </div>
             </div>
         );
@@ -265,135 +138,27 @@ const TrainMap = ({ trainNumber, initialCategory, onCategoryChange }: TrainMapPr
             <MapGL
                 ref={mapRef}
                 initialViewState={INITIAL_VIEW_STATE}
-                mapStyle={theme === "dark" ? DARK_STYLE : LIGHT_STYLE}
-                style={{ width: "100%", height: "100%" }}
-                attributionControl={false}
-                dragRotate={false}
+                mapStyle={DARK_STYLE}
                 interactiveLayerIds={[
                     "station-clusters",
                     "station-cluster-count",
                     "station-points",
                 ]}
                 onClick={handleMapClick}
-                onDragStart={() => setIsFollowing(false)}
-                aria-label={translations.map}
+                style={{ width: "100%", height: "100%" }}
             >
                 <NavigationControl position="bottom-right" showCompass={false} />
                 <GeolocateControl position="bottom-right" trackUserLocation={true} />
-                <AttributionControl position="bottom-left" compact={false} />
-                {mapBaseMode === "railway" && <RailwayLayer />}
+                <RailwaysOnMap />
                 <StationsOnMap stations={stations} popup={popup} setPopup={setPopup} />
                 <TrainsOnMap filteredTrains={filteredTrains} popup={popup} setPopup={setPopup} />
             </MapGL>
-            {filteredTrains.length === 0 && !isError && (
-                <div
-                    className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center p-6"
-                    role="status"
-                >
-                    <div className="rounded-lg border border-border-subtle bg-surface/95 px-4 py-3 text-center text-sm text-foreground/70 shadow-lg backdrop-blur-sm">
-                        {translations.noTrainsOnMap}
-                    </div>
-                </div>
-            )}
-            <TrainSelector
-                category={category}
-                onCategoryChange={(nextCategory) => {
-                    setCategory(nextCategory);
-                    onCategoryChange?.(nextCategory);
-                }}
-                counts={categoryCounts}
-            />
-            <div className="absolute top-16 left-4 z-10">
-                <MapBaseModeToggle
-                    mode={mapBaseMode}
-                    onModeChange={(nextMode) => {
-                        setMapBaseMode(nextMode);
-                        localStorage.setItem(MAP_BASE_MODE_KEY, nextMode);
-                    }}
-                />
-            </div>
-            {isStationsError && (
-                <div
-                    className="absolute top-28 left-4 z-10 flex max-w-[calc(100%-2rem)] items-center gap-3 rounded-lg border border-red-500/40 bg-surface/95 px-3 py-2 text-sm shadow-lg backdrop-blur-sm"
-                    role="alert"
-                >
-                    <span className="text-foreground/80">{translations.mapStationDataError}</span>
-                    <button
-                        type="button"
-                        onClick={() => refetchStations()}
-                        className="shrink-0 font-medium text-red-500 underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-                    >
-                        {translations.retry}
-                    </button>
-                </div>
-            )}
-            <div className="absolute right-16 bottom-4 z-10 flex gap-2">
-                <button
-                    type="button"
-                    onClick={fitVisibleTrains}
-                    disabled={visibleTrainLocations.length === 0}
-                    aria-label={translations.fitVisibleTrains}
-                    className="rounded-md border border-border-subtle bg-surface/90 p-2 text-foreground shadow-lg backdrop-blur-sm transition-colors hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
-                >
-                    <FontAwesomeIcon icon={faExpand} aria-hidden="true" />
-                </button>
-                <button
-                    type="button"
-                    onClick={() => setIsFollowing((following) => !following)}
-                    disabled={!followedTrain}
-                    aria-label={
-                        isFollowing ? translations.stopFollowingTrain : translations.followTrain
-                    }
-                    aria-pressed={isFollowing}
-                    className={`rounded-md border border-border-subtle bg-surface/90 p-2 text-foreground shadow-lg backdrop-blur-sm transition-colors hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 ${
-                        isFollowing ? "text-red-500" : ""
-                    }`}
-                >
-                    <FontAwesomeIcon
-                        icon={isFollowing ? faLocationArrow : faCrosshairs}
-                        aria-hidden="true"
-                    />
-                </button>
-            </div>
-            {lastUpdatedLabel && (
-                <div
-                    className={`absolute bottom-10 left-4 z-10 rounded-md border px-3 py-2 text-xs shadow-lg backdrop-blur-sm ${
-                        isDataStale
-                            ? "border-amber-500/40 bg-amber-50/95 text-amber-900 dark:bg-amber-950/90 dark:text-amber-100"
-                            : "border-border-subtle bg-surface/90 text-foreground/70"
-                    }`}
-                    role="status"
-                >
-                    <span>
-                        {translations.mapLastUpdated}: {lastUpdatedLabel}
-                    </span>
-                    {isDataStale && <span className="ml-2">{translations.mapDataStale}</span>}
-                </div>
-            )}
+            <TrainSelector category={category} setCategory={setCategory} />
             {isFetching && trains.length > 0 && (
                 <div className="absolute top-4 right-4 z-10">
-                    <div
-                        className="rounded-full border border-border-subtle bg-surface/90 p-2 shadow-lg backdrop-blur-sm"
-                        role="status"
-                        aria-label={translations.mapRefreshing}
-                    >
-                        <div className="animate-spin h-4 w-4 border-2 border-border border-t-foreground rounded-full" />
+                    <div className="bg-background/90 backdrop-blur-sm rounded-full p-2 shadow-lg border border-foreground/10">
+                        <div className="animate-spin h-4 w-4 border-2 border-foreground/20 border-t-foreground rounded-full" />
                     </div>
-                </div>
-            )}
-            {isError && trains.length > 0 && (
-                <div
-                    className="absolute top-16 right-4 z-10 flex items-center gap-3 rounded-lg border border-red-500/40 bg-surface/95 px-3 py-2 text-sm shadow-lg backdrop-blur-sm"
-                    role="alert"
-                >
-                    <span className="text-foreground/80">{translations.mapDataError}</span>
-                    <button
-                        type="button"
-                        onClick={() => refetch()}
-                        className="font-medium text-red-500 underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-                    >
-                        {translations.retry}
-                    </button>
                 </div>
             )}
         </div>

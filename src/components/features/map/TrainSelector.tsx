@@ -1,12 +1,12 @@
 import { faMap, faTrain, faTrainSubway, faTruck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import type { Dispatch, SetStateAction } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import type { MapCategoryName } from "./mapTypes";
+import type { TrainCategory } from "@/lib/types/trainTypes";
 
 type TrainSelectorProps = {
-    category: MapCategoryName;
-    onCategoryChange: (category: MapCategoryName) => void;
-    counts: Record<string, number>;
+    category: TrainCategory;
+    setCategory: Dispatch<SetStateAction<TrainCategory>>;
 };
 
 const categories = [
@@ -16,7 +16,7 @@ const categories = [
     { name: "all", icon: faMap },
 ] as const;
 
-const TrainSelector = ({ category, onCategoryChange, counts }: TrainSelectorProps) => {
+const TrainSelector = ({ category, setCategory }: TrainSelectorProps) => {
     const { translations } = useTranslations();
 
     const labels: Record<string, string> = {
@@ -28,26 +28,21 @@ const TrainSelector = ({ category, onCategoryChange, counts }: TrainSelectorProp
 
     return (
         <div className="absolute top-4 left-4 z-10">
-            <div
-                className="flex gap-1 rounded-lg border border-border-subtle bg-surface/90 p-1 shadow-lg backdrop-blur-sm"
-                role="group"
-                aria-label={translations.mapFilters}
-            >
+            <div className="flex gap-1 bg-background/90 backdrop-blur-sm rounded-lg p-1 shadow-lg border border-foreground/10">
                 {categories.map((cat) => (
                     <button
                         key={cat.name}
                         type="button"
-                        onClick={() => onCategoryChange(cat.name)}
-                        aria-label={labels[cat.name]}
+                        onClick={() => setCategory({ name: cat.name })}
                         className={`
-														px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-1
-							${
-                                category === cat.name
+                            px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-200
+                            ${
+                                category.name === cat.name
                                     ? "bg-foreground text-background shadow-sm"
-                                    : "text-foreground/70 hover:text-foreground hover:bg-surface-hover"
+                                    : "text-foreground/70 hover:text-foreground hover:bg-foreground/10"
                             }
-						`}
-                        aria-pressed={category === cat.name}
+                        `}
+                        aria-pressed={category.name === cat.name}
                     >
                         <FontAwesomeIcon
                             icon={cat.icon}
@@ -55,7 +50,6 @@ const TrainSelector = ({ category, onCategoryChange, counts }: TrainSelectorProp
                             className="mr-1 h-4 w-4"
                         />
                         <span className="hidden sm:inline">{labels[cat.name]}</span>
-                        <span className="ml-1 text-xs opacity-70">{counts[cat.name]}</span>
                     </button>
                 ))}
             </div>
