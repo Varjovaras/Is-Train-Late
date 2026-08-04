@@ -101,11 +101,19 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
             const map = mapRef.current?.getMap();
             const source = map?.getSource("stations");
             const pointGeometry = feature.geometry.type === "Point" ? feature.geometry : undefined;
+            const [longitude, latitude] = pointGeometry?.coordinates ?? [];
 
-            if (typeof clusterId === "number" && source instanceof GeoJSONSource && pointGeometry) {
+            if (
+                Number.isInteger(clusterId) &&
+                source instanceof GeoJSONSource &&
+                Number.isFinite(longitude) &&
+                Number.isFinite(latitude)
+            ) {
                 void source.getClusterExpansionZoom(clusterId).then((zoom) => {
+                    if (!map || !Number.isFinite(zoom)) return;
+
                     map?.easeTo({
-                        center: pointGeometry.coordinates as [number, number],
+                        center: [longitude, latitude],
                         zoom,
                     });
                 });
