@@ -22,6 +22,11 @@ export default defineConfig({
             router: {
                 routesDirectory: "app",
             },
+            server: {
+                build: {
+                    inlineCss: true,
+                },
+            },
         }),
         viteReact(),
         babel({ presets: [reactCompilerPreset()] }),

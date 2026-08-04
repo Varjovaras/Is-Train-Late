@@ -8,7 +8,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
             >
                 <img
-                    src="/hcbull_naama.png"
+                    src="/hcbull_naama.webp"
                     alt="Hardcore Bull Soundcloud icon"
                     width={40}
                     height={40}

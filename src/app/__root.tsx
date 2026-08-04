@@ -1,8 +1,9 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import type { QueryClient } from "@tanstack/react-query";
 import { HeadContent, Outlet, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
-import appCss from "@/app/globals.css?url";
+import "@/app/globals.css";
 import favicon from "@/favicon.ico?url";
+import geistMono from "@/app/fonts/GeistMonoVF.woff?url";
 import ErrorPopup from "@/components/common/ErrorPopup";
 import NotFoundComponent from "@/components/common/NotFoundComponent";
 import RootErrorComponent from "@/components/common/RootErrorComponent";
@@ -30,12 +31,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         ],
         links: [
             {
-                rel: "stylesheet",
-                href: appCss,
-            },
-            {
                 rel: "icon",
                 href: favicon,
+            },
+            {
+                rel: "preload",
+                href: geistMono,
+                as: "font",
+                type: "font/woff",
+                crossOrigin: "anonymous",
             },
         ],
     }),
