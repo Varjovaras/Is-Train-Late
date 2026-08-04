@@ -18,7 +18,7 @@ const Footer = () => {
             </a>
             <a
                 className="flex items-center gap-2 hover:underline hover:underline-offset-4 text-sm"
-                href="https://github.com/Varjovaras/Is-Train-Late"
+                href="https://github.com/Varjovaras/junatilanne"
                 target="_blank"
                 rel="noopener noreferrer"
             >

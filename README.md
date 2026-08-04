@@ -1,4 +1,4 @@
-# Is VR Late?
+# Junatilanne
 
 A real-time train tracking application that shows delayed VR (Finnish Railways) trains. Built with TanStack Start and TypeScript.
 
@@ -33,13 +33,13 @@ A real-time train tracking application that shows delayed VR (Finnish Railways) 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/varjovaras/is-vr-late.git
+git clone https://github.com/Varjovaras/junatilanne.git
 ```
 
-2. Navigate to the frontend directory:
+2. Navigate to the project directory:
 
 ```bash
-cd is-vr-late/src/frontend
+cd junatilanne
 ```
 
 3. Install dependencies:

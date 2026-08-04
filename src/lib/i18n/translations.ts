@@ -1,6 +1,6 @@
 export const translations = {
     fi: {
-        title: "Onko VR myöhässä?",
+        title: "Junatilanne",
         lateCommuter: "Tällä hetkellä myöhässä olevat lähijunat:",
         lateLongDistance: "Tällä hetkellä myöhässä olevat kaukojunat:",
         noLongDistanceTrainsLate: "Ei myöhässä olevia kaukojunia",
@@ -113,7 +113,7 @@ export const translations = {
         listView: "Lista",
     },
     en: {
-        title: "Is VR Late?",
+        title: "Train situation",
         lateCommuter: "Currently late commuter trains:",
         lateLongDistance: "Currently late long-distance trains:",
         noLongDistanceTrainsLate: "No long-distance trains late",

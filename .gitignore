@@ -17,6 +17,9 @@ coverage/
 *.tsbuildinfo
 next-env.d.ts
 
+# nitro runtime cache
+/.data/
+
 # local configuration and secrets
 .env
 .env.*
