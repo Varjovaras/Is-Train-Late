@@ -6,6 +6,7 @@
     "scripts": {
         "dev": "vite dev --port 5173",
         "build": "vite build",
+        "data:railways": "bun run scripts/update-finland-railways.ts",
         "start": "NITRO_PORT=5173 node .output/server/index.mjs",
         "test": "bun test",
         "lint": "oxlint",
