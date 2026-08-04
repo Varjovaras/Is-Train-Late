@@ -9,6 +9,9 @@ export default defineConfig({
     server: {
         port: 5173,
     },
+    build: {
+        chunkSizeWarningLimit: 1100,
+    },
     resolve: {
         tsconfigPaths: true,
     },
