@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { defineCachedFunction } from "nitro/cache";
 import { getMapQuery } from "@/lib/queries/mapQuery";
+import { DIGITRAFFIC_USER_HEADERS } from "@/lib/queries/digitrafficHeaders";
 import type { MapTrain, TrainLocation, TypeOfTrain } from "@/lib/types/trainTypes";
 
 const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
@@ -39,6 +40,7 @@ const getCachedMapTrains = defineCachedFunction(
             headers: {
                 "Content-Type": "application/json",
                 "Accept-Encoding": "gzip",
+                ...DIGITRAFFIC_USER_HEADERS,
             },
             body: JSON.stringify({
                 query: getMapQuery(),

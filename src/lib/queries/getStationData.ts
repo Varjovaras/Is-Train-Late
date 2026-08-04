@@ -1,4 +1,5 @@
 import type { StationSchedule } from "../types/stationTypes";
+import { DIGITRAFFIC_USER_HEADERS } from "./digitrafficHeaders";
 
 const REST_ENDPOINT = "https://rata.digitraffic.fi/api/v1/live-trains/station/";
 
@@ -18,6 +19,7 @@ export const getStationData = async (
     url.search = searchParams.toString();
 
     const res = await fetch(url.toString(), {
+        headers: { ...DIGITRAFFIC_USER_HEADERS },
         cache: "no-store",
         signal,
     });
