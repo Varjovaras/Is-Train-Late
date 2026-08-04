@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { GeoJSONSource } from "maplibre-gl";
 import { useEffect, useRef, useState } from "react";
 import MapGL, {
     GeolocateControl,
@@ -93,34 +92,6 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
             return;
         }
 
-        if (
-            feature.layer.id === "station-clusters" ||
-            feature.layer.id === "station-cluster-count"
-        ) {
-            const clusterId = feature.properties?.cluster_id;
-            const map = mapRef.current?.getMap();
-            const source = map?.getSource("stations");
-            const pointGeometry = feature.geometry.type === "Point" ? feature.geometry : undefined;
-            const [longitude, latitude] = pointGeometry?.coordinates ?? [];
-
-            if (
-                Number.isInteger(clusterId) &&
-                source instanceof GeoJSONSource &&
-                Number.isFinite(longitude) &&
-                Number.isFinite(latitude)
-            ) {
-                void source.getClusterExpansionZoom(clusterId).then((zoom) => {
-                    if (!map || !Number.isFinite(zoom)) return;
-
-                    map?.easeTo({
-                        center: [longitude, latitude],
-                        zoom,
-                    });
-                });
-            }
-            return;
-        }
-
         if (feature.layer.id === "station-points") {
             const code = feature.properties?.code;
             setPopup(typeof code === "string" ? { type: "station", id: code } : null);
@@ -147,11 +118,7 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
                 ref={mapRef}
                 initialViewState={INITIAL_VIEW_STATE}
                 mapStyle={DARK_STYLE}
-                interactiveLayerIds={[
-                    "station-clusters",
-                    "station-cluster-count",
-                    "station-points",
-                ]}
+                interactiveLayerIds={["station-points"]}
                 onClick={handleMapClick}
                 style={{ width: "100%", height: "100%" }}
             >

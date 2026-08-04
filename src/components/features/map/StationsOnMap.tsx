@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import type { CircleLayerSpecification, SymbolLayerSpecification } from "maplibre-gl";
+import type { CircleLayerSpecification } from "maplibre-gl";
 import { useMemo } from "react";
 import { Layer, Popup, Source } from "react-map-gl/maplibre";
 import { useTranslations } from "@/lib/i18n/useTranslations";
@@ -19,40 +19,12 @@ const stationPointLayer: CircleLayerSpecification = {
     id: "station-points",
     type: "circle",
     source: "stations",
-    filter: ["!", ["has", "point_count"]] as ["!", ["has", "point_count"]],
+    minzoom: 8,
     paint: {
         "circle-color": "#ffffff",
         "circle-radius": 4,
         "circle-stroke-color": "#374151",
         "circle-stroke-width": 2,
-    },
-};
-
-const stationClusterLayer: CircleLayerSpecification = {
-    id: "station-clusters",
-    type: "circle",
-    source: "stations",
-    filter: ["has", "point_count"] as ["has", "point_count"],
-    paint: {
-        "circle-color": ["step", ["get", "point_count"], "#64748b", 25, "#475569", 100, "#334155"],
-        "circle-radius": ["step", ["get", "point_count"], 16, 25, 20, 100, 24],
-        "circle-stroke-color": "#e2e8f0",
-        "circle-stroke-width": 1.5,
-    },
-};
-
-const stationClusterCountLayer: SymbolLayerSpecification = {
-    id: "station-cluster-count",
-    type: "symbol",
-    source: "stations",
-    filter: ["has", "point_count"] as ["has", "point_count"],
-    layout: {
-        "text-field": "{point_count_abbreviated}",
-        "text-font": ["Noto Sans Bold"],
-        "text-size": 12,
-    },
-    paint: {
-        "text-color": "#ffffff",
     },
 };
 
@@ -78,16 +50,7 @@ const StationsOnMap = ({ stations, popup, setPopup }: StationsOnMapProps) => {
     return (
         <>
             {stations.length > 0 && (
-                <Source
-                    id="stations"
-                    type="geojson"
-                    data={stationData}
-                    cluster={true}
-                    clusterMaxZoom={8}
-                    clusterRadius={45}
-                >
-                    <Layer {...stationClusterLayer} />
-                    <Layer {...stationClusterCountLayer} />
+                <Source id="stations" type="geojson" data={stationData} cluster={false}>
                     <Layer {...stationPointLayer} />
                 </Source>
             )}
