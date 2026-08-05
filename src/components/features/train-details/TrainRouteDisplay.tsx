@@ -3,17 +3,12 @@ import type { TrainType } from "@/lib/types/trainTypes";
 import { formatTime } from "@/lib/utils/dateUtils";
 import { getDepartureStationShortCode, getEndStationShortCode } from "@/lib/utils/linkUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
-import AirportTrains from "./AirportTrains";
 
 type TrainRouteDisplayProps = {
     train: TrainType;
 };
 
 const TrainRouteDisplay = ({ train }: TrainRouteDisplayProps) => {
-    if (train.commuterLineid === "P" || train.commuterLineid === "I") {
-        <AirportTrains train={train} />;
-    }
-
     const firstTimeTableRow = train.timeTableRows[0];
     const lastTimeTableRow = train.timeTableRows[train.timeTableRows.length - 1];
 

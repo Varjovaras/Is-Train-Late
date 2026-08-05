@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 import type { ViewMode } from "@/components/common/ViewModeToggle";
 
-const VIEW_MODE_KEY = "stationView";
-
-export const useViewMode = () => {
+export const useViewMode = (key = "default") => {
     const [view, setView] = useState<ViewMode>("list");
+    const storageKey = `viewMode:${key}`;
 
     useEffect(() => {
-        const savedView = localStorage.getItem(VIEW_MODE_KEY) as ViewMode;
+        const savedView = localStorage.getItem(storageKey) as ViewMode;
         if (savedView === "card" || savedView === "list") {
             setView(savedView);
         }
-    }, []);
+    }, [storageKey]);
 
     const handleViewChange = (newView: ViewMode) => {
         setView(newView);
-        localStorage.setItem(VIEW_MODE_KEY, newView);
+        localStorage.setItem(storageKey, newView);
     };
 
     return { view, handleViewChange };

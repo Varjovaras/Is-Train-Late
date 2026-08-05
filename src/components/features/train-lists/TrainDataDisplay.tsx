@@ -11,7 +11,7 @@ type TrainDataProps = {
 
 const TrainDataDisplay = ({ trains }: TrainDataProps) => {
     const [selectedCategory, setSelectedCategory] = useState("longDistance");
-    const { view, handleViewChange } = useViewMode();
+    const { view, handleViewChange } = useViewMode("trains");
 
     const filteredTrains = filterTrainsByCategory(
         trains,

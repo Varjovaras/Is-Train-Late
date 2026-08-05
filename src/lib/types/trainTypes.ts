@@ -1,21 +1,12 @@
 export type TrainType = {
     cancelled: boolean;
     commuterLineid: string;
-    // deleted: boolean;
     departureDate: Date;
     runningCurrently: boolean;
-    // timetableAcceptanceDate: Date;
-    // timetableType: string;
     trainNumber: number;
-    //version: string;
-    //operator: Operator!
     trainType: TypeOfTrain;
     timeTableRows: TimeTableRow[];
     trainLocations: TrainLocation[];
-    //compositions: Composition[]
-    // trainTrackingMessages: TrainTrackingMessage[];
-    // routesetMessages: RoutesetMessage[];
-    //passengerInformationMessages
 };
 
 export type TrainNameAndCategory = {
@@ -87,10 +78,7 @@ export type TimeTableRow = {
     actualTime: Date;
     differenceInMinutes: number;
     liveEstimateTime: Date;
-    // estimateSourceType: string | null;
-    // unknownDelay: boolean | null;
     station: StationToTrain;
-    // train: Train;
     causes: Causes;
 };
 
@@ -106,7 +94,6 @@ export type StationToTrain = {
     shortCode: string;
     uicCode: number;
     type: StationType;
-    // stationMessages;
 };
 
 export type StationToStationResponse = {
@@ -117,7 +104,6 @@ export type StationToStationResponse = {
     shortCode: string;
     uicCode: number;
     type: StationType;
-    // stationMessages;
 };
 
 export type Location = [number, number];
@@ -137,35 +123,3 @@ export type CategoryCode = {
     validFrom: string;
     validTo: string | null;
 };
-
-export type TrainTrackingMessage = {
-    // id: number;
-    // version: string;
-    timestamp: Date;
-    trackSectionCode: string;
-    nextTrackSectionCode: string;
-    previousTrackSectionCode: string;
-    type: string;
-    station: StationToTrain;
-    // nextStation: Station;
-    // previousStation: Station;
-    // train: Train;
-    // trackSection: TrackSection;
-};
-
-// type RoutesetMessage = {
-// 	id: number;
-// 	version: string;
-// 	messageTime: Date;
-// 	routeType: string;
-// 	clientSystem: string;
-// 	routesections: Routesection;
-// 	// train: Train;
-// };
-
-// type Routesection = {
-// 	sectionId: string;
-// 	commercialTrackId: string;
-// 	routesetId: number;
-// 	station: Station;
-// };

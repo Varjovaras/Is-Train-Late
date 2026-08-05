@@ -15,7 +15,7 @@ type ScheduleOverviewProps = {
 const ScheduleOverview = ({ schedules, stationId }: ScheduleOverviewProps) => {
     const [selectedTrack, setSelectedTrack] = useState<string | null>(null);
     const [selectedCategory, setSelectedCategory] = useState("passengerCommuter");
-    const { view, handleViewChange } = useViewMode();
+    const { view, handleViewChange } = useViewMode("stations");
     const filteredSchedules = stationScheduleFilter(schedules, stationId);
 
     const filterByTrack = (trains: StationSchedule[]) => {

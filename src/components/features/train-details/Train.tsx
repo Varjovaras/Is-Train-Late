@@ -6,10 +6,9 @@ import TrainStationsView from "./TrainStationsView";
 
 type TrainProps = {
     train: TrainType;
-    forceShowAllStations: boolean;
 };
 
-const Train = ({ train, forceShowAllStations }: TrainProps) => {
+const Train = ({ train }: TrainProps) => {
     const pathname = useLocation({ select: (location) => location.pathname });
     const isTrainsRoute = pathname.startsWith("/trains/");
 
@@ -21,7 +20,7 @@ const Train = ({ train, forceShowAllStations }: TrainProps) => {
             <TrainButton train={train} />
             <div className="flex-1 flex flex-col">
                 {isTrainsRoute ? (
-                    <TrainStationsView train={train} forceShowAllStations={forceShowAllStations} />
+                    <TrainStationsView train={train} />
                 ) : (
                     <TrainHomeView train={train} />
                 )}

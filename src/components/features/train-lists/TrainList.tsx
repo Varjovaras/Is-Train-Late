@@ -24,7 +24,6 @@ const TrainList = ({ trains, trainType, view, onViewChange }: TrainListProps) =>
         field: "trainNumber",
         direction: "asc",
     });
-    const [forceShowAllStations, _setForceShowAllStations] = useState(false);
 
     const filteredTrains = filterTrainsByDelay(trains, delayThreshold);
     const sortedTrains = sortTrains(filteredTrains, sortOption);
@@ -73,7 +72,6 @@ const TrainList = ({ trains, trainType, view, onViewChange }: TrainListProps) =>
                                     <Train
                                         train={train}
                                         key={`${train.trainNumber}-${train.departureDate}`}
-                                        forceShowAllStations={forceShowAllStations}
                                     />
                                 ))}
                             </div>

@@ -29,7 +29,6 @@ export const queryKeys = {
     stationMessages: (stationId: string) =>
         ["station", "messages", normalizeStationId(stationId)] as const,
     trainDetails: (trainId: string) => ["train", "details", trainId] as const,
-    datedTrain: (trainId: string) => ["train", "date", trainId] as const,
     todayTrain: (trainId: string) => ["train", "today", trainId] as const,
 };
 
@@ -79,12 +78,6 @@ export const stationMessagesQueryOptions = (stationId: string) => {
         queryFn: () => fetchStationMessages({ data: normalizedStationId }),
     });
 };
-
-export const datedTrainQueryOptions = (trainId: string) =>
-    queryOptions({
-        queryKey: queryKeys.datedTrain(trainId),
-        queryFn: () => fetchTrainByDateData({ data: trainId }),
-    });
 
 export const todayTrainQueryOptions = (trainNumber: string) => {
     const today = new Date();

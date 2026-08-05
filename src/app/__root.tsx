@@ -29,6 +29,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             },
             { name: "style-src-elem", content: "self" },
         ],
+        scripts: [
+            {
+                children:
+                    'try{if(localStorage.getItem("theme")!=="light"){document.documentElement.classList.add("dark")}}catch(e){}',
+            },
+        ],
         links: [
             {
                 rel: "icon",
@@ -49,13 +55,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootLayout() {
-    console.log("Tanstack :)");
-
     const { queryClient } = Route.useRouteContext();
 
     return (
         <QueryClientProvider client={queryClient}>
-            <html lang="en" className="dark">
+            <html lang="en">
                 <head>
                     <HeadContent />
                 </head>

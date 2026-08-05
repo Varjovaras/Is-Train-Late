@@ -47,11 +47,11 @@ const LiveTrainPage = ({ train }: LiveTrainPageProps) => {
             {hasDelayCauses ? (
                 <div className="space-y-8 w-full">
                     <DelayInformation train={train} />
-                    <Train train={train} forceShowAllStations />
+                    <Train train={train} />
                 </div>
             ) : (
                 <div className="w-full">
-                    <Train train={train} forceShowAllStations />
+                    <Train train={train} />
                 </div>
             )}
         </div>

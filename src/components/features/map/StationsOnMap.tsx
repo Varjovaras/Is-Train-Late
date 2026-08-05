@@ -93,6 +93,7 @@ const StationsOnMap = ({ stations, popup, setPopup }: StationsOnMapProps) => {
                                         const time = new Intl.DateTimeFormat(currentLang, {
                                             hour: "2-digit",
                                             minute: "2-digit",
+                                            timeZone: "Europe/Helsinki",
                                         }).format(new Date(stationRow.scheduledTime));
 
                                         return (
