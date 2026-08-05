@@ -1,8 +1,6 @@
 import type { SingleTrainResponse } from "../types/trainTypes";
+import { graphqlFetch } from "./graphqlClient";
 import { getSingleTrainQuery } from "./singleTrainQuery";
-import { DIGITRAFFIC_USER_HEADERS } from "./digitrafficHeaders";
-
-const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
 export const getSingleTrainData = async (
     trainNumber: string,
@@ -12,25 +10,10 @@ export const getSingleTrainData = async (
         throw new Error("Not a valid train number");
     }
 
-    const res = await fetch(GRAPHQL_ENDPOINT, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept-Encoding": "gzip",
-            ...DIGITRAFFIC_USER_HEADERS,
-        },
-        body: JSON.stringify({
-            query: getSingleTrainQuery(trainNumber),
-        }),
-        cache: "no-store",
-        signal,
-    });
-
-    if (!res.ok) {
-        throw new Error(`Train data not available. HTTP error! status: ${res.status}`);
-    }
-
-    const trainResponse = (await res.json()) as SingleTrainResponse;
+    const trainResponse = await graphqlFetch<SingleTrainResponse>(
+        getSingleTrainQuery(trainNumber),
+        { signal },
+    );
 
     if (trainResponse.data.currentlyRunningTrains.length > 1) {
         throw new Error("Got multiple trains from singleTrainQuery");

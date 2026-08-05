@@ -1,7 +1,9 @@
 import type { Translations } from "../i18n/translations";
 
-export const formatTime = (date: Date) => {
-    return new Date(date).toLocaleTimeString("fi-FI", {
+export const formatTime = (date: Date | string) => {
+    const value = new Date(date);
+    if (Number.isNaN(value.getTime())) return "";
+    return value.toLocaleTimeString("fi-FI", {
         hour: "2-digit",
         minute: "2-digit",
         timeZone: "Europe/Helsinki",
@@ -16,13 +18,8 @@ export const formatDateForUrl = (date: string) => {
     return formattedDate;
 };
 
-export const formatDateForDisplay = (date: string) => {
-    const d = new Date(date);
-    return d.toLocaleTimeString("fi-FI", {
-        hour: "2-digit",
-        minute: "2-digit",
-        timeZone: "Europe/Helsinki",
-    });
+export const todayISOString = () => {
+    return new Date().toISOString().split("T")[0];
 };
 
 export const formatDate = (date: Date | string) => {
@@ -61,7 +58,7 @@ export const isTomorrow = (date: string) => {
 export const getDateDisplay = (date: string, translations: Translations) => {
     if (isToday(date)) return translations.today;
     if (isTomorrow(date)) return translations.tomorrow;
-    return formatDateForDisplay(date);
+    return formatTime(date);
 };
 
 export const getArrivalCountdown = (arrivalTime: Date, translations: Translations): string => {

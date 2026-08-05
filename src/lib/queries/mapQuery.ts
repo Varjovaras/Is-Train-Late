@@ -1,5 +1,7 @@
+import { processGraphQLQuery } from "../utils/queryUtils";
+
 export const getMapQuery = () => {
-    return mapQuery.replace(/\s+/g, " ").replace(/\n/g, " ").replace(/\\/g, "").trim();
+    return processGraphQLQuery(mapQuery);
 };
 
 const mapQuery = `{

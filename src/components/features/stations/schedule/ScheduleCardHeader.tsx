@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
+import RouteDisplay from "@/components/common/RouteDisplay";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { StationSchedule, StationTimeTableRow } from "@/lib/types/stationTypes";
-import { isToday } from "@/lib/utils/dateUtils";
-import { getTrainTypeString } from "@/lib/utils/stationUtils";
-import RouteDisplay from "./RouteDisplay";
+import { getFormattedStationName, getTrainTypeString } from "@/lib/utils/stationUtils";
+import { getScheduleTrainDisplayName, getScheduleTrainLink } from "@/lib/utils/trainDataUtils";
 
 type ScheduleHeaderProps = {
     schedule: StationSchedule;
@@ -13,21 +13,17 @@ type ScheduleHeaderProps = {
 const ScheduleCardHeader = ({ schedule, departureRow }: ScheduleHeaderProps) => {
     const { translations } = useTranslations();
 
-    const getLinkDestination = () => {
-        if (schedule.runningCurrently && isToday(schedule.departureDate)) {
-            return `/trains/${schedule.trainNumber}`;
-        }
-        return `/trains/${schedule.trainNumber}-${schedule.departureDate}`;
-    };
+    const firstRow = schedule.timeTableRows[0];
+    const lastRow = schedule.timeTableRows[schedule.timeTableRows.length - 1];
 
     return (
         <div className="flex justify-between items-start min-w-0">
             <div className="space-y-1">
                 <Link
-                    to={getLinkDestination()}
+                    to={getScheduleTrainLink(schedule)}
                     className="font-bold text-lg hover:underline truncate block"
                 >
-                    {schedule.commuterLineID || `${schedule.trainType} ${schedule.trainNumber}`}
+                    {getScheduleTrainDisplayName(schedule)}
                 </Link>
 
                 <p className="text-sm text-foreground/60 truncate">
@@ -39,7 +35,20 @@ const ScheduleCardHeader = ({ schedule, departureRow }: ScheduleHeaderProps) => 
                     )}
                 </p>
 
-                <RouteDisplay schedule={schedule} />
+                <RouteDisplay
+                    variant="compact"
+                    isAirportLine={
+                        schedule.commuterLineID === "P" || schedule.commuterLineID === "I"
+                    }
+                    start={{
+                        name: getFormattedStationName(firstRow.stationShortCode),
+                        shortCode: firstRow.stationShortCode,
+                    }}
+                    end={{
+                        name: getFormattedStationName(lastRow.stationShortCode),
+                        shortCode: lastRow.stationShortCode,
+                    }}
+                />
             </div>
         </div>
     );

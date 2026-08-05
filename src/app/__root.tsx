@@ -59,7 +59,7 @@ function RootLayout() {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <html lang="en">
+            <html lang="en" suppressHydrationWarning>
                 <head>
                     <HeadContent />
                 </head>

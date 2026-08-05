@@ -3,22 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "@tanstack/react-router";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
-import { getArrivalCountdown } from "@/lib/utils/dateUtils";
+import { formatTime, getArrivalCountdown } from "@/lib/utils/dateUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
 import { calculateTrainProgress, getCommercialStations } from "@/lib/utils/trainDataUtils";
 
 type TrainProgressBarProps = {
     train: TrainType;
-};
-
-const formatTimeFi = (value: string | Date) => {
-    const date = value instanceof Date ? value : new Date(value);
-    if (Number.isNaN(date.getTime())) return "";
-    return date.toLocaleTimeString("fi-FI", {
-        hour: "2-digit",
-        minute: "2-digit",
-        timeZone: "Europe/Helsinki",
-    });
 };
 
 const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
@@ -54,7 +44,7 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
                         </p>
                         {lastCompletedStop && (
                             <p className="text-xs text-foreground/60">
-                                {formatTimeFi(lastCompletedStop.scheduledTime)}
+                                {formatTime(lastCompletedStop.scheduledTime)}
                             </p>
                         )}
                     </div>
@@ -78,7 +68,7 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
                         </p>
                         {nextStop && (
                             <p className="text-xs text-foreground/60">
-                                {formatTimeFi(nextStop.scheduledTime)}
+                                {formatTime(nextStop.scheduledTime)}
                             </p>
                         )}
                     </div>
@@ -155,7 +145,7 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
                 <div className="text-sm">
                     {translations.nextArrival}{" "}
                     <span className="font-semibold">
-                        {formatTimeFi(nextStop.liveEstimateTime || nextStop.scheduledTime)}
+                        {formatTime(nextStop.liveEstimateTime || nextStop.scheduledTime)}
                     </span>
                     {nextStop.differenceInMinutes > 0 && (
                         <div className="text-red-500 font-bold text-xs mt-1">

@@ -1,10 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { defineCachedFunction } from "nitro/cache";
 import { getMapQuery } from "@/lib/queries/mapQuery";
-import { DIGITRAFFIC_USER_HEADERS } from "@/lib/queries/digitrafficHeaders";
+import { graphqlFetch } from "@/lib/queries/graphqlClient";
 import type { MapTrain, TrainLocation, TypeOfTrain } from "@/lib/types/trainTypes";
-
-const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
 
 const MAP_CACHE_MAX_AGE_SECONDS = 5;
 const MAP_CACHE_STALE_MAX_AGE_SECONDS = 30;
@@ -35,24 +33,7 @@ const toMapTrain = (train: RawMapTrain): MapTrain => ({
 
 const getCachedMapTrains = defineCachedFunction(
     async (): Promise<MapTrain[]> => {
-        const response = await fetch(GRAPHQL_ENDPOINT, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept-Encoding": "gzip",
-                ...DIGITRAFFIC_USER_HEADERS,
-            },
-            body: JSON.stringify({
-                query: getMapQuery(),
-            }),
-            cache: "no-store",
-        });
-
-        if (!response.ok) {
-            throw new Error(`Train data not available. HTTP error! status: ${response.status}`);
-        }
-
-        const data = (await response.json()) as RawMapResponse;
+        const data = await graphqlFetch<RawMapResponse>(getMapQuery());
         return data.data.currentlyRunningTrains.map(toMapTrain);
     },
     {

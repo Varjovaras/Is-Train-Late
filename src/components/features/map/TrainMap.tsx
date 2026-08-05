@@ -11,6 +11,7 @@ import "./TrainMap.css";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { mapTrainsQueryOptions, stationMetadataQueryOptions } from "@/lib/queries/queryOptions";
 import type { TrainCategory } from "@/lib/types/trainTypes";
+import { getTrainCategory } from "@/lib/utils/trainDataUtils";
 import RailwaysOnMap from "./RailwaysOnMap";
 import StationsOnMap from "./StationsOnMap";
 import TrainSelector from "./TrainSelector";
@@ -75,14 +76,11 @@ const TrainMap = ({ trainNumber }: TrainMapProps) => {
         return trains.filter((train) => {
             switch (category.name) {
                 case "commuter":
-                    return train.commuterLineid !== "";
+                    return getTrainCategory(train) === "commuter";
                 case "longDistance":
-                    return (
-                        train.commuterLineid === "" &&
-                        train.trainType.trainCategory?.name === "Long-distance"
-                    );
+                    return getTrainCategory(train) === "longDistance";
                 case "freight":
-                    return train.trainType.trainCategory?.name === "Cargo";
+                    return getTrainCategory(train) === "freight";
                 default:
                     return true;
             }

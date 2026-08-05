@@ -1,5 +1,6 @@
 import { useId } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
+import { todayISOString } from "@/lib/utils/dateUtils";
 
 type DatePickerProps = {
     date: string;
@@ -10,7 +11,7 @@ const DatePicker = ({ date, setDate }: DatePickerProps) => {
     // Set minimum date to 2017-01-01 (VR's data starts from around this time)
     const { translations } = useTranslations();
     const minDate = "2017-01-01";
-    const today = new Date().toISOString().split("T")[0];
+    const today = todayISOString();
     const id = useId();
 
     return (

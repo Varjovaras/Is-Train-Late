@@ -6,7 +6,8 @@ import type { SortOption } from "@/components/features/delay-info/SortSelector";
 import Train from "@/components/features/train-details/Train";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
-import { filterTrainsByDelay, sortTrains } from "@/lib/utils/trainUtils";
+import { filterTrainsByDelay, getTrainId } from "@/lib/utils/trainDataUtils";
+import { sortTrains } from "@/lib/utils/trainUtils";
 import NoTrains from "./NoTrains";
 import TrainRow from "./TrainRow";
 
@@ -69,19 +70,13 @@ const TrainList = ({ trains, trainType, view, onViewChange }: TrainListProps) =>
                         {view === "card" ? (
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
                                 {sortedTrains.map((train) => (
-                                    <Train
-                                        train={train}
-                                        key={`${train.trainNumber}-${train.departureDate}`}
-                                    />
+                                    <Train train={train} key={getTrainId(train)} />
                                 ))}
                             </div>
                         ) : (
                             <div className="space-y-2 w-full">
                                 {sortedTrains.map((train) => (
-                                    <TrainRow
-                                        key={`${train.trainNumber}-${train.departureDate}`}
-                                        train={train}
-                                    />
+                                    <TrainRow key={getTrainId(train)} train={train} />
                                 ))}
                             </div>
                         )}

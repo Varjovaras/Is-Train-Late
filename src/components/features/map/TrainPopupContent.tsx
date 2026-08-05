@@ -7,6 +7,7 @@ import {
     getLatestVisitedStationName,
     getNextCommercialStation,
     getTrainCurrentDelay,
+    getTrainDisplayName,
 } from "@/lib/utils/trainDataUtils";
 
 type TrainPopupContentProps = {
@@ -33,7 +34,7 @@ const TrainPopupContent = ({ train }: TrainPopupContentProps) => {
                 params={{ id: String(train.trainNumber) }}
                 className="block text-lg font-bold text-foreground transition-colors hover:text-red-500"
             >
-                {train.commuterLineid || `${train.trainType.name} ${train.trainNumber}`}
+                {getTrainDisplayName(train)}
             </Link>
             <div className="mt-2 space-y-1 text-sm text-foreground/70">
                 <p>

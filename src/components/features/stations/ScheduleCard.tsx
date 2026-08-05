@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { StationSchedule } from "@/lib/types/stationTypes";
-
 import { findStationDepartureWithId } from "@/lib/utils/scheduleUtils";
+import { getTrainId } from "@/lib/utils/trainDataUtils";
 import ScheduleCardHeader from "./schedule/ScheduleCardHeader";
 import ScheduleCardStatus from "./schedule/ScheduleCardStatus";
 import TimeTableEntry from "./schedule/TimeTableEntry";
@@ -18,7 +18,7 @@ const ScheduleCard = ({ schedule, stationId }: ScheduleCardProps) => {
 
     return (
         <div
-            key={`${schedule.trainNumber}-${schedule.departureDate}`}
+            key={getTrainId(schedule)}
             className="border border-border bg-surface rounded-lg p-4 space-y-3 flex flex-col"
         >
             <div className="flex justify-between items-start gap-2">
@@ -38,7 +38,7 @@ const ScheduleCard = ({ schedule, stationId }: ScheduleCardProps) => {
                 <Link
                     to="/trains/$id"
                     params={{
-                        id: `${schedule.trainNumber}-${schedule.departureDate}`,
+                        id: getTrainId(schedule),
                     }}
                     className="text-sm text-blue-500 hover:underline"
                 >

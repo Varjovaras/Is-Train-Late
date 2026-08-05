@@ -1,6 +1,6 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { StationTimeTableRow } from "@/lib/types/stationTypes";
-import { formatDateForDisplay } from "@/lib/utils/dateUtils";
+import { formatTime } from "@/lib/utils/dateUtils";
 import DelayCauses from "./DelayCauses";
 
 type TimeTableEntryProps = {
@@ -24,7 +24,7 @@ const TimeTableEntry = ({ row }: TimeTableEntryProps) => {
 
             <div className="space-y-1 mt-1">
                 <div className="text-sm text-foreground/60">
-                    {translations.scheduled}: {formatDateForDisplay(row.scheduledTime)}
+                    {translations.scheduled}: {formatTime(row.scheduledTime)}
                 </div>
 
                 {row.actualTime && (
@@ -35,7 +35,7 @@ const TimeTableEntry = ({ row }: TimeTableEntryProps) => {
                                 : "text-green-500 text-sm"
                         }
                     >
-                        {translations.actual}: {formatDateForDisplay(row.actualTime)}
+                        {translations.actual}: {formatTime(row.actualTime)}
                         {row.differenceInMinutes > 0 &&
                             ` (+${row.differenceInMinutes}${translations.minShortened})`}
                     </div>
@@ -43,7 +43,7 @@ const TimeTableEntry = ({ row }: TimeTableEntryProps) => {
 
                 {row.liveEstimateTime && !row.actualTime && (
                     <div className="text-yellow-500 text-sm">
-                        {translations.estimated}: {formatDateForDisplay(row.liveEstimateTime)}
+                        {translations.estimated}: {formatTime(row.liveEstimateTime)}
                     </div>
                 )}
 

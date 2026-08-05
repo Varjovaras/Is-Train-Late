@@ -5,8 +5,11 @@ import {
     longDistanceTrainTypeNames,
 } from "../types/trainNameTypes";
 import type { TimeTableRow, TrainType } from "../types/trainTypes";
+import { isToday } from "./dateUtils";
 
-export const getTrainDisplayName = (train: TrainType): string => {
+export const getTrainDisplayName = (
+    train: Pick<TrainType, "commuterLineid" | "trainNumber" | "trainType">,
+): string => {
     return train.commuterLineid || `${train.trainType.name} ${train.trainNumber}`;
 };
 
@@ -115,43 +118,83 @@ export const getTrainLink = (train: TrainType, includeDate = false): string => {
     return `/trains/${train.trainNumber}`;
 };
 
-export const getStationLink = (stationShortCode: string): string => {
-    return `/stations/${stationShortCode}`;
+export type TrainGroup = "commuter" | "longDistance" | "freight";
+
+type TrainClassificationInput = {
+    commuterLineid: string;
+    trainTypeName: string;
+    trainCategoryName: string | undefined | null;
 };
 
-export const getTrainCategory = (train: TrainType): "commuter" | "longDistance" | "freight" => {
-    if (train.commuterLineid !== "") return "commuter";
+const classifyTrainType = ({
+    commuterLineid,
+    trainTypeName,
+    trainCategoryName,
+}: TrainClassificationInput): TrainGroup | "unknown" => {
+    if (commuterLineid !== "") return "commuter";
+    if (trainCategoryName === "Commuter") return "commuter";
+    if (trainCategoryName === "Cargo") return "freight";
 
-    const trainTypeName = train.trainType.name;
-
-    // Check against known commuter train types (fallback for trains without commuterLineid)
-    if ((commuterTrainTypeNames as readonly string[]).includes(trainTypeName)) {
-        return "commuter";
-    }
-
-    if ((freightTrainTypeNames as readonly string[]).includes(trainTypeName)) {
-        return "freight";
-    }
-
-    // Check against known long-distance passenger train types
+    if ((freightTrainTypeNames as readonly string[]).includes(trainTypeName)) return "freight";
+    if ((commuterTrainTypeNames as readonly string[]).includes(trainTypeName)) return "commuter";
     if ((longDistanceTrainTypeNames as readonly string[]).includes(trainTypeName)) {
         return "longDistance";
     }
 
-    // Default to freight for any unknown train types
-    // This prevents freight trains from appearing in passenger train sections
-    // checking freight already for easy future changes
-    return "freight";
+    // Unknown types default to freight so they don't appear in passenger train sections
+    return "unknown";
+};
+
+export const getTrainCategory = (train: {
+    commuterLineid: string;
+    trainType: { name: string; trainCategory?: { name?: string } | null };
+}): TrainGroup => {
+    const category = classifyTrainType({
+        commuterLineid: train.commuterLineid,
+        trainTypeName: train.trainType.name,
+        trainCategoryName: train.trainType.trainCategory?.name,
+    });
+    return category === "unknown" ? "freight" : category;
+};
+
+export const getStationScheduleCategory = (schedule: StationSchedule): TrainGroup => {
+    const category = classifyTrainType({
+        commuterLineid: schedule.commuterLineID,
+        trainTypeName: schedule.trainType,
+        trainCategoryName: schedule.trainCategory,
+    });
+    return category === "unknown" ? "longDistance" : category;
 };
 
 export const findStationTimeTableRow = (
     schedule: StationSchedule,
     stationId: string,
-    type: "ARRIVAL" | "DEPARTURE" = "DEPARTURE",
+    type?: "ARRIVAL" | "DEPARTURE",
 ): StationTimeTableRow | undefined => {
     return schedule.timeTableRows.find(
-        (row) => row.trainStopping && row.stationShortCode === stationId && row.type === type,
+        (row) =>
+            row.trainStopping &&
+            row.stationShortCode === stationId &&
+            (type === undefined || row.type === type),
     );
+};
+
+export const getScheduleTrainDisplayName = (schedule: StationSchedule): string => {
+    return schedule.commuterLineID || `${schedule.trainType} ${schedule.trainNumber}`;
+};
+
+export const getScheduleTrainLink = (schedule: StationSchedule): string => {
+    if (schedule.runningCurrently && isToday(schedule.departureDate)) {
+        return `/trains/${schedule.trainNumber}`;
+    }
+    return `/trains/${schedule.trainNumber}-${schedule.departureDate}`;
+};
+
+export const getTrainId = (train: {
+    trainNumber: number;
+    departureDate: string | Date;
+}): string => {
+    return `${train.trainNumber}-${train.departureDate}`;
 };
 
 export const filterTrainsByDelay = (trains: TrainType[], thresholdMinutes: number): TrainType[] => {
@@ -165,7 +208,7 @@ export const filterTrainsByDelay = (trains: TrainType[], thresholdMinutes: numbe
 
 export const filterTrainsByCategory = (
     trains: TrainType[],
-    category: "all" | "commuter" | "longDistance" | "freight",
+    category: "all" | TrainGroup,
 ): TrainType[] => {
     if (category === "all") return trains;
 
@@ -175,32 +218,9 @@ export const filterTrainsByCategory = (
     });
 };
 
-export const getStationScheduleCategory = (
-    schedule: StationSchedule,
-): "commuter" | "longDistance" | "freight" => {
-    if (schedule.commuterLineID !== "") return "commuter";
-
-    const trainTypeName = schedule.trainType;
-
-    if (schedule.trainCategory === "Commuter") return "commuter";
-
-    if (
-        schedule.trainCategory === "Cargo" ||
-        (freightTrainTypeNames as readonly string[]).includes(trainTypeName)
-    ) {
-        return "freight";
-    }
-
-    if ((commuterTrainTypeNames as readonly string[]).includes(trainTypeName)) {
-        return "commuter";
-    }
-
-    return "longDistance";
-};
-
 export const filterSchedulesByCategory = (
     schedules: StationSchedule[],
-    category: "all" | "commuter" | "longDistance" | "freight" | "passengerCommuter",
+    category: "all" | TrainGroup | "passengerCommuter",
 ): StationSchedule[] => {
     if (category === "all") return schedules;
 

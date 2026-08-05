@@ -1,35 +1,13 @@
 import type { DifferentDayTrainResponse, TrainType } from "../types/trainTypes";
 import { getDifferentDateTrain } from "./differentDateQuery";
-import { DIGITRAFFIC_USER_HEADERS } from "./digitrafficHeaders";
-
-const GRAPHQL_ENDPOINT = "https://rata.digitraffic.fi/api/v2/graphql/graphql";
-
-type FetchOptions = {
-    signal?: AbortSignal;
-};
+import { graphqlFetch } from "./graphqlClient";
 
 export const getTrainByDateData = async (
     trainId: string,
-    { signal }: FetchOptions = {},
+    { signal }: { signal?: AbortSignal } = {},
 ): Promise<TrainType | null> => {
-    const response = await fetch(GRAPHQL_ENDPOINT, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept-Encoding": "gzip",
-            ...DIGITRAFFIC_USER_HEADERS,
-        },
-        body: JSON.stringify({
-            query: getDifferentDateTrain(trainId),
-        }),
-        cache: "no-store",
+    const data = await graphqlFetch<DifferentDayTrainResponse>(getDifferentDateTrain(trainId), {
         signal,
     });
-
-    if (!response.ok) {
-        throw new Error(`Train data not available. HTTP error! status: ${response.status}`);
-    }
-
-    const data = (await response.json()) as DifferentDayTrainResponse;
     return data.data.train[0] ?? null;
 };

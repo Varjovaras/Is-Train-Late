@@ -1,11 +1,10 @@
 import type { StationSchedule } from "../types/stationTypes";
+import { findStationTimeTableRow } from "./trainDataUtils";
 
 export const sortSchedules = (schedules: StationSchedule[], stationId: string) => {
     return schedules
         .map((schedule) => {
-            const scheduledTime = schedule.timeTableRows.find(
-                (station) => station.stationShortCode === stationId,
-            )?.scheduledTime;
+            const scheduledTime = findStationTimeTableRow(schedule, stationId)?.scheduledTime;
 
             return {
                 schedule,

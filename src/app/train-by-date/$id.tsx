@@ -1,24 +1,11 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
-
-const redirectResponse = (id: string) =>
-    new Response(null, {
-        status: 308,
-        headers: {
-            Location: `/trains/${id}`,
-        },
-    });
+import { createFileRoute } from "@tanstack/react-router";
+import { getTrainsRedirectResponse, toTrainsRedirect } from "@/lib/utils/redirectUtils";
 
 export const Route = createFileRoute("/train-by-date/$id")({
-    beforeLoad: ({ params }) => {
-        throw redirect({
-            to: "/trains/$id",
-            params: { id: params.id },
-            statusCode: 308,
-        });
-    },
+    beforeLoad: ({ params }) => toTrainsRedirect(params.id),
     server: {
         handlers: {
-            GET: ({ params }) => redirectResponse(params.id),
+            GET: ({ params }) => getTrainsRedirectResponse(params.id),
         },
     },
 });

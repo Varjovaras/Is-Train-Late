@@ -1,7 +1,9 @@
-import { useTranslations } from "@/lib/i18n/useTranslations";
+import DelayText from "@/components/common/DelayText";
+import RouteDisplay from "@/components/common/RouteDisplay";
 import type { TrainType } from "@/lib/types/trainTypes";
-import { getDelayColorClass, getTrainCurrentDelay } from "@/lib/utils/trainDataUtils";
-import RouteLinks from "./RouteLinks";
+import { formatTime } from "@/lib/utils/dateUtils";
+import { removeAsema } from "@/lib/utils/stringUtils";
+import { getTrainCurrentDelay } from "@/lib/utils/trainDataUtils";
 import TrainSpeed from "./TrainSpeed";
 
 type TrainBasicInfoProps = {
@@ -9,23 +11,30 @@ type TrainBasicInfoProps = {
 };
 
 const TrainBasicInfo = ({ train }: TrainBasicInfoProps) => {
-    const { translations } = useTranslations();
-
     const currentTimeDiff = getTrainCurrentDelay(train);
-    const delayColorClass = getDelayColorClass(currentTimeDiff);
+
+    const firstRow = train.timeTableRows[0];
+    const lastRow = train.timeTableRows[train.timeTableRows.length - 1];
 
     return (
         <div>
-            <RouteLinks train={train} />
+            <RouteDisplay
+                isAirportLine={train.commuterLineid === "P" || train.commuterLineid === "I"}
+                start={{
+                    name: removeAsema(firstRow.station.name),
+                    shortCode: firstRow.station.shortCode,
+                    time: formatTime(firstRow.scheduledTime),
+                }}
+                end={{
+                    name: removeAsema(lastRow.station.name),
+                    shortCode: lastRow.station.shortCode,
+                    time: formatTime(lastRow.scheduledTime),
+                }}
+            />
             <div>
-                {currentTimeDiff > 0 ? (
-                    <p className="">
-                        <span className={`${delayColorClass} font-bold`}>{currentTimeDiff}</span>{" "}
-                        <span className="">{translations.minutesLate}</span>
-                    </p>
-                ) : (
-                    <p className="text-green-500">{translations.onTime}</p>
-                )}
+                <p>
+                    <DelayText delay={currentTimeDiff} />
+                </p>
                 <TrainSpeed train={train} />
             </div>
         </div>

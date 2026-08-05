@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { formatDateForUrl } from "../utils/dateUtils";
+import { formatDateForUrl, todayISOString } from "../utils/dateUtils";
 import { isValidTrainId } from "../utils/urlUtils";
 import { sortSchedules } from "../utils/sortSchedules";
 import { getMapData } from "./getMapData";
@@ -80,9 +80,7 @@ export const stationMessagesQueryOptions = (stationId: string) => {
 };
 
 export const todayTrainQueryOptions = (trainNumber: string) => {
-    const today = new Date();
-    const formattedDate = formatDateForUrl(today.toISOString().split("T")[0]);
-    const todayTrainId = `${trainNumber}-${formattedDate}`;
+    const todayTrainId = `${trainNumber}-${formatDateForUrl(todayISOString())}`;
 
     return queryOptions({
         queryKey: queryKeys.todayTrain(todayTrainId),

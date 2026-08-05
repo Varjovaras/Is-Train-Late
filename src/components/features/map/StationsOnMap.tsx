@@ -6,7 +6,9 @@ import { Layer, Popup, Source } from "react-map-gl/maplibre";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { stationSchedulesQueryOptions } from "@/lib/queries/queryOptions";
 import type { StationMetadata } from "@/lib/types/stationTypes";
+import { formatTime } from "@/lib/utils/dateUtils";
 import { stationMetadataToGeoJson } from "@/lib/utils/stationMetadata";
+import { getTrainId } from "@/lib/utils/trainDataUtils";
 import type { MapPopupSelection } from "./mapTypes";
 
 type StationsOnMapProps = {
@@ -29,7 +31,7 @@ const stationPointLayer: CircleLayerSpecification = {
 };
 
 const StationsOnMap = ({ stations, popup, setPopup }: StationsOnMapProps) => {
-    const { currentLang, translations } = useTranslations();
+    const { translations } = useTranslations();
     const stationCode = popup?.type === "station" ? popup.id : undefined;
     const stationData = useMemo(() => stationMetadataToGeoJson(stations), [stations]);
     const stationsByCode = useMemo(
@@ -90,20 +92,14 @@ const StationsOnMap = ({ stations, popup, setPopup }: StationsOnMapProps) => {
                                         );
                                         if (!stationRow) return null;
 
-                                        const time = new Intl.DateTimeFormat(currentLang, {
-                                            hour: "2-digit",
-                                            minute: "2-digit",
-                                            timeZone: "Europe/Helsinki",
-                                        }).format(new Date(stationRow.scheduledTime));
+                                        const time = formatTime(stationRow.scheduledTime);
 
                                         return (
-                                            <li
-                                                key={`${schedule.trainNumber}-${schedule.departureDate}`}
-                                            >
+                                            <li key={getTrainId(schedule)}>
                                                 <Link
                                                     to="/trains/$id"
                                                     params={{
-                                                        id: `${schedule.trainNumber}-${schedule.departureDate}`,
+                                                        id: getTrainId(schedule),
                                                     }}
                                                     className="text-red-500 hover:underline"
                                                 >

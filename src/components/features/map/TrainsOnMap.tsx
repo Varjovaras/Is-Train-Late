@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { MapTrain } from "@/lib/types/trainTypes";
 import { updateTrainHeadingCache } from "@/lib/utils/trainDirection";
-import { getTrainDelayColor } from "@/lib/utils/trainDataUtils";
-import { getMapTrainId, type MapPopupSelection } from "./mapTypes";
+import { getTrainDelayColor, getTrainId } from "@/lib/utils/trainDataUtils";
+import type { MapPopupSelection } from "./mapTypes";
 import TrainIcon from "./TrainIcon";
 import TrainPopupContent from "./TrainPopupContent";
 
@@ -33,7 +33,7 @@ const TrainMarker = ({
 
     if (!location) return null;
 
-    const trainId = getMapTrainId(train);
+    const trainId = getTrainId(train);
     const trainLabel = train.commuterLineid || train.trainNumber.toString();
     const showPopup = popup?.type === "train" && popup.id === trainId;
 
@@ -84,7 +84,7 @@ const TrainsOnMap = ({ filteredTrains, popup, setPopup }: TrainsOnMapProps) => {
             let hasChanged = false;
 
             for (const train of filteredTrains) {
-                const trainId = getMapTrainId(train);
+                const trainId = getTrainId(train);
                 const heading = updateTrainHeadingCache(
                     headingCache,
                     trainId,
@@ -104,7 +104,7 @@ const TrainsOnMap = ({ filteredTrains, popup, setPopup }: TrainsOnMapProps) => {
     return (
         <>
             {filteredTrains.map((train) => {
-                const uniqueKey = getMapTrainId(train);
+                const uniqueKey = getTrainId(train);
                 const currentDelay = train.delay;
                 const statusLabel =
                     currentDelay > 0

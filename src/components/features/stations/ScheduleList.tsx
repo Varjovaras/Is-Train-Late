@@ -1,7 +1,8 @@
 import ViewModeToggle from "@/components/common/ViewModeToggle";
+import type { ViewMode } from "@/components/common/ViewModeToggle";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { StationSchedule } from "@/lib/types/stationTypes";
-import type { ViewMode } from "@/components/common/ViewModeToggle";
+import { getTrainId } from "@/lib/utils/trainDataUtils";
 import ScheduleCard from "./ScheduleCard";
 import ScheduleRow from "./ScheduleRow";
 
@@ -27,7 +28,7 @@ const ScheduleList = ({ schedules, stationId, view, onViewChange }: ScheduleList
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {schedules.map((schedule) => (
                         <ScheduleCard
-                            key={`${schedule.trainNumber}-${schedule.departureDate}`}
+                            key={getTrainId(schedule)}
                             schedule={schedule}
                             stationId={stationId}
                         />
@@ -37,7 +38,7 @@ const ScheduleList = ({ schedules, stationId, view, onViewChange }: ScheduleList
                 <div className="space-y-2">
                     {schedules.map((schedule) => (
                         <ScheduleRow
-                            key={`${schedule.trainNumber}-${schedule.departureDate}`}
+                            key={getTrainId(schedule)}
                             schedule={schedule}
                             stationId={stationId}
                         />
