@@ -65,13 +65,12 @@ const {
     STATION_METADATA_STALE_TIME_MS,
     TODAY_TRAIN_STALE_TIME_MS,
     homeTrainsQueryOptions,
-    normalizeStationId,
-    queryKeys,
     stationMetadataQueryOptions,
     stationMessagesQueryOptions,
     todayTrainQueryOptions,
     trainDetailsQueryOptions,
 } = await import("./queryOptions");
+const { normalizeStationId, queryKeys } = await import("./queryKeys");
 
 const originalFetch = globalThis.fetch;
 type FetchImplementation = (

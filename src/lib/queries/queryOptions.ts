@@ -3,6 +3,7 @@ import { formatDateForUrl, todayISOString } from "../utils/dateUtils";
 import { isValidTrainId } from "../utils/urlUtils";
 import { sortSchedules } from "../utils/sortSchedules";
 import { getMapData } from "./getMapData";
+import { normalizeStationId, queryKeys } from "./queryKeys";
 import {
     fetchSingleTrainData,
     fetchStationData,
@@ -17,20 +18,6 @@ import type { TrainType } from "../types/trainTypes";
 export const MAP_REFETCH_INTERVAL_MS = 10_000;
 export const STATION_METADATA_STALE_TIME_MS = 86_400_000;
 export const TODAY_TRAIN_STALE_TIME_MS = 300_000;
-
-export const normalizeStationId = (stationId: string) => stationId.toUpperCase();
-
-export const queryKeys = {
-    homeTrains: ["trains", "home"] as const,
-    mapTrains: ["trains", "map"] as const,
-    stationMetadata: ["stations", "metadata"] as const,
-    stationSchedules: (stationId: string) =>
-        ["station", "schedules", normalizeStationId(stationId)] as const,
-    stationMessages: (stationId: string) =>
-        ["station", "messages", normalizeStationId(stationId)] as const,
-    trainDetails: (trainId: string) => ["train", "details", trainId] as const,
-    todayTrain: (trainId: string) => ["train", "today", trainId] as const,
-};
 
 export const homeTrainsQueryOptions = () =>
     queryOptions({

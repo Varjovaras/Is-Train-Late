@@ -1,0 +1,34 @@
+import type { StationSchedule } from "../types/stationTypes";
+import type { TrainType } from "../types/trainTypes";
+import { isToday } from "./dateUtils";
+
+export const getTrainDisplayName = (
+    train: Pick<TrainType, "commuterLineid" | "trainNumber" | "trainType">,
+): string => {
+    return train.commuterLineid || `${train.trainType.name} ${train.trainNumber}`;
+};
+
+export const getTrainLink = (train: TrainType, includeDate = false): string => {
+    if (includeDate) {
+        return `/trains/${train.trainNumber}-${train.departureDate}`;
+    }
+    return `/trains/${train.trainNumber}`;
+};
+
+export const getScheduleTrainDisplayName = (schedule: StationSchedule): string => {
+    return schedule.commuterLineID || `${schedule.trainType} ${schedule.trainNumber}`;
+};
+
+export const getScheduleTrainLink = (schedule: StationSchedule): string => {
+    if (schedule.runningCurrently && isToday(schedule.departureDate)) {
+        return `/trains/${schedule.trainNumber}`;
+    }
+    return `/trains/${schedule.trainNumber}-${schedule.departureDate}`;
+};
+
+export const getTrainId = (train: {
+    trainNumber: number;
+    departureDate: string | Date;
+}): string => {
+    return `${train.trainNumber}-${train.departureDate}`;
+};
