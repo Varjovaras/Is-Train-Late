@@ -6,10 +6,10 @@ type TrainTypeSelectorProps = {
 };
 
 const TrainTypeSelector = ({ selectedCategory, onCategoryChange }: TrainTypeSelectorProps) => {
-    const { translations } = useTranslations();
+    const { translations, isLoading } = useTranslations();
 
     return (
-        <div className="flex justify-center my-4 px-2">
+        <div className={`flex justify-center my-4 px-2 ${isLoading ? "fade-out" : "fade-in"}`}>
             <div className="inline-flex flex-wrap justify-center gap-2 md:gap-0 md:flex-nowrap rounded-md border border-border overflow-hidden">
                 <button
                     type="button"
