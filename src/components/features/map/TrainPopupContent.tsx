@@ -3,12 +3,9 @@ import { Link } from "@tanstack/react-router";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { trainDetailsQueryOptions } from "@/lib/queries/queryOptions";
 import type { MapTrain } from "@/lib/types/trainTypes";
-import {
-    getLatestVisitedStationName,
-    getNextCommercialStation,
-    getTrainCurrentDelay,
-    getTrainDisplayName,
-} from "@/lib/utils/trainDataUtils";
+import { getTrainCurrentDelay } from "@/lib/utils/trainDelay";
+import { getTrainDisplayName } from "@/lib/utils/trainDisplay";
+import { getLatestVisitedStationName, getNextCommercialStation } from "@/lib/utils/trainStations";
 
 type TrainPopupContentProps = {
     train: MapTrain;

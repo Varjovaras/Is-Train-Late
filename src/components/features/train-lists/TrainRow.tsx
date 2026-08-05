@@ -5,11 +5,8 @@ import StatusPill from "@/components/common/StatusPill";
 import type { TrainType } from "@/lib/types/trainTypes";
 import { formatTime } from "@/lib/utils/dateUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
-import {
-    getTrainCurrentDelay,
-    getTrainDisplayName,
-    getTrainLink,
-} from "@/lib/utils/trainDataUtils";
+import { getTrainCurrentDelay } from "@/lib/utils/trainDelay";
+import { getTrainDisplayName, getTrainLink } from "@/lib/utils/trainDisplay";
 import TrainSpeed from "../train-details/TrainSpeed";
 
 type TrainRowProps = {

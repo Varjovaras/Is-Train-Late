@@ -1,6 +1,6 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TimeTableRow } from "@/lib/types/trainTypes";
-import { getDelayColorClass } from "@/lib/utils/trainDataUtils";
+import { getDelayColorClass } from "@/lib/utils/trainDelay";
 import { getCauseKey, hasMeaningfulCauseText } from "@/lib/utils/causeUtils";
 import CauseItem from "./DelayDetailRow";
 

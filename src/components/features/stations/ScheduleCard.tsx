@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { StationSchedule } from "@/lib/types/stationTypes";
 import { findStationDepartureWithId } from "@/lib/utils/scheduleUtils";
-import { getTrainId } from "@/lib/utils/trainDataUtils";
+import { getTrainId } from "@/lib/utils/trainDisplay";
 import ScheduleCardHeader from "./schedule/ScheduleCardHeader";
 import ScheduleCardStatus from "./schedule/ScheduleCardStatus";
 import TimeTableEntry from "./schedule/TimeTableEntry";

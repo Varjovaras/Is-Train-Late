@@ -3,7 +3,7 @@ import RouteDisplay from "@/components/common/RouteDisplay";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { StationSchedule, StationTimeTableRow } from "@/lib/types/stationTypes";
 import { getFormattedStationName, getTrainTypeString } from "@/lib/utils/stationUtils";
-import { getScheduleTrainDisplayName, getScheduleTrainLink } from "@/lib/utils/trainDataUtils";
+import { getScheduleTrainDisplayName, getScheduleTrainLink } from "@/lib/utils/trainDisplay";
 
 type ScheduleHeaderProps = {
     schedule: StationSchedule;

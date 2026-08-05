@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import type { TimeTableRow, TrainType } from "../types/trainTypes";
-import { getDelayColorClass, getTrainCurrentDelay, getTrainDelayColor } from "./trainDataUtils";
+import { getDelayColorClass, getTrainCurrentDelay, getTrainDelayColor } from "./trainDelay";
 import { sortTrains } from "./trainUtils";
 
 const row = (differenceInMinutes: number, actualTime: Date | null): TimeTableRow =>

@@ -11,7 +11,7 @@ import "./TrainMap.css";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { mapTrainsQueryOptions, stationMetadataQueryOptions } from "@/lib/queries/queryOptions";
 import type { TrainCategory } from "@/lib/types/trainTypes";
-import { getTrainCategory } from "@/lib/utils/trainDataUtils";
+import { getTrainCategory } from "@/lib/utils/trainClassification";
 import RailwaysOnMap from "./RailwaysOnMap";
 import StationsOnMap from "./StationsOnMap";
 import TrainSelector from "./TrainSelector";

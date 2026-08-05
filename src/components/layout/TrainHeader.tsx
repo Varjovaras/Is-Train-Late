@@ -3,7 +3,7 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 import { formatDate, formatTime, isToday } from "@/lib/utils/dateUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
-import { getTrainDisplayName } from "@/lib/utils/trainDataUtils";
+import { getTrainDisplayName } from "@/lib/utils/trainDisplay";
 
 type TrainHeaderProps = {
     train: TrainType;

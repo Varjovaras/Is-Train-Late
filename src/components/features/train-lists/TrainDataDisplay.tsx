@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useViewMode } from "@/lib/hooks/useViewMode";
 import type { TrainType } from "@/lib/types/trainTypes";
-import { filterTrainsByCategory } from "@/lib/utils/trainDataUtils";
+import { filterTrainsByCategory } from "@/lib/utils/trainClassification";
 import TrainList from "./TrainList";
 import TrainTypeSelector from "./TrainTypeSelector";
 

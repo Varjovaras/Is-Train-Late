@@ -2,7 +2,7 @@ import ViewModeToggle from "@/components/common/ViewModeToggle";
 import type { ViewMode } from "@/components/common/ViewModeToggle";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { StationSchedule } from "@/lib/types/stationTypes";
-import { getTrainId } from "@/lib/utils/trainDataUtils";
+import { getTrainId } from "@/lib/utils/trainDisplay";
 import ScheduleCard from "./ScheduleCard";
 import ScheduleRow from "./ScheduleRow";
 

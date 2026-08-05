@@ -1,6 +1,6 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
-import { getDelayByStation } from "@/lib/utils/trainDataUtils";
+import { getDelayByStation } from "@/lib/utils/trainStations";
 import { hasMeaningfulCauseText } from "@/lib/utils/causeUtils";
 
 import DelayReasonCard from "./DelayReasonCard";

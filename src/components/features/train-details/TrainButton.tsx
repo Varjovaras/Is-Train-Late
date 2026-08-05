@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import type { TrainType } from "@/lib/types/trainTypes";
-import { getTrainDisplayName, getTrainLink } from "@/lib/utils/trainDataUtils";
+import { getTrainDisplayName, getTrainLink } from "@/lib/utils/trainDisplay";
 
 type TrainButtonProps = {
     train: TrainType;

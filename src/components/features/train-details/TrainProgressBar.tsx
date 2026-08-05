@@ -5,7 +5,7 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 import { formatTime, getArrivalCountdown } from "@/lib/utils/dateUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
-import { calculateTrainProgress, getCommercialStations } from "@/lib/utils/trainDataUtils";
+import { calculateTrainProgress, getCommercialStations } from "@/lib/utils/trainStations";
 
 type TrainProgressBarProps = {
     train: TrainType;

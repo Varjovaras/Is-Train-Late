@@ -8,7 +8,7 @@ import { stationSchedulesQueryOptions } from "@/lib/queries/queryOptions";
 import type { StationMetadata } from "@/lib/types/stationTypes";
 import { formatTime } from "@/lib/utils/dateUtils";
 import { stationMetadataToGeoJson } from "@/lib/utils/stationMetadata";
-import { getTrainId } from "@/lib/utils/trainDataUtils";
+import { getTrainId } from "@/lib/utils/trainDisplay";
 import type { MapPopupSelection } from "./mapTypes";
 
 type StationsOnMapProps = {

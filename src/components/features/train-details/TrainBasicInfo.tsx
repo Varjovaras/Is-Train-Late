@@ -3,7 +3,7 @@ import RouteDisplay from "@/components/common/RouteDisplay";
 import type { TrainType } from "@/lib/types/trainTypes";
 import { formatTime } from "@/lib/utils/dateUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
-import { getTrainCurrentDelay } from "@/lib/utils/trainDataUtils";
+import { getTrainCurrentDelay } from "@/lib/utils/trainDelay";
 import TrainSpeed from "./TrainSpeed";
 
 type TrainBasicInfoProps = {

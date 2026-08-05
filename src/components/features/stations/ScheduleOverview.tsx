@@ -3,7 +3,7 @@ import TrainTypeSelector from "@/components/features/train-lists/TrainTypeSelect
 import { useViewMode } from "@/lib/hooks/useViewMode";
 import type { StationSchedule } from "@/lib/types/stationTypes";
 import { stationScheduleFilter } from "@/lib/utils/stationScheduleFilter";
-import { filterSchedulesByCategory } from "@/lib/utils/trainDataUtils";
+import { filterSchedulesByCategory } from "@/lib/utils/trainClassification";
 import ScheduleList from "./ScheduleList";
 import TrackSelector from "./TrackSelector";
 
