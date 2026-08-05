@@ -21,6 +21,7 @@ const classifyTrainType = ({
 }: TrainClassificationInput): TrainGroup | "unknown" => {
     if (commuterLineid !== "") return "commuter";
     if (trainCategoryName === "Commuter") return "commuter";
+    if (trainCategoryName === "Long-distance") return "longDistance";
     if (trainCategoryName === "Cargo") return "freight";
 
     if ((freightTrainTypeNames as readonly string[]).includes(trainTypeName)) return "freight";
