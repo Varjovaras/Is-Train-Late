@@ -28,13 +28,11 @@ const StationRow = ({ station, status }: StationRowProps) => {
 
     const stationName = removeAsema(station.station.name);
 
-    const isDepartureStation = status === "departure";
     const isCurrentStation = status === "current";
     const isNextStation = status === "next";
     const isFutureStation = status === "next" || status === "future";
 
     const rowClassName = `flex gap-4 py-2 px-3 rounded-md
-    ${isDepartureStation ? "bg-blue-500/5" : ""}
     ${isCurrentStation ? "bg-green-500/5" : ""}
     ${isNextStation ? "bg-blue-500/5" : ""}`;
 
@@ -44,13 +42,11 @@ const StationRow = ({ station, status }: StationRowProps) => {
                 <StationIndicator
                     isCurrentStation={isCurrentStation}
                     isNextStation={isNextStation}
-                    isDepartureStation={isDepartureStation}
                 />
                 <Link
                     to="/stations/$id"
                     params={{ id: station.station.shortCode }}
                     className={`truncate shrink hover:underline
-            ${isDepartureStation ? "text-emerald-600 font-bold" : ""}
             ${isCurrentStation ? "text-green-500 font-bold" : ""}
             ${isNextStation ? "text-blue-500 font-bold" : ""}`}
                 >
