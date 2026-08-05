@@ -12,9 +12,10 @@ export type StationStatus = "departure" | "current" | "next" | "future" | "past"
 type StationRowProps = {
     station: TimeTableRow;
     status: StationStatus;
+    isPassenger: boolean;
 };
 
-const StationRow = ({ station, status }: StationRowProps) => {
+const StationRow = ({ station, status, isPassenger }: StationRowProps) => {
     const { translations } = useTranslations();
 
     const scheduledTime = formatTime(station.scheduledTime);
@@ -42,11 +43,13 @@ const StationRow = ({ station, status }: StationRowProps) => {
                 <StationIndicator
                     isCurrentStation={isCurrentStation}
                     isNextStation={isNextStation}
+                    isPassenger={isPassenger}
                 />
                 <Link
                     to="/stations/$id"
                     params={{ id: station.station.shortCode }}
                     className={`truncate shrink hover:underline
+            ${!isPassenger ? "text-foreground/40 hover:text-foreground/70" : ""}
             ${isCurrentStation ? "text-green-500 font-bold" : ""}
             ${isNextStation ? "text-blue-500 font-bold" : ""}`}
                 >

@@ -65,6 +65,7 @@ const TrainStations = ({ train, showAllStations, showNonCommercialStops }: Train
                     key={station.scheduledTime.toString() + station.type}
                     station={station}
                     status={getStationStatus(station, index)}
+                    isPassenger={station.trainStopping && station.commercialStop === true}
                 />
             ))}
         </div>
