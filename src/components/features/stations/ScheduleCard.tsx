@@ -3,9 +3,9 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { StationSchedule } from "@/lib/types/stationTypes";
 import { findStationDepartureWithId } from "@/lib/utils/scheduleUtils";
 import { getTrainId } from "@/lib/utils/trainDisplay";
-import ScheduleCardHeader from "./schedule/ScheduleCardHeader";
-import ScheduleCardStatus from "./schedule/ScheduleCardStatus";
-import TimeTableEntry from "./schedule/TimeTableEntry";
+import ScheduleCardHeader from "./ScheduleCardHeader";
+import ScheduleCardStatus from "./ScheduleCardStatus";
+import TimeTableEntry from "./TimeTableEntry";
 
 type ScheduleCardProps = {
     schedule: StationSchedule;

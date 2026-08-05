@@ -6,7 +6,7 @@ import { formatTime } from "@/lib/utils/dateUtils";
 import { findStationDepartureWithId } from "@/lib/utils/scheduleUtils";
 import { getFormattedStationName } from "@/lib/utils/stationUtils";
 import { getScheduleTrainDisplayName, getScheduleTrainLink } from "@/lib/utils/trainDisplay";
-import ScheduleCardStatus from "./schedule/ScheduleCardStatus";
+import ScheduleCardStatus from "./ScheduleCardStatus";
 
 type ScheduleRowProps = {
     schedule: StationSchedule;

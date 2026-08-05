@@ -4,7 +4,7 @@ import {
     getLatestVisitedStationName,
     getNextCommercialStation,
 } from "@/lib/utils/trainStations";
-import StationRow, { type StationStatus } from "./station/StationRow";
+import StationRow, { type StationStatus } from "./StationRow";
 
 type TrainStationsProps = {
     train: TrainType;
