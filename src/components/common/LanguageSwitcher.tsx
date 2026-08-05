@@ -2,7 +2,7 @@ import { type Language, languages } from "@/lib/i18n/config";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 
 const LanguageSwitcher = () => {
-    const { currentLang, isLoading } = useTranslations();
+    const { currentLang } = useTranslations();
 
     const handleLanguageChange = (newLang: Language) => {
         localStorage.setItem("preferredLanguage", newLang);
@@ -10,7 +10,7 @@ const LanguageSwitcher = () => {
     };
 
     return (
-        <div className={`flex items-center gap-1 sm:gap-2 ${isLoading ? "fade-out" : "fade-in"}`}>
+        <div className="flex items-center gap-1 sm:gap-2">
             {" "}
             {Object.entries(languages).map(([code, name]) => (
                 <button

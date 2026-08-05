@@ -13,7 +13,7 @@ const TopBar = () => {
     const [isVisible, setIsVisible] = useState(true);
     const lastScrollY = useRef(0);
     const visibility = useRef(true);
-    const { translations } = useTranslations();
+    const { translations, isLoading } = useTranslations();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -35,7 +35,7 @@ const TopBar = () => {
         <div
             className={`fixed top-0 w-full z-50 p-1 sm:p-2 backdrop-blur-xs transition-transform duration-300 ${
                 isVisible ? "translate-y-0" : "-translate-y-full"
-            }`}
+            } ${isLoading ? "fade-out" : "fade-in"}`}
         >
             <div className="max-w-7xl mx-auto px-1 sm:px-4 gap-2 sm:gap-4 flex justify-between items-center">
                 <div className="flex items-center gap-2 sm:gap-4">
