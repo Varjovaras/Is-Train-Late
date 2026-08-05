@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { defineCachedFunction } from "nitro/cache";
-import { getMapQuery } from "@/lib/queries/mapQuery";
+import { getMapQuery } from "@/lib/queries/graphql/mapQuery";
 import { graphqlFetch } from "@/lib/queries/graphqlClient";
 import type { MapTrain, TrainLocation, TypeOfTrain } from "@/lib/types/trainTypes";
 

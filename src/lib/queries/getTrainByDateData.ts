@@ -1,5 +1,5 @@
 import type { DifferentDayTrainResponse, TrainType } from "../types/trainTypes";
-import { getDifferentDateTrain } from "./differentDateQuery";
+import { getDifferentDateTrain } from "./graphql/differentDateQuery";
 import { graphqlFetch } from "./graphqlClient";
 
 export const getTrainByDateData = async (

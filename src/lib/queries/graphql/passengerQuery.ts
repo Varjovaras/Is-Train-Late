@@ -1,4 +1,4 @@
-import { processGraphQLQuery } from "../utils/queryUtils";
+import { processGraphQLQuery } from "../../utils/queryUtils";
 
 export const getPassengerQuery = () => {
     return processGraphQLQuery(passengerQuery);

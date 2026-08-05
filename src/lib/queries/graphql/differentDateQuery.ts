@@ -1,4 +1,4 @@
-import { processGraphQLQuery } from "../utils/queryUtils";
+import { processGraphQLQuery } from "../../utils/queryUtils";
 
 export const getDifferentDateTrain = (id: string) => {
     const url = id.split("-");

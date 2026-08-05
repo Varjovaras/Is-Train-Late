@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import DelayInformation from "@/components/features/delay-info/DelayInformation";
-import TrainHeader from "@/components/layout/TrainHeader";
+import TrainHeader from "@/components/features/train-details/TrainHeader";
 import type { TrainType } from "@/lib/types/trainTypes";
 import Train from "./Train";
 import TrainProgressBar from "./TrainProgressBar";
