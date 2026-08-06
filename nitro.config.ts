@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import { defineNitroConfig } from "nitro/config";
 
 export default defineNitroConfig({
@@ -10,11 +11,11 @@ export default defineNitroConfig({
     },
     tasks: {
         "refresh-trains": {
-            handler: "./tasks/refresh-trains.ts",
+            handler: fileURLToPath(new URL("./tasks/refresh-trains.ts", import.meta.url)),
             description: "Refresh the home trains cache so the app always has fresh data",
         },
         "refresh-map-trains": {
-            handler: "./tasks/refresh-map-trains.ts",
+            handler: fileURLToPath(new URL("./tasks/refresh-map-trains.ts", import.meta.url)),
             description: "Refresh the map trains cache so the app always has fresh data",
         },
     },
