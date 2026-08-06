@@ -20,9 +20,12 @@ export const getStationMessages = async (
         return { stationId, messages: null, status: response.status };
     }
 
+    const raw = await response.text();
+    const messages = raw ? (JSON.parse(raw) as StationMessage[]) : null;
+
     return {
         stationId,
-        messages: (await response.json()) as StationMessage[],
+        messages: Array.isArray(messages) ? messages : null,
         status: response.status,
     };
 };

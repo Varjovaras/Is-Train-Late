@@ -26,6 +26,7 @@ export const getStationData = async (
 
     if (!res.ok) throw new Error(`Station data not available. HTTP error! status: ${res.status} `);
 
-    const stations = (await res.json()) as StationSchedule[];
-    return stations;
+    const raw = await res.text();
+    const stations = raw ? (JSON.parse(raw) as StationSchedule[]) : [];
+    return Array.isArray(stations) ? stations : [];
 };
