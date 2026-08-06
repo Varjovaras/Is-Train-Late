@@ -56,6 +56,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootLayout() {
     const { queryClient } = Route.useRouteContext();
+    console.log("MOEEHH");
 
     return (
         <QueryClientProvider client={queryClient}>
