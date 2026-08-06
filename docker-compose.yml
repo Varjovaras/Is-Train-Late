@@ -1,0 +1,12 @@
+services:
+    junatilanne:
+        build: .
+        container_name: junatilanne
+        restart: unless-stopped
+        ports:
+            - "3004:3000"
+        volumes:
+            - junatilanne-data:/app/.data
+
+volumes:
+    junatilanne-data:
