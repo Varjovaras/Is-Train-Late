@@ -16,6 +16,8 @@ import type { StationSchedule } from "../types/stationTypes";
 import type { TrainType } from "../types/trainTypes";
 
 export const MAP_REFETCH_INTERVAL_MS = 10_000;
+export const HOME_TRAINS_REFETCH_INTERVAL_MS = 10_000;
+export const HOME_TRAINS_STALE_TIME_MS = 10_000;
 export const STATION_METADATA_STALE_TIME_MS = 86_400_000;
 export const TODAY_TRAIN_STALE_TIME_MS = 300_000;
 
@@ -23,6 +25,8 @@ export const homeTrainsQueryOptions = () =>
     queryOptions({
         queryKey: queryKeys.homeTrains,
         queryFn: () => fetchTrainData(),
+        refetchInterval: HOME_TRAINS_REFETCH_INTERVAL_MS,
+        staleTime: HOME_TRAINS_STALE_TIME_MS,
         select: (response) => response.data.currentlyRunningTrains as TrainType[],
     });
 

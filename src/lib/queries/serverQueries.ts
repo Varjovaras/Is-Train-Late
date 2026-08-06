@@ -4,9 +4,12 @@ import { getStationMetadata } from "./getStationMetadata";
 import { getStationMessages } from "./getStationMessages";
 import { getSingleTrainData } from "./getSingleTrainData";
 import { getTrainByDateData } from "./getTrainByDateData";
-import { getTrainData } from "./getTrainData";
 
-export const fetchTrainData = createServerFn({ method: "GET" }).handler(() => getTrainData());
+export const fetchTrainData = createServerFn({ method: "GET" }).handler(async () => {
+    const { getCachedTrains } = await import("./getCachedTrains");
+
+    return getCachedTrains();
+});
 
 export const fetchStationData = createServerFn({ method: "GET" })
     .validator((stationId: string) => stationId)

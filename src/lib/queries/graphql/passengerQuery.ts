@@ -31,7 +31,6 @@ const passengerQuery = `{
       type
       trainStopping
       commercialStop
-      commercialTrack
       cancelled
       scheduledTime
       actualTime
@@ -40,17 +39,6 @@ const passengerQuery = `{
       station {
         name
         shortCode
-      }
-      causes {
-        categoryCode {
-          name
-        }
-        detailedCategoryCode {
-          name
-        }
-        thirdCategoryCode {
-          name
-        }
       }
     }
   }
