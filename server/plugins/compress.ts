@@ -65,15 +65,18 @@ export default definePlugin((nitroApp) => {
             }
         }
 
-        let body: Uint8Array | string | null = null;
-        if (response.body instanceof ReadableStream) {
-            body = await readBody(response.body);
+        const cloned = response.clone();
+
+        let body: Uint8Array | null;
+        if (cloned.body instanceof ReadableStream) {
+            body = await readBody(cloned.body);
         } else {
-            body = (response as unknown as { body: unknown }).body as Uint8Array | string | null;
+            const raw = (cloned as unknown as { body: unknown }).body as Uint8Array | string | null;
+            if (raw == null) return response;
+            body = typeof raw === "string" ? new Uint8Array(Buffer.from(raw)) : raw;
         }
 
-        if (!body || (typeof body === "string" ? body.length : body.length) < MIN_SIZE)
-            return response;
+        if (!body || body.byteLength < MIN_SIZE) return response;
 
         try {
             const compressed =
@@ -82,17 +85,16 @@ export default definePlugin((nitroApp) => {
                           params: { [constants.BROTLI_PARAM_QUALITY]: 6 },
                       })
                     : gzipSync(body, { level: 6 });
-            if (compressed.length >= (typeof body === "string" ? body.length : body.length))
-                return response;
+            if (compressed.length >= body.byteLength) return response;
 
-            const headers = new Headers(response.headers);
+            const headers = new Headers(cloned.headers);
             headers.set("content-encoding", encoding);
             headers.set("vary", "Accept-Encoding");
             headers.set("content-length", String(compressed.length));
 
             return new Response(compressed, {
-                status: response.status,
-                statusText: response.statusText,
+                status: cloned.status,
+                statusText: cloned.statusText,
                 headers,
             });
         } catch {
