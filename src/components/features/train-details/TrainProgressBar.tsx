@@ -5,6 +5,7 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { TrainType } from "@/lib/types/trainTypes";
 import { formatTime, getArrivalCountdown } from "@/lib/utils/dateUtils";
 import { removeAsema } from "@/lib/utils/stringUtils";
+import { useMounted } from "@/lib/utils/useMounted";
 import { calculateTrainProgress, getCommercialStations } from "@/lib/utils/trainStations";
 
 type TrainProgressBarProps = {
@@ -13,6 +14,7 @@ type TrainProgressBarProps = {
 
 const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
     const { translations } = useTranslations();
+    const mounted = useMounted();
     const progress = calculateTrainProgress(train);
     const commercialStops = getCommercialStations(train.timeTableRows, "ARRIVAL");
 
@@ -153,10 +155,12 @@ const TrainProgressBar = ({ train }: TrainProgressBarProps) => {
                         </div>
                     )}
                     <div className="text-xs text-foreground/70 mt-1">
-                        {getArrivalCountdown(
-                            new Date(nextStop.liveEstimateTime || nextStop.scheduledTime),
-                            translations,
-                        )}
+                        {mounted
+                            ? getArrivalCountdown(
+                                  new Date(nextStop.liveEstimateTime || nextStop.scheduledTime),
+                                  translations,
+                              )
+                            : ""}
                     </div>
                 </div>
             )}

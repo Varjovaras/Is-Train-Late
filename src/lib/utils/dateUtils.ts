@@ -34,25 +34,26 @@ export const formatDateTime = (date: Date | string) => {
     });
 };
 
+const helsinkiDateKey = (date: Date): string => {
+    const parts = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Europe/Helsinki",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+    }).formatToParts(date);
+    const get = (type: Intl.DateTimeFormatPartTypes) =>
+        parts.find((part) => part.type === type)?.value ?? "";
+    return `${get("year")}-${get("month")}-${get("day")}`;
+};
+
 export const isToday = (date: string) => {
-    const today = new Date();
-    const compareDate = new Date(date);
-    return (
-        today.getDate() === compareDate.getDate() &&
-        today.getMonth() === compareDate.getMonth() &&
-        today.getFullYear() === compareDate.getFullYear()
-    );
+    return helsinkiDateKey(new Date()) === helsinkiDateKey(new Date(date));
 };
 
 export const isTomorrow = (date: string) => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    const compareDate = new Date(date);
-    return (
-        tomorrow.getDate() === compareDate.getDate() &&
-        tomorrow.getMonth() === compareDate.getMonth() &&
-        tomorrow.getFullYear() === compareDate.getFullYear()
-    );
+    return helsinkiDateKey(tomorrow) === helsinkiDateKey(new Date(date));
 };
 
 export const getDateDisplay = (date: string, translations: Translations) => {
