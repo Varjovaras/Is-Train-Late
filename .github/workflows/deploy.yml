@@ -13,7 +13,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
-              uses: appleboy/ssh-action@v1.10.0
+              uses: appleboy/ssh-action@v1.2.5
               with:
                   host: ${{ secrets.VPS_HOST }}
                   username: ${{ secrets.VPS_USER }}
@@ -27,7 +27,7 @@ jobs:
                       docker compose up -d --remove-orphans
 
             - name: Notify deployment health
-              uses: appleboy/ssh-action@v1.10.0
+              uses: appleboy/ssh-action@v1.2.5
               with:
                   host: ${{ secrets.VPS_HOST }}
                   username: ${{ secrets.VPS_USER }}
