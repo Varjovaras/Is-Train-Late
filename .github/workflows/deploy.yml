@@ -2,36 +2,23 @@ name: Deploy to VPS
 
 on:
     push:
-        branches: [main]
-    workflow_dispatch:
-
-permissions:
-    contents: read
+        branches:
+            - main
 
 jobs:
     deploy:
         runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: appleboy/ssh-action@v1.2.5
-              with:
-                  host: ${{ secrets.VPS_HOST }}
-                  username: ${{ secrets.VPS_USER }}
-                  key: ${{ secrets.VPS_SSH_KEY }}
-                  port: ${{ secrets.VPS_PORT }}
-                  script: |
-                      cd ${{ vars.VPS_PROJECT_DIR }}
-                      git fetch origin main
-                      git reset --hard origin/main
-                      docker compose build --pull
-                      docker compose up -d --remove-orphans
+        environment: production
 
-            - name: Notify deployment health
+        steps:
+            - name: Deploy to VPS
               uses: appleboy/ssh-action@v1.2.5
               with:
                   host: ${{ secrets.VPS_HOST }}
-                  username: ${{ secrets.VPS_USER }}
+                  username: ${{ secrets.VPS_USERNAME }}
                   key: ${{ secrets.VPS_SSH_KEY }}
-                  port: ${{ secrets.VPS_PORT }}
                   script: |
-                    curl -f -m 30 ${{ secrets.APP_HEALTH_URL }}
+                      cd /opt/Junatilanne
+                      git pull origin main
+                      docker compose build --pull
+                      docker compose up -d --force-recreate
