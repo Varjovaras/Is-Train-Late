@@ -63,6 +63,11 @@ function RootLayout() {
             <html lang="en" suppressHydrationWarning>
                 <head>
                     <HeadContent />
+                    <script
+                        defer
+                        src="https://analytics.hcbull.com/script.js"
+                        data-website-id="8818e217-ee71-4767-824b-b6155eb2a904"
+                    />
                 </head>
                 <body className="antialiased min-h-screen">
                     <ThemeProvider>
